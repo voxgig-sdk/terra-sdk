@@ -1,0 +1,63 @@
+# BasicPlannedWorkoutFlow
+
+main: kit: flow: BasicPlannedWorkoutFlow:
+{
+  entity: "planned_workout",
+  kind: "basic",
+  name: "BasicPlannedWorkoutFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "planned_workout_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "planned_workout_ref01",
+        srcdatavar: "planned_workout_ref01_data",
+        suffix: "_up0",
+        textfield: "coercion_warnings"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-planned_workout_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "planned_workout_ref01",
+        srcdatavar: "planned_workout_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "planned_workout01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-planned_workout_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPlannedWorkoutFlow"
+}

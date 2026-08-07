@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "bulk_user_info": {
+      "BULK_USER_INFO00": {
+        "id": "BULK_USER_INFO00"
+      },
+      "BULK_USER_INFO01": {
+        "id": "BULK_USER_INFO01"
+      },
+      "BULK_USER_INFO02": {
+        "id": "BULK_USER_INFO02"
+      }
+    }
+  },
+  "new": {
+    "bulk_user_info": {
+      "bulk_user_info_ref01": {}
+    }
+  }
+}

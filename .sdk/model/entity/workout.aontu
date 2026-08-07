@@ -1,0 +1,295 @@
+# Entity: workout
+
+main: kit: entity: workout: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "description"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "environment"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "estimated_calories"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "estimated_distance_meters"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "estimated_duration_seconds"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "ftp"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "max_heart_rate"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "planned_date"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "pool_length_meters"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "sport"
+      req: true
+      type: "`$ANY`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "step_blocks"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "threshold_heart_rate"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "threshold_speed"
+      req: false
+      type: "`$NUMBER`"
+    }
+    {
+      name: "workout_id"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "workout"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "workout_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "user_id"
+                orig: "user_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/workouts/{workout_id}/plan"
+          parts: [
+            "workouts"
+            "{id}"
+            "plan"
+          ]
+          rename: {
+            param: {
+              workout_id: "id"
+            }
+          }
+          select: {
+            "$action": "plan"
+            exist: [
+              "id"
+              "user_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/workouts"
+          parts: [
+            "workouts"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/workouts"
+          parts: [
+            "workouts"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "workout_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/workouts/{workout_id}"
+          parts: [
+            "workouts"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              workout_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "planned_workout_id"
+                orig: "planned_workout_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "user_id"
+                orig: "user_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/plannedWorkouts/{planned_workout_id}"
+          parts: [
+            "plannedWorkouts"
+            "{planned_workout_id}"
+          ]
+          select: {
+            exist: [
+              "planned_workout_id"
+              "user_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "workout_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/workouts/{workout_id}"
+          parts: [
+            "workouts"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              workout_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "planned_workout"
+      ]
+    ]
+  }
+
+
+
+}

@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "nutrition": {
+      "NUTRITION00": {
+        "id": "NUTRITION00"
+      },
+      "NUTRITION01": {
+        "id": "NUTRITION01"
+      },
+      "NUTRITION02": {
+        "id": "NUTRITION02"
+      }
+    }
+  },
+  "new": {
+    "nutrition": {
+      "nutrition_ref01": {}
+    }
+  }
+}

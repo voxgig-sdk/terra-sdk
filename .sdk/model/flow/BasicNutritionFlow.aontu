@@ -1,0 +1,28 @@
+# BasicNutritionFlow
+
+main: kit: flow: BasicNutritionFlow:
+{
+  entity: "nutrition",
+  kind: "basic",
+  name: "BasicNutritionFlow",
+  step: [
+    {
+      input: {
+        ref: "nutrition_ref01",
+        srcdatavar: "nutrition_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-nutrition_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicNutritionFlow"
+}

@@ -1,0 +1,81 @@
+# Entity: lab_report_delivery
+
+main: kit: entity: lab_report_delivery: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "attempt_count"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "destination_id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "destination_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "last_error"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "lab_report_delivery"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "297405620317847552"
+                kind: "param"
+                name: "id"
+                orig: "session_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/lab-reports/{session_id}/deliveries"
+          parts: [
+            "lab-reports"
+            "{id}"
+            "deliveries"
+          ]
+          rename: {
+            param: {
+              session_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.deliveries`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

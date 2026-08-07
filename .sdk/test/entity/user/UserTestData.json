@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "user": {
+      "USER00": {
+        "id": "USER00"
+      },
+      "USER01": {
+        "id": "USER01"
+      },
+      "USER02": {
+        "id": "USER02"
+      }
+    }
+  },
+  "new": {
+    "user": {
+      "user_ref01": {}
+    }
+  }
+}

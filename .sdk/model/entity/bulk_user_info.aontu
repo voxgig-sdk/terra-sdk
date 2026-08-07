@@ -1,0 +1,29 @@
+# Entity: bulk_user_info
+
+main: kit: entity: bulk_user_info: {
+
+  alias: field: {}
+
+  name: "bulk_user_info"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/bulkUserInfo"
+          parts: [
+            "bulkUserInfo"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

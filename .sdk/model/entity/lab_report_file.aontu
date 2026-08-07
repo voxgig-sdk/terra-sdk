@@ -1,0 +1,66 @@
+# Entity: lab_report_file
+
+main: kit: entity: lab_report_file: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "filename"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "presigned_url"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "lab_report_file"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "297405620317847552"
+                kind: "param"
+                name: "id"
+                orig: "session_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/lab-reports/{session_id}/files"
+          parts: [
+            "lab-reports"
+            "{id}"
+            "files"
+          ]
+          rename: {
+            param: {
+              session_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

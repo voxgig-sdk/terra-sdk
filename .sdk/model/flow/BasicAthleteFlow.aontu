@@ -1,0 +1,28 @@
+# BasicAthleteFlow
+
+main: kit: flow: BasicAthleteFlow:
+{
+  entity: "athlete",
+  kind: "basic",
+  name: "BasicAthleteFlow",
+  step: [
+    {
+      input: {
+        ref: "athlete_ref01",
+        srcdatavar: "athlete_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-athlete_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicAthleteFlow"
+}

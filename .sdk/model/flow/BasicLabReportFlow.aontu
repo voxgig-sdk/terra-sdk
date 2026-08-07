@@ -1,0 +1,81 @@
+# BasicLabReportFlow
+
+main: kit: flow: BasicLabReportFlow:
+{
+  entity: "lab_report",
+  kind: "basic",
+  name: "BasicLabReportFlow",
+  step: [
+    {
+      input: {
+        ref: "lab_report_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "lab_report_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "lab_report_ref01",
+        srcdatavar: "lab_report_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "lab_report01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-lab_report_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "lab_report_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "lab_report01"
+      }
+
+      op: "remove"
+    }
+
+    {
+      input: {
+        suffix: "_rt0"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "lab_report_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLabReportFlow"
+}

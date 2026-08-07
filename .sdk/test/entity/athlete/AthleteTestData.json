@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "athlete": {
+      "ATHLETE00": {
+        "id": "ATHLETE00"
+      },
+      "ATHLETE01": {
+        "id": "ATHLETE01"
+      },
+      "ATHLETE02": {
+        "id": "ATHLETE02"
+      }
+    }
+  },
+  "new": {
+    "athlete": {
+      "athlete_ref01": {}
+    }
+  }
+}

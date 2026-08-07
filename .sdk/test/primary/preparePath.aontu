@@ -1,0 +1,13 @@
+
+# preparePath joins the operation's path parts with '/', in URL mode:
+# empty parts are dropped, interior separators are collapsed, and a
+# leading/trailing separator on the first/last part is preserved.
+
+basic: set: [
+  { mark:10, ctx: {point:{parts:[]}}, out: '' }
+  { mark:20, ctx: {point:{parts:[activity]}}, out: 'activity' }
+  { mark:30, ctx: {point:{parts:[auth,authenticateUser]}}, out: 'auth/authenticateUser' }
+  { mark:40, ctx: {point:{parts:[integrations,detailed]}}, out: 'integrations/detailed' }
+  { mark:50, ctx: {point:{parts:[a,'',b]}}, out: 'a/b' }
+  { mark:60, ctx: {point:{parts:['/a','b/']}}, out: '/a/b/' }
+]

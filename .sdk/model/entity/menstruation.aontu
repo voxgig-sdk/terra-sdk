@@ -1,0 +1,77 @@
+# Entity: menstruation
+
+main: kit: entity: menstruation: {
+
+  alias: field: {}
+
+  name: "menstruation"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "end_date"
+                orig: "end_date"
+                reqd: false
+                type: "`$ANY`"
+              }
+              {
+                kind: "query"
+                name: "start_date"
+                orig: "start_date"
+                reqd: true
+                type: "`$ANY`"
+              }
+              {
+                kind: "query"
+                name: "to_webhook"
+                orig: "to_webhook"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+              {
+                kind: "query"
+                name: "user_id"
+                orig: "user_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "with_samples"
+                orig: "with_samples"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/menstruation"
+          parts: [
+            "menstruation"
+          ]
+          select: {
+            exist: [
+              "end_date"
+              "start_date"
+              "to_webhook"
+              "user_id"
+              "with_samples"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

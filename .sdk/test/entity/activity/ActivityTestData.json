@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "activity": {
+      "ACTIVITY00": {
+        "id": "ACTIVITY00"
+      },
+      "ACTIVITY01": {
+        "id": "ACTIVITY01"
+      },
+      "ACTIVITY02": {
+        "id": "ACTIVITY02"
+      }
+    }
+  },
+  "new": {
+    "activity": {
+      "activity_ref01": {}
+    }
+  }
+}

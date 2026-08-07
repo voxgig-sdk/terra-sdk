@@ -1,0 +1,40 @@
+# SDK Configuration
+
+main: kit: config: {
+
+  # The Authorization credential prefix is derived from the OpenAPI
+  # security scheme (see api/api-info.aontu: main.kit.info.security,
+  # set by apidef) and defaults to 'Bearer' when the spec gives no
+  # signal. Uncomment to override per-SDK:
+  # auth: prefix: 'Bearer'
+
+
+  headers: {
+    'content-type': 'application/json'
+  }
+
+}
+
+
+# Depluralization overrides.
+#
+# apidef depluralizes argument and field names so that `.../users/{userId}`
+# style specs produce singular, idiomatic accessors. Terra spells a number of
+# wire names in the plural, and singularizing them silently renames a real
+# query parameter or body field — the SDK would then send `estimated_calory`
+# where the API expects `estimated_calories`, and the value would be dropped.
+# Every name below is verbatim from v2-bundled.yaml; pin each to itself.
+main: custom: plurals: {
+  with_samples: 'with_samples'
+  results: 'results'
+  estimated_calories: 'estimated_calories'
+  estimated_distance_meters: 'estimated_distance_meters'
+  estimated_duration_seconds: 'estimated_duration_seconds'
+  pool_length_meters: 'pool_length_meters'
+  step_blocks: 'step_blocks'
+  athlete_metrics: 'athlete_metrics'
+  coercion_warnings: 'coercion_warnings'
+  input_bytes: 'input_bytes'
+  output_bytes: 'output_bytes'
+  report_notes: 'report_notes'
+}

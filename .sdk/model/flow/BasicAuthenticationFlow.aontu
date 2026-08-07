@@ -1,0 +1,27 @@
+# BasicAuthenticationFlow
+
+main: kit: flow: BasicAuthenticationFlow:
+{
+  entity: "authentication",
+  kind: "basic",
+  name: "BasicAuthenticationFlow",
+  step: [
+    {
+      input: {
+        ref: "authentication_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      input: {
+        ref: "authentication_ref01",
+        suffix: "_rm0"
+      }
+
+      op: "remove"
+    }
+  ],
+  "key$": "BasicAuthenticationFlow"
+}

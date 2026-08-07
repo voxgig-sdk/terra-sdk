@@ -1,0 +1,69 @@
+{
+  "existing": {
+    "authentication": {
+      "AUTHENTICATION00": {
+        "auth_failure_redirect_url": "s78",
+        "auth_success_redirect_url": "s79",
+        "auth_url": "s7a",
+        "expires_in": "s7b",
+        "language": "s7c",
+        "provider": "s7d",
+        "reference_id": "REFERENCE01",
+        "session_id": "SESSION01",
+        "status": "s80",
+        "token": "s81",
+        "url": "s82",
+        "user_id": "USER01",
+        "id": "AUTHENTICATION00"
+      },
+      "AUTHENTICATION01": {
+        "auth_failure_redirect_url": "sf0",
+        "auth_success_redirect_url": "sf1",
+        "auth_url": "sf2",
+        "expires_in": "sf3",
+        "language": "sf4",
+        "provider": "sf5",
+        "reference_id": "REFERENCE01",
+        "session_id": "SESSION01",
+        "status": "sf8",
+        "token": "sf9",
+        "url": "sfa",
+        "user_id": "USER01",
+        "id": "AUTHENTICATION01"
+      },
+      "AUTHENTICATION02": {
+        "auth_failure_redirect_url": "s168",
+        "auth_success_redirect_url": "s169",
+        "auth_url": "s16a",
+        "expires_in": "s16b",
+        "language": "s16c",
+        "provider": "s16d",
+        "reference_id": "REFERENCE01",
+        "session_id": "SESSION01",
+        "status": "s170",
+        "token": "s171",
+        "url": "s172",
+        "user_id": "USER01",
+        "id": "AUTHENTICATION02"
+      }
+    }
+  },
+  "new": {
+    "authentication": {
+      "authentication_ref01": {
+        "auth_failure_redirect_url": "s1e0",
+        "auth_success_redirect_url": "s1e1",
+        "auth_url": "s1e2",
+        "expires_in": "s1e3",
+        "language": "s1e4",
+        "provider": "s1e5",
+        "reference_id": "REFERENCE01",
+        "session_id": "SESSION01",
+        "status": "s1e8",
+        "token": "s1e9",
+        "url": "s1ea",
+        "user_id": "USER01"
+      }
+    }
+  }
+}

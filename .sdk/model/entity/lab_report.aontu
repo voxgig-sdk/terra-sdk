@@ -1,0 +1,314 @@
+# Entity: lab_report
+
+main: kit: entity: lab_report: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "collection_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "collection_time"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "current_status"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "file_count"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "input_bytes"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "lab_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "output_bytes"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "panel"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "patient_age_at_collection"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "patient_sex"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "reference_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "report_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "report_locale"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "report_notes"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "report_time"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "report_type"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "results"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "results_count"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "session_id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "status_history"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "updated_at"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "upload_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "uploaded_at"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "lab_report"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                example: "patient_456"
+                kind: "query"
+                name: "reference_id"
+                orig: "reference_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/lab-reports"
+          parts: [
+            "lab-reports"
+          ]
+          select: {
+            exist: [
+              "reference_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "reference_id"
+                orig: "reference_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "report_date_from"
+                orig: "report_date_from"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "report_date_to"
+                orig: "report_date_to"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "upload_id"
+                orig: "upload_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "uploaded_at_from"
+                orig: "uploaded_at_from"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "uploaded_at_to"
+                orig: "uploaded_at_to"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/lab-reports"
+          parts: [
+            "lab-reports"
+          ]
+          select: {
+            exist: [
+              "reference_id"
+              "report_date_from"
+              "report_date_to"
+              "upload_id"
+              "uploaded_at_from"
+              "uploaded_at_to"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.sessions`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "297405620317847552"
+                kind: "param"
+                name: "id"
+                orig: "session_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/lab-reports/{session_id}"
+          parts: [
+            "lab-reports"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              session_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "297405620317847552"
+                kind: "param"
+                name: "id"
+                orig: "session_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/lab-reports/{session_id}"
+          parts: [
+            "lab-reports"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              session_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,38 @@
+{
+  "existing": {
+    "lab_report_delivery": {
+      "LAB_REPORT_DELIVERY00": {
+        "attempt_count": "s32",
+        "destination_id": "DESTINATION01",
+        "destination_type": "s34",
+        "last_error": "s35",
+        "status": "s36"
+      },
+      "LAB_REPORT_DELIVERY01": {
+        "attempt_count": "s64",
+        "destination_id": "DESTINATION01",
+        "destination_type": "s66",
+        "last_error": "s67",
+        "status": "s68"
+      },
+      "LAB_REPORT_DELIVERY02": {
+        "attempt_count": "s96",
+        "destination_id": "DESTINATION01",
+        "destination_type": "s98",
+        "last_error": "s99",
+        "status": "s9a"
+      }
+    }
+  },
+  "new": {
+    "lab_report_delivery": {
+      "lab_report_delivery_ref01": {
+        "attempt_count": "sc8",
+        "destination_id": "DESTINATION01",
+        "destination_type": "sca",
+        "last_error": "scb",
+        "status": "scc"
+      }
+    }
+  }
+}

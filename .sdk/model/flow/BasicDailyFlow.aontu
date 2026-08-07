@@ -1,0 +1,28 @@
+# BasicDailyFlow
+
+main: kit: flow: BasicDailyFlow:
+{
+  entity: "daily",
+  kind: "basic",
+  name: "BasicDailyFlow",
+  step: [
+    {
+      input: {
+        ref: "daily_ref01",
+        srcdatavar: "daily_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-daily_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDailyFlow"
+}

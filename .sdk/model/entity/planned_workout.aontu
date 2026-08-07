@@ -1,0 +1,216 @@
+# Entity: planned_workout
+
+main: kit: entity: planned_workout: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "athlete_metrics"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "coercion_warnings"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_at"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "detail"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "is_external"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "last_updated_at"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "planned_date"
+      op: {
+        update: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "planned_workout_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "provider_workout_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "workout_id"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "planned_workout"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "end_date"
+                orig: "end_date"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "start_date"
+                orig: "start_date"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "user_id"
+                orig: "user_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/plannedWorkouts"
+          parts: [
+            "plannedWorkouts"
+          ]
+          select: {
+            exist: [
+              "end_date"
+              "start_date"
+              "user_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "planned_workout_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "user_id"
+                orig: "user_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/plannedWorkouts/{planned_workout_id}"
+          parts: [
+            "plannedWorkouts"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              planned_workout_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+              "user_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "planned_workout_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                kind: "query"
+                name: "user_id"
+                orig: "user_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/plannedWorkouts/{planned_workout_id}"
+          parts: [
+            "plannedWorkouts"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              planned_workout_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+              "user_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

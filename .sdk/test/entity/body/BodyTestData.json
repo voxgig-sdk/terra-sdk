@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "body": {
+      "BODY00": {
+        "id": "BODY00"
+      },
+      "BODY01": {
+        "id": "BODY01"
+      },
+      "BODY02": {
+        "id": "BODY02"
+      }
+    }
+  },
+  "new": {
+    "body": {
+      "body_ref01": {}
+    }
+  }
+}

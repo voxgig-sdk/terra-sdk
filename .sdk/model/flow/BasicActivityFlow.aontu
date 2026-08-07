@@ -1,0 +1,28 @@
+# BasicActivityFlow
+
+main: kit: flow: BasicActivityFlow:
+{
+  entity: "activity",
+  kind: "basic",
+  name: "BasicActivityFlow",
+  step: [
+    {
+      input: {
+        ref: "activity_ref01",
+        srcdatavar: "activity_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-activity_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicActivityFlow"
+}

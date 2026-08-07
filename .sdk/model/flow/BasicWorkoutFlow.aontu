@@ -1,0 +1,81 @@
+# BasicWorkoutFlow
+
+main: kit: flow: BasicWorkoutFlow:
+{
+  entity: "workout",
+  kind: "basic",
+  name: "BasicWorkoutFlow",
+  step: [
+    {
+      input: {
+        ref: "workout_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "workout_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "workout_ref01",
+        srcdatavar: "workout_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "workout01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-workout_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "workout_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "workout01"
+      }
+
+      op: "remove"
+    }
+
+    {
+      input: {
+        suffix: "_rt0"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "workout_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicWorkoutFlow"
+}

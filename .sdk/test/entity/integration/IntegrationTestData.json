@@ -1,0 +1,42 @@
+{
+  "existing": {
+    "integration": {
+      "INTEGRATION00": {
+        "enabled": true,
+        "icon": "s3d",
+        "name": "s3e",
+        "provider": "s3f",
+        "setup": "s40",
+        "type": {}
+      },
+      "INTEGRATION01": {
+        "enabled": true,
+        "icon": "s79",
+        "name": "s7a",
+        "provider": "s7b",
+        "setup": "s7c",
+        "type": {}
+      },
+      "INTEGRATION02": {
+        "enabled": true,
+        "icon": "sb5",
+        "name": "sb6",
+        "provider": "sb7",
+        "setup": "sb8",
+        "type": {}
+      }
+    }
+  },
+  "new": {
+    "integration": {
+      "integration_ref01": {
+        "enabled": true,
+        "icon": "sf1",
+        "name": "sf2",
+        "provider": "sf3",
+        "setup": "sf4",
+        "type": {}
+      }
+    }
+  }
+}

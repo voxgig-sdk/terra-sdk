@@ -1,0 +1,61 @@
+{
+  "existing": {
+    "planned_workout": {
+      "PLANNED_WORKOUT00": {
+        "athlete_metrics": "s64",
+        "coercion_warnings": "s65",
+        "created_at": "s66",
+        "detail": "s67",
+        "is_external": true,
+        "last_updated_at": "s69",
+        "planned_date": "s6a",
+        "planned_workout_id": "PLANNED_WORKOUT01",
+        "provider_workout_id": "PROVIDER_WORKOUT01",
+        "workout_id": "WORKOUT01",
+        "id": "PLANNED_WORKOUT00"
+      },
+      "PLANNED_WORKOUT01": {
+        "athlete_metrics": "sc8",
+        "coercion_warnings": "sc9",
+        "created_at": "sca",
+        "detail": "scb",
+        "is_external": true,
+        "last_updated_at": "scd",
+        "planned_date": "sce",
+        "planned_workout_id": "PLANNED_WORKOUT01",
+        "provider_workout_id": "PROVIDER_WORKOUT01",
+        "workout_id": "WORKOUT01",
+        "id": "PLANNED_WORKOUT01"
+      },
+      "PLANNED_WORKOUT02": {
+        "athlete_metrics": "s12c",
+        "coercion_warnings": "s12d",
+        "created_at": "s12e",
+        "detail": "s12f",
+        "is_external": true,
+        "last_updated_at": "s131",
+        "planned_date": "s132",
+        "planned_workout_id": "PLANNED_WORKOUT01",
+        "provider_workout_id": "PROVIDER_WORKOUT01",
+        "workout_id": "WORKOUT01",
+        "id": "PLANNED_WORKOUT02"
+      }
+    }
+  },
+  "new": {
+    "planned_workout": {
+      "planned_workout_ref01": {
+        "athlete_metrics": "s190",
+        "coercion_warnings": "s191",
+        "created_at": "s192",
+        "detail": "s193",
+        "is_external": true,
+        "last_updated_at": "s195",
+        "planned_date": "s196",
+        "planned_workout_id": "PLANNED_WORKOUT01",
+        "provider_workout_id": "PROVIDER_WORKOUT01",
+        "workout_id": "WORKOUT01"
+      }
+    }
+  }
+}

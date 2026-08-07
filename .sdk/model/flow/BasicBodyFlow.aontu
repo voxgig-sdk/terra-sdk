@@ -1,0 +1,28 @@
+# BasicBodyFlow
+
+main: kit: flow: BasicBodyFlow:
+{
+  entity: "body",
+  kind: "basic",
+  name: "BasicBodyFlow",
+  step: [
+    {
+      input: {
+        ref: "body_ref01",
+        srcdatavar: "body_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-body_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicBodyFlow"
+}

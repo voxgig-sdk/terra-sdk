@@ -1,0 +1,15 @@
+
+# clean() is the redaction hook applied to request data before it is
+# handed to debug/logging surfaces. The generated implementation is a
+# structural pass-through: it returns the value it was given, unchanged
+# and by reference, for every shape. These cases pin that contract so a
+# future redaction change has to update the corpus deliberately.
+
+basic: set: [
+  { mark:10, args: [ {}, {a:1} ], out: {a:1} }
+  { mark:20, args: [ {}, {key:'secret123',name:'test'} ], out: {key:'secret123',name:'test'} }
+  { mark:30, args: [ {}, {user_id:'u01',token:'t01'} ], out: {user_id:'u01',token:'t01'} }
+  { mark:40, args: [ {}, [1,2,3] ], out: [1,2,3] }
+  { mark:50, args: [ {}, 'plain' ], out: 'plain' }
+  { mark:60, args: [ {}, {} ], out: {} }
+]

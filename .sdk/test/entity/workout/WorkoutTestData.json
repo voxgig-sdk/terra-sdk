@@ -1,0 +1,88 @@
+{
+  "existing": {
+    "workout": {
+      "WORKOUT00": {
+        "description": "sa0",
+        "environment": "sa1",
+        "estimated_calories": "sa2",
+        "estimated_distance_meters": "sa3",
+        "estimated_duration_seconds": "sa4",
+        "ftp": 165,
+        "max_heart_rate": 166,
+        "name": "sa7",
+        "planned_date": "sa8",
+        "pool_length_meters": "sa9",
+        "sport": "saa",
+        "status": "sab",
+        "step_blocks": [],
+        "threshold_heart_rate": 173,
+        "threshold_speed": 174,
+        "workout_id": "WORKOUT01",
+        "planned_workout_id": "PLANNED_WORKOUT01",
+        "id": "WORKOUT00"
+      },
+      "WORKOUT01": {
+        "description": "s140",
+        "environment": "s141",
+        "estimated_calories": "s142",
+        "estimated_distance_meters": "s143",
+        "estimated_duration_seconds": "s144",
+        "ftp": 325,
+        "max_heart_rate": 326,
+        "name": "s147",
+        "planned_date": "s148",
+        "pool_length_meters": "s149",
+        "sport": "s14a",
+        "status": "s14b",
+        "step_blocks": [],
+        "threshold_heart_rate": 333,
+        "threshold_speed": 334,
+        "workout_id": "WORKOUT01",
+        "planned_workout_id": "PLANNED_WORKOUT01",
+        "id": "WORKOUT01"
+      },
+      "WORKOUT02": {
+        "description": "s1e0",
+        "environment": "s1e1",
+        "estimated_calories": "s1e2",
+        "estimated_distance_meters": "s1e3",
+        "estimated_duration_seconds": "s1e4",
+        "ftp": 485,
+        "max_heart_rate": 486,
+        "name": "s1e7",
+        "planned_date": "s1e8",
+        "pool_length_meters": "s1e9",
+        "sport": "s1ea",
+        "status": "s1eb",
+        "step_blocks": [],
+        "threshold_heart_rate": 493,
+        "threshold_speed": 494,
+        "workout_id": "WORKOUT01",
+        "planned_workout_id": "PLANNED_WORKOUT01",
+        "id": "WORKOUT02"
+      }
+    }
+  },
+  "new": {
+    "workout": {
+      "workout_ref01": {
+        "description": "s280",
+        "environment": "s281",
+        "estimated_calories": "s282",
+        "estimated_distance_meters": "s283",
+        "estimated_duration_seconds": "s284",
+        "ftp": 645,
+        "max_heart_rate": 646,
+        "name": "s287",
+        "planned_date": "s288",
+        "pool_length_meters": "s289",
+        "sport": "s28a",
+        "status": "s28b",
+        "step_blocks": [],
+        "threshold_heart_rate": 653,
+        "threshold_speed": 654,
+        "workout_id": "WORKOUT01"
+      }
+    }
+  }
+}

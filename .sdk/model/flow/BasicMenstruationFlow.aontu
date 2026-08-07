@@ -1,0 +1,28 @@
+# BasicMenstruationFlow
+
+main: kit: flow: BasicMenstruationFlow:
+{
+  entity: "menstruation",
+  kind: "basic",
+  name: "BasicMenstruationFlow",
+  step: [
+    {
+      input: {
+        ref: "menstruation_ref01",
+        srcdatavar: "menstruation_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-menstruation_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicMenstruationFlow"
+}

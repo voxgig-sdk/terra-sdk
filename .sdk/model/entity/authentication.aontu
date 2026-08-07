@@ -1,0 +1,178 @@
+# Entity: authentication
+
+main: kit: entity: authentication: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "auth_failure_redirect_url"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "auth_success_redirect_url"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "auth_url"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "expires_in"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "language"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "provider"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "reference_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "session_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "token"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "url"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "user_id"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "authentication"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            header: [
+              {
+                example: "testingTerra"
+                kind: "header"
+                name: "dev_id"
+                orig: "dev_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                example: "FITBIT"
+                kind: "query"
+                name: "resource"
+                orig: "resource"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/auth/authenticateUser"
+          parts: [
+            "auth"
+            "authenticateUser"
+          ]
+          select: {
+            exist: [
+              "dev_id"
+              "resource"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/auth/generateAuthToken"
+          parts: [
+            "auth"
+            "generateAuthToken"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/auth/generateWidgetSession"
+          parts: [
+            "auth"
+            "generateWidgetSession"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "user_id"
+                orig: "user_id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/auth/deauthenticateUser"
+          parts: [
+            "auth"
+            "deauthenticateUser"
+          ]
+          select: {
+            exist: [
+              "user_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

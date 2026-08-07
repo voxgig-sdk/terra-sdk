@@ -1,0 +1,22 @@
+Terra SDK (unofficial)
+Copyright (c) 2026 Voxgig. Released under the MIT License (see LICENSE).
+
+This work is generated from, and is therefore a derivative work of, the Terra
+OpenAPI specification:
+
+  https://github.com/tryterra/openapi
+  file: dist/core/v2-bundled.yaml  (info.version 2026.08.05)
+
+That specification is published by Terra under the Apache License, Version 2.0:
+
+  https://github.com/tryterra/openapi/blob/master/LICENSE
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Apache-2.0 permits derivative works to be distributed under other terms, so the
+generated code here is MIT-licensed. Terra's copyright and the Apache-2.0 notice
+on the source specification are acknowledged and preserved by this file. An
+unmodified copy of the specification as used for this build is included at
+.sdk/def/v2-bundled.yaml.
+
+This project is not affiliated with, endorsed by, or sponsored by Terra.
+"Terra" is used descriptively, to identify the API these clients talk to.

@@ -1,0 +1,37 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "dev@tryterra.co"
+        name: "Terra API"
+        url: "https://tryterra.co/"
+      }
+      description: "The Terra API (v2 surface, served at access.tryterra.co/api/v2)."
+      license: {
+        name: "Apache-2.0"
+        url: "https://github.com/tryterra/openapi/blob/master/LICENSE"
+      }
+      security: {
+        in: "header"
+        name: "x-api-key"
+        prefix: ""
+        scheme: "ApiKeyAuth"
+        type: "apiKey"
+      }
+      servers: [
+        {
+          url: "https://access.tryterra.co/api/v2"
+        }
+      ]
+      summary: "The Terra API (v2 surface, served at access.tryterra.co/api/v2)."
+      termsOfService: "https://tryterra.co/terms-of-service"
+      title: "TerraAPI"
+      version: "2026.08.05"
+      website: "https://access.tryterra.co"
+    }
+  }
+}
+

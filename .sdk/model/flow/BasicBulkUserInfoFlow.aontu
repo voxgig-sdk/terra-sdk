@@ -1,0 +1,18 @@
+# BasicBulkUserInfoFlow
+
+main: kit: flow: BasicBulkUserInfoFlow:
+{
+  entity: "bulk_user_info",
+  kind: "basic",
+  name: "BasicBulkUserInfoFlow",
+  step: [
+    {
+      input: {
+        ref: "bulk_user_info_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicBulkUserInfoFlow"
+}

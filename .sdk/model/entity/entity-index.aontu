@@ -1,0 +1,18 @@
+# Entity Models
+
+@"activity.aontu"
+@"athlete.aontu"
+@"authentication.aontu"
+@"body.aontu"
+@"bulk_user_info.aontu"
+@"daily.aontu"
+@"integration.aontu"
+@"lab_report.aontu"
+@"lab_report_delivery.aontu"
+@"lab_report_file.aontu"
+@"menstruation.aontu"
+@"nutrition.aontu"
+@"planned_workout.aontu"
+@"sleep.aontu"
+@"user.aontu"
+@"workout.aontu"

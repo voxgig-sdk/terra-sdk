@@ -1,0 +1,79 @@
+# Entity: integration
+
+main: kit: entity: integration: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "enabled"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "icon"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "provider"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "setup"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "type"
+      req: false
+      type: "`$OBJECT`"
+    }
+  ]
+
+  name: "integration"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "sdk"
+                orig: "sdk"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/integrations/detailed"
+          parts: [
+            "integrations"
+            "detailed"
+          ]
+          select: {
+            exist: [
+              "sdk"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.providers`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

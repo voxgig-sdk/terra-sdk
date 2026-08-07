@@ -1,0 +1,20 @@
+{
+  "existing": {
+    "sleep": {
+      "SLEEP00": {
+        "id": "SLEEP00"
+      },
+      "SLEEP01": {
+        "id": "SLEEP01"
+      },
+      "SLEEP02": {
+        "id": "SLEEP02"
+      }
+    }
+  },
+  "new": {
+    "sleep": {
+      "sleep_ref01": {}
+    }
+  }
+}
