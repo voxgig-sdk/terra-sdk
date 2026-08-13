@@ -44,7 +44,7 @@ describe('UserEntity', async () => {
     // LOAD
     const user_ref01_ent = client.User()
     const user_ref01_match_dt0 = {}
-    const user_ref01_data_dt0 = await user_ref01_ent.load(user_ref01_match_dt0)
+    const user_ref01_data_dt0 = (await user_ref01_ent.load(user_ref01_match_dt0)).data()
     assert(null != user_ref01_data_dt0)
 
 

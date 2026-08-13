@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# Terra SDK exists test
 
 import pytest
 from terra_sdk import TerraSDK

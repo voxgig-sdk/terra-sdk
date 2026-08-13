@@ -62,7 +62,7 @@ describe('NutritionEntity', async () => {
     // LOAD
     const nutrition_ref01_ent = client.Nutrition()
     const nutrition_ref01_match_dt0: any = {}
-    const nutrition_ref01_data_dt0 = await nutrition_ref01_ent.load(nutrition_ref01_match_dt0)
+    const nutrition_ref01_data_dt0 = (await nutrition_ref01_ent.load(nutrition_ref01_match_dt0)).data()
     assert(null != nutrition_ref01_data_dt0)
 
 

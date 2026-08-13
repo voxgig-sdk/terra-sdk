@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from terra_sdk.utility.voxgig_struct import voxgig_struct as vs
 from terra_sdk import TerraSDK
-from core import helpers
+from terra_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -42,7 +42,7 @@ class TestLabReportEntity:
         assert len(seen) == 3
 
         # Inbound: streaming active -> yields each item from the feature.
-        from config import make_config
+        from terra_sdk.config import make_config
         cfg = make_config()
         if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
             sdk = TerraSDK.test(
@@ -78,7 +78,7 @@ class TestLabReportEntity:
         lab_report_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.lab_report"), "lab_report_ref01"))
 
-        lab_report_ref01_data = helpers.to_map(lab_report_ref01_ent.create(lab_report_ref01_data, None))
+        lab_report_ref01_data = helpers.to_map(runner.entity_data(lab_report_ref01_ent.create(lab_report_ref01_data, None)))
         assert lab_report_ref01_data is not None
 
         # LIST

@@ -44,7 +44,7 @@ describe('AthleteEntity', async () => {
     // LOAD
     const athlete_ref01_ent = client.Athlete()
     const athlete_ref01_match_dt0 = {}
-    const athlete_ref01_data_dt0 = await athlete_ref01_ent.load(athlete_ref01_match_dt0)
+    const athlete_ref01_data_dt0 = (await athlete_ref01_ent.load(athlete_ref01_match_dt0)).data()
     assert(null != athlete_ref01_data_dt0)
 
 

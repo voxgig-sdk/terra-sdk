@@ -1,26 +1,14 @@
 {
   "def": "v2-bundled.yaml",
   "main": {
-    "custom": {
-      "plurals": {
-        "athlete_metrics": "athlete_metrics",
-        "coercion_warnings": "coercion_warnings",
-        "estimated_calories": "estimated_calories",
-        "estimated_distance_meters": "estimated_distance_meters",
-        "estimated_duration_seconds": "estimated_duration_seconds",
-        "input_bytes": "input_bytes",
-        "output_bytes": "output_bytes",
-        "pool_length_meters": "pool_length_meters",
-        "report_notes": "report_notes",
-        "results": "results",
-        "step_blocks": "step_blocks",
-        "with_samples": "with_samples"
-      }
-    },
     "def": {
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -34,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "activity": {
           "active": true,
@@ -86,13 +75,14 @@
                       {
                         "active": true,
                         "kind": "query",
-                        "name": "with_samples",
-                        "orig": "with_samples",
+                        "name": "with_sample",
+                        "orig": "with_sample",
                         "reqd": false,
                         "type": "`$BOOLEAN`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/activity",
                   "parts": [
@@ -104,7 +94,7 @@
                       "start_date",
                       "to_webhook",
                       "user_id",
-                      "with_samples"
+                      "with_sample"
                     ]
                   },
                   "transform": {
@@ -153,6 +143,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/athlete",
                   "parts": [
@@ -214,7 +205,7 @@
             },
             {
               "active": true,
-              "name": "provider",
+              "name": "providers",
               "req": false,
               "type": "`$STRING`"
             },
@@ -287,6 +278,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/auth/authenticateUser",
                   "parts": [
@@ -307,6 +299,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/auth/generateAuthToken",
                   "parts": [
@@ -322,6 +315,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/auth/generateWidgetSession",
                   "parts": [
@@ -354,6 +348,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/auth/deauthenticateUser",
                   "parts": [
@@ -428,13 +423,14 @@
                       {
                         "active": true,
                         "kind": "query",
-                        "name": "with_samples",
-                        "orig": "with_samples",
+                        "name": "with_sample",
+                        "orig": "with_sample",
                         "reqd": false,
                         "type": "`$BOOLEAN`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/body",
                   "parts": [
@@ -446,7 +442,7 @@
                       "start_date",
                       "to_webhook",
                       "user_id",
-                      "with_samples"
+                      "with_sample"
                     ]
                   },
                   "transform": {
@@ -476,6 +472,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/bulkUserInfo",
                   "parts": [
@@ -545,13 +542,14 @@
                       {
                         "active": true,
                         "kind": "query",
-                        "name": "with_samples",
-                        "orig": "with_samples",
+                        "name": "with_sample",
+                        "orig": "with_sample",
                         "reqd": false,
                         "type": "`$BOOLEAN`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/daily",
                   "parts": [
@@ -563,7 +561,7 @@
                       "start_date",
                       "to_webhook",
                       "user_id",
-                      "with_samples"
+                      "with_sample"
                     ]
                   },
                   "transform": {
@@ -616,7 +614,7 @@
             },
             {
               "active": true,
-              "name": "type",
+              "name": "types",
               "req": false,
               "type": "`$OBJECT`"
             }
@@ -641,6 +639,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/integrations/detailed",
                   "parts": [
@@ -714,7 +713,7 @@
             },
             {
               "active": true,
-              "name": "panel",
+              "name": "panels",
               "req": false,
               "type": "`$ARRAY`"
             },
@@ -830,6 +829,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/lab-reports",
                   "parts": [
@@ -905,6 +905,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/lab-reports",
                   "parts": [
@@ -946,6 +947,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/lab-reports/{session_id}",
                   "parts": [
@@ -988,6 +990,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/lab-reports/{session_id}",
                   "parts": [
@@ -1074,6 +1077,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/lab-reports/{session_id}/deliveries",
                   "parts": [
@@ -1143,6 +1147,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/lab-reports/{session_id}/files",
                   "parts": [
@@ -1223,13 +1228,14 @@
                       {
                         "active": true,
                         "kind": "query",
-                        "name": "with_samples",
-                        "orig": "with_samples",
+                        "name": "with_sample",
+                        "orig": "with_sample",
                         "reqd": false,
                         "type": "`$BOOLEAN`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/menstruation",
                   "parts": [
@@ -1241,7 +1247,7 @@
                       "start_date",
                       "to_webhook",
                       "user_id",
-                      "with_samples"
+                      "with_sample"
                     ]
                   },
                   "transform": {
@@ -1307,13 +1313,14 @@
                       {
                         "active": true,
                         "kind": "query",
-                        "name": "with_samples",
-                        "orig": "with_samples",
+                        "name": "with_sample",
+                        "orig": "with_sample",
                         "reqd": false,
                         "type": "`$BOOLEAN`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/nutrition",
                   "parts": [
@@ -1325,7 +1332,7 @@
                       "start_date",
                       "to_webhook",
                       "user_id",
-                      "with_samples"
+                      "with_sample"
                     ]
                   },
                   "transform": {
@@ -1366,7 +1373,7 @@
             },
             {
               "active": true,
-              "name": "detail",
+              "name": "details",
               "req": false,
               "type": "`$ANY`"
             },
@@ -1449,6 +1456,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/plannedWorkouts",
                   "parts": [
@@ -1496,6 +1504,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/plannedWorkouts/{planned_workout_id}",
                   "parts": [
@@ -1548,6 +1557,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/plannedWorkouts/{planned_workout_id}",
                   "parts": [
@@ -1628,13 +1638,14 @@
                       {
                         "active": true,
                         "kind": "query",
-                        "name": "with_samples",
-                        "orig": "with_samples",
+                        "name": "with_sample",
+                        "orig": "with_sample",
                         "reqd": false,
                         "type": "`$BOOLEAN`"
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/sleep",
                   "parts": [
@@ -1646,7 +1657,7 @@
                       "start_date",
                       "to_webhook",
                       "user_id",
-                      "with_samples"
+                      "with_sample"
                     ]
                   },
                   "transform": {
@@ -1697,6 +1708,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/subscriptions",
                   "parts": [
@@ -1735,6 +1747,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/userInfo",
                   "parts": [
@@ -1891,6 +1904,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/workouts/{workout_id}/plan",
                   "parts": [
@@ -1918,6 +1932,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/workouts",
                   "parts": [
@@ -1938,6 +1953,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/workouts",
                   "parts": [
@@ -1969,6 +1985,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/workouts/{workout_id}",
                   "parts": [
@@ -2020,6 +2037,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/plannedWorkouts/{planned_workout_id}",
                   "parts": [
@@ -2051,6 +2069,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/workouts/{workout_id}",
                   "parts": [
@@ -2836,18 +2855,41 @@
         "website": "https://access.tryterra.co"
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "terra"
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -2869,22 +2911,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "terra"
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -2923,21 +2983,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "terra"
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -2976,12 +3054,17 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "js": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
@@ -2993,10 +3076,23 @@
             }
           },
           "ext": "js",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "terra"
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
           },
           "name": "js",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3018,12 +3114,17 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "JavaScript"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -3035,10 +3136,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "terra"
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3060,22 +3174,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "terra"
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3097,13 +3229,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -3115,10 +3252,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "terra"
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3140,13 +3290,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -3169,10 +3324,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "terra"
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3194,9 +3362,17 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

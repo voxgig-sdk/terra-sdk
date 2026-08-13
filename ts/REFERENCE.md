@@ -390,7 +390,7 @@ const authentication = client.Authentication()
 | `auth_url` | `string` | No |  |
 | `expires_in` | `number` | No |  |
 | `language` | `string` | No |  |
-| `provider` | `string` | No |  |
+| `providers` | `string` | No |  |
 | `reference_id` | `string` | No |  |
 | `session_id` | `string` | No |  |
 | `status` | `string` | No |  |
@@ -593,7 +593,7 @@ const integration = client.Integration()
 | `name` | `string` | No |  |
 | `provider` | `string` | No |  |
 | `setup` | `string` | No |  |
-| `type` | `Record<string, any>` | No |  |
+| `types` | `Record<string, any>` | No |  |
 
 ### Operations
 
@@ -650,7 +650,7 @@ const lab_report = client.LabReport()
 | `input_bytes` | `number` | No |  |
 | `lab_name` | `string` | No |  |
 | `output_bytes` | `number` | No |  |
-| `panel` | `any[]` | No |  |
+| `panels` | `any[]` | No |  |
 | `patient_age_at_collection` | `number` | No |  |
 | `patient_sex` | `string` | No |  |
 | `reference_id` | `string` | No |  |
@@ -756,7 +756,7 @@ const lab_report_delivery = client.LabReportDelivery()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.LabReportDelivery().list()
+const results = await client.LabReportDelivery().list({ id: "example" })
 ```
 
 ### Common Methods
@@ -807,7 +807,7 @@ const lab_report_file = client.LabReportFile()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.LabReportFile().list()
+const results = await client.LabReportFile().list({ id: "example" })
 ```
 
 ### Common Methods
@@ -939,7 +939,7 @@ const planned_workout = client.PlannedWorkout()
 | `athlete_metrics` | `any` | No |  |
 | `coercion_warnings` | `string` | No |  |
 | `created_at` | `any` | No |  |
-| `detail` | `any` | No |  |
+| `details` | `any` | No |  |
 | `is_external` | `boolean` | No |  |
 | `last_updated_at` | `any` | No |  |
 | `planned_date` | `string` | No |  |
@@ -954,7 +954,7 @@ const planned_workout = client.PlannedWorkout()
 | `athlete_metrics` | - | - | - |
 | `coercion_warnings` | - | - | - |
 | `created_at` | - | - | - |
-| `detail` | - | - | - |
+| `details` | - | - | - |
 | `is_external` | - | - | - |
 | `last_updated_at` | - | - | - |
 | `planned_date` | - | - | Yes |
@@ -1133,6 +1133,26 @@ const workout = client.Workout()
 | `threshold_heart_rate` | `number` | No |  |
 | `threshold_speed` | `number` | No |  |
 | `workout_id` | `string` | No |  |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `plan` | `/workouts/{workout_id}/plan` | `client.Workout().create({ $action: 'plan', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Workout record — check the API definition for its shape.
+
+```ts
+const result = await client.Workout().create({
+  $action: 'plan',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 

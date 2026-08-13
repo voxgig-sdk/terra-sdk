@@ -82,7 +82,7 @@ describe("WorkoutEntity", function()
 
     local workout_ref01_data_result, err = workout_ref01_ent:create(workout_ref01_data, nil)
     assert.is_nil(err)
-    workout_ref01_data = helpers.to_map(workout_ref01_data_result)
+    workout_ref01_data = helpers.to_map(type(workout_ref01_data_result) == 'table' and workout_ref01_data_result.data_get and workout_ref01_data_result:data_get() or workout_ref01_data_result)
     assert.is_not_nil(workout_ref01_data)
 
     -- LIST

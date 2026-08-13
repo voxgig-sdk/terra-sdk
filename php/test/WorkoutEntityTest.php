@@ -83,7 +83,7 @@ class WorkoutEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.workout"), "workout_ref01"));
 
         $workout_ref01_data_result = $workout_ref01_ent->create($workout_ref01_data, null);
-        $workout_ref01_data = Helpers::to_map($workout_ref01_data_result);
+        $workout_ref01_data = Helpers::to_map(is_object($workout_ref01_data_result) && method_exists($workout_ref01_data_result, 'data_get') ? $workout_ref01_data_result->data_get() : $workout_ref01_data_result);
         $this->assertNotNull($workout_ref01_data);
 
         // LIST

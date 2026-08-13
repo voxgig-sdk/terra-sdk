@@ -131,7 +131,8 @@ Create a mock client for unit testing — no server required:
 const client = TerraSDK.test()
 
 const activity = await client.Activity().load()
-// activity is a bare entity populated with mock response data
+// activity is the entity, populated with mock response data
+// — call activity.data() for the record itself
 console.log(activity)
 ```
 
@@ -336,7 +337,7 @@ API path: `/athlete`
 | `auth_url` |  |
 | `expires_in` |  |
 | `language` |  |
-| `provider` |  |
+| `providers` |  |
 | `reference_id` |  |
 | `session_id` |  |
 | `status` |  |
@@ -384,7 +385,7 @@ API path: `/daily`
 | `name` |  |
 | `provider` |  |
 | `setup` |  |
-| `type` |  |
+| `types` |  |
 
 Operations: list.
 
@@ -401,7 +402,7 @@ API path: `/integrations/detailed`
 | `input_bytes` |  |
 | `lab_name` |  |
 | `output_bytes` |  |
-| `panel` |  |
+| `panels` |  |
 | `patient_age_at_collection` |  |
 | `patient_sex` |  |
 | `reference_id` |  |
@@ -472,7 +473,7 @@ API path: `/nutrition`
 | `athlete_metrics` |  |
 | `coercion_warnings` |  |
 | `created_at` |  |
-| `detail` |  |
+| `details` |  |
 | `is_external` |  |
 | `last_updated_at` |  |
 | `planned_date` |  |
@@ -586,7 +587,7 @@ Create an instance: `const authentication = client.Authentication()`
 | `auth_url` | `string` |  |
 | `expires_in` | `number` |  |
 | `language` | `string` |  |
-| `provider` | `string` |  |
+| `providers` | `string` |  |
 | `reference_id` | `string` |  |
 | `session_id` | `string` |  |
 | `status` | `string` |  |
@@ -673,7 +674,7 @@ Create an instance: `const integration = client.Integration()`
 | `name` | `string` |  |
 | `provider` | `string` |  |
 | `setup` | `string` |  |
-| `type` | `Object` |  |
+| `types` | `Object` |  |
 
 #### Example: List
 
@@ -706,7 +707,7 @@ Create an instance: `const lab_report = client.LabReport()`
 | `input_bytes` | `number` |  |
 | `lab_name` | `string` |  |
 | `output_bytes` | `number` |  |
-| `panel` | `Array` |  |
+| `panels` | `Array` |  |
 | `patient_age_at_collection` | `number` |  |
 | `patient_sex` | `string` |  |
 | `reference_id` | `string` |  |
@@ -769,7 +770,7 @@ Create an instance: `const lab_report_delivery = client.LabReportDelivery()`
 #### Example: List
 
 ```ts
-const lab_report_deliverys = await client.LabReportDelivery().list()
+const lab_report_deliverys = await client.LabReportDelivery().list({ id: "example" })
 ```
 
 
@@ -793,7 +794,7 @@ Create an instance: `const lab_report_file = client.LabReportFile()`
 #### Example: List
 
 ```ts
-const lab_report_files = await client.LabReportFile().list()
+const lab_report_files = await client.LabReportFile().list({ id: "example" })
 ```
 
 
@@ -850,7 +851,7 @@ Create an instance: `const planned_workout = client.PlannedWorkout()`
 | `athlete_metrics` | `*` |  |
 | `coercion_warnings` | `string` |  |
 | `created_at` | `*` |  |
-| `detail` | `*` |  |
+| `details` | `*` |  |
 | `is_external` | `boolean` |  |
 | `last_updated_at` | `*` |  |
 | `planned_date` | `string` |  |

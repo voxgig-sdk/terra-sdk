@@ -40,7 +40,7 @@ class Authentication
     public ?string $auth_url = null;
     public ?int $expires_in = null;
     public ?string $language = null;
-    public ?string $provider = null;
+    public ?string $providers = null;
     public ?string $reference_id = null;
     public ?string $session_id = null;
     public ?string $status = null;
@@ -57,7 +57,7 @@ class AuthenticationCreateData
     public ?string $auth_url = null;
     public ?int $expires_in = null;
     public ?string $language = null;
-    public ?string $provider = null;
+    public ?string $providers = null;
     public ?string $reference_id = null;
     public ?string $session_id = null;
     public ?string $status = null;
@@ -74,7 +74,7 @@ class AuthenticationRemoveMatch
     public ?string $auth_url = null;
     public ?int $expires_in = null;
     public ?string $language = null;
-    public ?string $provider = null;
+    public ?string $providers = null;
     public ?string $reference_id = null;
     public ?string $session_id = null;
     public ?string $status = null;
@@ -121,7 +121,7 @@ class Integration
     public ?string $name = null;
     public ?string $provider = null;
     public ?string $setup = null;
-    public ?array $type = null;
+    public ?array $types = null;
 }
 
 /** Request payload for Integration#list. */
@@ -132,7 +132,7 @@ class IntegrationListMatch
     public ?string $name = null;
     public ?string $provider = null;
     public ?string $setup = null;
-    public ?array $type = null;
+    public ?array $types = null;
 }
 
 /** LabReport entity data model. */
@@ -145,7 +145,7 @@ class LabReport
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
     public ?int $output_bytes = null;
-    public ?array $panel = null;
+    public ?array $panels = null;
     public ?int $patient_age_at_collection = null;
     public ?string $patient_sex = null;
     public ?string $reference_id = null;
@@ -179,7 +179,7 @@ class LabReportListMatch
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
     public ?int $output_bytes = null;
-    public ?array $panel = null;
+    public ?array $panels = null;
     public ?int $patient_age_at_collection = null;
     public ?string $patient_sex = null;
     public ?string $reference_id = null;
@@ -207,7 +207,7 @@ class LabReportCreateData
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
     public ?int $output_bytes = null;
-    public ?array $panel = null;
+    public ?array $panels = null;
     public ?int $patient_age_at_collection = null;
     public ?string $patient_sex = null;
     public ?string $reference_id = null;
@@ -286,7 +286,7 @@ class PlannedWorkout
     public mixed $athlete_metrics = null;
     public ?string $coercion_warnings = null;
     public mixed $created_at = null;
-    public mixed $detail = null;
+    public mixed $details = null;
     public ?bool $is_external = null;
     public mixed $last_updated_at = null;
     public ?string $planned_date = null;
@@ -307,7 +307,7 @@ class PlannedWorkoutListMatch
     public mixed $athlete_metrics = null;
     public ?string $coercion_warnings = null;
     public mixed $created_at = null;
-    public mixed $detail = null;
+    public mixed $details = null;
     public ?bool $is_external = null;
     public mixed $last_updated_at = null;
     public ?string $planned_date = null;
@@ -323,7 +323,7 @@ class PlannedWorkoutUpdateData
     public mixed $athlete_metrics = null;
     public ?string $coercion_warnings = null;
     public mixed $created_at = null;
-    public mixed $detail = null;
+    public mixed $details = null;
     public ?bool $is_external = null;
     public mixed $last_updated_at = null;
     public ?string $planned_date = null;

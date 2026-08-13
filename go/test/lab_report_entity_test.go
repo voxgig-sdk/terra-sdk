@@ -106,7 +106,7 @@ func TestLabReportEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		labReportRef01Data = core.ToMapAny(labReportRef01DataResult)
+		labReportRef01Data = core.ToMapAny(entityData(labReportRef01DataResult))
 		if labReportRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}

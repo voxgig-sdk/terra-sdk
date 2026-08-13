@@ -58,7 +58,7 @@ func TestBulkUserInfoEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		bulkUserInfoRef01Data = core.ToMapAny(bulkUserInfoRef01DataResult)
+		bulkUserInfoRef01Data = core.ToMapAny(entityData(bulkUserInfoRef01DataResult))
 		if bulkUserInfoRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}

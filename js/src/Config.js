@@ -21,7 +21,7 @@ class Config {
 
 
   main = {
-    name: 'ProjectName',
+    name: 'Terra',
   }
 
 
@@ -148,13 +148,14 @@ class Config {
                   {
                     "active": true,
                     "kind": "query",
-                    "name": "with_samples",
-                    "orig": "with_samples",
+                    "name": "with_sample",
+                    "orig": "with_sample",
                     "reqd": false,
                     "type": "`$BOOLEAN`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/activity",
               "parts": [
@@ -166,7 +167,7 @@ class Config {
                   "start_date",
                   "to_webhook",
                   "user_id",
-                  "with_samples"
+                  "with_sample"
                 ]
               },
               "transform": {
@@ -213,6 +214,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/athlete",
               "parts": [
@@ -277,7 +279,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "provider",
+          "name": "providers",
           "req": false,
           "type": "`$STRING`",
           "index$": 5
@@ -357,6 +359,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "POST",
               "orig": "/auth/authenticateUser",
               "parts": [
@@ -378,6 +381,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/auth/generateAuthToken",
               "parts": [
@@ -394,6 +398,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/auth/generateWidgetSession",
               "parts": [
@@ -428,6 +433,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/auth/deauthenticateUser",
               "parts": [
@@ -500,13 +506,14 @@ class Config {
                   {
                     "active": true,
                     "kind": "query",
-                    "name": "with_samples",
-                    "orig": "with_samples",
+                    "name": "with_sample",
+                    "orig": "with_sample",
                     "reqd": false,
                     "type": "`$BOOLEAN`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/body",
               "parts": [
@@ -518,7 +525,7 @@ class Config {
                   "start_date",
                   "to_webhook",
                   "user_id",
-                  "with_samples"
+                  "with_sample"
                 ]
               },
               "transform": {
@@ -546,6 +553,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/bulkUserInfo",
               "parts": [
@@ -613,13 +621,14 @@ class Config {
                   {
                     "active": true,
                     "kind": "query",
-                    "name": "with_samples",
-                    "orig": "with_samples",
+                    "name": "with_sample",
+                    "orig": "with_sample",
                     "reqd": false,
                     "type": "`$BOOLEAN`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/daily",
               "parts": [
@@ -631,7 +640,7 @@ class Config {
                   "start_date",
                   "to_webhook",
                   "user_id",
-                  "with_samples"
+                  "with_sample"
                 ]
               },
               "transform": {
@@ -687,7 +696,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "type",
+          "name": "types",
           "req": false,
           "type": "`$OBJECT`",
           "index$": 5
@@ -713,6 +722,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/integrations/detailed",
               "parts": [
@@ -791,7 +801,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "panel",
+          "name": "panels",
           "req": false,
           "type": "`$ARRAY`",
           "index$": 7
@@ -923,6 +933,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "POST",
               "orig": "/lab-reports",
               "parts": [
@@ -1000,6 +1011,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/lab-reports",
               "parts": [
@@ -1044,6 +1056,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/lab-reports/{session_id}",
               "parts": [
@@ -1089,6 +1102,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/lab-reports/{session_id}",
               "parts": [
@@ -1179,6 +1193,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/lab-reports/{session_id}/deliveries",
               "parts": [
@@ -1249,6 +1264,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/lab-reports/{session_id}/files",
               "parts": [
@@ -1327,13 +1343,14 @@ class Config {
                   {
                     "active": true,
                     "kind": "query",
-                    "name": "with_samples",
-                    "orig": "with_samples",
+                    "name": "with_sample",
+                    "orig": "with_sample",
                     "reqd": false,
                     "type": "`$BOOLEAN`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/menstruation",
               "parts": [
@@ -1345,7 +1362,7 @@ class Config {
                   "start_date",
                   "to_webhook",
                   "user_id",
-                  "with_samples"
+                  "with_sample"
                 ]
               },
               "transform": {
@@ -1409,13 +1426,14 @@ class Config {
                   {
                     "active": true,
                     "kind": "query",
-                    "name": "with_samples",
-                    "orig": "with_samples",
+                    "name": "with_sample",
+                    "orig": "with_sample",
                     "reqd": false,
                     "type": "`$BOOLEAN`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/nutrition",
               "parts": [
@@ -1427,7 +1445,7 @@ class Config {
                   "start_date",
                   "to_webhook",
                   "user_id",
-                  "with_samples"
+                  "with_sample"
                 ]
               },
               "transform": {
@@ -1469,7 +1487,7 @@ class Config {
         },
         {
           "active": true,
-          "name": "detail",
+          "name": "details",
           "req": false,
           "type": "`$ANY`",
           "index$": 3
@@ -1559,6 +1577,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/plannedWorkouts",
               "parts": [
@@ -1609,6 +1628,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/plannedWorkouts/{planned_workout_id}",
               "parts": [
@@ -1664,6 +1684,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "PATCH",
               "orig": "/plannedWorkouts/{planned_workout_id}",
               "parts": [
@@ -1742,13 +1763,14 @@ class Config {
                   {
                     "active": true,
                     "kind": "query",
-                    "name": "with_samples",
-                    "orig": "with_samples",
+                    "name": "with_sample",
+                    "orig": "with_sample",
                     "reqd": false,
                     "type": "`$BOOLEAN`"
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/sleep",
               "parts": [
@@ -1760,7 +1782,7 @@ class Config {
                   "start_date",
                   "to_webhook",
                   "user_id",
-                  "with_samples"
+                  "with_sample"
                 ]
               },
               "transform": {
@@ -1809,6 +1831,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/subscriptions",
               "parts": [
@@ -1848,6 +1871,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/userInfo",
               "parts": [
@@ -2019,6 +2043,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "POST",
               "orig": "/workouts/{workout_id}/plan",
               "parts": [
@@ -2047,6 +2072,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "POST",
               "orig": "/workouts",
               "parts": [
@@ -2069,6 +2095,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/workouts",
               "parts": [
@@ -2103,6 +2130,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/workouts/{workout_id}",
               "parts": [
@@ -2157,6 +2185,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/plannedWorkouts/{planned_workout_id}",
               "parts": [
@@ -2190,6 +2219,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "DELETE",
               "orig": "/workouts/{workout_id}",
               "parts": [

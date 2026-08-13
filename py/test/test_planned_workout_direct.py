@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from terra_sdk.utility.voxgig_struct import voxgig_struct as vs
 from terra_sdk import TerraSDK
-from core import helpers
+from terra_sdk.core import helpers
 from test import runner
 
 

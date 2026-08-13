@@ -133,7 +133,7 @@ func TestPlannedWorkoutEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("update failed: %v", err)
 		}
-		plannedWorkoutRef01ResdataUp0 := core.ToMapAny(plannedWorkoutRef01ResdataUp0Result)
+		plannedWorkoutRef01ResdataUp0 := core.ToMapAny(entityData(plannedWorkoutRef01ResdataUp0Result))
 		if plannedWorkoutRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}

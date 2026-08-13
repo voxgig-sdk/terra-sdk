@@ -62,7 +62,7 @@ describe('ActivityEntity', async () => {
     // LOAD
     const activity_ref01_ent = client.Activity()
     const activity_ref01_match_dt0: any = {}
-    const activity_ref01_data_dt0 = await activity_ref01_ent.load(activity_ref01_match_dt0)
+    const activity_ref01_data_dt0 = (await activity_ref01_ent.load(activity_ref01_match_dt0)).data()
     assert(null != activity_ref01_data_dt0)
 
 

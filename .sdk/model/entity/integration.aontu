@@ -31,7 +31,7 @@ main: kit: entity: integration: {
       type: "`$STRING`"
     }
     {
-      name: "type"
+      name: "types"
       req: false
       type: "`$OBJECT`"
     }

@@ -62,14 +62,14 @@ describe('LabReportEntity', async () => {
     const lab_report_ref01_ent = client.LabReport()
     let lab_report_ref01_data = setup.data.new.lab_report['lab_report_ref01']
 
-    lab_report_ref01_data = await lab_report_ref01_ent.create(lab_report_ref01_data)
+    lab_report_ref01_data = (await lab_report_ref01_ent.create(lab_report_ref01_data)).data()
     assert(null != lab_report_ref01_data)
 
 
     // LIST
     const lab_report_ref01_match: any = {}
 
-    const lab_report_ref01_list = await lab_report_ref01_ent.list(lab_report_ref01_match)
+    const lab_report_ref01_list = (await lab_report_ref01_ent.list(lab_report_ref01_match)).map((e: any) => e.data())
 
 
 
@@ -77,7 +77,7 @@ describe('LabReportEntity', async () => {
     // LIST
     const lab_report_ref01_match_rt0: any = {}
 
-    const lab_report_ref01_list_rt0 = await lab_report_ref01_ent.list(lab_report_ref01_match_rt0)
+    const lab_report_ref01_list_rt0 = (await lab_report_ref01_ent.list(lab_report_ref01_match_rt0)).map((e: any) => e.data())
 
 
   })

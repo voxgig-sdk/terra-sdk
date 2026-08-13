@@ -23,7 +23,7 @@ export interface Authentication {
   auth_url?: string
   expires_in?: number
   language?: string
-  provider?: string
+  providers?: string
   reference_id?: string
   session_id?: string
   status?: string
@@ -38,7 +38,7 @@ export interface AuthenticationCreateData {
   auth_url?: string
   expires_in?: number
   language?: string
-  provider?: string
+  providers?: string
   reference_id?: string
   session_id?: string
   status?: string
@@ -53,7 +53,7 @@ export interface AuthenticationRemoveMatch {
   auth_url?: string
   expires_in?: number
   language?: string
-  provider?: string
+  providers?: string
   reference_id?: string
   session_id?: string
   status?: string
@@ -86,7 +86,7 @@ export interface Integration {
   name?: string
   provider?: string
   setup?: string
-  type?: Record<string, any>
+  types?: Record<string, any>
 }
 
 export interface IntegrationListMatch {
@@ -95,7 +95,7 @@ export interface IntegrationListMatch {
   name?: string
   provider?: string
   setup?: string
-  type?: Record<string, any>
+  types?: Record<string, any>
 }
 
 export interface LabReport {
@@ -106,7 +106,7 @@ export interface LabReport {
   input_bytes?: number
   lab_name?: string
   output_bytes?: number
-  panel?: any[]
+  panels?: any[]
   patient_age_at_collection?: number
   patient_sex?: string
   reference_id?: string
@@ -136,7 +136,7 @@ export interface LabReportListMatch {
   input_bytes?: number
   lab_name?: string
   output_bytes?: number
-  panel?: any[]
+  panels?: any[]
   patient_age_at_collection?: number
   patient_sex?: string
   reference_id?: string
@@ -162,7 +162,7 @@ export interface LabReportCreateData {
   input_bytes?: number
   lab_name?: string
   output_bytes?: number
-  panel?: any[]
+  panels?: any[]
   patient_age_at_collection?: number
   patient_sex?: string
   reference_id?: string
@@ -221,7 +221,7 @@ export interface PlannedWorkout {
   athlete_metrics?: any
   coercion_warnings?: string
   created_at?: any
-  detail?: any
+  details?: any
   is_external?: boolean
   last_updated_at?: any
   planned_date?: string
@@ -238,7 +238,7 @@ export interface PlannedWorkoutListMatch {
   athlete_metrics?: any
   coercion_warnings?: string
   created_at?: any
-  detail?: any
+  details?: any
   is_external?: boolean
   last_updated_at?: any
   planned_date?: string
@@ -252,7 +252,7 @@ export interface PlannedWorkoutUpdateData {
   athlete_metrics?: any
   coercion_warnings?: string
   created_at?: any
-  detail?: any
+  details?: any
   is_external?: boolean
   last_updated_at?: any
   planned_date?: string
@@ -332,6 +332,12 @@ export interface WorkoutCreateData {
   threshold_heart_rate?: number
   threshold_speed?: number
   workout_id?: string
+
+  // Selects a custom action instead of the plain create:
+  //   'plan'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface WorkoutRemoveMatch {

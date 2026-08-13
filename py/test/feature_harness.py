@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import TerraControl
-from core.error import TerraError
-from core.result import TerraResult
-from core.spec import TerraSpec
+from terra_sdk.config import make_config
+from terra_sdk.features import _make_feature
+from terra_sdk.core.control import TerraControl
+from terra_sdk.core.error import TerraError
+from terra_sdk.core.result import TerraResult
+from terra_sdk.core.spec import TerraSpec
 
 
 # True when this SDK was generated with the named feature.

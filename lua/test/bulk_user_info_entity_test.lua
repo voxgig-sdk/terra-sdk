@@ -41,7 +41,7 @@ describe("BulkUserInfoEntity", function()
 
     local bulk_user_info_ref01_data_result, err = bulk_user_info_ref01_ent:create(bulk_user_info_ref01_data, nil)
     assert.is_nil(err)
-    bulk_user_info_ref01_data = helpers.to_map(bulk_user_info_ref01_data_result)
+    bulk_user_info_ref01_data = helpers.to_map(type(bulk_user_info_ref01_data_result) == 'table' and bulk_user_info_ref01_data_result.data_get and bulk_user_info_ref01_data_result:data_get() or bulk_user_info_ref01_data_result)
     assert.is_not_nil(bulk_user_info_ref01_data)
 
   end)

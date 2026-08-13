@@ -41,7 +41,7 @@ client = TerraSDK({
 
 ### 3. Load an activity
 
-`load()` returns the bare record (a `dict`) and raises on error.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
@@ -125,7 +125,8 @@ Create a mock client for unit testing — no server required:
 ```python
 client = TerraSDK.test()
 
-# Entity ops return the bare record and raise on error.
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
 activity = client.Activity().load()
 # activity contains the mock response record
 ```
@@ -242,7 +243,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -287,7 +288,7 @@ API path: `/athlete`
 | `auth_url` |  |
 | `expires_in` |  |
 | `language` |  |
-| `provider` |  |
+| `providers` |  |
 | `reference_id` |  |
 | `session_id` |  |
 | `status` |  |
@@ -335,7 +336,7 @@ API path: `/daily`
 | `name` |  |
 | `provider` |  |
 | `setup` |  |
-| `type` |  |
+| `types` |  |
 
 Operations: List.
 
@@ -352,7 +353,7 @@ API path: `/integrations/detailed`
 | `input_bytes` |  |
 | `lab_name` |  |
 | `output_bytes` |  |
-| `panel` |  |
+| `panels` |  |
 | `patient_age_at_collection` |  |
 | `patient_sex` |  |
 | `reference_id` |  |
@@ -423,7 +424,7 @@ API path: `/nutrition`
 | `athlete_metrics` |  |
 | `coercion_warnings` |  |
 | `created_at` |  |
-| `detail` |  |
+| `details` |  |
 | `is_external` |  |
 | `last_updated_at` |  |
 | `planned_date` |  |
@@ -537,7 +538,7 @@ Create an instance: `authentication = client.Authentication()`
 | `auth_url` | `str` |  |
 | `expires_in` | `int` |  |
 | `language` | `str` |  |
-| `provider` | `str` |  |
+| `providers` | `str` |  |
 | `reference_id` | `str` |  |
 | `session_id` | `str` |  |
 | `status` | `str` |  |
@@ -624,7 +625,7 @@ Create an instance: `integration = client.Integration()`
 | `name` | `str` |  |
 | `provider` | `str` |  |
 | `setup` | `str` |  |
-| `type` | `dict` |  |
+| `types` | `dict` |  |
 
 #### Example: List
 
@@ -657,7 +658,7 @@ Create an instance: `lab_report = client.LabReport()`
 | `input_bytes` | `int` |  |
 | `lab_name` | `str` |  |
 | `output_bytes` | `int` |  |
-| `panel` | `list` |  |
+| `panels` | `list` |  |
 | `patient_age_at_collection` | `int` |  |
 | `patient_sex` | `str` |  |
 | `reference_id` | `str` |  |
@@ -720,7 +721,7 @@ Create an instance: `lab_report_delivery = client.LabReportDelivery()`
 #### Example: List
 
 ```python
-lab_report_deliverys = client.LabReportDelivery().list()
+lab_report_deliverys = client.LabReportDelivery().list({"id": "example"})
 ```
 
 
@@ -744,7 +745,7 @@ Create an instance: `lab_report_file = client.LabReportFile()`
 #### Example: List
 
 ```python
-lab_report_files = client.LabReportFile().list()
+lab_report_files = client.LabReportFile().list({"id": "example"})
 ```
 
 
@@ -801,7 +802,7 @@ Create an instance: `planned_workout = client.PlannedWorkout()`
 | `athlete_metrics` | `Any` |  |
 | `coercion_warnings` | `str` |  |
 | `created_at` | `Any` |  |
-| `detail` | `Any` |  |
+| `details` | `Any` |  |
 | `is_external` | `bool` |  |
 | `last_updated_at` | `Any` |  |
 | `planned_date` | `str` |  |

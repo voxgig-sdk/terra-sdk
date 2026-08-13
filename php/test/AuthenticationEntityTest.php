@@ -44,7 +44,7 @@ class AuthenticationEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.authentication"), "authentication_ref01"));
 
         $authentication_ref01_data_result = $authentication_ref01_ent->create($authentication_ref01_data, null);
-        $authentication_ref01_data = Helpers::to_map($authentication_ref01_data_result);
+        $authentication_ref01_data = Helpers::to_map(is_object($authentication_ref01_data_result) && method_exists($authentication_ref01_data_result, 'data_get') ? $authentication_ref01_data_result->data_get() : $authentication_ref01_data_result);
         $this->assertNotNull($authentication_ref01_data);
 
 

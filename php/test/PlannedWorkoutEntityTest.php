@@ -101,7 +101,7 @@ class PlannedWorkoutEntityTest extends TestCase
         $planned_workout_ref01_data_up0_up[$planned_workout_ref01_markdef_up0_name] = $planned_workout_ref01_markdef_up0_value;
 
         $planned_workout_ref01_resdata_up0_result = $planned_workout_ref01_ent->update($planned_workout_ref01_data_up0_up, null);
-        $planned_workout_ref01_resdata_up0 = Helpers::to_map($planned_workout_ref01_resdata_up0_result);
+        $planned_workout_ref01_resdata_up0 = Helpers::to_map(is_object($planned_workout_ref01_resdata_up0_result) && method_exists($planned_workout_ref01_resdata_up0_result, 'data_get') ? $planned_workout_ref01_resdata_up0_result->data_get() : $planned_workout_ref01_resdata_up0_result);
         $this->assertNotNull($planned_workout_ref01_resdata_up0);
         $this->assertEquals($planned_workout_ref01_resdata_up0[$planned_workout_ref01_markdef_up0_name], $planned_workout_ref01_markdef_up0_value);
 

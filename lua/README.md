@@ -272,7 +272,7 @@ API path: `/athlete`
 | `auth_url` |  |
 | `expires_in` |  |
 | `language` |  |
-| `provider` |  |
+| `providers` |  |
 | `reference_id` |  |
 | `session_id` |  |
 | `status` |  |
@@ -320,7 +320,7 @@ API path: `/daily`
 | `name` |  |
 | `provider` |  |
 | `setup` |  |
-| `type` |  |
+| `types` |  |
 
 Operations: List.
 
@@ -337,7 +337,7 @@ API path: `/integrations/detailed`
 | `input_bytes` |  |
 | `lab_name` |  |
 | `output_bytes` |  |
-| `panel` |  |
+| `panels` |  |
 | `patient_age_at_collection` |  |
 | `patient_sex` |  |
 | `reference_id` |  |
@@ -408,7 +408,7 @@ API path: `/nutrition`
 | `athlete_metrics` |  |
 | `coercion_warnings` |  |
 | `created_at` |  |
-| `detail` |  |
+| `details` |  |
 | `is_external` |  |
 | `last_updated_at` |  |
 | `planned_date` |  |
@@ -522,7 +522,7 @@ Create an instance: `local authentication = client:Authentication(nil)`
 | `auth_url` | `string` |  |
 | `expires_in` | `number` |  |
 | `language` | `string` |  |
-| `provider` | `string` |  |
+| `providers` | `string` |  |
 | `reference_id` | `string` |  |
 | `session_id` | `string` |  |
 | `status` | `string` |  |
@@ -609,7 +609,7 @@ Create an instance: `local integration = client:Integration(nil)`
 | `name` | `string` |  |
 | `provider` | `string` |  |
 | `setup` | `string` |  |
-| `type` | `table` |  |
+| `types` | `table` |  |
 
 #### Example: List
 
@@ -642,7 +642,7 @@ Create an instance: `local lab_report = client:LabReport(nil)`
 | `input_bytes` | `number` |  |
 | `lab_name` | `string` |  |
 | `output_bytes` | `number` |  |
-| `panel` | `table` |  |
+| `panels` | `table` |  |
 | `patient_age_at_collection` | `number` |  |
 | `patient_sex` | `string` |  |
 | `reference_id` | `string` |  |
@@ -786,7 +786,7 @@ Create an instance: `local planned_workout = client:PlannedWorkout(nil)`
 | `athlete_metrics` | `any` |  |
 | `coercion_warnings` | `string` |  |
 | `created_at` | `any` |  |
-| `detail` | `any` |  |
+| `details` | `any` |  |
 | `is_external` | `boolean` |  |
 | `last_updated_at` | `any` |  |
 | `planned_date` | `string` |  |

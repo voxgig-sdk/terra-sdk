@@ -44,7 +44,7 @@ describe('BodyEntity', async () => {
     // LOAD
     const body_ref01_ent = client.Body()
     const body_ref01_match_dt0 = {}
-    const body_ref01_data_dt0 = await body_ref01_ent.load(body_ref01_match_dt0)
+    const body_ref01_data_dt0 = (await body_ref01_ent.load(body_ref01_match_dt0)).data()
     assert(null != body_ref01_data_dt0)
 
 

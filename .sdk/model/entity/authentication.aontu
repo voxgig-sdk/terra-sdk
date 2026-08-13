@@ -31,7 +31,7 @@ main: kit: entity: authentication: {
       type: "`$STRING`"
     }
     {
-      name: "provider"
+      name: "providers"
       req: false
       type: "`$STRING`"
     }

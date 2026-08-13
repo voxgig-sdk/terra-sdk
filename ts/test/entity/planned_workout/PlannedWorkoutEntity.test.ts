@@ -63,7 +63,7 @@ describe('PlannedWorkoutEntity', async () => {
     const planned_workout_ref01_ent = client.PlannedWorkout()
     const planned_workout_ref01_match: any = {}
 
-    const planned_workout_ref01_list = await planned_workout_ref01_ent.list(planned_workout_ref01_match)
+    const planned_workout_ref01_list = (await planned_workout_ref01_ent.list(planned_workout_ref01_match)).map((e: any) => e.data())
 
 
     // UPDATE
@@ -72,7 +72,7 @@ describe('PlannedWorkoutEntity', async () => {
     const planned_workout_ref01_markdef_up0 = { name: 'coercion_warnings', value: 'Mark01-planned_workout_ref01_' + setup.now }
     ;(planned_workout_ref01_data_up0 as any)[planned_workout_ref01_markdef_up0.name] = planned_workout_ref01_markdef_up0.value
 
-    const planned_workout_ref01_resdata_up0 = await planned_workout_ref01_ent.update(planned_workout_ref01_data_up0)
+    const planned_workout_ref01_resdata_up0 = (await planned_workout_ref01_ent.update(planned_workout_ref01_data_up0)).data()
     assert(null != planned_workout_ref01_resdata_up0)
 
     assert((planned_workout_ref01_resdata_up0 as any)[planned_workout_ref01_markdef_up0.name] === planned_workout_ref01_markdef_up0.value)

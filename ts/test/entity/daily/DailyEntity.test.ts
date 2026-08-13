@@ -62,7 +62,7 @@ describe('DailyEntity', async () => {
     // LOAD
     const daily_ref01_ent = client.Daily()
     const daily_ref01_match_dt0: any = {}
-    const daily_ref01_data_dt0 = await daily_ref01_ent.load(daily_ref01_match_dt0)
+    const daily_ref01_data_dt0 = (await daily_ref01_ent.load(daily_ref01_match_dt0)).data()
     assert(null != daily_ref01_data_dt0)
 
 

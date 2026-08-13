@@ -6,15 +6,15 @@ import re
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from terra_sdk.utility.voxgig_struct import voxgig_struct as vs
 from terra_sdk import TerraSDK
-from core.spec import TerraSpec
-from core.result import TerraResult
-from core.response import TerraResponse
-from core.operation import TerraOperation
-from core.error import TerraError
-from core import helpers
-from feature.base_feature import TerraBaseFeature
+from terra_sdk.core.spec import TerraSpec
+from terra_sdk.core.result import TerraResult
+from terra_sdk.core.response import TerraResponse
+from terra_sdk.core.operation import TerraOperation
+from terra_sdk.core.error import TerraError
+from terra_sdk.core import helpers
+from terra_sdk.feature.base_feature import TerraBaseFeature
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -468,6 +468,10 @@ class TestPrimaryUtility:
             return {"status": 200, "statusText": "OK"}, None
 
         live_client = TerraSDK({
+            # Concrete base: a live construction must satisfy any server
+            # variables a templated base URL declares; a literal base
+            # sidesteps the requirement.
+            "base": "http://localhost:8080",
             "system": {
                 "fetch": mock_fetch,
             },
@@ -490,6 +494,7 @@ class TestPrimaryUtility:
             return {}, None
 
         blocked_client = TerraSDK({
+            "base": "http://localhost:8080",
             "system": {
                 "fetch": mock_fetch,
             },

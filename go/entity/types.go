@@ -6,7 +6,11 @@
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/voxgig-sdk/terra-sdk/go/core"
+)
 
 // Activity is the typed data model for the activity entity.
 type Activity struct {
@@ -31,7 +35,7 @@ type Authentication struct {
 	AuthUrl *string `json:"auth_url,omitempty"`
 	ExpiresIn *int `json:"expires_in,omitempty"`
 	Language *string `json:"language,omitempty"`
-	Provider *string `json:"provider,omitempty"`
+	Providers *string `json:"providers,omitempty"`
 	ReferenceId *string `json:"reference_id,omitempty"`
 	SessionId *string `json:"session_id,omitempty"`
 	Status *string `json:"status,omitempty"`
@@ -47,7 +51,7 @@ type AuthenticationCreateData struct {
 	AuthUrl *string `json:"auth_url,omitempty"`
 	ExpiresIn *int `json:"expires_in,omitempty"`
 	Language *string `json:"language,omitempty"`
-	Provider *string `json:"provider,omitempty"`
+	Providers *string `json:"providers,omitempty"`
 	ReferenceId *string `json:"reference_id,omitempty"`
 	SessionId *string `json:"session_id,omitempty"`
 	Status *string `json:"status,omitempty"`
@@ -63,7 +67,7 @@ type AuthenticationRemoveMatch struct {
 	AuthUrl *string `json:"auth_url,omitempty"`
 	ExpiresIn *int `json:"expires_in,omitempty"`
 	Language *string `json:"language,omitempty"`
-	Provider *string `json:"provider,omitempty"`
+	Providers *string `json:"providers,omitempty"`
 	ReferenceId *string `json:"reference_id,omitempty"`
 	SessionId *string `json:"session_id,omitempty"`
 	Status *string `json:"status,omitempty"`
@@ -103,7 +107,7 @@ type Integration struct {
 	Name *string `json:"name,omitempty"`
 	Provider *string `json:"provider,omitempty"`
 	Setup *string `json:"setup,omitempty"`
-	Type *map[string]any `json:"type,omitempty"`
+	Types *map[string]any `json:"types,omitempty"`
 }
 
 // IntegrationListMatch is the typed request payload for Integration.ListTyped.
@@ -113,7 +117,7 @@ type IntegrationListMatch struct {
 	Name *string `json:"name,omitempty"`
 	Provider *string `json:"provider,omitempty"`
 	Setup *string `json:"setup,omitempty"`
-	Type *map[string]any `json:"type,omitempty"`
+	Types *map[string]any `json:"types,omitempty"`
 }
 
 // LabReport is the typed data model for the lab_report entity.
@@ -125,7 +129,7 @@ type LabReport struct {
 	InputBytes *int `json:"input_bytes,omitempty"`
 	LabName *string `json:"lab_name,omitempty"`
 	OutputBytes *int `json:"output_bytes,omitempty"`
-	Panel *[]any `json:"panel,omitempty"`
+	Panels *[]any `json:"panels,omitempty"`
 	PatientAgeAtCollection *int `json:"patient_age_at_collection,omitempty"`
 	PatientSex *string `json:"patient_sex,omitempty"`
 	ReferenceId *string `json:"reference_id,omitempty"`
@@ -157,7 +161,7 @@ type LabReportListMatch struct {
 	InputBytes *int `json:"input_bytes,omitempty"`
 	LabName *string `json:"lab_name,omitempty"`
 	OutputBytes *int `json:"output_bytes,omitempty"`
-	Panel *[]any `json:"panel,omitempty"`
+	Panels *[]any `json:"panels,omitempty"`
 	PatientAgeAtCollection *int `json:"patient_age_at_collection,omitempty"`
 	PatientSex *string `json:"patient_sex,omitempty"`
 	ReferenceId *string `json:"reference_id,omitempty"`
@@ -184,7 +188,7 @@ type LabReportCreateData struct {
 	InputBytes *int `json:"input_bytes,omitempty"`
 	LabName *string `json:"lab_name,omitempty"`
 	OutputBytes *int `json:"output_bytes,omitempty"`
-	Panel *[]any `json:"panel,omitempty"`
+	Panels *[]any `json:"panels,omitempty"`
 	PatientAgeAtCollection *int `json:"patient_age_at_collection,omitempty"`
 	PatientSex *string `json:"patient_sex,omitempty"`
 	ReferenceId *string `json:"reference_id,omitempty"`
@@ -253,7 +257,7 @@ type PlannedWorkout struct {
 	AthleteMetrics *any `json:"athlete_metrics,omitempty"`
 	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
 	CreatedAt *any `json:"created_at,omitempty"`
-	Detail *any `json:"detail,omitempty"`
+	Details *any `json:"details,omitempty"`
 	IsExternal *bool `json:"is_external,omitempty"`
 	LastUpdatedAt *any `json:"last_updated_at,omitempty"`
 	PlannedDate *string `json:"planned_date,omitempty"`
@@ -272,7 +276,7 @@ type PlannedWorkoutListMatch struct {
 	AthleteMetrics *any `json:"athlete_metrics,omitempty"`
 	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
 	CreatedAt *any `json:"created_at,omitempty"`
-	Detail *any `json:"detail,omitempty"`
+	Details *any `json:"details,omitempty"`
 	IsExternal *bool `json:"is_external,omitempty"`
 	LastUpdatedAt *any `json:"last_updated_at,omitempty"`
 	PlannedDate *string `json:"planned_date,omitempty"`
@@ -287,7 +291,7 @@ type PlannedWorkoutUpdateData struct {
 	AthleteMetrics *any `json:"athlete_metrics,omitempty"`
 	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
 	CreatedAt *any `json:"created_at,omitempty"`
-	Detail *any `json:"detail,omitempty"`
+	Details *any `json:"details,omitempty"`
 	IsExternal *bool `json:"is_external,omitempty"`
 	LastUpdatedAt *any `json:"last_updated_at,omitempty"`
 	PlannedDate *string `json:"planned_date,omitempty"`
@@ -395,12 +399,26 @@ func asMap(v any) map[string]any {
 	return out
 }
 
-// typedFrom decodes a runtime value (a map[string]any produced by the op
-// pipeline) into a typed model T via a JSON round-trip. On any error it
-// returns the zero value of T; the op's own (value, error) tuple carries the
-// real error.
+// entityData unwraps an entity to its data map.
+//
+// Operations resolve to the ENTITY, not the raw data (see AGENTS.md), and an
+// entity's fields are UNEXPORTED — marshalling one directly yields `{}`, so
+// every typed accessor would silently hand back a zero-valued struct. The
+// typed boundary therefore takes the data hop first.
+func entityData(v any) any {
+	if ent, ok := v.(core.Entity); ok {
+		return ent.Data()
+	}
+	return v
+}
+
+// typedFrom decodes a runtime value (an entity, or the map[string]any the op
+// pipeline produced) into a typed model T via a JSON round-trip. On any error
+// it returns the zero value of T; the op's own (value, error) tuple carries
+// the real error.
 func typedFrom[T any](v any) T {
 	var out T
+	v = entityData(v)
 	if v == nil {
 		return out
 	}
@@ -412,12 +430,20 @@ func typedFrom[T any](v any) T {
 	return out
 }
 
-// typedSliceFrom decodes a runtime list value ([]any of maps) into a typed
-// slice []T via a JSON round-trip, for list ops.
+// typedSliceFrom decodes a runtime list value into a typed slice []T via a
+// JSON round-trip, for list ops. `list` resolves to a slice of ENTITY
+// instances, so each element takes the data hop.
 func typedSliceFrom[T any](v any) []T {
 	var out []T
 	if v == nil {
 		return out
+	}
+	if list, ok := v.([]any); ok {
+		unwrapped := make([]any, 0, len(list))
+		for _, item := range list {
+			unwrapped = append(unwrapped, entityData(item))
+		}
+		v = unwrapped
 	}
 	b, err := json.Marshal(v)
 	if err != nil {

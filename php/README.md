@@ -37,7 +37,7 @@ $client = new TerraSDK([
 
 ```php
 try {
-    // load() returns the bare Activity record (throws on error).
+    // load() returns the ENTITY — call data_get() for the Activity record (throws on error).
     $activity = $client->Activity()->load();
     print_r($activity);
 } catch (\Throwable $err) {
@@ -125,7 +125,8 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = TerraSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $activity = $client->Activity()->load();
 print_r($activity);
 ```
@@ -245,7 +246,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -290,7 +291,7 @@ API path: `/athlete`
 | `auth_url` |  |
 | `expires_in` |  |
 | `language` |  |
-| `provider` |  |
+| `providers` |  |
 | `reference_id` |  |
 | `session_id` |  |
 | `status` |  |
@@ -338,7 +339,7 @@ API path: `/daily`
 | `name` |  |
 | `provider` |  |
 | `setup` |  |
-| `type` |  |
+| `types` |  |
 
 Operations: List.
 
@@ -355,7 +356,7 @@ API path: `/integrations/detailed`
 | `input_bytes` |  |
 | `lab_name` |  |
 | `output_bytes` |  |
-| `panel` |  |
+| `panels` |  |
 | `patient_age_at_collection` |  |
 | `patient_sex` |  |
 | `reference_id` |  |
@@ -426,7 +427,7 @@ API path: `/nutrition`
 | `athlete_metrics` |  |
 | `coercion_warnings` |  |
 | `created_at` |  |
-| `detail` |  |
+| `details` |  |
 | `is_external` |  |
 | `last_updated_at` |  |
 | `planned_date` |  |
@@ -499,7 +500,7 @@ Create an instance: `$activity = $client->Activity();`
 #### Example: Load
 
 ```php
-// load() returns the bare Activity record (throws on error).
+// load() returns the ENTITY — call data_get() for the Activity record (throws on error).
 $activity = $client->Activity()->load();
 ```
 
@@ -517,7 +518,7 @@ Create an instance: `$athlete = $client->Athlete();`
 #### Example: Load
 
 ```php
-// load() returns the bare Athlete record (throws on error).
+// load() returns the ENTITY — call data_get() for the Athlete record (throws on error).
 $athlete = $client->Athlete()->load();
 ```
 
@@ -542,7 +543,7 @@ Create an instance: `$authentication = $client->Authentication();`
 | `auth_url` | `string` |  |
 | `expires_in` | `int` |  |
 | `language` | `string` |  |
-| `provider` | `string` |  |
+| `providers` | `string` |  |
 | `reference_id` | `string` |  |
 | `session_id` | `string` |  |
 | `status` | `string` |  |
@@ -571,7 +572,7 @@ Create an instance: `$body = $client->Body();`
 #### Example: Load
 
 ```php
-// load() returns the bare Body record (throws on error).
+// load() returns the ENTITY — call data_get() for the Body record (throws on error).
 $body = $client->Body()->load();
 ```
 
@@ -607,7 +608,7 @@ Create an instance: `$daily = $client->Daily();`
 #### Example: Load
 
 ```php
-// load() returns the bare Daily record (throws on error).
+// load() returns the ENTITY — call data_get() for the Daily record (throws on error).
 $daily = $client->Daily()->load();
 ```
 
@@ -631,7 +632,7 @@ Create an instance: `$integration = $client->Integration();`
 | `name` | `string` |  |
 | `provider` | `string` |  |
 | `setup` | `string` |  |
-| `type` | `array` |  |
+| `types` | `array` |  |
 
 #### Example: List
 
@@ -665,7 +666,7 @@ Create an instance: `$lab_report = $client->LabReport();`
 | `input_bytes` | `int` |  |
 | `lab_name` | `string` |  |
 | `output_bytes` | `int` |  |
-| `panel` | `array` |  |
+| `panels` | `array` |  |
 | `patient_age_at_collection` | `int` |  |
 | `patient_sex` | `string` |  |
 | `reference_id` | `string` |  |
@@ -685,7 +686,7 @@ Create an instance: `$lab_report = $client->LabReport();`
 #### Example: Load
 
 ```php
-// load() returns the bare LabReport record (throws on error).
+// load() returns the ENTITY — call data_get() for the LabReport record (throws on error).
 $lab_report = $client->LabReport()->load(["id" => "lab_report_id"]);
 ```
 
@@ -773,7 +774,7 @@ Create an instance: `$menstruation = $client->Menstruation();`
 #### Example: Load
 
 ```php
-// load() returns the bare Menstruation record (throws on error).
+// load() returns the ENTITY — call data_get() for the Menstruation record (throws on error).
 $menstruation = $client->Menstruation()->load();
 ```
 
@@ -791,7 +792,7 @@ Create an instance: `$nutrition = $client->Nutrition();`
 #### Example: Load
 
 ```php
-// load() returns the bare Nutrition record (throws on error).
+// load() returns the ENTITY — call data_get() for the Nutrition record (throws on error).
 $nutrition = $client->Nutrition()->load();
 ```
 
@@ -815,7 +816,7 @@ Create an instance: `$planned_workout = $client->PlannedWorkout();`
 | `athlete_metrics` | `mixed` |  |
 | `coercion_warnings` | `string` |  |
 | `created_at` | `mixed` |  |
-| `detail` | `mixed` |  |
+| `details` | `mixed` |  |
 | `is_external` | `bool` |  |
 | `last_updated_at` | `mixed` |  |
 | `planned_date` | `string` |  |
@@ -826,7 +827,7 @@ Create an instance: `$planned_workout = $client->PlannedWorkout();`
 #### Example: Load
 
 ```php
-// load() returns the bare PlannedWorkout record (throws on error).
+// load() returns the ENTITY — call data_get() for the PlannedWorkout record (throws on error).
 $planned_workout = $client->PlannedWorkout()->load(["id" => 1]);
 ```
 
@@ -851,7 +852,7 @@ Create an instance: `$sleep = $client->Sleep();`
 #### Example: Load
 
 ```php
-// load() returns the bare Sleep record (throws on error).
+// load() returns the ENTITY — call data_get() for the Sleep record (throws on error).
 $sleep = $client->Sleep()->load();
 ```
 
@@ -869,7 +870,7 @@ Create an instance: `$user = $client->User();`
 #### Example: Load
 
 ```php
-// load() returns the bare User record (throws on error).
+// load() returns the ENTITY — call data_get() for the User record (throws on error).
 $user = $client->User()->load();
 ```
 
@@ -911,7 +912,7 @@ Create an instance: `$workout = $client->Workout();`
 #### Example: Load
 
 ```php
-// load() returns the bare Workout record (throws on error).
+// load() returns the ENTITY — call data_get() for the Workout record (throws on error).
 $workout = $client->Workout()->load(["id" => 1]);
 ```
 

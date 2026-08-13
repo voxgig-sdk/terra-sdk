@@ -37,7 +37,7 @@ class LabReportFileEntity extends TerraEntityBase<LabReportFile> {
 
 
 
-  async list(this: any, reqmatch?: LabReportFileListMatch, ctrl?: Control): Promise<LabReportFile[]> {
+  async list(this: any, reqmatch?: LabReportFileListMatch, ctrl?: Control): Promise<LabReportFileEntity[]> {
 
     const utility = this._utility
 

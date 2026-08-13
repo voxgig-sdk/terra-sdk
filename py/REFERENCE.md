@@ -243,7 +243,7 @@ authentication = client.Authentication()
 | `auth_url` | `str` | No |  |
 | `expires_in` | `int` | No |  |
 | `language` | `str` | No |  |
-| `provider` | `str` | No |  |
+| `providers` | `str` | No |  |
 | `reference_id` | `str` | No |  |
 | `session_id` | `str` | No |  |
 | `status` | `str` | No |  |
@@ -450,7 +450,7 @@ integration = client.Integration()
 | `name` | `str` | No |  |
 | `provider` | `str` | No |  |
 | `setup` | `str` | No |  |
-| `type` | `dict` | No |  |
+| `types` | `dict` | No |  |
 
 ### Operations
 
@@ -510,7 +510,7 @@ lab_report = client.LabReport()
 | `input_bytes` | `int` | No |  |
 | `lab_name` | `str` | No |  |
 | `output_bytes` | `int` | No |  |
-| `panel` | `list` | No |  |
+| `panels` | `list` | No |  |
 | `patient_age_at_collection` | `int` | No |  |
 | `patient_sex` | `str` | No |  |
 | `reference_id` | `str` | No |  |
@@ -619,7 +619,7 @@ lab_report_delivery = client.LabReportDelivery()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.LabReportDelivery().list()
+results = client.LabReportDelivery().list({"id": "example"})
 for lab_report_delivery in results:
     print(lab_report_delivery)
 ```
@@ -673,7 +673,7 @@ lab_report_file = client.LabReportFile()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.LabReportFile().list()
+results = client.LabReportFile().list({"id": "example"})
 for lab_report_file in results:
     print(lab_report_file)
 ```
@@ -810,7 +810,7 @@ planned_workout = client.PlannedWorkout()
 | `athlete_metrics` | `Any` | No |  |
 | `coercion_warnings` | `str` | No |  |
 | `created_at` | `Any` | No |  |
-| `detail` | `Any` | No |  |
+| `details` | `Any` | No |  |
 | `is_external` | `bool` | No |  |
 | `last_updated_at` | `Any` | No |  |
 | `planned_date` | `str` | No |  |
@@ -825,7 +825,7 @@ planned_workout = client.PlannedWorkout()
 | `athlete_metrics` | - | - | - |
 | `coercion_warnings` | - | - | - |
 | `created_at` | - | - | - |
-| `detail` | - | - | - |
+| `details` | - | - | - |
 | `is_external` | - | - | - |
 | `last_updated_at` | - | - | - |
 | `planned_date` | - | - | Yes |

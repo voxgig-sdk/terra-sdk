@@ -93,13 +93,14 @@ class TerraConfig
                       [
                         'active' => true,
                         'kind' => 'query',
-                        'name' => 'with_samples',
-                        'orig' => 'with_samples',
+                        'name' => 'with_sample',
+                        'orig' => 'with_sample',
                         'reqd' => false,
                         'type' => '`$BOOLEAN`',
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/activity',
                   'parts' => [
@@ -111,7 +112,7 @@ class TerraConfig
                       'start_date',
                       'to_webhook',
                       'user_id',
-                      'with_samples',
+                      'with_sample',
                     ],
                   ],
                   'transform' => [
@@ -158,6 +159,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/athlete',
                   'parts' => [
@@ -222,7 +224,7 @@ class TerraConfig
             ],
             [
               'active' => true,
-              'name' => 'provider',
+              'name' => 'providers',
               'req' => false,
               'type' => '`$STRING`',
               'index$' => 5,
@@ -302,6 +304,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/auth/authenticateUser',
                   'parts' => [
@@ -323,6 +326,7 @@ class TerraConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/auth/generateAuthToken',
                   'parts' => [
@@ -339,6 +343,7 @@ class TerraConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/auth/generateWidgetSession',
                   'parts' => [
@@ -373,6 +378,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/auth/deauthenticateUser',
                   'parts' => [
@@ -445,13 +451,14 @@ class TerraConfig
                       [
                         'active' => true,
                         'kind' => 'query',
-                        'name' => 'with_samples',
-                        'orig' => 'with_samples',
+                        'name' => 'with_sample',
+                        'orig' => 'with_sample',
                         'reqd' => false,
                         'type' => '`$BOOLEAN`',
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/body',
                   'parts' => [
@@ -463,7 +470,7 @@ class TerraConfig
                       'start_date',
                       'to_webhook',
                       'user_id',
-                      'with_samples',
+                      'with_sample',
                     ],
                   ],
                   'transform' => [
@@ -491,6 +498,7 @@ class TerraConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/bulkUserInfo',
                   'parts' => [
@@ -558,13 +566,14 @@ class TerraConfig
                       [
                         'active' => true,
                         'kind' => 'query',
-                        'name' => 'with_samples',
-                        'orig' => 'with_samples',
+                        'name' => 'with_sample',
+                        'orig' => 'with_sample',
                         'reqd' => false,
                         'type' => '`$BOOLEAN`',
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/daily',
                   'parts' => [
@@ -576,7 +585,7 @@ class TerraConfig
                       'start_date',
                       'to_webhook',
                       'user_id',
-                      'with_samples',
+                      'with_sample',
                     ],
                   ],
                   'transform' => [
@@ -632,7 +641,7 @@ class TerraConfig
             ],
             [
               'active' => true,
-              'name' => 'type',
+              'name' => 'types',
               'req' => false,
               'type' => '`$OBJECT`',
               'index$' => 5,
@@ -658,6 +667,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/integrations/detailed',
                   'parts' => [
@@ -736,7 +746,7 @@ class TerraConfig
             ],
             [
               'active' => true,
-              'name' => 'panel',
+              'name' => 'panels',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 7,
@@ -868,6 +878,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/lab-reports',
                   'parts' => [
@@ -945,6 +956,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/lab-reports',
                   'parts' => [
@@ -989,6 +1001,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/lab-reports/{session_id}',
                   'parts' => [
@@ -1034,6 +1047,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/lab-reports/{session_id}',
                   'parts' => [
@@ -1124,6 +1138,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/lab-reports/{session_id}/deliveries',
                   'parts' => [
@@ -1194,6 +1209,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/lab-reports/{session_id}/files',
                   'parts' => [
@@ -1272,13 +1288,14 @@ class TerraConfig
                       [
                         'active' => true,
                         'kind' => 'query',
-                        'name' => 'with_samples',
-                        'orig' => 'with_samples',
+                        'name' => 'with_sample',
+                        'orig' => 'with_sample',
                         'reqd' => false,
                         'type' => '`$BOOLEAN`',
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/menstruation',
                   'parts' => [
@@ -1290,7 +1307,7 @@ class TerraConfig
                       'start_date',
                       'to_webhook',
                       'user_id',
-                      'with_samples',
+                      'with_sample',
                     ],
                   ],
                   'transform' => [
@@ -1354,13 +1371,14 @@ class TerraConfig
                       [
                         'active' => true,
                         'kind' => 'query',
-                        'name' => 'with_samples',
-                        'orig' => 'with_samples',
+                        'name' => 'with_sample',
+                        'orig' => 'with_sample',
                         'reqd' => false,
                         'type' => '`$BOOLEAN`',
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/nutrition',
                   'parts' => [
@@ -1372,7 +1390,7 @@ class TerraConfig
                       'start_date',
                       'to_webhook',
                       'user_id',
-                      'with_samples',
+                      'with_sample',
                     ],
                   ],
                   'transform' => [
@@ -1414,7 +1432,7 @@ class TerraConfig
             ],
             [
               'active' => true,
-              'name' => 'detail',
+              'name' => 'details',
               'req' => false,
               'type' => '`$ANY`',
               'index$' => 3,
@@ -1504,6 +1522,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/plannedWorkouts',
                   'parts' => [
@@ -1554,6 +1573,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/plannedWorkouts/{planned_workout_id}',
                   'parts' => [
@@ -1609,6 +1629,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/plannedWorkouts/{planned_workout_id}',
                   'parts' => [
@@ -1687,13 +1708,14 @@ class TerraConfig
                       [
                         'active' => true,
                         'kind' => 'query',
-                        'name' => 'with_samples',
-                        'orig' => 'with_samples',
+                        'name' => 'with_sample',
+                        'orig' => 'with_sample',
                         'reqd' => false,
                         'type' => '`$BOOLEAN`',
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/sleep',
                   'parts' => [
@@ -1705,7 +1727,7 @@ class TerraConfig
                       'start_date',
                       'to_webhook',
                       'user_id',
-                      'with_samples',
+                      'with_sample',
                     ],
                   ],
                   'transform' => [
@@ -1754,6 +1776,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/subscriptions',
                   'parts' => [
@@ -1793,6 +1816,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/userInfo',
                   'parts' => [
@@ -1964,6 +1988,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/workouts/{workout_id}/plan',
                   'parts' => [
@@ -1992,6 +2017,7 @@ class TerraConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/workouts',
                   'parts' => [
@@ -2014,6 +2040,7 @@ class TerraConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/workouts',
                   'parts' => [
@@ -2048,6 +2075,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/workouts/{workout_id}',
                   'parts' => [
@@ -2102,6 +2130,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/plannedWorkouts/{planned_workout_id}',
                   'parts' => [
@@ -2135,6 +2164,7 @@ class TerraConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/workouts/{workout_id}',
                   'parts' => [

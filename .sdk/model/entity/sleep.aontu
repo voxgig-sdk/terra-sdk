@@ -42,8 +42,8 @@ main: kit: entity: sleep: {
               }
               {
                 kind: "query"
-                name: "with_samples"
-                orig: "with_samples"
+                name: "with_sample"
+                orig: "with_sample"
                 reqd: false
                 type: "`$BOOLEAN`"
               }
@@ -60,7 +60,7 @@ main: kit: entity: sleep: {
               "start_date"
               "to_webhook"
               "user_id"
-              "with_samples"
+              "with_sample"
             ]
           }
           transform: {

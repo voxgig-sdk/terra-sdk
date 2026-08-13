@@ -44,7 +44,7 @@ describe('SleepEntity', async () => {
     // LOAD
     const sleep_ref01_ent = client.Sleep()
     const sleep_ref01_match_dt0 = {}
-    const sleep_ref01_data_dt0 = await sleep_ref01_ent.load(sleep_ref01_match_dt0)
+    const sleep_ref01_data_dt0 = (await sleep_ref01_ent.load(sleep_ref01_match_dt0)).data()
     assert(null != sleep_ref01_data_dt0)
 
 

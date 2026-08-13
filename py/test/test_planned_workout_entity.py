@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from terra_sdk.utility.voxgig_struct import voxgig_struct as vs
 from terra_sdk import TerraSDK
-from core import helpers
+from terra_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -42,7 +42,7 @@ class TestPlannedWorkoutEntity:
         assert len(seen) == 3
 
         # Inbound: streaming active -> yields each item from the feature.
-        from config import make_config
+        from terra_sdk.config import make_config
         cfg = make_config()
         if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
             sdk = TerraSDK.test(
@@ -95,7 +95,7 @@ class TestPlannedWorkoutEntity:
         planned_workout_ref01_markdef_up0_value = "Mark01-planned_workout_ref01_" + str(setup["now"])
         planned_workout_ref01_data_up0_up[planned_workout_ref01_markdef_up0_name] = planned_workout_ref01_markdef_up0_value
 
-        planned_workout_ref01_resdata_up0 = helpers.to_map(planned_workout_ref01_ent.update(planned_workout_ref01_data_up0_up, None))
+        planned_workout_ref01_resdata_up0 = helpers.to_map(runner.entity_data(planned_workout_ref01_ent.update(planned_workout_ref01_data_up0_up, None)))
         assert planned_workout_ref01_resdata_up0 is not None
         assert planned_workout_ref01_resdata_up0[planned_workout_ref01_markdef_up0_name] == planned_workout_ref01_markdef_up0_value
 

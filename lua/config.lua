@@ -87,13 +87,14 @@ local function make_config()
                     {
                       ["active"] = true,
                       ["kind"] = "query",
-                      ["name"] = "with_samples",
-                      ["orig"] = "with_samples",
+                      ["name"] = "with_sample",
+                      ["orig"] = "with_sample",
                       ["reqd"] = false,
                       ["type"] = "`$BOOLEAN`",
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/activity",
                 ["parts"] = {
@@ -105,7 +106,7 @@ local function make_config()
                     "start_date",
                     "to_webhook",
                     "user_id",
-                    "with_samples",
+                    "with_sample",
                   },
                 },
                 ["transform"] = {
@@ -152,6 +153,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/athlete",
                 ["parts"] = {
@@ -216,7 +218,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "provider",
+            ["name"] = "providers",
             ["req"] = false,
             ["type"] = "`$STRING`",
             ["index$"] = 5,
@@ -296,6 +298,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/auth/authenticateUser",
                 ["parts"] = {
@@ -317,6 +320,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/auth/generateAuthToken",
                 ["parts"] = {
@@ -333,6 +337,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/auth/generateWidgetSession",
                 ["parts"] = {
@@ -367,6 +372,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/auth/deauthenticateUser",
                 ["parts"] = {
@@ -439,13 +445,14 @@ local function make_config()
                     {
                       ["active"] = true,
                       ["kind"] = "query",
-                      ["name"] = "with_samples",
-                      ["orig"] = "with_samples",
+                      ["name"] = "with_sample",
+                      ["orig"] = "with_sample",
                       ["reqd"] = false,
                       ["type"] = "`$BOOLEAN`",
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/body",
                 ["parts"] = {
@@ -457,7 +464,7 @@ local function make_config()
                     "start_date",
                     "to_webhook",
                     "user_id",
-                    "with_samples",
+                    "with_sample",
                   },
                 },
                 ["transform"] = {
@@ -485,6 +492,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/bulkUserInfo",
                 ["parts"] = {
@@ -552,13 +560,14 @@ local function make_config()
                     {
                       ["active"] = true,
                       ["kind"] = "query",
-                      ["name"] = "with_samples",
-                      ["orig"] = "with_samples",
+                      ["name"] = "with_sample",
+                      ["orig"] = "with_sample",
                       ["reqd"] = false,
                       ["type"] = "`$BOOLEAN`",
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/daily",
                 ["parts"] = {
@@ -570,7 +579,7 @@ local function make_config()
                     "start_date",
                     "to_webhook",
                     "user_id",
-                    "with_samples",
+                    "with_sample",
                   },
                 },
                 ["transform"] = {
@@ -626,7 +635,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "type",
+            ["name"] = "types",
             ["req"] = false,
             ["type"] = "`$OBJECT`",
             ["index$"] = 5,
@@ -652,6 +661,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/integrations/detailed",
                 ["parts"] = {
@@ -730,7 +740,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "panel",
+            ["name"] = "panels",
             ["req"] = false,
             ["type"] = "`$ARRAY`",
             ["index$"] = 7,
@@ -862,6 +872,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/lab-reports",
                 ["parts"] = {
@@ -939,6 +950,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/lab-reports",
                 ["parts"] = {
@@ -983,6 +995,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/lab-reports/{session_id}",
                 ["parts"] = {
@@ -1028,6 +1041,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/lab-reports/{session_id}",
                 ["parts"] = {
@@ -1118,6 +1132,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/lab-reports/{session_id}/deliveries",
                 ["parts"] = {
@@ -1188,6 +1203,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/lab-reports/{session_id}/files",
                 ["parts"] = {
@@ -1266,13 +1282,14 @@ local function make_config()
                     {
                       ["active"] = true,
                       ["kind"] = "query",
-                      ["name"] = "with_samples",
-                      ["orig"] = "with_samples",
+                      ["name"] = "with_sample",
+                      ["orig"] = "with_sample",
                       ["reqd"] = false,
                       ["type"] = "`$BOOLEAN`",
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/menstruation",
                 ["parts"] = {
@@ -1284,7 +1301,7 @@ local function make_config()
                     "start_date",
                     "to_webhook",
                     "user_id",
-                    "with_samples",
+                    "with_sample",
                   },
                 },
                 ["transform"] = {
@@ -1348,13 +1365,14 @@ local function make_config()
                     {
                       ["active"] = true,
                       ["kind"] = "query",
-                      ["name"] = "with_samples",
-                      ["orig"] = "with_samples",
+                      ["name"] = "with_sample",
+                      ["orig"] = "with_sample",
                       ["reqd"] = false,
                       ["type"] = "`$BOOLEAN`",
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/nutrition",
                 ["parts"] = {
@@ -1366,7 +1384,7 @@ local function make_config()
                     "start_date",
                     "to_webhook",
                     "user_id",
-                    "with_samples",
+                    "with_sample",
                   },
                 },
                 ["transform"] = {
@@ -1408,7 +1426,7 @@ local function make_config()
           },
           {
             ["active"] = true,
-            ["name"] = "detail",
+            ["name"] = "details",
             ["req"] = false,
             ["type"] = "`$ANY`",
             ["index$"] = 3,
@@ -1498,6 +1516,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/plannedWorkouts",
                 ["parts"] = {
@@ -1548,6 +1567,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/plannedWorkouts/{planned_workout_id}",
                 ["parts"] = {
@@ -1603,6 +1623,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "PATCH",
                 ["orig"] = "/plannedWorkouts/{planned_workout_id}",
                 ["parts"] = {
@@ -1681,13 +1702,14 @@ local function make_config()
                     {
                       ["active"] = true,
                       ["kind"] = "query",
-                      ["name"] = "with_samples",
-                      ["orig"] = "with_samples",
+                      ["name"] = "with_sample",
+                      ["orig"] = "with_sample",
                       ["reqd"] = false,
                       ["type"] = "`$BOOLEAN`",
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/sleep",
                 ["parts"] = {
@@ -1699,7 +1721,7 @@ local function make_config()
                     "start_date",
                     "to_webhook",
                     "user_id",
-                    "with_samples",
+                    "with_sample",
                   },
                 },
                 ["transform"] = {
@@ -1748,6 +1770,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/subscriptions",
                 ["parts"] = {
@@ -1787,6 +1810,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/userInfo",
                 ["parts"] = {
@@ -1958,6 +1982,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/workouts/{workout_id}/plan",
                 ["parts"] = {
@@ -1986,6 +2011,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/workouts",
                 ["parts"] = {
@@ -2008,6 +2034,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/workouts",
                 ["parts"] = {
@@ -2042,6 +2069,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/workouts/{workout_id}",
                 ["parts"] = {
@@ -2096,6 +2124,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/plannedWorkouts/{planned_workout_id}",
                 ["parts"] = {
@@ -2129,6 +2158,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "DELETE",
                 ["orig"] = "/workouts/{workout_id}",
                 ["parts"] = {

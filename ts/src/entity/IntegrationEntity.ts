@@ -37,7 +37,7 @@ class IntegrationEntity extends TerraEntityBase<Integration> {
 
 
 
-  async list(this: any, reqmatch?: IntegrationListMatch, ctrl?: Control): Promise<Integration[]> {
+  async list(this: any, reqmatch?: IntegrationListMatch, ctrl?: Control): Promise<IntegrationEntity[]> {
 
     const utility = this._utility
 

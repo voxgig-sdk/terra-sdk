@@ -41,7 +41,7 @@ describe("AuthenticationEntity", function()
 
     local authentication_ref01_data_result, err = authentication_ref01_ent:create(authentication_ref01_data, nil)
     assert.is_nil(err)
-    authentication_ref01_data = helpers.to_map(authentication_ref01_data_result)
+    authentication_ref01_data = helpers.to_map(type(authentication_ref01_data_result) == 'table' and authentication_ref01_data_result.data_get and authentication_ref01_data_result:data_get() or authentication_ref01_data_result)
     assert.is_not_nil(authentication_ref01_data)
 
 

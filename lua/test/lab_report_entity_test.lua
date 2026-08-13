@@ -82,7 +82,7 @@ describe("LabReportEntity", function()
 
     local lab_report_ref01_data_result, err = lab_report_ref01_ent:create(lab_report_ref01_data, nil)
     assert.is_nil(err)
-    lab_report_ref01_data = helpers.to_map(lab_report_ref01_data_result)
+    lab_report_ref01_data = helpers.to_map(type(lab_report_ref01_data_result) == 'table' and lab_report_ref01_data_result.data_get and lab_report_ref01_data_result:data_get() or lab_report_ref01_data_result)
     assert.is_not_nil(lab_report_ref01_data)
 
     -- LIST

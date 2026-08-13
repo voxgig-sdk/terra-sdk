@@ -44,7 +44,7 @@ describe('AuthenticationEntity', async () => {
     const authentication_ref01_ent = client.Authentication()
     let authentication_ref01_data = setup.data.new.authentication['authentication_ref01']
 
-    authentication_ref01_data = await authentication_ref01_ent.create(authentication_ref01_data)
+    authentication_ref01_data = (await authentication_ref01_ent.create(authentication_ref01_data)).data()
     assert(null != authentication_ref01_data)
 
 

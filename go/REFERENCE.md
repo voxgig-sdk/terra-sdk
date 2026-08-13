@@ -254,7 +254,7 @@ fmt.Println(authentication.GetName()) // "authentication"
 | `auth_url` | `string` | No |  |
 | `expires_in` | `int` | No |  |
 | `language` | `string` | No |  |
-| `provider` | `string` | No |  |
+| `providers` | `string` | No |  |
 | `reference_id` | `string` | No |  |
 | `session_id` | `string` | No |  |
 | `status` | `string` | No |  |
@@ -465,7 +465,7 @@ fmt.Println(integration.GetName()) // "integration"
 | `name` | `string` | No |  |
 | `provider` | `string` | No |  |
 | `setup` | `string` | No |  |
-| `type` | `map[string]any` | No |  |
+| `types` | `map[string]any` | No |  |
 
 ### Operations
 
@@ -523,7 +523,7 @@ fmt.Println(labReport.GetName()) // "lab_report"
 | `input_bytes` | `int` | No |  |
 | `lab_name` | `string` | No |  |
 | `output_bytes` | `int` | No |  |
-| `panel` | `[]any` | No |  |
+| `panels` | `[]any` | No |  |
 | `patient_age_at_collection` | `int` | No |  |
 | `patient_sex` | `string` | No |  |
 | `reference_id` | `string` | No |  |
@@ -829,7 +829,7 @@ fmt.Println(plannedWorkout.GetName()) // "planned_workout"
 | `athlete_metrics` | `any` | No |  |
 | `coercion_warnings` | `string` | No |  |
 | `created_at` | `any` | No |  |
-| `detail` | `any` | No |  |
+| `details` | `any` | No |  |
 | `is_external` | `bool` | No |  |
 | `last_updated_at` | `any` | No |  |
 | `planned_date` | `string` | No |  |
@@ -844,7 +844,7 @@ fmt.Println(plannedWorkout.GetName()) // "planned_workout"
 | `athlete_metrics` | - | - | - |
 | `coercion_warnings` | - | - | - |
 | `created_at` | - | - | - |
-| `detail` | - | - | - |
+| `details` | - | - | - |
 | `is_external` | - | - | - |
 | `last_updated_at` | - | - | - |
 | `planned_date` | - | - | Yes |

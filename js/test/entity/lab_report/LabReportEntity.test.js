@@ -44,19 +44,19 @@ describe('LabReportEntity', async () => {
     const lab_report_ref01_ent = client.LabReport()
     let lab_report_ref01_data = setup.data.new.lab_report['lab_report_ref01']
 
-    lab_report_ref01_data = await lab_report_ref01_ent.create(lab_report_ref01_data)
+    lab_report_ref01_data = (await lab_report_ref01_ent.create(lab_report_ref01_data)).data()
     assert(null != lab_report_ref01_data)
 
 
     // LIST
     const lab_report_ref01_match = {}
 
-    const lab_report_ref01_list = await lab_report_ref01_ent.list(lab_report_ref01_match)
+    const lab_report_ref01_list = (await lab_report_ref01_ent.list(lab_report_ref01_match)).map((e) => e.data())
 
 
     // LOAD
     const lab_report_ref01_match_dt0 = {}
-    const lab_report_ref01_data_dt0 = await lab_report_ref01_ent.load(lab_report_ref01_match_dt0)
+    const lab_report_ref01_data_dt0 = (await lab_report_ref01_ent.load(lab_report_ref01_match_dt0)).data()
     assert(null != lab_report_ref01_data_dt0)
 
 
@@ -64,7 +64,7 @@ describe('LabReportEntity', async () => {
     // LIST
     const lab_report_ref01_match_rt0 = {}
 
-    const lab_report_ref01_list_rt0 = await lab_report_ref01_ent.list(lab_report_ref01_match_rt0)
+    const lab_report_ref01_list_rt0 = (await lab_report_ref01_ent.list(lab_report_ref01_match_rt0)).map((e) => e.data())
 
 
   })

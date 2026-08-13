@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from terra_sdk.utility.voxgig_struct import voxgig_struct as vs
 from terra_sdk import TerraSDK
-from core import helpers
+from terra_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,7 +44,7 @@ class TestBulkUserInfoEntity:
         bulk_user_info_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.bulk_user_info"), "bulk_user_info_ref01"))
 
-        bulk_user_info_ref01_data = helpers.to_map(bulk_user_info_ref01_ent.create(bulk_user_info_ref01_data, None))
+        bulk_user_info_ref01_data = helpers.to_map(runner.entity_data(bulk_user_info_ref01_ent.create(bulk_user_info_ref01_data, None)))
         assert bulk_user_info_ref01_data is not None
 
 

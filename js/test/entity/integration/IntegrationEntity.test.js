@@ -45,7 +45,7 @@ describe('IntegrationEntity', async () => {
     const integration_ref01_ent = client.Integration()
     const integration_ref01_match = {}
 
-    const integration_ref01_list = await integration_ref01_ent.list(integration_ref01_match)
+    const integration_ref01_list = (await integration_ref01_ent.list(integration_ref01_match)).map((e) => e.data())
 
 
   })

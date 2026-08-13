@@ -16,11 +16,11 @@
 import pytest
 
 from projectname_sdk import TerraSDK
-from core.error import TerraError
-from core.result import TerraResult
-from core.response import TerraResponse
-from core.spec import TerraSpec
-from feature.base_feature import TerraBaseFeature
+from projectname_sdk.core.error import TerraError
+from projectname_sdk.core.result import TerraResult
+from projectname_sdk.core.response import TerraResponse
+from projectname_sdk.core.spec import TerraSpec
+from projectname_sdk.feature.base_feature import TerraBaseFeature
 
 
 def _client():

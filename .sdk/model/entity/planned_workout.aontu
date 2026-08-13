@@ -21,7 +21,7 @@ main: kit: entity: planned_workout: {
       type: "`$ANY`"
     }
     {
-      name: "detail"
+      name: "details"
       req: false
       type: "`$ANY`"
     }

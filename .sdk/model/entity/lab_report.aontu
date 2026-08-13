@@ -41,7 +41,7 @@ main: kit: entity: lab_report: {
       type: "`$INTEGER`"
     }
     {
-      name: "panel"
+      name: "panels"
       req: false
       type: "`$ARRAY`"
     }

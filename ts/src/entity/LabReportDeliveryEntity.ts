@@ -37,7 +37,7 @@ class LabReportDeliveryEntity extends TerraEntityBase<LabReportDelivery> {
 
 
 
-  async list(this: any, reqmatch?: LabReportDeliveryListMatch, ctrl?: Control): Promise<LabReportDelivery[]> {
+  async list(this: any, reqmatch?: LabReportDeliveryListMatch, ctrl?: Control): Promise<LabReportDeliveryEntity[]> {
 
     const utility = this._utility
 

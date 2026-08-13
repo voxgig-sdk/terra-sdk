@@ -87,13 +87,14 @@ func MakeConfig() map[string]any {
 										map[string]any{
 											"active": true,
 											"kind": "query",
-											"name": "with_samples",
-											"orig": "with_samples",
+											"name": "with_sample",
+											"orig": "with_sample",
 											"reqd": false,
 											"type": "`$BOOLEAN`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/activity",
 								"parts": []any{
@@ -105,7 +106,7 @@ func MakeConfig() map[string]any {
 										"start_date",
 										"to_webhook",
 										"user_id",
-										"with_samples",
+										"with_sample",
 									},
 								},
 								"transform": map[string]any{
@@ -115,7 +116,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -152,6 +152,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/athlete",
 								"parts": []any{
@@ -170,7 +171,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -216,7 +216,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "provider",
+						"name": "providers",
 						"req": false,
 						"type": "`$STRING`",
 						"index$": 5,
@@ -296,6 +296,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/auth/authenticateUser",
 								"parts": []any{
@@ -317,6 +318,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/auth/generateAuthToken",
 								"parts": []any{
@@ -333,6 +335,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/auth/generateWidgetSession",
 								"parts": []any{
@@ -347,7 +350,6 @@ func MakeConfig() map[string]any {
 								"index$": 2,
 							},
 						},
-						"key$": "create",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -367,6 +369,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/auth/deauthenticateUser",
 								"parts": []any{
@@ -385,7 +388,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -439,13 +441,14 @@ func MakeConfig() map[string]any {
 										map[string]any{
 											"active": true,
 											"kind": "query",
-											"name": "with_samples",
-											"orig": "with_samples",
+											"name": "with_sample",
+											"orig": "with_sample",
 											"reqd": false,
 											"type": "`$BOOLEAN`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/body",
 								"parts": []any{
@@ -457,7 +460,7 @@ func MakeConfig() map[string]any {
 										"start_date",
 										"to_webhook",
 										"user_id",
-										"with_samples",
+										"with_sample",
 									},
 								},
 								"transform": map[string]any{
@@ -467,7 +470,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -485,6 +487,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/bulkUserInfo",
 								"parts": []any{
@@ -498,7 +501,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 				},
 				"relations": map[string]any{
@@ -552,13 +554,14 @@ func MakeConfig() map[string]any {
 										map[string]any{
 											"active": true,
 											"kind": "query",
-											"name": "with_samples",
-											"orig": "with_samples",
+											"name": "with_sample",
+											"orig": "with_sample",
 											"reqd": false,
 											"type": "`$BOOLEAN`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/daily",
 								"parts": []any{
@@ -570,7 +573,7 @@ func MakeConfig() map[string]any {
 										"start_date",
 										"to_webhook",
 										"user_id",
-										"with_samples",
+										"with_sample",
 									},
 								},
 								"transform": map[string]any{
@@ -580,7 +583,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -626,7 +628,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "type",
+						"name": "types",
 						"req": false,
 						"type": "`$OBJECT`",
 						"index$": 5,
@@ -652,6 +654,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/integrations/detailed",
 								"parts": []any{
@@ -670,7 +673,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -730,7 +732,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "panel",
+						"name": "panels",
 						"req": false,
 						"type": "`$ARRAY`",
 						"index$": 7,
@@ -862,6 +864,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/lab-reports",
 								"parts": []any{
@@ -879,7 +882,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "create",
 					},
 					"list": map[string]any{
 						"input": "data",
@@ -939,6 +941,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/lab-reports",
 								"parts": []any{
@@ -961,7 +964,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -983,6 +985,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/lab-reports/{session_id}",
 								"parts": []any{
@@ -1006,7 +1009,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -1028,6 +1030,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/lab-reports/{session_id}",
 								"parts": []any{
@@ -1051,7 +1054,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{
@@ -1118,6 +1120,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/lab-reports/{session_id}/deliveries",
 								"parts": []any{
@@ -1142,7 +1145,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -1188,6 +1190,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/lab-reports/{session_id}/files",
 								"parts": []any{
@@ -1212,7 +1215,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 				},
 				"relations": map[string]any{
@@ -1266,13 +1268,14 @@ func MakeConfig() map[string]any {
 										map[string]any{
 											"active": true,
 											"kind": "query",
-											"name": "with_samples",
-											"orig": "with_samples",
+											"name": "with_sample",
+											"orig": "with_sample",
 											"reqd": false,
 											"type": "`$BOOLEAN`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/menstruation",
 								"parts": []any{
@@ -1284,7 +1287,7 @@ func MakeConfig() map[string]any {
 										"start_date",
 										"to_webhook",
 										"user_id",
-										"with_samples",
+										"with_sample",
 									},
 								},
 								"transform": map[string]any{
@@ -1294,7 +1297,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1348,13 +1350,14 @@ func MakeConfig() map[string]any {
 										map[string]any{
 											"active": true,
 											"kind": "query",
-											"name": "with_samples",
-											"orig": "with_samples",
+											"name": "with_sample",
+											"orig": "with_sample",
 											"reqd": false,
 											"type": "`$BOOLEAN`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/nutrition",
 								"parts": []any{
@@ -1366,7 +1369,7 @@ func MakeConfig() map[string]any {
 										"start_date",
 										"to_webhook",
 										"user_id",
-										"with_samples",
+										"with_sample",
 									},
 								},
 								"transform": map[string]any{
@@ -1376,7 +1379,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1408,7 +1410,7 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"active": true,
-						"name": "detail",
+						"name": "details",
 						"req": false,
 						"type": "`$ANY`",
 						"index$": 3,
@@ -1498,6 +1500,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/plannedWorkouts",
 								"parts": []any{
@@ -1517,7 +1520,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -1548,6 +1550,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/plannedWorkouts/{planned_workout_id}",
 								"parts": []any{
@@ -1572,7 +1575,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"update": map[string]any{
 						"input": "data",
@@ -1603,6 +1605,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "PATCH",
 								"orig": "/plannedWorkouts/{planned_workout_id}",
 								"parts": []any{
@@ -1627,7 +1630,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "update",
 					},
 				},
 				"relations": map[string]any{
@@ -1681,13 +1683,14 @@ func MakeConfig() map[string]any {
 										map[string]any{
 											"active": true,
 											"kind": "query",
-											"name": "with_samples",
-											"orig": "with_samples",
+											"name": "with_sample",
+											"orig": "with_sample",
 											"reqd": false,
 											"type": "`$BOOLEAN`",
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/sleep",
 								"parts": []any{
@@ -1699,7 +1702,7 @@ func MakeConfig() map[string]any {
 										"start_date",
 										"to_webhook",
 										"user_id",
-										"with_samples",
+										"with_sample",
 									},
 								},
 								"transform": map[string]any{
@@ -1709,7 +1712,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1748,6 +1750,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/subscriptions",
 								"parts": []any{
@@ -1787,6 +1790,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/userInfo",
 								"parts": []any{
@@ -1805,7 +1809,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "load",
 					},
 				},
 				"relations": map[string]any{
@@ -1957,6 +1960,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/workouts/{workout_id}/plan",
 								"parts": []any{
@@ -1985,6 +1989,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "POST",
 								"orig": "/workouts",
 								"parts": []any{
@@ -1998,7 +2003,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "create",
 					},
 					"list": map[string]any{
 						"input": "data",
@@ -2007,6 +2011,7 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"active": true,
 								"args": map[string]any{},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/workouts",
 								"parts": []any{
@@ -2020,7 +2025,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "list",
 					},
 					"load": map[string]any{
 						"input": "data",
@@ -2041,6 +2045,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "GET",
 								"orig": "/workouts/{workout_id}",
 								"parts": []any{
@@ -2064,7 +2069,6 @@ func MakeConfig() map[string]any {
 								"index$": 0,
 							},
 						},
-						"key$": "load",
 					},
 					"remove": map[string]any{
 						"input": "data",
@@ -2095,6 +2099,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/plannedWorkouts/{planned_workout_id}",
 								"parts": []any{
@@ -2128,6 +2133,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
+								"kind": "http",
 								"method": "DELETE",
 								"orig": "/workouts/{workout_id}",
 								"parts": []any{
@@ -2151,7 +2157,6 @@ func MakeConfig() map[string]any {
 								"index$": 1,
 							},
 						},
-						"key$": "remove",
 					},
 				},
 				"relations": map[string]any{

@@ -101,7 +101,7 @@ describe("PlannedWorkoutEntity", function()
 
     local planned_workout_ref01_resdata_up0_result, err = planned_workout_ref01_ent:update(planned_workout_ref01_data_up0_up, nil)
     assert.is_nil(err)
-    local planned_workout_ref01_resdata_up0 = helpers.to_map(planned_workout_ref01_resdata_up0_result)
+    local planned_workout_ref01_resdata_up0 = helpers.to_map(type(planned_workout_ref01_resdata_up0_result) == 'table' and planned_workout_ref01_resdata_up0_result.data_get and planned_workout_ref01_resdata_up0_result:data_get() or planned_workout_ref01_resdata_up0_result)
     assert.is_not_nil(planned_workout_ref01_resdata_up0)
     assert.are.equal(planned_workout_ref01_resdata_up0[planned_workout_ref01_markdef_up0_name], planned_workout_ref01_markdef_up0_value)
 

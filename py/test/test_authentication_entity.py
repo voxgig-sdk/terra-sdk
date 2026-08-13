@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from terra_sdk.utility.voxgig_struct import voxgig_struct as vs
 from terra_sdk import TerraSDK
-from core import helpers
+from terra_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -44,7 +44,7 @@ class TestAuthenticationEntity:
         authentication_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.authentication"), "authentication_ref01"))
 
-        authentication_ref01_data = helpers.to_map(authentication_ref01_ent.create(authentication_ref01_data, None))
+        authentication_ref01_data = helpers.to_map(runner.entity_data(authentication_ref01_ent.create(authentication_ref01_data, None)))
         assert authentication_ref01_data is not None
 
 

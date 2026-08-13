@@ -62,7 +62,7 @@ describe('BulkUserInfoEntity', async () => {
     const bulk_user_info_ref01_ent = client.BulkUserInfo()
     let bulk_user_info_ref01_data = setup.data.new.bulk_user_info['bulk_user_info_ref01']
 
-    bulk_user_info_ref01_data = await bulk_user_info_ref01_ent.create(bulk_user_info_ref01_data)
+    bulk_user_info_ref01_data = (await bulk_user_info_ref01_ent.create(bulk_user_info_ref01_data)).data()
     assert(null != bulk_user_info_ref01_data)
 
 

@@ -44,7 +44,7 @@ class BulkUserInfoEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.bulk_user_info"), "bulk_user_info_ref01"));
 
         $bulk_user_info_ref01_data_result = $bulk_user_info_ref01_ent->create($bulk_user_info_ref01_data, null);
-        $bulk_user_info_ref01_data = Helpers::to_map($bulk_user_info_ref01_data_result);
+        $bulk_user_info_ref01_data = Helpers::to_map(is_object($bulk_user_info_ref01_data_result) && method_exists($bulk_user_info_ref01_data_result, 'data_get') ? $bulk_user_info_ref01_data_result->data_get() : $bulk_user_info_ref01_data_result);
         $this->assertNotNull($bulk_user_info_ref01_data);
 
     }

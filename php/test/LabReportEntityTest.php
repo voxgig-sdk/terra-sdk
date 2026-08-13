@@ -83,7 +83,7 @@ class LabReportEntityTest extends TestCase
             Vs::getpath($setup["data"], "new.lab_report"), "lab_report_ref01"));
 
         $lab_report_ref01_data_result = $lab_report_ref01_ent->create($lab_report_ref01_data, null);
-        $lab_report_ref01_data = Helpers::to_map($lab_report_ref01_data_result);
+        $lab_report_ref01_data = Helpers::to_map(is_object($lab_report_ref01_data_result) && method_exists($lab_report_ref01_data_result, 'data_get') ? $lab_report_ref01_data_result->data_get() : $lab_report_ref01_data_result);
         $this->assertNotNull($lab_report_ref01_data);
 
         // LIST

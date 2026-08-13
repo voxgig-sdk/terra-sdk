@@ -20,7 +20,7 @@
 ---@field auth_url? string
 ---@field expires_in? number
 ---@field language? string
----@field provider? string
+---@field providers? string
 ---@field reference_id? string
 ---@field session_id? string
 ---@field status? string
@@ -34,7 +34,7 @@
 ---@field auth_url? string
 ---@field expires_in? number
 ---@field language? string
----@field provider? string
+---@field providers? string
 ---@field reference_id? string
 ---@field session_id? string
 ---@field status? string
@@ -48,7 +48,7 @@
 ---@field auth_url? string
 ---@field expires_in? number
 ---@field language? string
----@field provider? string
+---@field providers? string
 ---@field reference_id? string
 ---@field session_id? string
 ---@field status? string
@@ -74,7 +74,7 @@
 ---@field name? string
 ---@field provider? string
 ---@field setup? string
----@field type? table
+---@field types? table
 
 ---@class IntegrationListMatch
 ---@field enabled? boolean
@@ -82,7 +82,7 @@
 ---@field name? string
 ---@field provider? string
 ---@field setup? string
----@field type? table
+---@field types? table
 
 ---@class LabReport
 ---@field collection_date? string
@@ -92,7 +92,7 @@
 ---@field input_bytes? number
 ---@field lab_name? string
 ---@field output_bytes? number
----@field panel? table
+---@field panels? table
 ---@field patient_age_at_collection? number
 ---@field patient_sex? string
 ---@field reference_id? string
@@ -120,7 +120,7 @@
 ---@field input_bytes? number
 ---@field lab_name? string
 ---@field output_bytes? number
----@field panel? table
+---@field panels? table
 ---@field patient_age_at_collection? number
 ---@field patient_sex? string
 ---@field reference_id? string
@@ -145,7 +145,7 @@
 ---@field input_bytes? number
 ---@field lab_name? string
 ---@field output_bytes? number
----@field panel? table
+---@field panels? table
 ---@field patient_age_at_collection? number
 ---@field patient_sex? string
 ---@field reference_id? string
@@ -194,7 +194,7 @@
 ---@field athlete_metrics? any
 ---@field coercion_warnings? string
 ---@field created_at? any
----@field detail? any
+---@field details? any
 ---@field is_external? boolean
 ---@field last_updated_at? any
 ---@field planned_date? string
@@ -209,7 +209,7 @@
 ---@field athlete_metrics? any
 ---@field coercion_warnings? string
 ---@field created_at? any
----@field detail? any
+---@field details? any
 ---@field is_external? boolean
 ---@field last_updated_at? any
 ---@field planned_date? string
@@ -222,7 +222,7 @@
 ---@field athlete_metrics? any
 ---@field coercion_warnings? string
 ---@field created_at? any
----@field detail? any
+---@field details? any
 ---@field is_external? boolean
 ---@field last_updated_at? any
 ---@field planned_date? string

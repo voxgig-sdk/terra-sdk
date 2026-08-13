@@ -306,7 +306,7 @@ API path: `/athlete`
 | `"auth_url"` |  |
 | `"expires_in"` |  |
 | `"language"` |  |
-| `"provider"` |  |
+| `"providers"` |  |
 | `"reference_id"` |  |
 | `"session_id"` |  |
 | `"status"` |  |
@@ -354,7 +354,7 @@ API path: `/daily`
 | `"name"` |  |
 | `"provider"` |  |
 | `"setup"` |  |
-| `"type"` |  |
+| `"types"` |  |
 
 Operations: List.
 
@@ -371,7 +371,7 @@ API path: `/integrations/detailed`
 | `"input_bytes"` |  |
 | `"lab_name"` |  |
 | `"output_bytes"` |  |
-| `"panel"` |  |
+| `"panels"` |  |
 | `"patient_age_at_collection"` |  |
 | `"patient_sex"` |  |
 | `"reference_id"` |  |
@@ -442,7 +442,7 @@ API path: `/nutrition`
 | `"athlete_metrics"` |  |
 | `"coercion_warnings"` |  |
 | `"created_at"` |  |
-| `"detail"` |  |
+| `"details"` |  |
 | `"is_external"` |  |
 | `"last_updated_at"` |  |
 | `"planned_date"` |  |
@@ -564,7 +564,7 @@ Create an instance: `authentication := client.Authentication(nil)`
 | `auth_url` | `string` |  |
 | `expires_in` | `int` |  |
 | `language` | `string` |  |
-| `provider` | `string` |  |
+| `providers` | `string` |  |
 | `reference_id` | `string` |  |
 | `session_id` | `string` |  |
 | `status` | `string` |  |
@@ -667,7 +667,7 @@ Create an instance: `integration := client.Integration(nil)`
 | `name` | `string` |  |
 | `provider` | `string` |  |
 | `setup` | `string` |  |
-| `type` | `map[string]any` |  |
+| `types` | `map[string]any` |  |
 
 #### Example: List
 
@@ -704,7 +704,7 @@ Create an instance: `labReport := client.LabReport(nil)`
 | `input_bytes` | `int` |  |
 | `lab_name` | `string` |  |
 | `output_bytes` | `int` |  |
-| `panel` | `[]any` |  |
+| `panels` | `[]any` |  |
 | `patient_age_at_collection` | `int` |  |
 | `patient_sex` | `string` |  |
 | `reference_id` | `string` |  |
@@ -876,7 +876,7 @@ Create an instance: `plannedWorkout := client.PlannedWorkout(nil)`
 | `athlete_metrics` | `any` |  |
 | `coercion_warnings` | `string` |  |
 | `created_at` | `any` |  |
-| `detail` | `any` |  |
+| `details` | `any` |  |
 | `is_external` | `bool` |  |
 | `last_updated_at` | `any` |  |
 | `planned_date` | `string` |  |

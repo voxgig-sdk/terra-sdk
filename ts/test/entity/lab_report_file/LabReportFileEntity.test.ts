@@ -64,7 +64,7 @@ describe('LabReportFileEntity', async () => {
     const lab_report_file_ref01_match: any = {}
     lab_report_file_ref01_match['session_id'] = setup.idmap['session01']
 
-    const lab_report_file_ref01_list = await lab_report_file_ref01_ent.list(lab_report_file_ref01_match)
+    const lab_report_file_ref01_list = (await lab_report_file_ref01_ent.list(lab_report_file_ref01_match)).map((e: any) => e.data())
 
 
   })

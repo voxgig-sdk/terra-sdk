@@ -390,7 +390,7 @@ const authentication = client.Authentication()
 | `auth_url` | `string` | No |  |
 | `expires_in` | `number` | No |  |
 | `language` | `string` | No |  |
-| `provider` | `string` | No |  |
+| `providers` | `string` | No |  |
 | `reference_id` | `string` | No |  |
 | `session_id` | `string` | No |  |
 | `status` | `string` | No |  |
@@ -593,7 +593,7 @@ const integration = client.Integration()
 | `name` | `string` | No |  |
 | `provider` | `string` | No |  |
 | `setup` | `string` | No |  |
-| `type` | `Object` | No |  |
+| `types` | `Object` | No |  |
 
 ### Operations
 
@@ -650,7 +650,7 @@ const lab_report = client.LabReport()
 | `input_bytes` | `number` | No |  |
 | `lab_name` | `string` | No |  |
 | `output_bytes` | `number` | No |  |
-| `panel` | `Array` | No |  |
+| `panels` | `Array` | No |  |
 | `patient_age_at_collection` | `number` | No |  |
 | `patient_sex` | `string` | No |  |
 | `reference_id` | `string` | No |  |
@@ -939,7 +939,7 @@ const planned_workout = client.PlannedWorkout()
 | `athlete_metrics` | `*` | No |  |
 | `coercion_warnings` | `string` | No |  |
 | `created_at` | `*` | No |  |
-| `detail` | `*` | No |  |
+| `details` | `*` | No |  |
 | `is_external` | `boolean` | No |  |
 | `last_updated_at` | `*` | No |  |
 | `planned_date` | `string` | No |  |
@@ -954,7 +954,7 @@ const planned_workout = client.PlannedWorkout()
 | `athlete_metrics` | - | - | - |
 | `coercion_warnings` | - | - | - |
 | `created_at` | - | - | - |
-| `detail` | - | - | - |
+| `details` | - | - | - |
 | `is_external` | - | - | - |
 | `last_updated_at` | - | - | - |
 | `planned_date` | - | - | Yes |

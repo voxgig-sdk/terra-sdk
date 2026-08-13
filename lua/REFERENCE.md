@@ -248,7 +248,7 @@ local authentication = client:Authentication(nil)
 | `auth_url` | `string` | No |  |
 | `expires_in` | `number` | No |  |
 | `language` | `string` | No |  |
-| `provider` | `string` | No |  |
+| `providers` | `string` | No |  |
 | `reference_id` | `string` | No |  |
 | `session_id` | `string` | No |  |
 | `status` | `string` | No |  |
@@ -459,7 +459,7 @@ local integration = client:Integration(nil)
 | `name` | `string` | No |  |
 | `provider` | `string` | No |  |
 | `setup` | `string` | No |  |
-| `type` | `table` | No |  |
+| `types` | `table` | No |  |
 
 ### Operations
 
@@ -518,7 +518,7 @@ local lab_report = client:LabReport(nil)
 | `input_bytes` | `number` | No |  |
 | `lab_name` | `string` | No |  |
 | `output_bytes` | `number` | No |  |
-| `panel` | `table` | No |  |
+| `panels` | `table` | No |  |
 | `patient_age_at_collection` | `number` | No |  |
 | `patient_sex` | `string` | No |  |
 | `reference_id` | `string` | No |  |
@@ -817,7 +817,7 @@ local planned_workout = client:PlannedWorkout(nil)
 | `athlete_metrics` | `any` | No |  |
 | `coercion_warnings` | `string` | No |  |
 | `created_at` | `any` | No |  |
-| `detail` | `any` | No |  |
+| `details` | `any` | No |  |
 | `is_external` | `boolean` | No |  |
 | `last_updated_at` | `any` | No |  |
 | `planned_date` | `string` | No |  |
@@ -832,7 +832,7 @@ local planned_workout = client:PlannedWorkout(nil)
 | `athlete_metrics` | - | - | - |
 | `coercion_warnings` | - | - | - |
 | `created_at` | - | - | - |
-| `detail` | - | - | - |
+| `details` | - | - | - |
 | `is_external` | - | - | - |
 | `last_updated_at` | - | - | - |
 | `planned_date` | - | - | Yes |
