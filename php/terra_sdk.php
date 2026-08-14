@@ -40,7 +40,7 @@ class TerraSDK
         $utility = new TerraUtility();
         $this->_utility = $utility;
 
-        $config = TerraConfig::make_config();
+        $config = TerraConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

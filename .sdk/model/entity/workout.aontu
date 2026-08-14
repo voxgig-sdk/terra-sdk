@@ -14,6 +14,11 @@ main: kit: entity: workout: {
       name: "environment"
       req: false
       type: "`$ANY`"
+      union: {
+        branches: 3
+        count: 1
+        depth: 2
+      }
     }
     {
       name: "estimated_calories"
@@ -59,6 +64,11 @@ main: kit: entity: workout: {
       name: "sport"
       req: true
       type: "`$ANY`"
+      union: {
+        branches: 15
+        count: 1
+        depth: 0
+      }
     }
     {
       name: "status"
@@ -69,6 +79,11 @@ main: kit: entity: workout: {
       name: "step_blocks"
       req: true
       type: "`$ARRAY`"
+      union: {
+        branches: 11
+        count: 8
+        depth: 13
+      }
     }
     {
       name: "threshold_heart_rate"

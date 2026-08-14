@@ -1787,7 +1787,12 @@
               "active": true,
               "name": "environment",
               "req": false,
-              "type": "`$ANY`"
+              "type": "`$ANY`",
+              "union": {
+                "branches": 3,
+                "count": 1,
+                "depth": 2
+              }
             },
             {
               "active": true,
@@ -1841,7 +1846,12 @@
               "active": true,
               "name": "sport",
               "req": true,
-              "type": "`$ANY`"
+              "type": "`$ANY`",
+              "union": {
+                "branches": 15,
+                "count": 1,
+                "depth": 0
+              }
             },
             {
               "active": true,
@@ -1853,7 +1863,12 @@
               "active": true,
               "name": "step_blocks",
               "req": true,
-              "type": "`$ARRAY`"
+              "type": "`$ARRAY`",
+              "union": {
+                "branches": 11,
+                "count": 8,
+                "depth": 13
+              }
             },
             {
               "active": true,

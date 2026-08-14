@@ -1,7 +1,30 @@
 # Terra SDK configuration
 
 
+_shared_config = None
+
+
+def shared_config():
+    """Return the process-wide config, built once on first use.
+
+    The SDK reads the config on every request and never writes to it, so one
+    instance is shared by every client rather than rebuilt per client.
+
+    The returned dict is shared: treat it as read-only. Callers that need to
+    mutate should use make_config, which always returns a fresh copy.
+    """
+    global _shared_config
+    if _shared_config is None:
+        _shared_config = make_config()
+    return _shared_config
+
+
 def make_config():
+    """Build a fresh, fully materialised config dict.
+
+    Every call rebuilds the whole structure, so prefer shared_config unless
+    you need a private copy you intend to mutate.
+    """
     return {
         "main": {
             "name": "Terra",
@@ -50,19 +73,15 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "end_date",
                       "orig": "end_date",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "start_date",
                       "orig": "start_date",
@@ -70,15 +89,12 @@ def make_config():
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "to_webhook",
                       "orig": "to_webhook",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -86,11 +102,9 @@ def make_config():
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "with_sample",
                       "orig": "with_sample",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                   ],
@@ -114,10 +128,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -133,19 +145,15 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "to_webhook",
                       "orig": "to_webhook",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -170,10 +178,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -183,88 +189,52 @@ def make_config():
       "authentication": {
         "fields": [
           {
-            "active": True,
             "name": "auth_failure_redirect_url",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "auth_success_redirect_url",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "auth_url",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "expires_in",
-            "req": False,
             "type": "`$INTEGER`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "language",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 4,
           },
           {
-            "active": True,
             "name": "providers",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 5,
           },
           {
-            "active": True,
             "name": "reference_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 6,
           },
           {
-            "active": True,
             "name": "session_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 7,
           },
           {
-            "active": True,
             "name": "status",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 8,
           },
           {
-            "active": True,
             "name": "token",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 9,
           },
           {
-            "active": True,
             "name": "url",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 10,
           },
           {
-            "active": True,
             "name": "user_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 11,
           },
         ],
         "name": "authentication",
@@ -274,11 +244,9 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {
                   "header": [
                     {
-                      "active": True,
                       "example": "testingTerra",
                       "kind": "header",
                       "name": "dev_id",
@@ -289,7 +257,6 @@ def make_config():
                   ],
                   "query": [
                     {
-                      "active": True,
                       "example": "FITBIT",
                       "kind": "query",
                       "name": "resource",
@@ -316,10 +283,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
               {
-                "active": True,
                 "args": {},
                 "kind": "http",
                 "method": "POST",
@@ -333,10 +298,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 1,
               },
               {
-                "active": True,
                 "args": {},
                 "kind": "http",
                 "method": "POST",
@@ -350,21 +313,17 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 2,
               },
             ],
-            "key$": "create",
           },
           "remove": {
             "input": "data",
             "name": "remove",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -389,10 +348,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "remove",
           },
         },
         "relations": {
@@ -408,19 +365,15 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "end_date",
                       "orig": "end_date",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "start_date",
                       "orig": "start_date",
@@ -428,15 +381,12 @@ def make_config():
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "to_webhook",
                       "orig": "to_webhook",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -444,11 +394,9 @@ def make_config():
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "with_sample",
                       "orig": "with_sample",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                   ],
@@ -472,10 +420,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -491,7 +437,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {},
                 "kind": "http",
                 "method": "POST",
@@ -504,10 +449,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "create",
           },
         },
         "relations": {
@@ -523,19 +466,15 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "end_date",
                       "orig": "end_date",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "start_date",
                       "orig": "start_date",
@@ -543,15 +482,12 @@ def make_config():
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "to_webhook",
                       "orig": "to_webhook",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -559,11 +495,9 @@ def make_config():
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "with_sample",
                       "orig": "with_sample",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                   ],
@@ -587,10 +521,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -600,46 +532,28 @@ def make_config():
       "integration": {
         "fields": [
           {
-            "active": True,
             "name": "enabled",
-            "req": False,
             "type": "`$BOOLEAN`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "icon",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "name",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "provider",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "setup",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 4,
           },
           {
-            "active": True,
             "name": "types",
-            "req": False,
             "type": "`$OBJECT`",
-            "index$": 5,
           },
         ],
         "name": "integration",
@@ -649,15 +563,12 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "sdk",
                       "orig": "sdk",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                   ],
@@ -678,10 +589,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.providers`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -691,165 +600,99 @@ def make_config():
       "lab_report": {
         "fields": [
           {
-            "active": True,
             "name": "collection_date",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "collection_time",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "current_status",
             "req": True,
             "type": "`$STRING`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "file_count",
-            "req": False,
             "type": "`$INTEGER`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "input_bytes",
-            "req": False,
             "type": "`$INTEGER`",
-            "index$": 4,
           },
           {
-            "active": True,
             "name": "lab_name",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 5,
           },
           {
-            "active": True,
             "name": "output_bytes",
-            "req": False,
             "type": "`$INTEGER`",
-            "index$": 6,
           },
           {
-            "active": True,
             "name": "panels",
-            "req": False,
             "type": "`$ARRAY`",
-            "index$": 7,
           },
           {
-            "active": True,
             "name": "patient_age_at_collection",
-            "req": False,
             "type": "`$INTEGER`",
-            "index$": 8,
           },
           {
-            "active": True,
             "name": "patient_sex",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 9,
           },
           {
-            "active": True,
             "name": "reference_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 10,
           },
           {
-            "active": True,
             "name": "report_date",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 11,
           },
           {
-            "active": True,
             "name": "report_locale",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 12,
           },
           {
-            "active": True,
             "name": "report_notes",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 13,
           },
           {
-            "active": True,
             "name": "report_time",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 14,
           },
           {
-            "active": True,
             "name": "report_type",
             "req": True,
             "type": "`$STRING`",
-            "index$": 15,
           },
           {
-            "active": True,
             "name": "results",
-            "req": False,
             "type": "`$ARRAY`",
-            "index$": 16,
           },
           {
-            "active": True,
             "name": "results_count",
-            "req": False,
             "type": "`$INTEGER`",
-            "index$": 17,
           },
           {
-            "active": True,
             "name": "session_id",
             "req": True,
             "type": "`$STRING`",
-            "index$": 18,
           },
           {
-            "active": True,
             "name": "status_history",
-            "req": False,
             "type": "`$ARRAY`",
-            "index$": 19,
           },
           {
-            "active": True,
             "name": "updated_at",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 20,
           },
           {
-            "active": True,
             "name": "upload_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 21,
           },
           {
-            "active": True,
             "name": "uploaded_at",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 22,
           },
         ],
         "name": "lab_report",
@@ -859,16 +702,13 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "example": "patient_456",
                       "kind": "query",
                       "name": "reference_id",
                       "orig": "reference_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
@@ -888,65 +728,50 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "create",
           },
           "list": {
             "input": "data",
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "reference_id",
                       "orig": "reference_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "report_date_from",
                       "orig": "report_date_from",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "report_date_to",
                       "orig": "report_date_to",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "upload_id",
                       "orig": "upload_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "uploaded_at_from",
                       "orig": "uploaded_at_from",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "uploaded_at_to",
                       "orig": "uploaded_at_to",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
@@ -971,28 +796,23 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.sessions`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
           "load": {
             "input": "data",
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "297405620317847552",
                       "kind": "param",
                       "name": "id",
                       "orig": "session_id",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -1017,28 +837,23 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
           "remove": {
             "input": "data",
             "name": "remove",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "297405620317847552",
                       "kind": "param",
                       "name": "id",
                       "orig": "session_id",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -1063,10 +878,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "remove",
           },
         },
         "relations": {
@@ -1076,39 +889,27 @@ def make_config():
       "lab_report_delivery": {
         "fields": [
           {
-            "active": True,
             "name": "attempt_count",
             "req": True,
             "type": "`$INTEGER`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "destination_id",
             "req": True,
             "type": "`$STRING`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "destination_type",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "last_error",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "status",
             "req": True,
             "type": "`$STRING`",
-            "index$": 4,
           },
         ],
         "name": "lab_report_delivery",
@@ -1118,18 +919,15 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "297405620317847552",
                       "kind": "param",
                       "name": "id",
                       "orig": "session_id",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -1155,10 +953,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.deliveries`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -1168,18 +964,13 @@ def make_config():
       "lab_report_file": {
         "fields": [
           {
-            "active": True,
             "name": "filename",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "presigned_url",
             "req": True,
             "type": "`$STRING`",
-            "index$": 1,
           },
         ],
         "name": "lab_report_file",
@@ -1189,18 +980,15 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "example": "297405620317847552",
                       "kind": "param",
                       "name": "id",
                       "orig": "session_id",
                       "reqd": True,
                       "type": "`$STRING`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -1226,10 +1014,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
         },
         "relations": {
@@ -1245,19 +1031,15 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "end_date",
                       "orig": "end_date",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "start_date",
                       "orig": "start_date",
@@ -1265,15 +1047,12 @@ def make_config():
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "to_webhook",
                       "orig": "to_webhook",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -1281,11 +1060,9 @@ def make_config():
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "with_sample",
                       "orig": "with_sample",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                   ],
@@ -1309,10 +1086,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -1328,19 +1103,15 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "end_date",
                       "orig": "end_date",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "start_date",
                       "orig": "start_date",
@@ -1348,15 +1119,12 @@ def make_config():
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "to_webhook",
                       "orig": "to_webhook",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -1364,11 +1132,9 @@ def make_config():
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "with_sample",
                       "orig": "with_sample",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                   ],
@@ -1392,10 +1158,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -1405,49 +1169,30 @@ def make_config():
       "planned_workout": {
         "fields": [
           {
-            "active": True,
             "name": "athlete_metrics",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "coercion_warnings",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 1,
           },
           {
-            "active": True,
             "name": "created_at",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "details",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "is_external",
-            "req": False,
             "type": "`$BOOLEAN`",
-            "index$": 4,
           },
           {
-            "active": True,
             "name": "last_updated_at",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 5,
           },
           {
-            "active": True,
             "name": "planned_date",
             "op": {
               "update": {
@@ -1455,30 +1200,19 @@ def make_config():
                 "type": "`$STRING`",
               },
             },
-            "req": False,
             "type": "`$STRING`",
-            "index$": 6,
           },
           {
-            "active": True,
             "name": "planned_workout_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 7,
           },
           {
-            "active": True,
             "name": "provider_workout_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 8,
           },
           {
-            "active": True,
             "name": "workout_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 9,
           },
         ],
         "name": "planned_workout",
@@ -1488,27 +1222,21 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "end_date",
                       "orig": "end_date",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "start_date",
                       "orig": "start_date",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -1534,32 +1262,26 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
           "load": {
             "input": "data",
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "kind": "param",
                       "name": "id",
                       "orig": "planned_workout_id",
                       "reqd": True,
                       "type": "`$INTEGER`",
-                      "index$": 0,
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -1590,32 +1312,26 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
           "update": {
             "input": "data",
             "name": "update",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "kind": "param",
                       "name": "id",
                       "orig": "planned_workout_id",
                       "reqd": True,
                       "type": "`$INTEGER`",
-                      "index$": 0,
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -1646,10 +1362,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "update",
           },
         },
         "relations": {
@@ -1665,19 +1379,15 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "end_date",
                       "orig": "end_date",
-                      "reqd": False,
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "start_date",
                       "orig": "start_date",
@@ -1685,15 +1395,12 @@ def make_config():
                       "type": "`$ANY`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "to_webhook",
                       "orig": "to_webhook",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -1701,11 +1408,9 @@ def make_config():
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "with_sample",
                       "orig": "with_sample",
-                      "reqd": False,
                       "type": "`$BOOLEAN`",
                     },
                   ],
@@ -1729,10 +1434,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -1748,25 +1451,20 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "example": 0,
                       "kind": "query",
                       "name": "page",
                       "orig": "page",
-                      "reqd": False,
                       "type": "`$INTEGER`",
                     },
                     {
-                      "active": True,
                       "example": 500,
                       "kind": "query",
                       "name": "per_page",
                       "orig": "per_page",
-                      "reqd": False,
                       "type": "`$INTEGER`",
                     },
                   ],
@@ -1787,26 +1485,20 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
               {
-                "active": True,
                 "args": {
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "reference_id",
                       "orig": "reference_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
-                      "reqd": False,
                       "type": "`$STRING`",
                     },
                   ],
@@ -1827,10 +1519,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 1,
               },
             ],
-            "key$": "load",
           },
         },
         "relations": {
@@ -1840,116 +1530,87 @@ def make_config():
       "workout": {
         "fields": [
           {
-            "active": True,
             "name": "description",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 0,
           },
           {
-            "active": True,
             "name": "environment",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 1,
+            "union": {
+              "branches": 3,
+              "count": 1,
+              "depth": 2,
+            },
           },
           {
-            "active": True,
             "name": "estimated_calories",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 2,
           },
           {
-            "active": True,
             "name": "estimated_distance_meters",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 3,
           },
           {
-            "active": True,
             "name": "estimated_duration_seconds",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 4,
           },
           {
-            "active": True,
             "name": "ftp",
-            "req": False,
             "type": "`$NUMBER`",
-            "index$": 5,
           },
           {
-            "active": True,
             "name": "max_heart_rate",
-            "req": False,
             "type": "`$NUMBER`",
-            "index$": 6,
           },
           {
-            "active": True,
             "name": "name",
             "req": True,
             "type": "`$STRING`",
-            "index$": 7,
           },
           {
-            "active": True,
             "name": "planned_date",
             "req": True,
             "type": "`$STRING`",
-            "index$": 8,
           },
           {
-            "active": True,
             "name": "pool_length_meters",
-            "req": False,
             "type": "`$ANY`",
-            "index$": 9,
           },
           {
-            "active": True,
             "name": "sport",
             "req": True,
             "type": "`$ANY`",
-            "index$": 10,
+            "union": {
+              "branches": 15,
+              "count": 1,
+              "depth": 0,
+            },
           },
           {
-            "active": True,
             "name": "status",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 11,
           },
           {
-            "active": True,
             "name": "step_blocks",
             "req": True,
             "type": "`$ARRAY`",
-            "index$": 12,
+            "union": {
+              "branches": 11,
+              "count": 8,
+              "depth": 13,
+            },
           },
           {
-            "active": True,
             "name": "threshold_heart_rate",
-            "req": False,
             "type": "`$NUMBER`",
-            "index$": 13,
           },
           {
-            "active": True,
             "name": "threshold_speed",
-            "req": False,
             "type": "`$NUMBER`",
-            "index$": 14,
           },
           {
-            "active": True,
             "name": "workout_id",
-            "req": False,
             "type": "`$STRING`",
-            "index$": 15,
           },
         ],
         "name": "workout",
@@ -1959,22 +1620,18 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "kind": "param",
                       "name": "id",
                       "orig": "workout_id",
                       "reqd": True,
                       "type": "`$INTEGER`",
-                      "index$": 0,
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -2007,10 +1664,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
               {
-                "active": True,
                 "args": {},
                 "kind": "http",
                 "method": "POST",
@@ -2023,17 +1678,14 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 1,
               },
             ],
-            "key$": "create",
           },
           "list": {
             "input": "data",
             "name": "list",
             "points": [
               {
-                "active": True,
                 "args": {},
                 "kind": "http",
                 "method": "GET",
@@ -2046,27 +1698,22 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "list",
           },
           "load": {
             "input": "data",
             "name": "load",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "kind": "param",
                       "name": "id",
                       "orig": "workout_id",
                       "reqd": True,
                       "type": "`$INTEGER`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -2091,32 +1738,26 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
             ],
-            "key$": "load",
           },
           "remove": {
             "input": "data",
             "name": "remove",
             "points": [
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "kind": "param",
                       "name": "planned_workout_id",
                       "orig": "planned_workout_id",
                       "reqd": True,
                       "type": "`$INTEGER`",
-                      "index$": 0,
                     },
                   ],
                   "query": [
                     {
-                      "active": True,
                       "kind": "query",
                       "name": "user_id",
                       "orig": "user_id",
@@ -2142,20 +1783,16 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 0,
               },
               {
-                "active": True,
                 "args": {
                   "params": [
                     {
-                      "active": True,
                       "kind": "param",
                       "name": "id",
                       "orig": "workout_id",
                       "reqd": True,
                       "type": "`$INTEGER`",
-                      "index$": 0,
                     },
                   ],
                 },
@@ -2180,10 +1817,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "index$": 1,
               },
             ],
-            "key$": "remove",
           },
         },
         "relations": {

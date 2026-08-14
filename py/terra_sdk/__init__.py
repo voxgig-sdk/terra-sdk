@@ -23,8 +23,8 @@ class TerraSDK:
         utility = TerraUtility()
         self._utility = utility
 
-        from terra_sdk.config import make_config
-        config = make_config()
+        from terra_sdk.config import shared_config
+        config = shared_config()
 
         self._rootctx = utility.make_context({
             "client": self,
