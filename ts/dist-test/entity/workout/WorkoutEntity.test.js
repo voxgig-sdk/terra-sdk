@@ -74,14 +74,14 @@ const utility_1 = require("../../utility");
         // CREATE
         const workout_ref01_ent = client.Workout();
         let workout_ref01_data = setup.data.new.workout['workout_ref01'];
-        workout_ref01_data = await workout_ref01_ent.create(workout_ref01_data);
+        workout_ref01_data = (await workout_ref01_ent.create(workout_ref01_data)).data();
         (0, node_assert_1.default)(null != workout_ref01_data);
         // LIST
         const workout_ref01_match = {};
-        const workout_ref01_list = await workout_ref01_ent.list(workout_ref01_match);
+        const workout_ref01_list = (await workout_ref01_ent.list(workout_ref01_match)).map((e) => e.data());
         // LIST
         const workout_ref01_match_rt0 = {};
-        const workout_ref01_list_rt0 = await workout_ref01_ent.list(workout_ref01_match_rt0);
+        const workout_ref01_list_rt0 = (await workout_ref01_ent.list(workout_ref01_match_rt0)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

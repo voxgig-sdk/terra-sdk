@@ -383,8 +383,7 @@ type WorkoutCreateData struct {
 
 // WorkoutRemoveMatch is the typed request payload for Workout.RemoveTyped.
 type WorkoutRemoveMatch struct {
-	PlannedWorkoutId *int `json:"planned_workout_id,omitempty"`
-	Id *int `json:"id,omitempty"`
+	PlannedWorkoutId int `json:"planned_workout_id"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

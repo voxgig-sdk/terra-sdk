@@ -8,46 +8,55 @@ main: kit: entity: authentication: {
     {
       name: "auth_failure_redirect_url"
       req: false
+      short: "URL the user is redirected to upon unsuccessful authentication"
       type: "`$STRING`"
     }
     {
       name: "auth_success_redirect_url"
       req: false
+      short: "URL the user is redirected to upon successful authentication"
       type: "`$STRING`"
     }
     {
       name: "auth_url"
       req: false
+      short: "authentication URL the user must be redirected to in order to link their account"
       type: "`$STRING`"
     }
     {
       name: "expires_in"
       req: false
+      short: "a number in seconds depicting how long the url is valid for"
       type: "`$INTEGER`"
     }
     {
       name: "language"
       req: false
+      short: "Display language of the widget"
       type: "`$STRING`"
     }
     {
       name: "providers"
       req: false
+      short: "Comma separated list of providers to display on the device selection page."
       type: "`$STRING`"
     }
     {
       name: "reference_id"
       req: false
+      short: "Identifier of the end user on your system, such as a user ID or email associated with them"
       type: "`$STRING`"
     }
     {
       name: "session_id"
       req: false
+      short: "Session ID for the widget authentication session"
       type: "`$STRING`"
     }
     {
       name: "status"
       req: false
+      short: "indicates that the request was successful"
       type: "`$STRING`"
     }
     {
@@ -58,11 +67,13 @@ main: kit: entity: authentication: {
     {
       name: "url"
       req: false
+      short: "the widget URL the user must be redirected to in order to link their account"
       type: "`$STRING`"
     }
     {
       name: "user_id"
       req: false
+      short: "User ID for the user being created"
       type: "`$STRING`"
     }
   ]

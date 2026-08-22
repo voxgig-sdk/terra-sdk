@@ -5,6 +5,6 @@ import type { Sleep, SleepLoadMatch } from '../TerraTypes';
 declare class SleepEntity extends TerraEntityBase<Sleep> {
     constructor(client: TerraSDK, entopts: any);
     make(this: SleepEntity): SleepEntity;
-    load(this: any, reqmatch?: SleepLoadMatch, ctrl?: Control): Promise<Sleep>;
+    load(this: any, reqmatch?: SleepLoadMatch, ctrl?: Control): Promise<SleepEntity>;
 }
 export { SleepEntity };

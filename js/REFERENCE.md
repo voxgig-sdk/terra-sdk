@@ -385,18 +385,18 @@ const authentication = client.Authentication()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `auth_failure_redirect_url` | `string` | No |  |
-| `auth_success_redirect_url` | `string` | No |  |
-| `auth_url` | `string` | No |  |
-| `expires_in` | `number` | No |  |
-| `language` | `string` | No |  |
-| `providers` | `string` | No |  |
-| `reference_id` | `string` | No |  |
-| `session_id` | `string` | No |  |
-| `status` | `string` | No |  |
+| `auth_failure_redirect_url` | `string` | No | URL the user is redirected to upon unsuccessful authentication |
+| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication |
+| `auth_url` | `string` | No | authentication URL the user must be redirected to in order to link their account |
+| `expires_in` | `number` | No | a number in seconds depicting how long the url is valid for |
+| `language` | `string` | No | Display language of the widget |
+| `providers` | `string` | No | Comma separated list of providers to display on the device selection page. |
+| `reference_id` | `string` | No | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `session_id` | `string` | No | Session ID for the widget authentication session |
+| `status` | `string` | No | indicates that the request was successful |
 | `token` | `string` | No |  |
-| `url` | `string` | No |  |
-| `user_id` | `string` | No |  |
+| `url` | `string` | No | the widget URL the user must be redirected to in order to link their account |
+| `user_id` | `string` | No | User ID for the user being created |
 
 ### Operations
 
@@ -588,12 +588,12 @@ const integration = client.Integration()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `enabled` | `boolean` | No |  |
-| `icon` | `string` | No |  |
-| `name` | `string` | No |  |
-| `provider` | `string` | No |  |
-| `setup` | `string` | No |  |
-| `types` | `Object` | No |  |
+| `enabled` | `boolean` | No | Whether the integration is enabled |
+| `icon` | `string` | No | URL for the provider's icon image |
+| `name` | `string` | No | Display name of the integration |
+| `provider` | `string` | No | Identifier for the provider |
+| `setup` | `string` | No | Indicates how the integration is set up |
+| `types` | `Object` | No | Indicates the types of data available through the provider |
 
 ### Operations
 
@@ -643,23 +643,23 @@ const lab_report = client.LabReport()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `collection_date` | `string` | No |  |
-| `collection_time` | `string` | No |  |
-| `current_status` | `string` | Yes |  |
+| `collection_date` | `string` | No | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `number` | No |  |
 | `input_bytes` | `number` | No |  |
 | `lab_name` | `string` | No |  |
 | `output_bytes` | `number` | No |  |
-| `panels` | `Array` | No |  |
-| `patient_age_at_collection` | `number` | No |  |
-| `patient_sex` | `string` | No |  |
-| `reference_id` | `string` | No |  |
-| `report_date` | `string` | No |  |
+| `panels` | `Array` | No | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `number` | No | Patient age in years; omitted if unknown. |
+| `patient_sex` | `string` | No | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `string` | No | Your external reference; omitted if not set. |
+| `report_date` | `string` | No | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
 | `report_locale` | `string` | No |  |
 | `report_notes` | `string` | No |  |
-| `report_time` | `string` | No |  |
-| `report_type` | `string` | Yes |  |
-| `results` | `Array` | No |  |
+| `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `string` | Yes | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `Array` | No | The layered biomarker results. |
 | `results_count` | `number` | No |  |
 | `session_id` | `string` | Yes |  |
 | `status_history` | `Array` | No |  |
@@ -743,11 +743,11 @@ const lab_report_delivery = client.LabReportDelivery()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `attempt_count` | `number` | Yes |  |
+| `attempt_count` | `number` | Yes | Retry count — 0 on the first attempt, incremented per retry. |
 | `destination_id` | `string` | Yes |  |
-| `destination_type` | `string` | No |  |
-| `last_error` | `string` | No |  |
-| `status` | `string` | Yes |  |
+| `destination_type` | `string` | No | The destination's type (e.g. |
+| `last_error` | `string` | No | Most recent delivery error; omitted when delivered. |
+| `status` | `string` | Yes | pending, delivered, or failed. |
 
 ### Operations
 
@@ -937,15 +937,15 @@ const planned_workout = client.PlannedWorkout()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `athlete_metrics` | `*` | No |  |
-| `coercion_warnings` | `string` | No |  |
-| `created_at` | `*` | No |  |
-| `details` | `*` | No |  |
-| `is_external` | `boolean` | No |  |
-| `last_updated_at` | `*` | No |  |
-| `planned_date` | `string` | No |  |
-| `planned_workout_id` | `string` | No |  |
-| `provider_workout_id` | `string` | No |  |
-| `workout_id` | `string` | No |  |
+| `coercion_warnings` | `string` | No | Set when the template could not be represented exactly on the provider. |
+| `created_at` | `*` | No | Creation time (RFC 3339) |
+| `details` | `*` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `is_external` | `boolean` | No | True when the workout was created on the provider side rather than through Terra. |
+| `last_updated_at` | `*` | No | Last update time (RFC 3339) |
+| `planned_date` | `string` | No | New scheduled date (YYYY-MM-DD) |
+| `planned_workout_id` | `string` | No | Terra identifier of the planned workout |
+| `provider_workout_id` | `string` | No | Identifier assigned by the provider, once pushed. |
+| `workout_id` | `string` | No | Identifier of the source template. |
 
 ### Field Usage by Operation
 
@@ -1117,22 +1117,22 @@ const workout = client.Workout()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `description` | `string` | No |  |
+| `description` | `string` | No | Description of the workout |
 | `environment` | `*` | No |  |
-| `estimated_calories` | `*` | No |  |
-| `estimated_distance_meters` | `*` | No |  |
-| `estimated_duration_seconds` | `*` | No |  |
-| `ftp` | `number` | No |  |
-| `max_heart_rate` | `number` | No |  |
-| `name` | `string` | Yes |  |
-| `planned_date` | `string` | Yes |  |
-| `pool_length_meters` | `*` | No |  |
-| `sport` | `*` | Yes |  |
+| `estimated_calories` | `*` | No | Estimated calories burned |
+| `estimated_distance_meters` | `*` | No | Estimated total distance in meters |
+| `estimated_duration_seconds` | `*` | No | Estimated total duration in seconds |
+| `ftp` | `number` | No | Functional Threshold Power in watts |
+| `max_heart_rate` | `number` | No | Maximum heart rate in BPM |
+| `name` | `string` | Yes | Name of the workout |
+| `planned_date` | `string` | Yes | Date to schedule the workout on (YYYY-MM-DD) |
+| `pool_length_meters` | `*` | No | Pool length in meters, for swim workouts |
+| `sport` | `*` | Yes | Sport a workout template targets. |
 | `status` | `string` | No |  |
 | `step_blocks` | `Array` | Yes |  |
-| `threshold_heart_rate` | `number` | No |  |
-| `threshold_speed` | `number` | No |  |
-| `workout_id` | `string` | No |  |
+| `threshold_heart_rate` | `number` | No | Threshold heart rate in BPM |
+| `threshold_speed` | `number` | No | Threshold speed in m/s |
+| `workout_id` | `string` | No | Terra identifier of the stored template. |
 
 ### Operations
 
@@ -1170,7 +1170,7 @@ const result = await client.Workout().load({ id: 1 })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Workout().remove({ id: 1 })
+const result = await client.Workout().remove({ planned_workout_id: 1 })
 ```
 
 ### Common Methods

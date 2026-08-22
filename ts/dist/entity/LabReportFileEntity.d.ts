@@ -5,6 +5,6 @@ import type { LabReportFile, LabReportFileListMatch } from '../TerraTypes';
 declare class LabReportFileEntity extends TerraEntityBase<LabReportFile> {
     constructor(client: TerraSDK, entopts: any);
     make(this: LabReportFileEntity): LabReportFileEntity;
-    list(this: any, reqmatch?: LabReportFileListMatch, ctrl?: Control): Promise<LabReportFile[]>;
+    list(this: any, reqmatch?: LabReportFileListMatch, ctrl?: Control): Promise<LabReportFileEntity[]>;
 }
 export { LabReportFileEntity };

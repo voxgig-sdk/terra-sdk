@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LOAD
         const body_ref01_ent = client.Body();
         const body_ref01_match_dt0 = {};
-        const body_ref01_data_dt0 = await body_ref01_ent.load(body_ref01_match_dt0);
+        const body_ref01_data_dt0 = (await body_ref01_ent.load(body_ref01_match_dt0)).data();
         (0, node_assert_1.default)(null != body_ref01_data_dt0);
     });
 });

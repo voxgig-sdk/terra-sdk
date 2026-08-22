@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LOAD
         const user_ref01_ent = client.User();
         const user_ref01_match_dt0 = {};
-        const user_ref01_data_dt0 = await user_ref01_ent.load(user_ref01_match_dt0);
+        const user_ref01_data_dt0 = (await user_ref01_ent.load(user_ref01_match_dt0)).data();
         (0, node_assert_1.default)(null != user_ref01_data_dt0);
     });
 });

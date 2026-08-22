@@ -8,6 +8,7 @@ main: kit: entity: workout: {
     {
       name: "description"
       req: false
+      short: "Description of the workout"
       type: "`$STRING`"
     }
     {
@@ -23,46 +24,55 @@ main: kit: entity: workout: {
     {
       name: "estimated_calories"
       req: false
+      short: "Estimated calories burned"
       type: "`$ANY`"
     }
     {
       name: "estimated_distance_meters"
       req: false
+      short: "Estimated total distance in meters"
       type: "`$ANY`"
     }
     {
       name: "estimated_duration_seconds"
       req: false
+      short: "Estimated total duration in seconds"
       type: "`$ANY`"
     }
     {
       name: "ftp"
       req: false
+      short: "Functional Threshold Power in watts"
       type: "`$NUMBER`"
     }
     {
       name: "max_heart_rate"
       req: false
+      short: "Maximum heart rate in BPM"
       type: "`$NUMBER`"
     }
     {
       name: "name"
       req: true
+      short: "Name of the workout"
       type: "`$STRING`"
     }
     {
       name: "planned_date"
       req: true
+      short: "Date to schedule the workout on (YYYY-MM-DD)"
       type: "`$STRING`"
     }
     {
       name: "pool_length_meters"
       req: false
+      short: "Pool length in meters, for swim workouts"
       type: "`$ANY`"
     }
     {
       name: "sport"
       req: true
+      short: "Sport a workout template targets."
       type: "`$ANY`"
       union: {
         branches: 15
@@ -88,16 +98,19 @@ main: kit: entity: workout: {
     {
       name: "threshold_heart_rate"
       req: false
+      short: "Threshold heart rate in BPM"
       type: "`$NUMBER`"
     }
     {
       name: "threshold_speed"
       req: false
+      short: "Threshold speed in m/s"
       type: "`$NUMBER`"
     }
     {
       name: "workout_id"
       req: false
+      short: "Terra identifier of the stored template."
       type: "`$STRING`"
     }
   ]

@@ -8,31 +8,37 @@ main: kit: entity: integration: {
     {
       name: "enabled"
       req: false
+      short: "Whether the integration is enabled"
       type: "`$BOOLEAN`"
     }
     {
       name: "icon"
       req: false
+      short: "URL for the provider's icon image"
       type: "`$STRING`"
     }
     {
       name: "name"
       req: false
+      short: "Display name of the integration"
       type: "`$STRING`"
     }
     {
       name: "provider"
       req: false
+      short: "Identifier for the provider"
       type: "`$STRING`"
     }
     {
       name: "setup"
       req: false
+      short: "Indicates how the integration is set up"
       type: "`$STRING`"
     }
     {
       name: "types"
       req: false
+      short: "Indicates the types of data available through the provider"
       type: "`$OBJECT`"
     }
   ]

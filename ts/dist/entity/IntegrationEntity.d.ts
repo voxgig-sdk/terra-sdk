@@ -5,6 +5,6 @@ import type { Integration, IntegrationListMatch } from '../TerraTypes';
 declare class IntegrationEntity extends TerraEntityBase<Integration> {
     constructor(client: TerraSDK, entopts: any);
     make(this: IntegrationEntity): IntegrationEntity;
-    list(this: any, reqmatch?: IntegrationListMatch, ctrl?: Control): Promise<Integration[]>;
+    list(this: any, reqmatch?: IntegrationListMatch, ctrl?: Control): Promise<IntegrationEntity[]>;
 }
 export { IntegrationEntity };

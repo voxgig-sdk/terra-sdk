@@ -5,7 +5,7 @@ import type { Authentication, AuthenticationCreateData, AuthenticationRemoveMatc
 declare class AuthenticationEntity extends TerraEntityBase<Authentication> {
     constructor(client: TerraSDK, entopts: any);
     make(this: AuthenticationEntity): AuthenticationEntity;
-    create(this: any, reqdata?: AuthenticationCreateData, ctrl?: Control): Promise<Authentication>;
-    remove(this: any, reqmatch?: AuthenticationRemoveMatch, ctrl?: Control): Promise<Authentication>;
+    create(this: any, reqdata?: AuthenticationCreateData, ctrl?: Control): Promise<AuthenticationEntity>;
+    remove(this: any, reqmatch?: AuthenticationRemoveMatch, ctrl?: Control): Promise<AuthenticationEntity>;
 }
 export { AuthenticationEntity };

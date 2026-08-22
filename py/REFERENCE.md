@@ -238,18 +238,18 @@ authentication = client.Authentication()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `auth_failure_redirect_url` | `str` | No |  |
-| `auth_success_redirect_url` | `str` | No |  |
-| `auth_url` | `str` | No |  |
-| `expires_in` | `int` | No |  |
-| `language` | `str` | No |  |
-| `providers` | `str` | No |  |
-| `reference_id` | `str` | No |  |
-| `session_id` | `str` | No |  |
-| `status` | `str` | No |  |
+| `auth_failure_redirect_url` | `str` | No | URL the user is redirected to upon unsuccessful authentication |
+| `auth_success_redirect_url` | `str` | No | URL the user is redirected to upon successful authentication |
+| `auth_url` | `str` | No | authentication URL the user must be redirected to in order to link their account |
+| `expires_in` | `int` | No | a number in seconds depicting how long the url is valid for |
+| `language` | `str` | No | Display language of the widget |
+| `providers` | `str` | No | Comma separated list of providers to display on the device selection page. |
+| `reference_id` | `str` | No | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `session_id` | `str` | No | Session ID for the widget authentication session |
+| `status` | `str` | No | indicates that the request was successful |
 | `token` | `str` | No |  |
-| `url` | `str` | No |  |
-| `user_id` | `str` | No |  |
+| `url` | `str` | No | the widget URL the user must be redirected to in order to link their account |
+| `user_id` | `str` | No | User ID for the user being created |
 
 ### Operations
 
@@ -445,12 +445,12 @@ integration = client.Integration()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `enabled` | `bool` | No |  |
-| `icon` | `str` | No |  |
-| `name` | `str` | No |  |
-| `provider` | `str` | No |  |
-| `setup` | `str` | No |  |
-| `types` | `dict` | No |  |
+| `enabled` | `bool` | No | Whether the integration is enabled |
+| `icon` | `str` | No | URL for the provider's icon image |
+| `name` | `str` | No | Display name of the integration |
+| `provider` | `str` | No | Identifier for the provider |
+| `setup` | `str` | No | Indicates how the integration is set up |
+| `types` | `dict` | No | Indicates the types of data available through the provider |
 
 ### Operations
 
@@ -503,23 +503,23 @@ lab_report = client.LabReport()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `collection_date` | `str` | No |  |
-| `collection_time` | `str` | No |  |
-| `current_status` | `str` | Yes |  |
+| `collection_date` | `str` | No | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `str` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `str` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `int` | No |  |
 | `input_bytes` | `int` | No |  |
 | `lab_name` | `str` | No |  |
 | `output_bytes` | `int` | No |  |
-| `panels` | `list` | No |  |
-| `patient_age_at_collection` | `int` | No |  |
-| `patient_sex` | `str` | No |  |
-| `reference_id` | `str` | No |  |
-| `report_date` | `str` | No |  |
+| `panels` | `list` | No | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `int` | No | Patient age in years; omitted if unknown. |
+| `patient_sex` | `str` | No | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `str` | No | Your external reference; omitted if not set. |
+| `report_date` | `str` | No | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
 | `report_locale` | `str` | No |  |
 | `report_notes` | `str` | No |  |
-| `report_time` | `str` | No |  |
-| `report_type` | `str` | Yes |  |
-| `results` | `list` | No |  |
+| `report_time` | `str` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `str` | Yes | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `list` | No | The layered biomarker results. |
 | `results_count` | `int` | No |  |
 | `session_id` | `str` | Yes |  |
 | `status_history` | `list` | No |  |
@@ -606,11 +606,11 @@ lab_report_delivery = client.LabReportDelivery()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `attempt_count` | `int` | Yes |  |
+| `attempt_count` | `int` | Yes | Retry count — 0 on the first attempt, incremented per retry. |
 | `destination_id` | `str` | Yes |  |
-| `destination_type` | `str` | No |  |
-| `last_error` | `str` | No |  |
-| `status` | `str` | Yes |  |
+| `destination_type` | `str` | No | The destination's type (e.g. |
+| `last_error` | `str` | No | Most recent delivery error; omitted when delivered. |
+| `status` | `str` | Yes | pending, delivered, or failed. |
 
 ### Operations
 
@@ -808,15 +808,15 @@ planned_workout = client.PlannedWorkout()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `athlete_metrics` | `Any` | No |  |
-| `coercion_warnings` | `str` | No |  |
-| `created_at` | `Any` | No |  |
-| `details` | `Any` | No |  |
-| `is_external` | `bool` | No |  |
-| `last_updated_at` | `Any` | No |  |
-| `planned_date` | `str` | No |  |
-| `planned_workout_id` | `str` | No |  |
-| `provider_workout_id` | `str` | No |  |
-| `workout_id` | `str` | No |  |
+| `coercion_warnings` | `str` | No | Set when the template could not be represented exactly on the provider. |
+| `created_at` | `Any` | No | Creation time (RFC 3339) |
+| `details` | `Any` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `is_external` | `bool` | No | True when the workout was created on the provider side rather than through Terra. |
+| `last_updated_at` | `Any` | No | Last update time (RFC 3339) |
+| `planned_date` | `str` | No | New scheduled date (YYYY-MM-DD) |
+| `planned_workout_id` | `str` | No | Terra identifier of the planned workout |
+| `provider_workout_id` | `str` | No | Identifier assigned by the provider, once pushed. |
+| `workout_id` | `str` | No | Identifier of the source template. |
 
 ### Field Usage by Operation
 
@@ -993,22 +993,22 @@ workout = client.Workout()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `description` | `str` | No |  |
+| `description` | `str` | No | Description of the workout |
 | `environment` | `Any` | No |  |
-| `estimated_calories` | `Any` | No |  |
-| `estimated_distance_meters` | `Any` | No |  |
-| `estimated_duration_seconds` | `Any` | No |  |
-| `ftp` | `float` | No |  |
-| `max_heart_rate` | `float` | No |  |
-| `name` | `str` | Yes |  |
-| `planned_date` | `str` | Yes |  |
-| `pool_length_meters` | `Any` | No |  |
-| `sport` | `Any` | Yes |  |
+| `estimated_calories` | `Any` | No | Estimated calories burned |
+| `estimated_distance_meters` | `Any` | No | Estimated total distance in meters |
+| `estimated_duration_seconds` | `Any` | No | Estimated total duration in seconds |
+| `ftp` | `float` | No | Functional Threshold Power in watts |
+| `max_heart_rate` | `float` | No | Maximum heart rate in BPM |
+| `name` | `str` | Yes | Name of the workout |
+| `planned_date` | `str` | Yes | Date to schedule the workout on (YYYY-MM-DD) |
+| `pool_length_meters` | `Any` | No | Pool length in meters, for swim workouts |
+| `sport` | `Any` | Yes | Sport a workout template targets. |
 | `status` | `str` | No |  |
 | `step_blocks` | `list` | Yes |  |
-| `threshold_heart_rate` | `float` | No |  |
-| `threshold_speed` | `float` | No |  |
-| `workout_id` | `str` | No |  |
+| `threshold_heart_rate` | `float` | No | Threshold heart rate in BPM |
+| `threshold_speed` | `float` | No | Threshold speed in m/s |
+| `workout_id` | `str` | No | Terra identifier of the stored template. |
 
 ### Operations
 
@@ -1048,7 +1048,7 @@ result = client.Workout().load({"id": 1})
 Remove the entity matching the given criteria. Raises on error.
 
 ```python
-result = client.Workout().remove({"id": 1})
+result = client.Workout().remove({"planned_workout_id": 1})
 ```
 
 ### Common Methods

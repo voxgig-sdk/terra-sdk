@@ -377,7 +377,6 @@
 
 /**
  * @typedef {Object} WorkoutRemoveMatch
- * @property {number} [planned_workout_id]
- * @property {number} [id]
+ * @property {number} planned_workout_id
  */
 

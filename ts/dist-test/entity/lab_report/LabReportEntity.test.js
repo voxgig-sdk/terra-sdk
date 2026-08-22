@@ -74,14 +74,14 @@ const utility_1 = require("../../utility");
         // CREATE
         const lab_report_ref01_ent = client.LabReport();
         let lab_report_ref01_data = setup.data.new.lab_report['lab_report_ref01'];
-        lab_report_ref01_data = await lab_report_ref01_ent.create(lab_report_ref01_data);
+        lab_report_ref01_data = (await lab_report_ref01_ent.create(lab_report_ref01_data)).data();
         (0, node_assert_1.default)(null != lab_report_ref01_data);
         // LIST
         const lab_report_ref01_match = {};
-        const lab_report_ref01_list = await lab_report_ref01_ent.list(lab_report_ref01_match);
+        const lab_report_ref01_list = (await lab_report_ref01_ent.list(lab_report_ref01_match)).map((e) => e.data());
         // LIST
         const lab_report_ref01_match_rt0 = {};
-        const lab_report_ref01_list_rt0 = await lab_report_ref01_ent.list(lab_report_ref01_match_rt0);
+        const lab_report_ref01_list_rt0 = (await lab_report_ref01_ent.list(lab_report_ref01_match_rt0)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

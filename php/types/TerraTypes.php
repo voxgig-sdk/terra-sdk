@@ -424,7 +424,6 @@ class WorkoutCreateData
 /** Request payload for Workout#remove. */
 class WorkoutRemoveMatch
 {
-    public ?int $planned_workout_id = null;
-    public ?int $id = null;
+    public int $planned_workout_id;
 }
 

@@ -5,6 +5,6 @@ import type { LabReportDelivery, LabReportDeliveryListMatch } from '../TerraType
 declare class LabReportDeliveryEntity extends TerraEntityBase<LabReportDelivery> {
     constructor(client: TerraSDK, entopts: any);
     make(this: LabReportDeliveryEntity): LabReportDeliveryEntity;
-    list(this: any, reqmatch?: LabReportDeliveryListMatch, ctrl?: Control): Promise<LabReportDelivery[]>;
+    list(this: any, reqmatch?: LabReportDeliveryListMatch, ctrl?: Control): Promise<LabReportDeliveryEntity[]>;
 }
 export { LabReportDeliveryEntity };

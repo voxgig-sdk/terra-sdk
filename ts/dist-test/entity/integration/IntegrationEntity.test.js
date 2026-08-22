@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LIST
         const integration_ref01_ent = client.Integration();
         const integration_ref01_match = {};
-        const integration_ref01_list = await integration_ref01_ent.list(integration_ref01_match);
+        const integration_ref01_list = (await integration_ref01_ent.list(integration_ref01_match)).map((e) => e.data());
     });
 });
 function basicSetup(extra) {

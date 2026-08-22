@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LOAD
         const daily_ref01_ent = client.Daily();
         const daily_ref01_match_dt0 = {};
-        const daily_ref01_data_dt0 = await daily_ref01_ent.load(daily_ref01_match_dt0);
+        const daily_ref01_data_dt0 = (await daily_ref01_ent.load(daily_ref01_match_dt0)).data();
         (0, node_assert_1.default)(null != daily_ref01_data_dt0);
     });
 });

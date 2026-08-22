@@ -296,8 +296,7 @@
 ---@field workout_id? string
 
 ---@class WorkoutRemoveMatch
----@field planned_workout_id? number
----@field id? number
+---@field planned_workout_id number
 
 local M = {}
 

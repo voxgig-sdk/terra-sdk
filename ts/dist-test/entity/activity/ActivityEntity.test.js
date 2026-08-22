@@ -75,7 +75,7 @@ const utility_1 = require("../../utility");
         // LOAD
         const activity_ref01_ent = client.Activity();
         const activity_ref01_match_dt0 = {};
-        const activity_ref01_data_dt0 = await activity_ref01_ent.load(activity_ref01_match_dt0);
+        const activity_ref01_data_dt0 = (await activity_ref01_ent.load(activity_ref01_match_dt0)).data();
         (0, node_assert_1.default)(null != activity_ref01_data_dt0);
     });
 });

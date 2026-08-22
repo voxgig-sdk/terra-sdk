@@ -5,6 +5,6 @@ import type { Athlete, AthleteLoadMatch } from '../TerraTypes';
 declare class AthleteEntity extends TerraEntityBase<Athlete> {
     constructor(client: TerraSDK, entopts: any);
     make(this: AthleteEntity): AthleteEntity;
-    load(this: any, reqmatch?: AthleteLoadMatch, ctrl?: Control): Promise<Athlete>;
+    load(this: any, reqmatch?: AthleteLoadMatch, ctrl?: Control): Promise<AthleteEntity>;
 }
 export { AthleteEntity };

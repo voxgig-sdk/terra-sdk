@@ -6,7 +6,7 @@ The Golang SDK for the Terra API — an entity-oriented client using standard Go
 
 It exposes the API as capitalised, semantic **Entities** — e.g. `client.Activity(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`, `Remove`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
-> Other languages, the CLI, and MCP server live alongside this one — see
+> Also generated from this model: `go-cli`, `go-mcp`, `js`, `lua`, `php`, `py`, `ts` — see
 > the [top-level README](../README.md).
 
 
@@ -301,18 +301,18 @@ API path: `/athlete`
 
 | Field | Description |
 | --- | --- |
-| `"auth_failure_redirect_url"` |  |
-| `"auth_success_redirect_url"` |  |
-| `"auth_url"` |  |
-| `"expires_in"` |  |
-| `"language"` |  |
-| `"providers"` |  |
-| `"reference_id"` |  |
-| `"session_id"` |  |
-| `"status"` |  |
+| `"auth_failure_redirect_url"` | URL the user is redirected to upon unsuccessful authentication |
+| `"auth_success_redirect_url"` | URL the user is redirected to upon successful authentication |
+| `"auth_url"` | authentication URL the user must be redirected to in order to link their account |
+| `"expires_in"` | a number in seconds depicting how long the url is valid for |
+| `"language"` | Display language of the widget |
+| `"providers"` | Comma separated list of providers to display on the device selection page. |
+| `"reference_id"` | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `"session_id"` | Session ID for the widget authentication session |
+| `"status"` | indicates that the request was successful |
 | `"token"` |  |
-| `"url"` |  |
-| `"user_id"` |  |
+| `"url"` | the widget URL the user must be redirected to in order to link their account |
+| `"user_id"` | User ID for the user being created |
 
 Operations: Create, Remove.
 
@@ -349,12 +349,12 @@ API path: `/daily`
 
 | Field | Description |
 | --- | --- |
-| `"enabled"` |  |
-| `"icon"` |  |
-| `"name"` |  |
-| `"provider"` |  |
-| `"setup"` |  |
-| `"types"` |  |
+| `"enabled"` | Whether the integration is enabled |
+| `"icon"` | URL for the provider's icon image |
+| `"name"` | Display name of the integration |
+| `"provider"` | Identifier for the provider |
+| `"setup"` | Indicates how the integration is set up |
+| `"types"` | Indicates the types of data available through the provider |
 
 Operations: List.
 
@@ -364,23 +364,23 @@ API path: `/integrations/detailed`
 
 | Field | Description |
 | --- | --- |
-| `"collection_date"` |  |
-| `"collection_time"` |  |
-| `"current_status"` |  |
+| `"collection_date"` | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
+| `"collection_time"` | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `"current_status"` | Current status as a clean lowercase string (open enum), e.g. |
 | `"file_count"` |  |
 | `"input_bytes"` |  |
 | `"lab_name"` |  |
 | `"output_bytes"` |  |
-| `"panels"` |  |
-| `"patient_age_at_collection"` |  |
-| `"patient_sex"` |  |
-| `"reference_id"` |  |
-| `"report_date"` |  |
+| `"panels"` | Report-level panels that results reference by panel_id. |
+| `"patient_age_at_collection"` | Patient age in years; omitted if unknown. |
+| `"patient_sex"` | Clean lowercase string (open enum); omitted if unspecified. |
+| `"reference_id"` | Your external reference; omitted if not set. |
+| `"report_date"` | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
 | `"report_locale"` |  |
 | `"report_notes"` |  |
-| `"report_time"` |  |
-| `"report_type"` |  |
-| `"results"` |  |
+| `"report_time"` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `"report_type"` | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `"results"` | The layered biomarker results. |
 | `"results_count"` |  |
 | `"session_id"` |  |
 | `"status_history"` |  |
@@ -396,11 +396,11 @@ API path: `/lab-reports`
 
 | Field | Description |
 | --- | --- |
-| `"attempt_count"` |  |
+| `"attempt_count"` | Retry count — 0 on the first attempt, incremented per retry. |
 | `"destination_id"` |  |
-| `"destination_type"` |  |
-| `"last_error"` |  |
-| `"status"` |  |
+| `"destination_type"` | The destination's type (e.g. |
+| `"last_error"` | Most recent delivery error; omitted when delivered. |
+| `"status"` | pending, delivered, or failed. |
 
 Operations: List.
 
@@ -440,15 +440,15 @@ API path: `/nutrition`
 | Field | Description |
 | --- | --- |
 | `"athlete_metrics"` |  |
-| `"coercion_warnings"` |  |
-| `"created_at"` |  |
-| `"details"` |  |
-| `"is_external"` |  |
-| `"last_updated_at"` |  |
-| `"planned_date"` |  |
-| `"planned_workout_id"` |  |
-| `"provider_workout_id"` |  |
-| `"workout_id"` |  |
+| `"coercion_warnings"` | Set when the template could not be represented exactly on the provider. |
+| `"created_at"` | Creation time (RFC 3339) |
+| `"details"` | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `"is_external"` | True when the workout was created on the provider side rather than through Terra. |
+| `"last_updated_at"` | Last update time (RFC 3339) |
+| `"planned_date"` | New scheduled date (YYYY-MM-DD) |
+| `"planned_workout_id"` | Terra identifier of the planned workout |
+| `"provider_workout_id"` | Identifier assigned by the provider, once pushed. |
+| `"workout_id"` | Identifier of the source template. |
 
 Operations: List, Load, Update.
 
@@ -476,22 +476,22 @@ API path: `/subscriptions`
 
 | Field | Description |
 | --- | --- |
-| `"description"` |  |
+| `"description"` | Description of the workout |
 | `"environment"` |  |
-| `"estimated_calories"` |  |
-| `"estimated_distance_meters"` |  |
-| `"estimated_duration_seconds"` |  |
-| `"ftp"` |  |
-| `"max_heart_rate"` |  |
-| `"name"` |  |
-| `"planned_date"` |  |
-| `"pool_length_meters"` |  |
-| `"sport"` |  |
+| `"estimated_calories"` | Estimated calories burned |
+| `"estimated_distance_meters"` | Estimated total distance in meters |
+| `"estimated_duration_seconds"` | Estimated total duration in seconds |
+| `"ftp"` | Functional Threshold Power in watts |
+| `"max_heart_rate"` | Maximum heart rate in BPM |
+| `"name"` | Name of the workout |
+| `"planned_date"` | Date to schedule the workout on (YYYY-MM-DD) |
+| `"pool_length_meters"` | Pool length in meters, for swim workouts |
+| `"sport"` | Sport a workout template targets. |
 | `"status"` |  |
 | `"step_blocks"` |  |
-| `"threshold_heart_rate"` |  |
-| `"threshold_speed"` |  |
-| `"workout_id"` |  |
+| `"threshold_heart_rate"` | Threshold heart rate in BPM |
+| `"threshold_speed"` | Threshold speed in m/s |
+| `"workout_id"` | Terra identifier of the stored template. |
 
 Operations: Create, List, Load, Remove.
 
@@ -559,18 +559,18 @@ Create an instance: `authentication := client.Authentication(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `auth_failure_redirect_url` | `string` |  |
-| `auth_success_redirect_url` | `string` |  |
-| `auth_url` | `string` |  |
-| `expires_in` | `int` |  |
-| `language` | `string` |  |
-| `providers` | `string` |  |
-| `reference_id` | `string` |  |
-| `session_id` | `string` |  |
-| `status` | `string` |  |
+| `auth_failure_redirect_url` | `string` | URL the user is redirected to upon unsuccessful authentication |
+| `auth_success_redirect_url` | `string` | URL the user is redirected to upon successful authentication |
+| `auth_url` | `string` | authentication URL the user must be redirected to in order to link their account |
+| `expires_in` | `int` | a number in seconds depicting how long the url is valid for |
+| `language` | `string` | Display language of the widget |
+| `providers` | `string` | Comma separated list of providers to display on the device selection page. |
+| `reference_id` | `string` | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `session_id` | `string` | Session ID for the widget authentication session |
+| `status` | `string` | indicates that the request was successful |
 | `token` | `string` |  |
-| `url` | `string` |  |
-| `user_id` | `string` |  |
+| `url` | `string` | the widget URL the user must be redirected to in order to link their account |
+| `user_id` | `string` | User ID for the user being created |
 
 #### Example: Create
 
@@ -662,12 +662,12 @@ Create an instance: `integration := client.Integration(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `enabled` | `bool` |  |
-| `icon` | `string` |  |
-| `name` | `string` |  |
-| `provider` | `string` |  |
-| `setup` | `string` |  |
-| `types` | `map[string]any` |  |
+| `enabled` | `bool` | Whether the integration is enabled |
+| `icon` | `string` | URL for the provider's icon image |
+| `name` | `string` | Display name of the integration |
+| `provider` | `string` | Identifier for the provider |
+| `setup` | `string` | Indicates how the integration is set up |
+| `types` | `map[string]any` | Indicates the types of data available through the provider |
 
 #### Example: List
 
@@ -697,23 +697,23 @@ Create an instance: `labReport := client.LabReport(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `collection_date` | `string` |  |
-| `collection_time` | `string` |  |
-| `current_status` | `string` |  |
+| `collection_date` | `string` | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `string` | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `int` |  |
 | `input_bytes` | `int` |  |
 | `lab_name` | `string` |  |
 | `output_bytes` | `int` |  |
-| `panels` | `[]any` |  |
-| `patient_age_at_collection` | `int` |  |
-| `patient_sex` | `string` |  |
-| `reference_id` | `string` |  |
-| `report_date` | `string` |  |
+| `panels` | `[]any` | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `int` | Patient age in years; omitted if unknown. |
+| `patient_sex` | `string` | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `string` | Your external reference; omitted if not set. |
+| `report_date` | `string` | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
 | `report_locale` | `string` |  |
 | `report_notes` | `string` |  |
-| `report_time` | `string` |  |
-| `report_type` | `string` |  |
-| `results` | `[]any` |  |
+| `report_time` | `string` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `string` | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `[]any` | The layered biomarker results. |
 | `results_count` | `int` |  |
 | `session_id` | `string` |  |
 | `status_history` | `[]any` |  |
@@ -770,11 +770,11 @@ Create an instance: `labReportDelivery := client.LabReportDelivery(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `attempt_count` | `int` |  |
+| `attempt_count` | `int` | Retry count — 0 on the first attempt, incremented per retry. |
 | `destination_id` | `string` |  |
-| `destination_type` | `string` |  |
-| `last_error` | `string` |  |
-| `status` | `string` |  |
+| `destination_type` | `string` | The destination's type (e.g. |
+| `last_error` | `string` | Most recent delivery error; omitted when delivered. |
+| `status` | `string` | pending, delivered, or failed. |
 
 #### Example: List
 
@@ -874,15 +874,15 @@ Create an instance: `plannedWorkout := client.PlannedWorkout(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `athlete_metrics` | `any` |  |
-| `coercion_warnings` | `string` |  |
-| `created_at` | `any` |  |
-| `details` | `any` |  |
-| `is_external` | `bool` |  |
-| `last_updated_at` | `any` |  |
-| `planned_date` | `string` |  |
-| `planned_workout_id` | `string` |  |
-| `provider_workout_id` | `string` |  |
-| `workout_id` | `string` |  |
+| `coercion_warnings` | `string` | Set when the template could not be represented exactly on the provider. |
+| `created_at` | `any` | Creation time (RFC 3339) |
+| `details` | `any` | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `is_external` | `bool` | True when the workout was created on the provider side rather than through Terra. |
+| `last_updated_at` | `any` | Last update time (RFC 3339) |
+| `planned_date` | `string` | New scheduled date (YYYY-MM-DD) |
+| `planned_workout_id` | `string` | Terra identifier of the planned workout |
+| `provider_workout_id` | `string` | Identifier assigned by the provider, once pushed. |
+| `workout_id` | `string` | Identifier of the source template. |
 
 #### Example: Load
 
@@ -964,22 +964,22 @@ Create an instance: `workout := client.Workout(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `description` | `string` |  |
+| `description` | `string` | Description of the workout |
 | `environment` | `any` |  |
-| `estimated_calories` | `any` |  |
-| `estimated_distance_meters` | `any` |  |
-| `estimated_duration_seconds` | `any` |  |
-| `ftp` | `float64` |  |
-| `max_heart_rate` | `float64` |  |
-| `name` | `string` |  |
-| `planned_date` | `string` |  |
-| `pool_length_meters` | `any` |  |
-| `sport` | `any` |  |
+| `estimated_calories` | `any` | Estimated calories burned |
+| `estimated_distance_meters` | `any` | Estimated total distance in meters |
+| `estimated_duration_seconds` | `any` | Estimated total duration in seconds |
+| `ftp` | `float64` | Functional Threshold Power in watts |
+| `max_heart_rate` | `float64` | Maximum heart rate in BPM |
+| `name` | `string` | Name of the workout |
+| `planned_date` | `string` | Date to schedule the workout on (YYYY-MM-DD) |
+| `pool_length_meters` | `any` | Pool length in meters, for swim workouts |
+| `sport` | `any` | Sport a workout template targets. |
 | `status` | `string` |  |
 | `step_blocks` | `[]any` |  |
-| `threshold_heart_rate` | `float64` |  |
-| `threshold_speed` | `float64` |  |
-| `workout_id` | `string` |  |
+| `threshold_heart_rate` | `float64` | Threshold heart rate in BPM |
+| `threshold_speed` | `float64` | Threshold speed in m/s |
+| `workout_id` | `string` | Terra identifier of the stored template. |
 
 #### Example: Load
 

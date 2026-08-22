@@ -75,12 +75,12 @@ const utility_1 = require("../../utility");
         // LIST
         const planned_workout_ref01_ent = client.PlannedWorkout();
         const planned_workout_ref01_match = {};
-        const planned_workout_ref01_list = await planned_workout_ref01_ent.list(planned_workout_ref01_match);
+        const planned_workout_ref01_list = (await planned_workout_ref01_ent.list(planned_workout_ref01_match)).map((e) => e.data());
         // UPDATE
         const planned_workout_ref01_data_up0 = {};
         const planned_workout_ref01_markdef_up0 = { name: 'coercion_warnings', value: 'Mark01-planned_workout_ref01_' + setup.now };
         planned_workout_ref01_data_up0[planned_workout_ref01_markdef_up0.name] = planned_workout_ref01_markdef_up0.value;
-        const planned_workout_ref01_resdata_up0 = await planned_workout_ref01_ent.update(planned_workout_ref01_data_up0);
+        const planned_workout_ref01_resdata_up0 = (await planned_workout_ref01_ent.update(planned_workout_ref01_data_up0)).data();
         (0, node_assert_1.default)(null != planned_workout_ref01_resdata_up0);
         (0, node_assert_1.default)(planned_workout_ref01_resdata_up0[planned_workout_ref01_markdef_up0.name] === planned_workout_ref01_markdef_up0.value);
     });

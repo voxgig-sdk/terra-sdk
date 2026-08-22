@@ -45,6 +45,20 @@ declare class TerraSDK {
         headers?: undefined;
         data?: undefined;
     }>;
+    _rawRequest(fetchargs?: any): Promise<Error | {
+        ok: boolean;
+        status: number;
+        headers: any;
+        data: any;
+        err?: undefined;
+    } | {
+        ok: boolean;
+        err: any;
+        status?: undefined;
+        headers?: undefined;
+        data?: undefined;
+    }>;
+    graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Activity(entopts?: Record<string, any>): ActivityEntity;
     Athlete(entopts?: Record<string, any>): AthleteEntity;
     Authentication(entopts?: Record<string, any>): AuthenticationEntity;

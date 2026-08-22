@@ -20,9 +20,11 @@
         ],
         "headers": {
           "content-type": "application/json"
-        }
+        },
+        "repr": "auto"
       },
       "contributor": {},
+      "docs": {},
       "entity": {
         "activity": {
           "active": true,
@@ -177,54 +179,63 @@
               "active": true,
               "name": "auth_failure_redirect_url",
               "req": false,
+              "short": "URL the user is redirected to upon unsuccessful authentication",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "auth_success_redirect_url",
               "req": false,
+              "short": "URL the user is redirected to upon successful authentication",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "auth_url",
               "req": false,
+              "short": "authentication URL the user must be redirected to in order to link their account",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "expires_in",
               "req": false,
+              "short": "a number in seconds depicting how long the url is valid for",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "language",
               "req": false,
+              "short": "Display language of the widget",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "providers",
               "req": false,
+              "short": "Comma separated list of providers to display on the device selection page.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "reference_id",
               "req": false,
+              "short": "Identifier of the end user on your system, such as a user ID or email associated with them",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "session_id",
               "req": false,
+              "short": "Session ID for the widget authentication session",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "status",
               "req": false,
+              "short": "indicates that the request was successful",
               "type": "`$STRING`"
             },
             {
@@ -237,12 +248,14 @@
               "active": true,
               "name": "url",
               "req": false,
+              "short": "the widget URL the user must be redirected to in order to link their account",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "user_id",
               "req": false,
+              "short": "User ID for the user being created",
               "type": "`$STRING`"
             }
           ],
@@ -586,36 +599,42 @@
               "active": true,
               "name": "enabled",
               "req": false,
+              "short": "Whether the integration is enabled",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "icon",
               "req": false,
+              "short": "URL for the provider's icon image",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "Display name of the integration",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "provider",
               "req": false,
+              "short": "Identifier for the provider",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "setup",
               "req": false,
+              "short": "Indicates how the integration is set up",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "types",
               "req": false,
+              "short": "Indicates the types of data available through the provider",
               "type": "`$OBJECT`"
             }
           ],
@@ -673,18 +692,21 @@
               "active": true,
               "name": "collection_date",
               "req": false,
+              "short": "Specimen collection date (YYYY-MM-DD); omitted if not extracted.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "collection_time",
               "req": false,
+              "short": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "current_status",
               "req": true,
+              "short": "Current status as a clean lowercase string (open enum), e.g.",
               "type": "`$STRING`"
             },
             {
@@ -715,30 +737,35 @@
               "active": true,
               "name": "panels",
               "req": false,
+              "short": "Report-level panels that results reference by panel_id.",
               "type": "`$ARRAY`"
             },
             {
               "active": true,
               "name": "patient_age_at_collection",
               "req": false,
+              "short": "Patient age in years; omitted if unknown.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "patient_sex",
               "req": false,
+              "short": "Clean lowercase string (open enum); omitted if unspecified.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "reference_id",
               "req": false,
+              "short": "Your external reference; omitted if not set.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "report_date",
               "req": false,
+              "short": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
               "type": "`$STRING`"
             },
             {
@@ -757,18 +784,21 @@
               "active": true,
               "name": "report_time",
               "req": false,
+              "short": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "report_type",
               "req": true,
+              "short": "Report type as a clean lowercase string (open enum — handle unknown values gracefully).",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "results",
               "req": false,
+              "short": "The layered biomarker results.",
               "type": "`$ARRAY`"
             },
             {
@@ -1029,6 +1059,7 @@
               "active": true,
               "name": "attempt_count",
               "req": true,
+              "short": "Retry count — 0 on the first attempt, incremented per retry.",
               "type": "`$INTEGER`"
             },
             {
@@ -1041,18 +1072,21 @@
               "active": true,
               "name": "destination_type",
               "req": false,
+              "short": "The destination's type (e.g.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "last_error",
               "req": false,
+              "short": "Most recent delivery error; omitted when delivered.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "status",
               "req": true,
+              "short": "pending, delivered, or failed.",
               "type": "`$STRING`"
             }
           ],
@@ -1363,30 +1397,35 @@
               "active": true,
               "name": "coercion_warnings",
               "req": false,
+              "short": "Set when the template could not be represented exactly on the provider.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "created_at",
               "req": false,
+              "short": "Creation time (RFC 3339)",
               "type": "`$ANY`"
             },
             {
               "active": true,
               "name": "details",
               "req": false,
+              "short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
               "type": "`$ANY`"
             },
             {
               "active": true,
               "name": "is_external",
               "req": false,
+              "short": "True when the workout was created on the provider side rather than through Terra.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "last_updated_at",
               "req": false,
+              "short": "Last update time (RFC 3339)",
               "type": "`$ANY`"
             },
             {
@@ -1399,24 +1438,28 @@
                 }
               },
               "req": false,
+              "short": "New scheduled date (YYYY-MM-DD)",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "planned_workout_id",
               "req": false,
+              "short": "Terra identifier of the planned workout",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "provider_workout_id",
               "req": false,
+              "short": "Identifier assigned by the provider, once pushed.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "workout_id",
               "req": false,
+              "short": "Identifier of the source template.",
               "type": "`$STRING`"
             }
           ],
@@ -1781,6 +1824,7 @@
               "active": true,
               "name": "description",
               "req": false,
+              "short": "Description of the workout",
               "type": "`$STRING`"
             },
             {
@@ -1798,54 +1842,63 @@
               "active": true,
               "name": "estimated_calories",
               "req": false,
+              "short": "Estimated calories burned",
               "type": "`$ANY`"
             },
             {
               "active": true,
               "name": "estimated_distance_meters",
               "req": false,
+              "short": "Estimated total distance in meters",
               "type": "`$ANY`"
             },
             {
               "active": true,
               "name": "estimated_duration_seconds",
               "req": false,
+              "short": "Estimated total duration in seconds",
               "type": "`$ANY`"
             },
             {
               "active": true,
               "name": "ftp",
               "req": false,
+              "short": "Functional Threshold Power in watts",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "max_heart_rate",
               "req": false,
+              "short": "Maximum heart rate in BPM",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "name",
               "req": true,
+              "short": "Name of the workout",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "planned_date",
               "req": true,
+              "short": "Date to schedule the workout on (YYYY-MM-DD)",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "pool_length_meters",
               "req": false,
+              "short": "Pool length in meters, for swim workouts",
               "type": "`$ANY`"
             },
             {
               "active": true,
               "name": "sport",
               "req": true,
+              "short": "Sport a workout template targets.",
               "type": "`$ANY`",
               "union": {
                 "branches": 15,
@@ -1874,18 +1927,21 @@
               "active": true,
               "name": "threshold_heart_rate",
               "req": false,
+              "short": "Threshold heart rate in BPM",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "threshold_speed",
               "req": false,
+              "short": "Threshold speed in m/s",
               "type": "`$NUMBER`"
             },
             {
               "active": true,
               "name": "workout_id",
               "req": false,
+              "short": "Terra identifier of the stored template.",
               "type": "`$STRING`"
             }
           ],
@@ -2121,6 +2177,7 @@
       "feature": {
         "test": {
           "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "config": {
             "options": {
               "active": false
@@ -2181,6 +2238,8 @@
             }
           },
           "name": "test",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
           "target": {
             "go": {
               "deps": {}
@@ -2881,6 +2940,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2899,12 +2959,14 @@
             "path": ""
           },
           "name": "go",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -2938,6 +3000,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -2954,12 +3017,14 @@
             "path": ""
           },
           "name": "go-cli",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -3009,6 +3074,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -3025,12 +3091,14 @@
             "path": ""
           },
           "name": "go-mcp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -3080,6 +3148,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -3102,12 +3171,14 @@
             "path": ""
           },
           "name": "js",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -3140,6 +3211,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "--"
           },
@@ -3162,12 +3234,14 @@
             "path": ""
           },
           "name": "lua",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -3201,6 +3275,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -3217,12 +3292,14 @@
             "path": ""
           },
           "name": "php",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -3256,6 +3333,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -3278,12 +3356,14 @@
             "path": ""
           },
           "name": "py",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -3350,12 +3430,14 @@
             "path": ""
           },
           "name": "ts",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,

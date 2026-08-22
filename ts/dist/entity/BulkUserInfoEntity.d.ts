@@ -5,6 +5,6 @@ import type { BulkUserInfo, BulkUserInfoCreateData } from '../TerraTypes';
 declare class BulkUserInfoEntity extends TerraEntityBase<BulkUserInfo> {
     constructor(client: TerraSDK, entopts: any);
     make(this: BulkUserInfoEntity): BulkUserInfoEntity;
-    create(this: any, reqdata?: BulkUserInfoCreateData, ctrl?: Control): Promise<BulkUserInfo>;
+    create(this: any, reqdata?: BulkUserInfoCreateData, ctrl?: Control): Promise<BulkUserInfoEntity>;
 }
 export { BulkUserInfoEntity };

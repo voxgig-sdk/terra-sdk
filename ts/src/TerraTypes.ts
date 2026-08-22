@@ -341,7 +341,6 @@ export interface WorkoutCreateData {
 }
 
 export interface WorkoutRemoveMatch {
-  planned_workout_id?: number
-  id?: number
+  planned_workout_id: number
 }
 

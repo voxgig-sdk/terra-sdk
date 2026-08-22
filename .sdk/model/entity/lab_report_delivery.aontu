@@ -8,6 +8,7 @@ main: kit: entity: lab_report_delivery: {
     {
       name: "attempt_count"
       req: true
+      short: "Retry count — 0 on the first attempt, incremented per retry."
       type: "`$INTEGER`"
     }
     {
@@ -18,16 +19,19 @@ main: kit: entity: lab_report_delivery: {
     {
       name: "destination_type"
       req: false
+      short: "The destination's type (e.g."
       type: "`$STRING`"
     }
     {
       name: "last_error"
       req: false
+      short: "Most recent delivery error; omitted when delivered."
       type: "`$STRING`"
     }
     {
       name: "status"
       req: true
+      short: "pending, delivered, or failed."
       type: "`$STRING`"
     }
   ]

@@ -33,6 +33,9 @@ class TerraConfig
         return [
             "main" => [
                 "name" => "Terra",
+                "slug" => "terra",
+                "version" => "0.0.1",
+                "target" => "php",
             ],
             "feature" => [
                 "test" => [
@@ -195,38 +198,47 @@ class TerraConfig
           'fields' => [
             [
               'name' => 'auth_failure_redirect_url',
+              'short' => 'URL the user is redirected to upon unsuccessful authentication',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'auth_success_redirect_url',
+              'short' => 'URL the user is redirected to upon successful authentication',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'auth_url',
+              'short' => 'authentication URL the user must be redirected to in order to link their account',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'expires_in',
+              'short' => 'a number in seconds depicting how long the url is valid for',
               'type' => '`$INTEGER`',
             ],
             [
               'name' => 'language',
+              'short' => 'Display language of the widget',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'providers',
+              'short' => 'Comma separated list of providers to display on the device selection page.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'reference_id',
+              'short' => 'Identifier of the end user on your system, such as a user ID or email associated with them',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'session_id',
+              'short' => 'Session ID for the widget authentication session',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'status',
+              'short' => 'indicates that the request was successful',
               'type' => '`$STRING`',
             ],
             [
@@ -235,10 +247,12 @@ class TerraConfig
             ],
             [
               'name' => 'url',
+              'short' => 'the widget URL the user must be redirected to in order to link their account',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'user_id',
+              'short' => 'User ID for the user being created',
               'type' => '`$STRING`',
             ],
           ],
@@ -538,26 +552,32 @@ class TerraConfig
           'fields' => [
             [
               'name' => 'enabled',
+              'short' => 'Whether the integration is enabled',
               'type' => '`$BOOLEAN`',
             ],
             [
               'name' => 'icon',
+              'short' => 'URL for the provider\'s icon image',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'name',
+              'short' => 'Display name of the integration',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'provider',
+              'short' => 'Identifier for the provider',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'setup',
+              'short' => 'Indicates how the integration is set up',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'types',
+              'short' => 'Indicates the types of data available through the provider',
               'type' => '`$OBJECT`',
             ],
           ],
@@ -606,15 +626,18 @@ class TerraConfig
           'fields' => [
             [
               'name' => 'collection_date',
+              'short' => 'Specimen collection date (YYYY-MM-DD); omitted if not extracted.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'collection_time',
+              'short' => 'Specimen collection time (HH:MM, 24-hour); omitted if not extracted.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'current_status',
               'req' => true,
+              'short' => 'Current status as a clean lowercase string (open enum), e.g.',
               'type' => '`$STRING`',
             ],
             [
@@ -635,22 +658,27 @@ class TerraConfig
             ],
             [
               'name' => 'panels',
+              'short' => 'Report-level panels that results reference by panel_id.',
               'type' => '`$ARRAY`',
             ],
             [
               'name' => 'patient_age_at_collection',
+              'short' => 'Patient age in years; omitted if unknown.',
               'type' => '`$INTEGER`',
             ],
             [
               'name' => 'patient_sex',
+              'short' => 'Clean lowercase string (open enum); omitted if unspecified.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'reference_id',
+              'short' => 'Your external reference; omitted if not set.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'report_date',
+              'short' => 'Date printed on the report (YYYY-MM-DD); omitted if not extracted.',
               'type' => '`$STRING`',
             ],
             [
@@ -663,15 +691,18 @@ class TerraConfig
             ],
             [
               'name' => 'report_time',
+              'short' => 'Time printed on the report (HH:MM, 24-hour); omitted if not extracted.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'report_type',
               'req' => true,
+              'short' => 'Report type as a clean lowercase string (open enum — handle unknown values gracefully).',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'results',
+              'short' => 'The layered biomarker results.',
               'type' => '`$ARRAY`',
             ],
             [
@@ -896,6 +927,7 @@ class TerraConfig
             [
               'name' => 'attempt_count',
               'req' => true,
+              'short' => 'Retry count — 0 on the first attempt, incremented per retry.',
               'type' => '`$INTEGER`',
             ],
             [
@@ -905,15 +937,18 @@ class TerraConfig
             ],
             [
               'name' => 'destination_type',
+              'short' => 'The destination\'s type (e.g.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'last_error',
+              'short' => 'Most recent delivery error; omitted when delivered.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'status',
               'req' => true,
+              'short' => 'pending, delivered, or failed.',
               'type' => '`$STRING`',
             ],
           ],
@@ -1179,22 +1214,27 @@ class TerraConfig
             ],
             [
               'name' => 'coercion_warnings',
+              'short' => 'Set when the template could not be represented exactly on the provider.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'created_at',
+              'short' => 'Creation time (RFC 3339)',
               'type' => '`$ANY`',
             ],
             [
               'name' => 'details',
+              'short' => 'Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.',
               'type' => '`$ANY`',
             ],
             [
               'name' => 'is_external',
+              'short' => 'True when the workout was created on the provider side rather than through Terra.',
               'type' => '`$BOOLEAN`',
             ],
             [
               'name' => 'last_updated_at',
+              'short' => 'Last update time (RFC 3339)',
               'type' => '`$ANY`',
             ],
             [
@@ -1205,18 +1245,22 @@ class TerraConfig
                   'type' => '`$STRING`',
                 ],
               ],
+              'short' => 'New scheduled date (YYYY-MM-DD)',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'planned_workout_id',
+              'short' => 'Terra identifier of the planned workout',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'provider_workout_id',
+              'short' => 'Identifier assigned by the provider, once pushed.',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'workout_id',
+              'short' => 'Identifier of the source template.',
               'type' => '`$STRING`',
             ],
           ],
@@ -1536,6 +1580,7 @@ class TerraConfig
           'fields' => [
             [
               'name' => 'description',
+              'short' => 'Description of the workout',
               'type' => '`$STRING`',
             ],
             [
@@ -1549,41 +1594,50 @@ class TerraConfig
             ],
             [
               'name' => 'estimated_calories',
+              'short' => 'Estimated calories burned',
               'type' => '`$ANY`',
             ],
             [
               'name' => 'estimated_distance_meters',
+              'short' => 'Estimated total distance in meters',
               'type' => '`$ANY`',
             ],
             [
               'name' => 'estimated_duration_seconds',
+              'short' => 'Estimated total duration in seconds',
               'type' => '`$ANY`',
             ],
             [
               'name' => 'ftp',
+              'short' => 'Functional Threshold Power in watts',
               'type' => '`$NUMBER`',
             ],
             [
               'name' => 'max_heart_rate',
+              'short' => 'Maximum heart rate in BPM',
               'type' => '`$NUMBER`',
             ],
             [
               'name' => 'name',
               'req' => true,
+              'short' => 'Name of the workout',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'planned_date',
               'req' => true,
+              'short' => 'Date to schedule the workout on (YYYY-MM-DD)',
               'type' => '`$STRING`',
             ],
             [
               'name' => 'pool_length_meters',
+              'short' => 'Pool length in meters, for swim workouts',
               'type' => '`$ANY`',
             ],
             [
               'name' => 'sport',
               'req' => true,
+              'short' => 'Sport a workout template targets.',
               'type' => '`$ANY`',
               'union' => [
                 'branches' => 15,
@@ -1607,14 +1661,17 @@ class TerraConfig
             ],
             [
               'name' => 'threshold_heart_rate',
+              'short' => 'Threshold heart rate in BPM',
               'type' => '`$NUMBER`',
             ],
             [
               'name' => 'threshold_speed',
+              'short' => 'Threshold speed in m/s',
               'type' => '`$NUMBER`',
             ],
             [
               'name' => 'workout_id',
+              'short' => 'Terra identifier of the stored template.',
               'type' => '`$STRING`',
             ],
           ],

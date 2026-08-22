@@ -384,6 +384,5 @@ class WorkoutCreateData(WorkoutCreateDataRequired, total=False):
     workout_id: str
 
 
-class WorkoutRemoveMatch(TypedDict, total=False):
+class WorkoutRemoveMatch(TypedDict):
     planned_workout_id: int
-    id: int

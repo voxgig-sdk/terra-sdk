@@ -13,26 +13,31 @@ main: kit: entity: planned_workout: {
     {
       name: "coercion_warnings"
       req: false
+      short: "Set when the template could not be represented exactly on the provider."
       type: "`$STRING`"
     }
     {
       name: "created_at"
       req: false
+      short: "Creation time (RFC 3339)"
       type: "`$ANY`"
     }
     {
       name: "details"
       req: false
+      short: "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider."
       type: "`$ANY`"
     }
     {
       name: "is_external"
       req: false
+      short: "True when the workout was created on the provider side rather than through Terra."
       type: "`$BOOLEAN`"
     }
     {
       name: "last_updated_at"
       req: false
+      short: "Last update time (RFC 3339)"
       type: "`$ANY`"
     }
     {
@@ -44,21 +49,25 @@ main: kit: entity: planned_workout: {
         }
       }
       req: false
+      short: "New scheduled date (YYYY-MM-DD)"
       type: "`$STRING`"
     }
     {
       name: "planned_workout_id"
       req: false
+      short: "Terra identifier of the planned workout"
       type: "`$STRING`"
     }
     {
       name: "provider_workout_id"
       req: false
+      short: "Identifier assigned by the provider, once pushed."
       type: "`$STRING`"
     }
     {
       name: "workout_id"
       req: false
+      short: "Identifier of the source template."
       type: "`$STRING`"
     }
   ]

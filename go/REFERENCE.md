@@ -249,18 +249,18 @@ fmt.Println(authentication.GetName()) // "authentication"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `auth_failure_redirect_url` | `string` | No |  |
-| `auth_success_redirect_url` | `string` | No |  |
-| `auth_url` | `string` | No |  |
-| `expires_in` | `int` | No |  |
-| `language` | `string` | No |  |
-| `providers` | `string` | No |  |
-| `reference_id` | `string` | No |  |
-| `session_id` | `string` | No |  |
-| `status` | `string` | No |  |
+| `auth_failure_redirect_url` | `string` | No | URL the user is redirected to upon unsuccessful authentication |
+| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication |
+| `auth_url` | `string` | No | authentication URL the user must be redirected to in order to link their account |
+| `expires_in` | `int` | No | a number in seconds depicting how long the url is valid for |
+| `language` | `string` | No | Display language of the widget |
+| `providers` | `string` | No | Comma separated list of providers to display on the device selection page. |
+| `reference_id` | `string` | No | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `session_id` | `string` | No | Session ID for the widget authentication session |
+| `status` | `string` | No | indicates that the request was successful |
 | `token` | `string` | No |  |
-| `url` | `string` | No |  |
-| `user_id` | `string` | No |  |
+| `url` | `string` | No | the widget URL the user must be redirected to in order to link their account |
+| `user_id` | `string` | No | User ID for the user being created |
 
 ### Operations
 
@@ -460,12 +460,12 @@ fmt.Println(integration.GetName()) // "integration"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `enabled` | `bool` | No |  |
-| `icon` | `string` | No |  |
-| `name` | `string` | No |  |
-| `provider` | `string` | No |  |
-| `setup` | `string` | No |  |
-| `types` | `map[string]any` | No |  |
+| `enabled` | `bool` | No | Whether the integration is enabled |
+| `icon` | `string` | No | URL for the provider's icon image |
+| `name` | `string` | No | Display name of the integration |
+| `provider` | `string` | No | Identifier for the provider |
+| `setup` | `string` | No | Indicates how the integration is set up |
+| `types` | `map[string]any` | No | Indicates the types of data available through the provider |
 
 ### Operations
 
@@ -516,23 +516,23 @@ fmt.Println(labReport.GetName()) // "lab_report"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `collection_date` | `string` | No |  |
-| `collection_time` | `string` | No |  |
-| `current_status` | `string` | Yes |  |
+| `collection_date` | `string` | No | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `int` | No |  |
 | `input_bytes` | `int` | No |  |
 | `lab_name` | `string` | No |  |
 | `output_bytes` | `int` | No |  |
-| `panels` | `[]any` | No |  |
-| `patient_age_at_collection` | `int` | No |  |
-| `patient_sex` | `string` | No |  |
-| `reference_id` | `string` | No |  |
-| `report_date` | `string` | No |  |
+| `panels` | `[]any` | No | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `int` | No | Patient age in years; omitted if unknown. |
+| `patient_sex` | `string` | No | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `string` | No | Your external reference; omitted if not set. |
+| `report_date` | `string` | No | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
 | `report_locale` | `string` | No |  |
 | `report_notes` | `string` | No |  |
-| `report_time` | `string` | No |  |
-| `report_type` | `string` | Yes |  |
-| `results` | `[]any` | No |  |
+| `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `string` | Yes | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `[]any` | No | The layered biomarker results. |
 | `results_count` | `int` | No |  |
 | `session_id` | `string` | Yes |  |
 | `status_history` | `[]any` | No |  |
@@ -629,11 +629,11 @@ fmt.Println(labReportDelivery.GetName()) // "lab_report_delivery"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `attempt_count` | `int` | Yes |  |
+| `attempt_count` | `int` | Yes | Retry count — 0 on the first attempt, incremented per retry. |
 | `destination_id` | `string` | Yes |  |
-| `destination_type` | `string` | No |  |
-| `last_error` | `string` | No |  |
-| `status` | `string` | Yes |  |
+| `destination_type` | `string` | No | The destination's type (e.g. |
+| `last_error` | `string` | No | Most recent delivery error; omitted when delivered. |
+| `status` | `string` | Yes | pending, delivered, or failed. |
 
 ### Operations
 
@@ -827,15 +827,15 @@ fmt.Println(plannedWorkout.GetName()) // "planned_workout"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `athlete_metrics` | `any` | No |  |
-| `coercion_warnings` | `string` | No |  |
-| `created_at` | `any` | No |  |
-| `details` | `any` | No |  |
-| `is_external` | `bool` | No |  |
-| `last_updated_at` | `any` | No |  |
-| `planned_date` | `string` | No |  |
-| `planned_workout_id` | `string` | No |  |
-| `provider_workout_id` | `string` | No |  |
-| `workout_id` | `string` | No |  |
+| `coercion_warnings` | `string` | No | Set when the template could not be represented exactly on the provider. |
+| `created_at` | `any` | No | Creation time (RFC 3339) |
+| `details` | `any` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `is_external` | `bool` | No | True when the workout was created on the provider side rather than through Terra. |
+| `last_updated_at` | `any` | No | Last update time (RFC 3339) |
+| `planned_date` | `string` | No | New scheduled date (YYYY-MM-DD) |
+| `planned_workout_id` | `string` | No | Terra identifier of the planned workout |
+| `provider_workout_id` | `string` | No | Identifier assigned by the provider, once pushed. |
+| `workout_id` | `string` | No | Identifier of the source template. |
 
 ### Field Usage by Operation
 
@@ -1018,22 +1018,22 @@ fmt.Println(workout.GetName()) // "workout"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `description` | `string` | No |  |
+| `description` | `string` | No | Description of the workout |
 | `environment` | `any` | No |  |
-| `estimated_calories` | `any` | No |  |
-| `estimated_distance_meters` | `any` | No |  |
-| `estimated_duration_seconds` | `any` | No |  |
-| `ftp` | `float64` | No |  |
-| `max_heart_rate` | `float64` | No |  |
-| `name` | `string` | Yes |  |
-| `planned_date` | `string` | Yes |  |
-| `pool_length_meters` | `any` | No |  |
-| `sport` | `any` | Yes |  |
+| `estimated_calories` | `any` | No | Estimated calories burned |
+| `estimated_distance_meters` | `any` | No | Estimated total distance in meters |
+| `estimated_duration_seconds` | `any` | No | Estimated total duration in seconds |
+| `ftp` | `float64` | No | Functional Threshold Power in watts |
+| `max_heart_rate` | `float64` | No | Maximum heart rate in BPM |
+| `name` | `string` | Yes | Name of the workout |
+| `planned_date` | `string` | Yes | Date to schedule the workout on (YYYY-MM-DD) |
+| `pool_length_meters` | `any` | No | Pool length in meters, for swim workouts |
+| `sport` | `any` | Yes | Sport a workout template targets. |
 | `status` | `string` | No |  |
 | `step_blocks` | `[]any` | Yes |  |
-| `threshold_heart_rate` | `float64` | No |  |
-| `threshold_speed` | `float64` | No |  |
-| `workout_id` | `string` | No |  |
+| `threshold_heart_rate` | `float64` | No | Threshold heart rate in BPM |
+| `threshold_speed` | `float64` | No | Threshold speed in m/s |
+| `workout_id` | `string` | No | Terra identifier of the stored template. |
 
 ### Operations
 
@@ -1083,7 +1083,7 @@ fmt.Println(result)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Workout(nil).Remove(map[string]any{"id": 1}, nil)
+result, err := client.Workout(nil).Remove(map[string]any{"planned_workout_id": 1}, nil)
 if err != nil {
     panic(err)
 }

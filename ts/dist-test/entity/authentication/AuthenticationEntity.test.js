@@ -74,7 +74,7 @@ const utility_1 = require("../../utility");
         // CREATE
         const authentication_ref01_ent = client.Authentication();
         let authentication_ref01_data = setup.data.new.authentication['authentication_ref01'];
-        authentication_ref01_data = await authentication_ref01_ent.create(authentication_ref01_data);
+        authentication_ref01_data = (await authentication_ref01_ent.create(authentication_ref01_data)).data();
         (0, node_assert_1.default)(null != authentication_ref01_data);
     });
 });
