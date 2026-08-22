@@ -85,7 +85,10 @@ export interface Integration {
   icon?: string
   name?: string
   provider?: string
+  providers?: any[]
+  sdk_providers?: any[]
   setup?: string
+  status?: string
   types?: Record<string, any>
 }
 
@@ -94,8 +97,17 @@ export interface IntegrationListMatch {
   icon?: string
   name?: string
   provider?: string
+  providers?: any[]
+  sdk_providers?: any[]
   setup?: string
+  status?: string
   types?: Record<string, any>
+
+  // Selects a custom action instead of the plain list:
+  //   'detailed'
+  // The remaining keys are that action's own payload.
+  $action?: string
+  [action: string]: any
 }
 
 export interface LabReport {

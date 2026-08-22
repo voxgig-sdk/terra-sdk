@@ -65,7 +65,10 @@ export interface Integration {
     icon?: string;
     name?: string;
     provider?: string;
+    providers?: any[];
+    sdk_providers?: any[];
     setup?: string;
+    status?: string;
     types?: Record<string, any>;
 }
 export interface IntegrationListMatch {
@@ -73,8 +76,13 @@ export interface IntegrationListMatch {
     icon?: string;
     name?: string;
     provider?: string;
+    providers?: any[];
+    sdk_providers?: any[];
     setup?: string;
+    status?: string;
     types?: Record<string, any>;
+    $action?: string;
+    [action: string]: any;
 }
 export interface LabReport {
     collection_date?: string;

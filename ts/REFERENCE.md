@@ -592,8 +592,31 @@ const integration = client.Integration()
 | `icon` | `string` | No | URL for the provider's icon image |
 | `name` | `string` | No | Display name of the integration |
 | `provider` | `string` | No | Identifier for the provider |
+| `providers` | `any[]` | No |  |
+| `sdk_providers` | `any[]` | No | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | `string` | No | Indicates how the integration is set up |
+| `status` | `string` | No |  |
 | `types` | `Record<string, any>` | No | Indicates the types of data available through the provider |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `detailed` | `/integrations/detailed` | `client.Integration().list({ $action: 'detailed', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Integration record — check the API definition for its shape.
+
+```ts
+const result = await client.Integration().list({
+  $action: 'detailed',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 

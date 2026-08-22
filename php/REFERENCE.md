@@ -460,7 +460,10 @@ $integration = $client->Integration();
 | `icon` | `string` | No | URL for the provider's icon image |
 | `name` | `string` | No | Display name of the integration |
 | `provider` | `string` | No | Identifier for the provider |
+| `providers` | `array` | No |  |
+| `sdk_providers` | `array` | No | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | `string` | No | Indicates how the integration is set up |
+| `status` | `string` | No |  |
 | `types` | `array` | No | Indicates the types of data available through the provider |
 
 ### Operations

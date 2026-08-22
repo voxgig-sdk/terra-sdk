@@ -319,7 +319,10 @@ API path: `/daily`
 | `icon` | URL for the provider's icon image |
 | `name` | Display name of the integration |
 | `provider` | Identifier for the provider |
+| `providers` |  |
+| `sdk_providers` | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | Indicates how the integration is set up |
+| `status` |  |
 | `types` | Indicates the types of data available through the provider |
 
 Operations: List.
@@ -608,7 +611,10 @@ Create an instance: `local integration = client:Integration(nil)`
 | `icon` | `string` | URL for the provider's icon image |
 | `name` | `string` | Display name of the integration |
 | `provider` | `string` | Identifier for the provider |
+| `providers` | `table` |  |
+| `sdk_providers` | `table` | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | `string` | Indicates how the integration is set up |
+| `status` | `string` |  |
 | `types` | `table` | Indicates the types of data available through the provider |
 
 #### Example: List

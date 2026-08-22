@@ -464,7 +464,10 @@ fmt.Println(integration.GetName()) // "integration"
 | `icon` | `string` | No | URL for the provider's icon image |
 | `name` | `string` | No | Display name of the integration |
 | `provider` | `string` | No | Identifier for the provider |
+| `providers` | `[]any` | No |  |
+| `sdk_providers` | `[]any` | No | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | `string` | No | Indicates how the integration is set up |
+| `status` | `string` | No |  |
 | `types` | `map[string]any` | No | Indicates the types of data available through the provider |
 
 ### Operations

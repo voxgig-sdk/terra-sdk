@@ -34,7 +34,7 @@ class TerraConfig
             "main" => [
                 "name" => "Terra",
                 "slug" => "terra",
-                "version" => "0.0.1",
+                "version" => "0.1.1",
                 "target" => "php",
             ],
             "feature" => [
@@ -571,8 +571,21 @@ class TerraConfig
               'type' => '`$STRING`',
             ],
             [
+              'name' => 'providers',
+              'type' => '`$ARRAY`',
+            ],
+            [
+              'name' => 'sdk_providers',
+              'short' => 'Providers available through Terra\'s mobile SDKs rather than cloud connections',
+              'type' => '`$ARRAY`',
+            ],
+            [
               'name' => 'setup',
               'short' => 'Indicates how the integration is set up',
+              'type' => '`$STRING`',
+            ],
+            [
+              'name' => 'status',
               'type' => '`$STRING`',
             ],
             [
@@ -606,6 +619,7 @@ class TerraConfig
                     'detailed',
                   ],
                   'select' => [
+                    '$action' => 'detailed',
                     'exist' => [
                       'sdk',
                     ],
@@ -613,6 +627,20 @@ class TerraConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.providers`',
+                  ],
+                ],
+                [
+                  'args' => [],
+                  'kind' => 'http',
+                  'method' => 'GET',
+                  'orig' => '/integrations',
+                  'parts' => [
+                    'integrations',
+                  ],
+                  'select' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
                   ],
                 ],
               ],

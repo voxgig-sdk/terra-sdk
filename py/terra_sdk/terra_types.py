@@ -106,7 +106,10 @@ class Integration(TypedDict, total=False):
     icon: str
     name: str
     provider: str
+    providers: list
+    sdk_providers: list
     setup: str
+    status: str
     types: dict
 
 
@@ -115,7 +118,10 @@ class IntegrationListMatch(TypedDict, total=False):
     icon: str
     name: str
     provider: str
+    providers: list
+    sdk_providers: list
     setup: str
+    status: str
     types: dict
 
 

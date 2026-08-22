@@ -449,7 +449,10 @@ integration = client.Integration()
 | `icon` | `str` | No | URL for the provider's icon image |
 | `name` | `str` | No | Display name of the integration |
 | `provider` | `str` | No | Identifier for the provider |
+| `providers` | `list` | No |  |
+| `sdk_providers` | `list` | No | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | `str` | No | Indicates how the integration is set up |
+| `status` | `str` | No |  |
 | `types` | `dict` | No | Indicates the types of data available through the provider |
 
 ### Operations

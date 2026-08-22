@@ -1,0 +1,18 @@
+# Flows
+
+@"BasicActivityFlow.aon"
+@"BasicAthleteFlow.aon"
+@"BasicAuthenticationFlow.aon"
+@"BasicBodyFlow.aon"
+@"BasicBulkUserInfoFlow.aon"
+@"BasicDailyFlow.aon"
+@"BasicIntegrationFlow.aon"
+@"BasicLabReportDeliveryFlow.aon"
+@"BasicLabReportFileFlow.aon"
+@"BasicLabReportFlow.aon"
+@"BasicMenstruationFlow.aon"
+@"BasicNutritionFlow.aon"
+@"BasicPlannedWorkoutFlow.aon"
+@"BasicSleepFlow.aon"
+@"BasicUserFlow.aon"
+@"BasicWorkoutFlow.aon"

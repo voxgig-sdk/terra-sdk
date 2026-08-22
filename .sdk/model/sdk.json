@@ -625,9 +625,28 @@
             },
             {
               "active": true,
+              "name": "providers",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "sdk_providers",
+              "req": false,
+              "short": "Providers available through Terra's mobile SDKs rather than cloud connections",
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
               "name": "setup",
               "req": false,
               "short": "Indicates how the integration is set up",
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "status",
+              "req": false,
               "type": "`$STRING`"
             },
             {
@@ -666,6 +685,7 @@
                     "detailed"
                   ],
                   "select": {
+                    "$action": "detailed",
                     "exist": [
                       "sdk"
                     ]
@@ -673,6 +693,21 @@
                   "transform": {
                     "req": "`reqdata`",
                     "res": "`body.providers`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/integrations",
+                  "parts": [
+                    "integrations"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
                   }
                 }
               ]
@@ -2989,7 +3024,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "Golang"
@@ -3064,7 +3099,7 @@
               },
               "via": "root"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "title": "Go CLI"
         },
@@ -3138,7 +3173,7 @@
               },
               "via": "root"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "title": "Go MCP server"
         },
@@ -3201,7 +3236,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "title": "JavaScript"
         },
@@ -3264,7 +3299,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "Lua"
@@ -3322,7 +3357,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "PHP"
@@ -3386,7 +3421,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "srcfeature": false,
           "title": "Python"
@@ -3460,7 +3495,7 @@
               },
               "via": "port"
             },
-            "version": "0.0.1"
+            "version": "0.1.1"
           },
           "title": "TypeScript"
         }

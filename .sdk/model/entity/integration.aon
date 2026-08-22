@@ -30,9 +30,25 @@ main: kit: entity: integration: {
       type: "`$STRING`"
     }
     {
+      name: "providers"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "sdk_providers"
+      req: false
+      short: "Providers available through Terra's mobile SDKs rather than cloud connections"
+      type: "`$ARRAY`"
+    }
+    {
       name: "setup"
       req: false
       short: "Indicates how the integration is set up"
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: false
       type: "`$STRING`"
     }
     {
@@ -67,6 +83,7 @@ main: kit: entity: integration: {
             "detailed"
           ]
           select: {
+            "$action": "detailed"
             exist: [
               "sdk"
             ]
@@ -74,6 +91,17 @@ main: kit: entity: integration: {
           transform: {
             req: "`reqdata`"
             res: "`body.providers`"
+          }
+        }
+        {
+          method: "GET"
+          orig: "/integrations"
+          parts: [
+            "integrations"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
           }
         }
       ]

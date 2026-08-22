@@ -12,7 +12,7 @@ func MakeConfig() map[string]any {
 		"main": map[string]any{
 			"name": "Terra",
 			"slug": "terra",
-			"version": "0.0.1",
+			"version": "0.1.1",
 			"target": "go",
 		},
 		"feature": map[string]any{
@@ -549,8 +549,21 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"name": "providers",
+						"type": "`$ARRAY`",
+					},
+					map[string]any{
+						"name": "sdk_providers",
+						"short": "Providers available through Terra's mobile SDKs rather than cloud connections",
+						"type": "`$ARRAY`",
+					},
+					map[string]any{
 						"name": "setup",
 						"short": "Indicates how the integration is set up",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "status",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -584,6 +597,7 @@ func MakeConfig() map[string]any {
 									"detailed",
 								},
 								"select": map[string]any{
+									"$action": "detailed",
 									"exist": []any{
 										"sdk",
 									},
@@ -591,6 +605,20 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body.providers`",
+								},
+							},
+							map[string]any{
+								"args": map[string]any{},
+								"kind": "http",
+								"method": "GET",
+								"orig": "/integrations",
+								"parts": []any{
+									"integrations",
+								},
+								"select": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
 								},
 							},
 						},

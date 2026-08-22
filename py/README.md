@@ -335,7 +335,10 @@ API path: `/daily`
 | `icon` | URL for the provider's icon image |
 | `name` | Display name of the integration |
 | `provider` | Identifier for the provider |
+| `providers` |  |
+| `sdk_providers` | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | Indicates how the integration is set up |
+| `status` |  |
 | `types` | Indicates the types of data available through the provider |
 
 Operations: List.
@@ -624,7 +627,10 @@ Create an instance: `integration = client.Integration()`
 | `icon` | `str` | URL for the provider's icon image |
 | `name` | `str` | Display name of the integration |
 | `provider` | `str` | Identifier for the provider |
+| `providers` | `list` |  |
+| `sdk_providers` | `list` | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | `str` | Indicates how the integration is set up |
+| `status` | `str` |  |
 | `types` | `dict` | Indicates the types of data available through the provider |
 
 #### Example: List

@@ -327,17 +327,21 @@ declare class Config {
             };
         };
         integration: {
-            fields: {
+            fields: ({
                 name: string;
                 short: string;
                 type: string;
-            }[];
+            } | {
+                name: string;
+                type: string;
+                short?: undefined;
+            })[];
             name: string;
             op: {
                 list: {
                     input: string;
                     name: string;
-                    points: {
+                    points: ({
                         args: {
                             query: {
                                 kind: string;
@@ -351,13 +355,30 @@ declare class Config {
                         orig: string;
                         parts: string[];
                         select: {
+                            $action: string;
                             exist: string[];
                         };
                         transform: {
                             req: string;
                             res: string;
                         };
-                    }[];
+                    } | {
+                        args: {
+                            query?: undefined;
+                        };
+                        kind: string;
+                        method: string;
+                        orig: string;
+                        parts: string[];
+                        select: {
+                            $action?: undefined;
+                            exist?: undefined;
+                        };
+                        transform: {
+                            req: string;
+                            res: string;
+                        };
+                    })[];
                 };
             };
             relations: {

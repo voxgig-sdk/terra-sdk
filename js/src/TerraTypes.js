@@ -100,7 +100,10 @@
  * @property {string} [icon]
  * @property {string} [name]
  * @property {string} [provider]
+ * @property {Array} [providers]
+ * @property {Array} [sdk_providers]
  * @property {string} [setup]
+ * @property {string} [status]
  * @property {Object} [types]
  */
 
@@ -110,7 +113,10 @@
  * @property {string} [icon]
  * @property {string} [name]
  * @property {string} [provider]
+ * @property {Array} [providers]
+ * @property {Array} [sdk_providers]
  * @property {string} [setup]
+ * @property {string} [status]
  * @property {Object} [types]
  */
 

@@ -168,7 +168,7 @@ The API exposes 16 entities:
 | **Body** | The Body entity (load). | `/body` |
 | **BulkUserInfo** | The BulkUserInfo entity (create). | `/bulkUserInfo` |
 | **Daily** | The Daily entity (load). | `/daily` |
-| **Integration** | The Integration entity (list). | `/integrations/detailed` |
+| **Integration** | The Integration entity (list). | `/integrations` |
 | **LabReport** | The LabReport entity (create, list, load, remove). | `/lab-reports` |
 | **LabReportDelivery** | The LabReportDelivery entity (list). | `/lab-reports/{session_id}/deliveries` |
 | **LabReportFile** | The LabReportFile entity (list). | `/lab-reports/{session_id}/files` |

@@ -120,7 +120,10 @@ class Integration
     public ?string $icon = null;
     public ?string $name = null;
     public ?string $provider = null;
+    public ?array $providers = null;
+    public ?array $sdk_providers = null;
     public ?string $setup = null;
+    public ?string $status = null;
     public ?array $types = null;
 }
 
@@ -131,7 +134,10 @@ class IntegrationListMatch
     public ?string $icon = null;
     public ?string $name = null;
     public ?string $provider = null;
+    public ?array $providers = null;
+    public ?array $sdk_providers = null;
     public ?string $setup = null;
+    public ?string $status = null;
     public ?array $types = null;
 }
 

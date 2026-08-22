@@ -73,7 +73,10 @@
 ---@field icon? string
 ---@field name? string
 ---@field provider? string
+---@field providers? table
+---@field sdk_providers? table
 ---@field setup? string
+---@field status? string
 ---@field types? table
 
 ---@class IntegrationListMatch
@@ -81,7 +84,10 @@
 ---@field icon? string
 ---@field name? string
 ---@field provider? string
+---@field providers? table
+---@field sdk_providers? table
 ---@field setup? string
+---@field status? string
 ---@field types? table
 
 ---@class LabReport

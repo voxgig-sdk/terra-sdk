@@ -106,7 +106,10 @@ type Integration struct {
 	Icon *string `json:"icon,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Provider *string `json:"provider,omitempty"`
+	Providers *[]any `json:"providers,omitempty"`
+	SdkProviders *[]any `json:"sdk_providers,omitempty"`
 	Setup *string `json:"setup,omitempty"`
+	Status *string `json:"status,omitempty"`
 	Types *map[string]any `json:"types,omitempty"`
 }
 
@@ -116,7 +119,10 @@ type IntegrationListMatch struct {
 	Icon *string `json:"icon,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Provider *string `json:"provider,omitempty"`
+	Providers *[]any `json:"providers,omitempty"`
+	SdkProviders *[]any `json:"sdk_providers,omitempty"`
 	Setup *string `json:"setup,omitempty"`
+	Status *string `json:"status,omitempty"`
 	Types *map[string]any `json:"types,omitempty"`
 }
 

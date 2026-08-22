@@ -458,7 +458,10 @@ local integration = client:Integration(nil)
 | `icon` | `string` | No | URL for the provider's icon image |
 | `name` | `string` | No | Display name of the integration |
 | `provider` | `string` | No | Identifier for the provider |
+| `providers` | `table` | No |  |
+| `sdk_providers` | `table` | No | Providers available through Terra's mobile SDKs rather than cloud connections |
 | `setup` | `string` | No | Indicates how the integration is set up |
+| `status` | `string` | No |  |
 | `types` | `table` | No | Indicates the types of data available through the provider |
 
 ### Operations
