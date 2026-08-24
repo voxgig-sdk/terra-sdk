@@ -1,15 +1,6 @@
 {
-  "NAME": "TERRA",
-  "Name": "Terra",
   "def": "v2-bundled.yaml",
   "main": {
-    "api": {
-      "entity": {},
-      "guide": {}
-    },
-    "custom": {
-      "plurals": {}
-    },
     "def": {
       "desc": ""
     },
@@ -3519,8 +3510,5 @@
     }
   },
   "name": "terra",
-  "name-": "terra",
-  "name_": "terra",
-  "name__orig": "terra",
   "origin": "voxgig-sdk"
 }
