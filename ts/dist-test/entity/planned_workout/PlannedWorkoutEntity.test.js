@@ -78,11 +78,17 @@ const utility_1 = require("../../utility");
         const planned_workout_ref01_list = (await planned_workout_ref01_ent.list(planned_workout_ref01_match)).map((e) => e.data());
         // UPDATE
         const planned_workout_ref01_data_up0 = {};
+        planned_workout_ref01_data_up0.id = planned_workout_ref01_data.id;
         const planned_workout_ref01_markdef_up0 = { name: 'coercion_warnings', value: 'Mark01-planned_workout_ref01_' + setup.now };
         planned_workout_ref01_data_up0[planned_workout_ref01_markdef_up0.name] = planned_workout_ref01_markdef_up0.value;
         const planned_workout_ref01_resdata_up0 = (await planned_workout_ref01_ent.update(planned_workout_ref01_data_up0)).data();
-        (0, node_assert_1.default)(null != planned_workout_ref01_resdata_up0);
+        (0, node_assert_1.default)(planned_workout_ref01_resdata_up0.id === planned_workout_ref01_data_up0.id);
         (0, node_assert_1.default)(planned_workout_ref01_resdata_up0[planned_workout_ref01_markdef_up0.name] === planned_workout_ref01_markdef_up0.value);
+        // LOAD
+        const planned_workout_ref01_match_dt0 = {};
+        planned_workout_ref01_match_dt0.id = planned_workout_ref01_data.id;
+        const planned_workout_ref01_data_dt0 = (await planned_workout_ref01_ent.load(planned_workout_ref01_match_dt0)).data();
+        (0, node_assert_1.default)(planned_workout_ref01_data_dt0.id === planned_workout_ref01_data.id);
     });
 });
 function basicSetup(extra) {

@@ -89,6 +89,7 @@ export interface LabReport {
     collection_time?: string;
     current_status: string;
     file_count?: number;
+    id?: string;
     input_bytes?: number;
     lab_name?: string;
     output_bytes?: number;
@@ -117,6 +118,7 @@ export interface LabReportListMatch {
     collection_time?: string;
     current_status?: string;
     file_count?: number;
+    id?: string;
     input_bytes?: number;
     lab_name?: string;
     output_bytes?: number;
@@ -142,6 +144,7 @@ export interface LabReportCreateData {
     collection_time?: string;
     current_status: string;
     file_count?: number;
+    id?: string;
     input_bytes?: number;
     lab_name?: string;
     output_bytes?: number;
@@ -169,6 +172,7 @@ export interface LabReportDelivery {
     attempt_count: number;
     destination_id: string;
     destination_type?: string;
+    id?: string;
     last_error?: string;
     status: string;
 }
@@ -177,6 +181,7 @@ export interface LabReportDeliveryListMatch {
 }
 export interface LabReportFile {
     filename?: string;
+    id?: string;
     presigned_url: string;
 }
 export interface LabReportFileListMatch {
@@ -195,6 +200,7 @@ export interface PlannedWorkout {
     coercion_warnings?: string;
     created_at?: any;
     details?: any;
+    id?: string;
     is_external?: boolean;
     last_updated_at?: any;
     planned_date?: string;
@@ -210,6 +216,7 @@ export interface PlannedWorkoutListMatch {
     coercion_warnings?: string;
     created_at?: any;
     details?: any;
+    id?: string;
     is_external?: boolean;
     last_updated_at?: any;
     planned_date?: string;
@@ -245,6 +252,7 @@ export interface Workout {
     estimated_distance_meters?: any;
     estimated_duration_seconds?: any;
     ftp?: number;
+    id?: string;
     max_heart_rate?: number;
     name: string;
     planned_date: string;
@@ -266,6 +274,7 @@ export interface WorkoutListMatch {
     estimated_distance_meters?: any;
     estimated_duration_seconds?: any;
     ftp?: number;
+    id?: string;
     max_heart_rate?: number;
     name?: string;
     planned_date?: string;
@@ -284,6 +293,7 @@ export interface WorkoutCreateData {
     estimated_distance_meters?: any;
     estimated_duration_seconds?: any;
     ftp?: number;
+    id?: string;
     max_heart_rate?: number;
     name: string;
     planned_date: string;

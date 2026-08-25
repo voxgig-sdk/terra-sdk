@@ -123,6 +123,7 @@ func TestPlannedWorkoutEntity(t *testing.T) {
 
 		// UPDATE
 		plannedWorkoutRef01DataUp0Up := map[string]any{
+			"id": plannedWorkoutRef01Data["id"],
 		}
 
 		plannedWorkoutRef01MarkdefUp0Name := "coercion_warnings"
@@ -137,18 +138,27 @@ func TestPlannedWorkoutEntity(t *testing.T) {
 		if plannedWorkoutRef01ResdataUp0 == nil {
 			t.Fatal("expected update result to be a map")
 		}
+		if plannedWorkoutRef01ResdataUp0["id"] != plannedWorkoutRef01DataUp0Up["id"] {
+			t.Fatal("expected update result id to match")
+		}
 		if plannedWorkoutRef01ResdataUp0[plannedWorkoutRef01MarkdefUp0Name] != plannedWorkoutRef01MarkdefUp0Value {
 			t.Fatalf("expected %s to be updated, got %v", plannedWorkoutRef01MarkdefUp0Name, plannedWorkoutRef01ResdataUp0[plannedWorkoutRef01MarkdefUp0Name])
 		}
 
 		// LOAD
-		plannedWorkoutRef01MatchDt0 := map[string]any{}
+		plannedWorkoutRef01MatchDt0 := map[string]any{
+			"id": plannedWorkoutRef01Data["id"],
+		}
 		plannedWorkoutRef01DataDt0Loaded, err := plannedWorkoutRef01Ent.Load(plannedWorkoutRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if plannedWorkoutRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		plannedWorkoutRef01DataDt0LoadResult := core.ToMapAny(entityData(plannedWorkoutRef01DataDt0Loaded))
+		if plannedWorkoutRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if plannedWorkoutRef01DataDt0LoadResult["id"] != plannedWorkoutRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})

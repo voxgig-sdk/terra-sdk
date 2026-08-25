@@ -95,6 +95,7 @@
 ---@field collection_time? string
 ---@field current_status string
 ---@field file_count? number
+---@field id? string
 ---@field input_bytes? number
 ---@field lab_name? string
 ---@field output_bytes? number
@@ -123,6 +124,7 @@
 ---@field collection_time? string
 ---@field current_status? string
 ---@field file_count? number
+---@field id? string
 ---@field input_bytes? number
 ---@field lab_name? string
 ---@field output_bytes? number
@@ -148,6 +150,7 @@
 ---@field collection_time? string
 ---@field current_status string
 ---@field file_count? number
+---@field id? string
 ---@field input_bytes? number
 ---@field lab_name? string
 ---@field output_bytes? number
@@ -175,6 +178,7 @@
 ---@field attempt_count number
 ---@field destination_id string
 ---@field destination_type? string
+---@field id? string
 ---@field last_error? string
 ---@field status string
 
@@ -183,6 +187,7 @@
 
 ---@class LabReportFile
 ---@field filename? string
+---@field id? string
 ---@field presigned_url string
 
 ---@class LabReportFileListMatch
@@ -201,6 +206,7 @@
 ---@field coercion_warnings? string
 ---@field created_at? any
 ---@field details? any
+---@field id? string
 ---@field is_external? boolean
 ---@field last_updated_at? any
 ---@field planned_date? string
@@ -216,6 +222,7 @@
 ---@field coercion_warnings? string
 ---@field created_at? any
 ---@field details? any
+---@field id? string
 ---@field is_external? boolean
 ---@field last_updated_at? any
 ---@field planned_date? string
@@ -251,6 +258,7 @@
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
 ---@field ftp? number
+---@field id? string
 ---@field max_heart_rate? number
 ---@field name string
 ---@field planned_date string
@@ -272,6 +280,7 @@
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
 ---@field ftp? number
+---@field id? string
 ---@field max_heart_rate? number
 ---@field name? string
 ---@field planned_date? string
@@ -290,6 +299,7 @@
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
 ---@field ftp? number
+---@field id? string
 ---@field max_heart_rate? number
 ---@field name string
 ---@field planned_date string

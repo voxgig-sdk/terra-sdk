@@ -661,6 +661,10 @@ class Config {
                     "type": "`$INTEGER`"
                 },
                 {
+                    "name": "id",
+                    "type": "`$STRING`"
+                },
+                {
                     "name": "input_bytes",
                     "type": "`$INTEGER`"
                 },
@@ -957,6 +961,10 @@ class Config {
                     "type": "`$STRING`"
                 },
                 {
+                    "name": "id",
+                    "type": "`$STRING`"
+                },
+                {
                     "name": "last_error",
                     "short": "Most recent delivery error; omitted when delivered.",
                     "type": "`$STRING`"
@@ -1021,6 +1029,10 @@ class Config {
             "fields": [
                 {
                     "name": "filename",
+                    "type": "`$STRING`"
+                },
+                {
+                    "name": "id",
                     "type": "`$STRING`"
                 },
                 {
@@ -1242,6 +1254,10 @@ class Config {
                     "name": "details",
                     "short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
                     "type": "`$ANY`"
+                },
+                {
+                    "name": "id",
+                    "type": "`$STRING`"
                 },
                 {
                     "name": "is_external",
@@ -1627,6 +1643,10 @@ class Config {
                     "name": "ftp",
                     "short": "Functional Threshold Power in watts",
                     "type": "`$NUMBER`"
+                },
+                {
+                    "name": "id",
+                    "type": "`$STRING`"
                 },
                 {
                     "name": "max_heart_rate",

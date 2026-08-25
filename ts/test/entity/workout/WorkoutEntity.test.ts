@@ -63,7 +63,7 @@ describe('WorkoutEntity', async () => {
     let workout_ref01_data = setup.data.new.workout['workout_ref01']
 
     workout_ref01_data = (await workout_ref01_ent.create(workout_ref01_data)).data()
-    assert(null != workout_ref01_data)
+    assert(null != workout_ref01_data.id)
 
 
     // LIST
@@ -71,13 +71,27 @@ describe('WorkoutEntity', async () => {
 
     const workout_ref01_list = (await workout_ref01_ent.list(workout_ref01_match)).map((e: any) => e.data())
 
+    assert(!isempty(select(workout_ref01_list, { id: workout_ref01_data.id })))
 
 
+    // LOAD
+    const workout_ref01_match_dt0: any = {}
+    workout_ref01_match_dt0.id = workout_ref01_data.id
+    const workout_ref01_data_dt0 = (await workout_ref01_ent.load(workout_ref01_match_dt0)).data()
+    assert(workout_ref01_data_dt0.id === workout_ref01_data.id)
+
+
+    // REMOVE
+    const workout_ref01_match_rm0: any = { id: workout_ref01_data.id }
+    await workout_ref01_ent.remove(workout_ref01_match_rm0)
+  
 
     // LIST
     const workout_ref01_match_rt0: any = {}
 
     const workout_ref01_list_rt0 = (await workout_ref01_ent.list(workout_ref01_match_rt0)).map((e: any) => e.data())
+
+    assert(isempty(select(workout_ref01_list_rt0, { id: workout_ref01_data.id })))
 
 
   })

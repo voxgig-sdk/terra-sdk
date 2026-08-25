@@ -29,6 +29,11 @@ main: kit: entity: planned_workout: {
       type: "`$ANY`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "is_external"
       req: false
       short: "True when the workout was created on the provider side rather than through Terra."
@@ -71,6 +76,11 @@ main: kit: entity: planned_workout: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "planned_workout"
   op: {

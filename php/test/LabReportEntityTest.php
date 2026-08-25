@@ -85,6 +85,7 @@ class LabReportEntityTest extends TestCase
         $lab_report_ref01_data_result = $lab_report_ref01_ent->create($lab_report_ref01_data, null);
         $lab_report_ref01_data = Helpers::to_map(is_object($lab_report_ref01_data_result) && method_exists($lab_report_ref01_data_result, 'data_get') ? $lab_report_ref01_data_result->data_get() : $lab_report_ref01_data_result);
         $this->assertNotNull($lab_report_ref01_data);
+        $this->assertNotNull($lab_report_ref01_data["id"]);
 
         // LIST
         $lab_report_ref01_match = [];
@@ -92,17 +93,36 @@ class LabReportEntityTest extends TestCase
         $lab_report_ref01_list_result = $lab_report_ref01_ent->list($lab_report_ref01_match, null);
         $this->assertIsArray($lab_report_ref01_list_result);
 
-        // LOAD
-        $lab_report_ref01_match_dt0 = [];
-        $lab_report_ref01_data_dt0_loaded = $lab_report_ref01_ent->load($lab_report_ref01_match_dt0, null);
-        $this->assertNotNull($lab_report_ref01_data_dt0_loaded);
+        $found_item = sdk_select(
+            Runner::entity_list_to_data($lab_report_ref01_list_result),
+            ["id" => $lab_report_ref01_data["id"]]);
+        $this->assertNotEmpty($found_item);
 
+        // LOAD
+        $lab_report_ref01_match_dt0 = [
+            "id" => $lab_report_ref01_data["id"],
+        ];
+        $lab_report_ref01_data_dt0_loaded = $lab_report_ref01_ent->load($lab_report_ref01_match_dt0, null);
+        $lab_report_ref01_data_dt0_load_result = Helpers::to_map(is_object($lab_report_ref01_data_dt0_loaded) && method_exists($lab_report_ref01_data_dt0_loaded, 'data_get') ? $lab_report_ref01_data_dt0_loaded->data_get() : $lab_report_ref01_data_dt0_loaded);
+        $this->assertNotNull($lab_report_ref01_data_dt0_load_result);
+        $this->assertEquals($lab_report_ref01_data_dt0_load_result["id"], $lab_report_ref01_data["id"]);
+
+        // REMOVE
+        $lab_report_ref01_match_rm0 = [
+            "id" => $lab_report_ref01_data["id"],
+        ];
+        $lab_report_ref01_ent->remove($lab_report_ref01_match_rm0, null);
 
         // LIST
         $lab_report_ref01_match_rt0 = [];
 
         $lab_report_ref01_list_rt0_result = $lab_report_ref01_ent->list($lab_report_ref01_match_rt0, null);
         $this->assertIsArray($lab_report_ref01_list_rt0_result);
+
+        $not_found_item = sdk_select(
+            Runner::entity_list_to_data($lab_report_ref01_list_rt0_result),
+            ["id" => $lab_report_ref01_data["id"]]);
+        $this->assertEmpty($not_found_item);
 
     }
 }

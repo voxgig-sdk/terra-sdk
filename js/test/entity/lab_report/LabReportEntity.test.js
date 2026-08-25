@@ -45,7 +45,7 @@ describe('LabReportEntity', async () => {
     let lab_report_ref01_data = setup.data.new.lab_report['lab_report_ref01']
 
     lab_report_ref01_data = (await lab_report_ref01_ent.create(lab_report_ref01_data)).data()
-    assert(null != lab_report_ref01_data)
+    assert(null != lab_report_ref01_data.id)
 
 
     // LIST
@@ -53,18 +53,28 @@ describe('LabReportEntity', async () => {
 
     const lab_report_ref01_list = (await lab_report_ref01_ent.list(lab_report_ref01_match)).map((e) => e.data())
 
+    assert(!isempty(select(lab_report_ref01_list, { id: lab_report_ref01_data.id })))
+
 
     // LOAD
     const lab_report_ref01_match_dt0 = {}
+    lab_report_ref01_match_dt0.id = lab_report_ref01_data.id
     const lab_report_ref01_data_dt0 = (await lab_report_ref01_ent.load(lab_report_ref01_match_dt0)).data()
-    assert(null != lab_report_ref01_data_dt0)
+    assert(lab_report_ref01_data_dt0.id === lab_report_ref01_data.id)
 
 
+    // REMOVE
+    const lab_report_ref01_match_rm0 = {}
+    lab_report_ref01_match_rm0.id = lab_report_ref01_data.id
+    await lab_report_ref01_ent.remove(lab_report_ref01_match_rm0)
+  
 
     // LIST
     const lab_report_ref01_match_rt0 = {}
 
     const lab_report_ref01_list_rt0 = (await lab_report_ref01_ent.list(lab_report_ref01_match_rt0)).map((e) => e.data())
+
+    assert(isempty(select(lab_report_ref01_list_rt0, { id: lab_report_ref01_data.id })))
 
 
   })

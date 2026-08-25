@@ -752,6 +752,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "input_bytes",
               "req": false,
               "type": "`$INTEGER`"
@@ -873,6 +879,10 @@
               "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "lab_report",
           "op": {
             "create": {
@@ -1112,6 +1122,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "last_error",
               "req": false,
               "short": "Most recent delivery error; omitted when delivered.",
@@ -1125,6 +1141,10 @@
               "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "lab_report_delivery",
           "op": {
             "list": {
@@ -1190,11 +1210,21 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "presigned_url",
               "req": true,
               "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "lab_report_file",
           "op": {
             "list": {
@@ -1451,6 +1481,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "is_external",
               "req": false,
               "short": "True when the workout was created on the provider side rather than through Terra.",
@@ -1498,6 +1534,10 @@
               "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "planned_workout",
           "op": {
             "list": {
@@ -1903,6 +1943,12 @@
             },
             {
               "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
               "name": "max_heart_rate",
               "req": false,
               "short": "Maximum heart rate in BPM",
@@ -1980,6 +2026,10 @@
               "type": "`$STRING`"
             }
           ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "workout",
           "op": {
             "create": {

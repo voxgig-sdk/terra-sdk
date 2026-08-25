@@ -546,6 +546,11 @@ declare class Config {
                 short: string;
                 type: string;
                 req?: undefined;
+            } | {
+                name: string;
+                type: string;
+                req?: undefined;
+                short?: undefined;
             })[];
             name: string;
             op: {
@@ -969,6 +974,12 @@ declare class Config {
                 req?: undefined;
             } | {
                 name: string;
+                type: string;
+                short?: undefined;
+                union?: undefined;
+                req?: undefined;
+            } | {
+                name: string;
                 req: boolean;
                 short: string;
                 type: string;
@@ -983,12 +994,6 @@ declare class Config {
                     count: number;
                     depth: number;
                 };
-            } | {
-                name: string;
-                type: string;
-                short?: undefined;
-                union?: undefined;
-                req?: undefined;
             } | {
                 name: string;
                 req: boolean;

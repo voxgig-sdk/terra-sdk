@@ -29,6 +29,11 @@ main: kit: entity: lab_report: {
       type: "`$INTEGER`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "input_bytes"
       req: false
       type: "`$INTEGER`"
@@ -132,6 +137,11 @@ main: kit: entity: lab_report: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "lab_report"
   op: {

@@ -89,6 +89,7 @@ class TestPlannedWorkoutEntity:
 
         # UPDATE
         planned_workout_ref01_data_up0_up = {
+            "id": planned_workout_ref01_data["id"],
         }
 
         planned_workout_ref01_markdef_up0_name = "coercion_warnings"
@@ -97,12 +98,17 @@ class TestPlannedWorkoutEntity:
 
         planned_workout_ref01_resdata_up0 = helpers.to_map(runner.entity_data(planned_workout_ref01_ent.update(planned_workout_ref01_data_up0_up, None)))
         assert planned_workout_ref01_resdata_up0 is not None
+        assert planned_workout_ref01_resdata_up0["id"] == planned_workout_ref01_data_up0_up["id"]
         assert planned_workout_ref01_resdata_up0[planned_workout_ref01_markdef_up0_name] == planned_workout_ref01_markdef_up0_value
 
         # LOAD
-        planned_workout_ref01_match_dt0 = {}
+        planned_workout_ref01_match_dt0 = {
+            "id": planned_workout_ref01_data["id"],
+        }
         planned_workout_ref01_data_dt0_loaded = planned_workout_ref01_ent.load(planned_workout_ref01_match_dt0, None)
-        assert planned_workout_ref01_data_dt0_loaded is not None
+        planned_workout_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(planned_workout_ref01_data_dt0_loaded))
+        assert planned_workout_ref01_data_dt0_load_result is not None
+        assert planned_workout_ref01_data_dt0_load_result["id"] == planned_workout_ref01_data["id"]
 
 
 

@@ -148,6 +148,7 @@ class LabReport
     public ?string $collection_time = null;
     public string $current_status;
     public ?int $file_count = null;
+    public ?string $id = null;
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
     public ?int $output_bytes = null;
@@ -182,6 +183,7 @@ class LabReportListMatch
     public ?string $collection_time = null;
     public ?string $current_status = null;
     public ?int $file_count = null;
+    public ?string $id = null;
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
     public ?int $output_bytes = null;
@@ -210,6 +212,7 @@ class LabReportCreateData
     public ?string $collection_time = null;
     public string $current_status;
     public ?int $file_count = null;
+    public ?string $id = null;
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
     public ?int $output_bytes = null;
@@ -243,6 +246,7 @@ class LabReportDelivery
     public int $attempt_count;
     public string $destination_id;
     public ?string $destination_type = null;
+    public ?string $id = null;
     public ?string $last_error = null;
     public string $status;
 }
@@ -257,6 +261,7 @@ class LabReportDeliveryListMatch
 class LabReportFile
 {
     public ?string $filename = null;
+    public ?string $id = null;
     public string $presigned_url;
 }
 
@@ -293,6 +298,7 @@ class PlannedWorkout
     public ?string $coercion_warnings = null;
     public mixed $created_at = null;
     public mixed $details = null;
+    public ?string $id = null;
     public ?bool $is_external = null;
     public mixed $last_updated_at = null;
     public ?string $planned_date = null;
@@ -314,6 +320,7 @@ class PlannedWorkoutListMatch
     public ?string $coercion_warnings = null;
     public mixed $created_at = null;
     public mixed $details = null;
+    public ?string $id = null;
     public ?bool $is_external = null;
     public mixed $last_updated_at = null;
     public ?string $planned_date = null;
@@ -367,6 +374,7 @@ class Workout
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
     public ?float $ftp = null;
+    public ?string $id = null;
     public ?float $max_heart_rate = null;
     public string $name;
     public string $planned_date;
@@ -394,6 +402,7 @@ class WorkoutListMatch
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
     public ?float $ftp = null;
+    public ?string $id = null;
     public ?float $max_heart_rate = null;
     public ?string $name = null;
     public ?string $planned_date = null;
@@ -415,6 +424,7 @@ class WorkoutCreateData
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
     public ?float $ftp = null;
+    public ?string $id = null;
     public ?float $max_heart_rate = null;
     public string $name;
     public string $planned_date;

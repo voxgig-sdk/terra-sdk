@@ -518,6 +518,7 @@ local lab_report = client:LabReport(nil)
 | `collection_time` | `string` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `number` | No |  |
+| `id` | `string` | No |  |
 | `input_bytes` | `number` | No |  |
 | `lab_name` | `string` | No |  |
 | `output_bytes` | `number` | No |  |
@@ -619,6 +620,7 @@ local lab_report_delivery = client:LabReportDelivery(nil)
 | `attempt_count` | `number` | Yes | Retry count — 0 on the first attempt, incremented per retry. |
 | `destination_id` | `string` | Yes |  |
 | `destination_type` | `string` | No | The destination's type (e.g. |
+| `id` | `string` | No |  |
 | `last_error` | `string` | No | Most recent delivery error; omitted when delivered. |
 | `status` | `string` | Yes | pending, delivered, or failed. |
 
@@ -673,6 +675,7 @@ local lab_report_file = client:LabReportFile(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `filename` | `string` | No |  |
+| `id` | `string` | No |  |
 | `presigned_url` | `string` | Yes |  |
 
 ### Operations
@@ -821,6 +824,7 @@ local planned_workout = client:PlannedWorkout(nil)
 | `coercion_warnings` | `string` | No | Set when the template could not be represented exactly on the provider. |
 | `created_at` | `any` | No | Creation time (RFC 3339) |
 | `details` | `any` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `id` | `string` | No |  |
 | `is_external` | `boolean` | No | True when the workout was created on the provider side rather than through Terra. |
 | `last_updated_at` | `any` | No | Last update time (RFC 3339) |
 | `planned_date` | `string` | No | New scheduled date (YYYY-MM-DD) |
@@ -836,6 +840,7 @@ local planned_workout = client:PlannedWorkout(nil)
 | `coercion_warnings` | - | - | - |
 | `created_at` | - | - | - |
 | `details` | - | - | - |
+| `id` | - | - | - |
 | `is_external` | - | - | - |
 | `last_updated_at` | - | - | - |
 | `planned_date` | - | - | Yes |
@@ -1010,6 +1015,7 @@ local workout = client:Workout(nil)
 | `estimated_distance_meters` | `any` | No | Estimated total distance in meters |
 | `estimated_duration_seconds` | `any` | No | Estimated total duration in seconds |
 | `ftp` | `number` | No | Functional Threshold Power in watts |
+| `id` | `string` | No |  |
 | `max_heart_rate` | `number` | No | Maximum heart rate in BPM |
 | `name` | `string` | Yes | Name of the workout |
 | `planned_date` | `string` | Yes | Date to schedule the workout on (YYYY-MM-DD) |

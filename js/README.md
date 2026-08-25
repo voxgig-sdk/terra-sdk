@@ -402,6 +402,7 @@ API path: `/integrations/detailed`
 | `collection_time` | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` |  |
+| `id` |  |
 | `input_bytes` |  |
 | `lab_name` |  |
 | `output_bytes` |  |
@@ -433,6 +434,7 @@ API path: `/lab-reports`
 | `attempt_count` | Retry count — 0 on the first attempt, incremented per retry. |
 | `destination_id` |  |
 | `destination_type` | The destination's type (e.g. |
+| `id` |  |
 | `last_error` | Most recent delivery error; omitted when delivered. |
 | `status` | pending, delivered, or failed. |
 
@@ -445,6 +447,7 @@ API path: `/lab-reports/{session_id}/deliveries`
 | Field | Description |
 | --- | --- |
 | `filename` |  |
+| `id` |  |
 | `presigned_url` |  |
 
 Operations: list.
@@ -477,6 +480,7 @@ API path: `/nutrition`
 | `coercion_warnings` | Set when the template could not be represented exactly on the provider. |
 | `created_at` | Creation time (RFC 3339) |
 | `details` | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `id` |  |
 | `is_external` | True when the workout was created on the provider side rather than through Terra. |
 | `last_updated_at` | Last update time (RFC 3339) |
 | `planned_date` | New scheduled date (YYYY-MM-DD) |
@@ -516,6 +520,7 @@ API path: `/subscriptions`
 | `estimated_distance_meters` | Estimated total distance in meters |
 | `estimated_duration_seconds` | Estimated total duration in seconds |
 | `ftp` | Functional Threshold Power in watts |
+| `id` |  |
 | `max_heart_rate` | Maximum heart rate in BPM |
 | `name` | Name of the workout |
 | `planned_date` | Date to schedule the workout on (YYYY-MM-DD) |
@@ -710,6 +715,7 @@ Create an instance: `const lab_report = client.LabReport()`
 | `collection_time` | `string` | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `number` |  |
+| `id` | `string` |  |
 | `input_bytes` | `number` |  |
 | `lab_name` | `string` |  |
 | `output_bytes` | `number` |  |
@@ -770,6 +776,7 @@ Create an instance: `const lab_report_delivery = client.LabReportDelivery()`
 | `attempt_count` | `number` | Retry count — 0 on the first attempt, incremented per retry. |
 | `destination_id` | `string` |  |
 | `destination_type` | `string` | The destination's type (e.g. |
+| `id` | `string` |  |
 | `last_error` | `string` | Most recent delivery error; omitted when delivered. |
 | `status` | `string` | pending, delivered, or failed. |
 
@@ -795,6 +802,7 @@ Create an instance: `const lab_report_file = client.LabReportFile()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `filename` | `string` |  |
+| `id` | `string` |  |
 | `presigned_url` | `string` |  |
 
 #### Example: List
@@ -858,6 +866,7 @@ Create an instance: `const planned_workout = client.PlannedWorkout()`
 | `coercion_warnings` | `string` | Set when the template could not be represented exactly on the provider. |
 | `created_at` | `*` | Creation time (RFC 3339) |
 | `details` | `*` | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `id` | `string` |  |
 | `is_external` | `boolean` | True when the workout was created on the provider side rather than through Terra. |
 | `last_updated_at` | `*` | Last update time (RFC 3339) |
 | `planned_date` | `string` | New scheduled date (YYYY-MM-DD) |
@@ -935,6 +944,7 @@ Create an instance: `const workout = client.Workout()`
 | `estimated_distance_meters` | `*` | Estimated total distance in meters |
 | `estimated_duration_seconds` | `*` | Estimated total duration in seconds |
 | `ftp` | `number` | Functional Threshold Power in watts |
+| `id` | `string` |  |
 | `max_heart_rate` | `number` | Maximum heart rate in BPM |
 | `name` | `string` | Name of the workout |
 | `planned_date` | `string` | Date to schedule the workout on (YYYY-MM-DD) |

@@ -46,6 +46,11 @@ main: kit: entity: workout: {
       type: "`$NUMBER`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "max_heart_rate"
       req: false
       short: "Maximum heart rate in BPM"
@@ -114,6 +119,11 @@ main: kit: entity: workout: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "workout"
   op: {

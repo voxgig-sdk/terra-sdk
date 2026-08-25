@@ -652,6 +652,10 @@ func MakeConfig() map[string]any {
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
+					},
+					map[string]any{
 						"name": "input_bytes",
 						"type": "`$INTEGER`",
 					},
@@ -948,6 +952,10 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
+					},
+					map[string]any{
 						"name": "last_error",
 						"short": "Most recent delivery error; omitted when delivered.",
 						"type": "`$STRING`",
@@ -1012,6 +1020,10 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "filename",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1233,6 +1245,10 @@ func MakeConfig() map[string]any {
 						"name": "details",
 						"short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
 						"type": "`$ANY`",
+					},
+					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "is_external",
@@ -1618,6 +1634,10 @@ func MakeConfig() map[string]any {
 						"name": "ftp",
 						"short": "Functional Threshold Power in watts",
 						"type": "`$NUMBER`",
+					},
+					map[string]any{
+						"name": "id",
+						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "max_heart_rate",

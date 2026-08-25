@@ -132,6 +132,7 @@ type LabReport struct {
 	CollectionTime *string `json:"collection_time,omitempty"`
 	CurrentStatus string `json:"current_status"`
 	FileCount *int `json:"file_count,omitempty"`
+	Id *string `json:"id,omitempty"`
 	InputBytes *int `json:"input_bytes,omitempty"`
 	LabName *string `json:"lab_name,omitempty"`
 	OutputBytes *int `json:"output_bytes,omitempty"`
@@ -164,6 +165,7 @@ type LabReportListMatch struct {
 	CollectionTime *string `json:"collection_time,omitempty"`
 	CurrentStatus *string `json:"current_status,omitempty"`
 	FileCount *int `json:"file_count,omitempty"`
+	Id *string `json:"id,omitempty"`
 	InputBytes *int `json:"input_bytes,omitempty"`
 	LabName *string `json:"lab_name,omitempty"`
 	OutputBytes *int `json:"output_bytes,omitempty"`
@@ -191,6 +193,7 @@ type LabReportCreateData struct {
 	CollectionTime *string `json:"collection_time,omitempty"`
 	CurrentStatus string `json:"current_status"`
 	FileCount *int `json:"file_count,omitempty"`
+	Id *string `json:"id,omitempty"`
 	InputBytes *int `json:"input_bytes,omitempty"`
 	LabName *string `json:"lab_name,omitempty"`
 	OutputBytes *int `json:"output_bytes,omitempty"`
@@ -222,6 +225,7 @@ type LabReportDelivery struct {
 	AttemptCount int `json:"attempt_count"`
 	DestinationId string `json:"destination_id"`
 	DestinationType *string `json:"destination_type,omitempty"`
+	Id *string `json:"id,omitempty"`
 	LastError *string `json:"last_error,omitempty"`
 	Status string `json:"status"`
 }
@@ -234,6 +238,7 @@ type LabReportDeliveryListMatch struct {
 // LabReportFile is the typed data model for the lab_report_file entity.
 type LabReportFile struct {
 	Filename *string `json:"filename,omitempty"`
+	Id *string `json:"id,omitempty"`
 	PresignedUrl string `json:"presigned_url"`
 }
 
@@ -264,6 +269,7 @@ type PlannedWorkout struct {
 	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
 	CreatedAt *any `json:"created_at,omitempty"`
 	Details *any `json:"details,omitempty"`
+	Id *string `json:"id,omitempty"`
 	IsExternal *bool `json:"is_external,omitempty"`
 	LastUpdatedAt *any `json:"last_updated_at,omitempty"`
 	PlannedDate *string `json:"planned_date,omitempty"`
@@ -283,6 +289,7 @@ type PlannedWorkoutListMatch struct {
 	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
 	CreatedAt *any `json:"created_at,omitempty"`
 	Details *any `json:"details,omitempty"`
+	Id *string `json:"id,omitempty"`
 	IsExternal *bool `json:"is_external,omitempty"`
 	LastUpdatedAt *any `json:"last_updated_at,omitempty"`
 	PlannedDate *string `json:"planned_date,omitempty"`
@@ -330,6 +337,7 @@ type Workout struct {
 	EstimatedDistanceMeters *any `json:"estimated_distance_meters,omitempty"`
 	EstimatedDurationSeconds *any `json:"estimated_duration_seconds,omitempty"`
 	Ftp *float64 `json:"ftp,omitempty"`
+	Id *string `json:"id,omitempty"`
 	MaxHeartRate *float64 `json:"max_heart_rate,omitempty"`
 	Name string `json:"name"`
 	PlannedDate string `json:"planned_date"`
@@ -355,6 +363,7 @@ type WorkoutListMatch struct {
 	EstimatedDistanceMeters *any `json:"estimated_distance_meters,omitempty"`
 	EstimatedDurationSeconds *any `json:"estimated_duration_seconds,omitempty"`
 	Ftp *float64 `json:"ftp,omitempty"`
+	Id *string `json:"id,omitempty"`
 	MaxHeartRate *float64 `json:"max_heart_rate,omitempty"`
 	Name *string `json:"name,omitempty"`
 	PlannedDate *string `json:"planned_date,omitempty"`
@@ -375,6 +384,7 @@ type WorkoutCreateData struct {
 	EstimatedDistanceMeters *any `json:"estimated_distance_meters,omitempty"`
 	EstimatedDurationSeconds *any `json:"estimated_duration_seconds,omitempty"`
 	Ftp *float64 `json:"ftp,omitempty"`
+	Id *string `json:"id,omitempty"`
 	MaxHeartRate *float64 `json:"max_heart_rate,omitempty"`
 	Name string `json:"name"`
 	PlannedDate string `json:"planned_date"`

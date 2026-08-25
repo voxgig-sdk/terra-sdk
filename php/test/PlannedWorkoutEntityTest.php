@@ -94,6 +94,7 @@ class PlannedWorkoutEntityTest extends TestCase
 
         // UPDATE
         $planned_workout_ref01_data_up0_up = [
+            "id" => $planned_workout_ref01_data["id"],
         ];
 
         $planned_workout_ref01_markdef_up0_name = "coercion_warnings";
@@ -103,12 +104,17 @@ class PlannedWorkoutEntityTest extends TestCase
         $planned_workout_ref01_resdata_up0_result = $planned_workout_ref01_ent->update($planned_workout_ref01_data_up0_up, null);
         $planned_workout_ref01_resdata_up0 = Helpers::to_map(is_object($planned_workout_ref01_resdata_up0_result) && method_exists($planned_workout_ref01_resdata_up0_result, 'data_get') ? $planned_workout_ref01_resdata_up0_result->data_get() : $planned_workout_ref01_resdata_up0_result);
         $this->assertNotNull($planned_workout_ref01_resdata_up0);
+        $this->assertEquals($planned_workout_ref01_resdata_up0["id"], $planned_workout_ref01_data_up0_up["id"]);
         $this->assertEquals($planned_workout_ref01_resdata_up0[$planned_workout_ref01_markdef_up0_name], $planned_workout_ref01_markdef_up0_value);
 
         // LOAD
-        $planned_workout_ref01_match_dt0 = [];
+        $planned_workout_ref01_match_dt0 = [
+            "id" => $planned_workout_ref01_data["id"],
+        ];
         $planned_workout_ref01_data_dt0_loaded = $planned_workout_ref01_ent->load($planned_workout_ref01_match_dt0, null);
-        $this->assertNotNull($planned_workout_ref01_data_dt0_loaded);
+        $planned_workout_ref01_data_dt0_load_result = Helpers::to_map(is_object($planned_workout_ref01_data_dt0_loaded) && method_exists($planned_workout_ref01_data_dt0_loaded, 'data_get') ? $planned_workout_ref01_data_dt0_loaded->data_get() : $planned_workout_ref01_data_dt0_loaded);
+        $this->assertNotNull($planned_workout_ref01_data_dt0_load_result);
+        $this->assertEquals($planned_workout_ref01_data_dt0_load_result["id"], $planned_workout_ref01_data["id"]);
 
     }
 }

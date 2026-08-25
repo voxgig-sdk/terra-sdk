@@ -23,6 +23,11 @@ main: kit: entity: lab_report_delivery: {
       type: "`$STRING`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "last_error"
       req: false
       short: "Most recent delivery error; omitted when delivered."
@@ -35,6 +40,11 @@ main: kit: entity: lab_report_delivery: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "lab_report_delivery"
   op: {

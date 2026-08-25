@@ -50,20 +50,22 @@ describe('PlannedWorkoutEntity', async () => {
 
     // UPDATE
     const planned_workout_ref01_data_up0 = {}
+    planned_workout_ref01_data_up0.id = planned_workout_ref01_data.id
 
     const planned_workout_ref01_markdef_up0 = { name: 'coercion_warnings', value: 'Mark01-planned_workout_ref01_' + setup.now }
     planned_workout_ref01_data_up0 [planned_workout_ref01_markdef_up0.name] = planned_workout_ref01_markdef_up0.value
 
     const planned_workout_ref01_resdata_up0 = (await planned_workout_ref01_ent.update(planned_workout_ref01_data_up0)).data()
-    assert(null != planned_workout_ref01_resdata_up0)
+    assert(planned_workout_ref01_resdata_up0.id === planned_workout_ref01_data_up0.id)
 
     assert(planned_workout_ref01_resdata_up0[planned_workout_ref01_markdef_up0.name] === planned_workout_ref01_markdef_up0.value)
 
 
     // LOAD
     const planned_workout_ref01_match_dt0 = {}
+    planned_workout_ref01_match_dt0.id = planned_workout_ref01_data.id
     const planned_workout_ref01_data_dt0 = (await planned_workout_ref01_ent.load(planned_workout_ref01_match_dt0)).data()
-    assert(null != planned_workout_ref01_data_dt0)
+    assert(planned_workout_ref01_data_dt0.id === planned_workout_ref01_data.id)
 
 
   })

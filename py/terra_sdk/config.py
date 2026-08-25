@@ -669,6 +669,10 @@ def make_config():
             "type": "`$INTEGER`",
           },
           {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+          {
             "name": "input_bytes",
             "type": "`$INTEGER`",
           },
@@ -965,6 +969,10 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "name": "id",
+            "type": "`$STRING`",
+          },
+          {
             "name": "last_error",
             "short": "Most recent delivery error; omitted when delivered.",
             "type": "`$STRING`",
@@ -1029,6 +1037,10 @@ def make_config():
         "fields": [
           {
             "name": "filename",
+            "type": "`$STRING`",
+          },
+          {
+            "name": "id",
             "type": "`$STRING`",
           },
           {
@@ -1250,6 +1262,10 @@ def make_config():
             "name": "details",
             "short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
             "type": "`$ANY`",
+          },
+          {
+            "name": "id",
+            "type": "`$STRING`",
           },
           {
             "name": "is_external",
@@ -1635,6 +1651,10 @@ def make_config():
             "name": "ftp",
             "short": "Functional Threshold Power in watts",
             "type": "`$NUMBER`",
+          },
+          {
+            "name": "id",
+            "type": "`$STRING`",
           },
           {
             "name": "max_heart_rate",

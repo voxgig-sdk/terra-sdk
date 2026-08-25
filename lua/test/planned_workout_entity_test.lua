@@ -93,6 +93,7 @@ describe("PlannedWorkoutEntity", function()
 
     -- UPDATE
     local planned_workout_ref01_data_up0_up = {
+      id = planned_workout_ref01_data["id"],
     }
 
     local planned_workout_ref01_markdef_up0_name = "coercion_warnings"
@@ -103,13 +104,18 @@ describe("PlannedWorkoutEntity", function()
     assert.is_nil(err)
     local planned_workout_ref01_resdata_up0 = helpers.to_map(type(planned_workout_ref01_resdata_up0_result) == 'table' and planned_workout_ref01_resdata_up0_result.data_get and planned_workout_ref01_resdata_up0_result:data_get() or planned_workout_ref01_resdata_up0_result)
     assert.is_not_nil(planned_workout_ref01_resdata_up0)
+    assert.are.equal(planned_workout_ref01_resdata_up0["id"], planned_workout_ref01_data_up0_up["id"])
     assert.are.equal(planned_workout_ref01_resdata_up0[planned_workout_ref01_markdef_up0_name], planned_workout_ref01_markdef_up0_value)
 
     -- LOAD
-    local planned_workout_ref01_match_dt0 = {}
+    local planned_workout_ref01_match_dt0 = {
+      id = planned_workout_ref01_data["id"],
+    }
     local planned_workout_ref01_data_dt0_loaded, err = planned_workout_ref01_ent:load(planned_workout_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(planned_workout_ref01_data_dt0_loaded)
+    local planned_workout_ref01_data_dt0_load_result = helpers.to_map(type(planned_workout_ref01_data_dt0_loaded) == 'table' and planned_workout_ref01_data_dt0_loaded.data_get and planned_workout_ref01_data_dt0_loaded:data_get() or planned_workout_ref01_data_dt0_loaded)
+    assert.is_not_nil(planned_workout_ref01_data_dt0_load_result)
+    assert.are.equal(planned_workout_ref01_data_dt0_load_result["id"], planned_workout_ref01_data["id"])
 
   end)
 end)

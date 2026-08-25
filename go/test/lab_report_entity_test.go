@@ -110,6 +110,9 @@ func TestLabReportEntity(t *testing.T) {
 		if labReportRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
+		if labReportRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
 
 		// LIST
 		labReportRef01Match := map[string]any{}
@@ -118,21 +121,40 @@ func TestLabReportEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		_, labReportRef01ListOk := labReportRef01ListResult.([]any)
+		labReportRef01List, labReportRef01ListOk := labReportRef01ListResult.([]any)
 		if !labReportRef01ListOk {
 			t.Fatalf("expected list result to be an array, got %T", labReportRef01ListResult)
 		}
 
+		foundItem := vs.Select(entityListToData(labReportRef01List), map[string]any{"id": labReportRef01Data["id"]})
+		if vs.IsEmpty(foundItem) {
+			t.Fatal("expected to find created entity in list")
+		}
+
 		// LOAD
-		labReportRef01MatchDt0 := map[string]any{}
+		labReportRef01MatchDt0 := map[string]any{
+			"id": labReportRef01Data["id"],
+		}
 		labReportRef01DataDt0Loaded, err := labReportRef01Ent.Load(labReportRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if labReportRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		labReportRef01DataDt0LoadResult := core.ToMapAny(entityData(labReportRef01DataDt0Loaded))
+		if labReportRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if labReportRef01DataDt0LoadResult["id"] != labReportRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
+		// REMOVE
+		labReportRef01MatchRm0 := map[string]any{
+			"id": labReportRef01Data["id"],
+		}
+		_, err = labReportRef01Ent.Remove(labReportRef01MatchRm0, nil)
+		if err != nil {
+			t.Fatalf("remove failed: %v", err)
+		}
 
 		// LIST
 		labReportRef01MatchRt0 := map[string]any{}
@@ -141,9 +163,14 @@ func TestLabReportEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		_, labReportRef01ListRt0Ok := labReportRef01ListRt0Result.([]any)
+		labReportRef01ListRt0, labReportRef01ListRt0Ok := labReportRef01ListRt0Result.([]any)
 		if !labReportRef01ListRt0Ok {
 			t.Fatalf("expected list result to be an array, got %T", labReportRef01ListRt0Result)
+		}
+
+		notFoundItem := vs.Select(entityListToData(labReportRef01ListRt0), map[string]any{"id": labReportRef01Data["id"]})
+		if !vs.IsEmpty(notFoundItem) {
+			t.Fatal("expected removed entity to not be in list")
 		}
 
 	})

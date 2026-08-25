@@ -11,11 +11,21 @@ main: kit: entity: lab_report_file: {
       type: "`$STRING`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "presigned_url"
       req: true
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "lab_report_file"
   op: {

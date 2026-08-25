@@ -2,36 +2,39 @@
   "existing": {
     "lab_report_delivery": {
       "LAB_REPORT_DELIVERY00": {
-        "attempt_count": "s32",
+        "attempt_count": "s3c",
         "destination_id": "DESTINATION01",
-        "destination_type": "s34",
-        "last_error": "s35",
-        "status": "s36"
+        "destination_type": "s3e",
+        "id": "LAB_REPORT_DELIVERY00",
+        "last_error": "s40",
+        "status": "s41"
       },
       "LAB_REPORT_DELIVERY01": {
-        "attempt_count": "s64",
+        "attempt_count": "s78",
         "destination_id": "DESTINATION01",
-        "destination_type": "s66",
-        "last_error": "s67",
-        "status": "s68"
+        "destination_type": "s7a",
+        "id": "LAB_REPORT_DELIVERY01",
+        "last_error": "s7c",
+        "status": "s7d"
       },
       "LAB_REPORT_DELIVERY02": {
-        "attempt_count": "s96",
+        "attempt_count": "sb4",
         "destination_id": "DESTINATION01",
-        "destination_type": "s98",
-        "last_error": "s99",
-        "status": "s9a"
+        "destination_type": "sb6",
+        "id": "LAB_REPORT_DELIVERY02",
+        "last_error": "sb8",
+        "status": "sb9"
       }
     }
   },
   "new": {
     "lab_report_delivery": {
       "lab_report_delivery_ref01": {
-        "attempt_count": "sc8",
+        "attempt_count": "sf0",
         "destination_id": "DESTINATION01",
-        "destination_type": "sca",
-        "last_error": "scb",
-        "status": "scc"
+        "destination_type": "sf2",
+        "last_error": "sf4",
+        "status": "sf5"
       }
     }
   }

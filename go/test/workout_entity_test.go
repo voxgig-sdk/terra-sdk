@@ -110,6 +110,9 @@ func TestWorkoutEntity(t *testing.T) {
 		if workoutRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
+		if workoutRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
 
 		// LIST
 		workoutRef01Match := map[string]any{}
@@ -118,21 +121,40 @@ func TestWorkoutEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		_, workoutRef01ListOk := workoutRef01ListResult.([]any)
+		workoutRef01List, workoutRef01ListOk := workoutRef01ListResult.([]any)
 		if !workoutRef01ListOk {
 			t.Fatalf("expected list result to be an array, got %T", workoutRef01ListResult)
 		}
 
+		foundItem := vs.Select(entityListToData(workoutRef01List), map[string]any{"id": workoutRef01Data["id"]})
+		if vs.IsEmpty(foundItem) {
+			t.Fatal("expected to find created entity in list")
+		}
+
 		// LOAD
-		workoutRef01MatchDt0 := map[string]any{}
+		workoutRef01MatchDt0 := map[string]any{
+			"id": workoutRef01Data["id"],
+		}
 		workoutRef01DataDt0Loaded, err := workoutRef01Ent.Load(workoutRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if workoutRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		workoutRef01DataDt0LoadResult := core.ToMapAny(entityData(workoutRef01DataDt0Loaded))
+		if workoutRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if workoutRef01DataDt0LoadResult["id"] != workoutRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
+		// REMOVE
+		workoutRef01MatchRm0 := map[string]any{
+			"id": workoutRef01Data["id"],
+		}
+		_, err = workoutRef01Ent.Remove(workoutRef01MatchRm0, nil)
+		if err != nil {
+			t.Fatalf("remove failed: %v", err)
+		}
 
 		// LIST
 		workoutRef01MatchRt0 := map[string]any{}
@@ -141,9 +163,14 @@ func TestWorkoutEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("list failed: %v", err)
 		}
-		_, workoutRef01ListRt0Ok := workoutRef01ListRt0Result.([]any)
+		workoutRef01ListRt0, workoutRef01ListRt0Ok := workoutRef01ListRt0Result.([]any)
 		if !workoutRef01ListRt0Ok {
 			t.Fatalf("expected list result to be an array, got %T", workoutRef01ListRt0Result)
+		}
+
+		notFoundItem := vs.Select(entityListToData(workoutRef01ListRt0), map[string]any{"id": workoutRef01Data["id"]})
+		if !vs.IsEmpty(notFoundItem) {
+			t.Fatal("expected removed entity to not be in list")
 		}
 
 	})

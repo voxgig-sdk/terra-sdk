@@ -126,6 +126,7 @@
  * @property {string} [collection_time]
  * @property {string} current_status
  * @property {number} [file_count]
+ * @property {string} [id]
  * @property {number} [input_bytes]
  * @property {string} [lab_name]
  * @property {number} [output_bytes]
@@ -158,6 +159,7 @@
  * @property {string} [collection_time]
  * @property {string} [current_status]
  * @property {number} [file_count]
+ * @property {string} [id]
  * @property {number} [input_bytes]
  * @property {string} [lab_name]
  * @property {number} [output_bytes]
@@ -185,6 +187,7 @@
  * @property {string} [collection_time]
  * @property {string} current_status
  * @property {number} [file_count]
+ * @property {string} [id]
  * @property {number} [input_bytes]
  * @property {string} [lab_name]
  * @property {number} [output_bytes]
@@ -216,6 +219,7 @@
  * @property {number} attempt_count
  * @property {string} destination_id
  * @property {string} [destination_type]
+ * @property {string} [id]
  * @property {string} [last_error]
  * @property {string} status
  */
@@ -228,6 +232,7 @@
 /**
  * @typedef {Object} LabReportFile
  * @property {string} [filename]
+ * @property {string} [id]
  * @property {string} presigned_url
  */
 
@@ -258,6 +263,7 @@
  * @property {string} [coercion_warnings]
  * @property {*} [created_at]
  * @property {*} [details]
+ * @property {string} [id]
  * @property {boolean} [is_external]
  * @property {*} [last_updated_at]
  * @property {string} [planned_date]
@@ -277,6 +283,7 @@
  * @property {string} [coercion_warnings]
  * @property {*} [created_at]
  * @property {*} [details]
+ * @property {string} [id]
  * @property {boolean} [is_external]
  * @property {*} [last_updated_at]
  * @property {string} [planned_date]
@@ -324,6 +331,7 @@
  * @property {*} [estimated_distance_meters]
  * @property {*} [estimated_duration_seconds]
  * @property {number} [ftp]
+ * @property {string} [id]
  * @property {number} [max_heart_rate]
  * @property {string} name
  * @property {string} planned_date
@@ -349,6 +357,7 @@
  * @property {*} [estimated_distance_meters]
  * @property {*} [estimated_duration_seconds]
  * @property {number} [ftp]
+ * @property {string} [id]
  * @property {number} [max_heart_rate]
  * @property {string} [name]
  * @property {string} [planned_date]
@@ -369,6 +378,7 @@
  * @property {*} [estimated_distance_meters]
  * @property {*} [estimated_duration_seconds]
  * @property {number} [ftp]
+ * @property {string} [id]
  * @property {number} [max_heart_rate]
  * @property {string} name
  * @property {string} planned_date

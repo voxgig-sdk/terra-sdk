@@ -135,6 +135,7 @@ class LabReport(LabReportRequired, total=False):
     collection_date: str
     collection_time: str
     file_count: int
+    id: str
     input_bytes: int
     lab_name: str
     output_bytes: int
@@ -163,6 +164,7 @@ class LabReportListMatch(TypedDict, total=False):
     collection_time: str
     current_status: str
     file_count: int
+    id: str
     input_bytes: int
     lab_name: str
     output_bytes: int
@@ -194,6 +196,7 @@ class LabReportCreateData(LabReportCreateDataRequired, total=False):
     collection_date: str
     collection_time: str
     file_count: int
+    id: str
     input_bytes: int
     lab_name: str
     output_bytes: int
@@ -225,6 +228,7 @@ class LabReportDeliveryRequired(TypedDict):
 
 class LabReportDelivery(LabReportDeliveryRequired, total=False):
     destination_type: str
+    id: str
     last_error: str
 
 
@@ -238,6 +242,7 @@ class LabReportFileRequired(TypedDict):
 
 class LabReportFile(LabReportFileRequired, total=False):
     filename: str
+    id: str
 
 
 class LabReportFileListMatch(TypedDict):
@@ -265,6 +270,7 @@ class PlannedWorkout(TypedDict, total=False):
     coercion_warnings: str
     created_at: Any
     details: Any
+    id: str
     is_external: bool
     last_updated_at: Any
     planned_date: str
@@ -282,6 +288,7 @@ class PlannedWorkoutListMatch(TypedDict, total=False):
     coercion_warnings: str
     created_at: Any
     details: Any
+    id: str
     is_external: bool
     last_updated_at: Any
     planned_date: str
@@ -337,6 +344,7 @@ class Workout(WorkoutRequired, total=False):
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
     ftp: float
+    id: str
     max_heart_rate: float
     pool_length_meters: Any
     status: str
@@ -356,6 +364,7 @@ class WorkoutListMatch(TypedDict, total=False):
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
     ftp: float
+    id: str
     max_heart_rate: float
     name: str
     planned_date: str
@@ -382,6 +391,7 @@ class WorkoutCreateData(WorkoutCreateDataRequired, total=False):
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
     ftp: float
+    id: str
     max_heart_rate: float
     pool_length_meters: Any
     status: str

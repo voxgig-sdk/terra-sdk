@@ -510,6 +510,7 @@ lab_report = client.LabReport()
 | `collection_time` | `str` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `str` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `int` | No |  |
+| `id` | `str` | No |  |
 | `input_bytes` | `int` | No |  |
 | `lab_name` | `str` | No |  |
 | `output_bytes` | `int` | No |  |
@@ -612,6 +613,7 @@ lab_report_delivery = client.LabReportDelivery()
 | `attempt_count` | `int` | Yes | Retry count — 0 on the first attempt, incremented per retry. |
 | `destination_id` | `str` | Yes |  |
 | `destination_type` | `str` | No | The destination's type (e.g. |
+| `id` | `str` | No |  |
 | `last_error` | `str` | No | Most recent delivery error; omitted when delivered. |
 | `status` | `str` | Yes | pending, delivered, or failed. |
 
@@ -667,6 +669,7 @@ lab_report_file = client.LabReportFile()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `filename` | `str` | No |  |
+| `id` | `str` | No |  |
 | `presigned_url` | `str` | Yes |  |
 
 ### Operations
@@ -814,6 +817,7 @@ planned_workout = client.PlannedWorkout()
 | `coercion_warnings` | `str` | No | Set when the template could not be represented exactly on the provider. |
 | `created_at` | `Any` | No | Creation time (RFC 3339) |
 | `details` | `Any` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `id` | `str` | No |  |
 | `is_external` | `bool` | No | True when the workout was created on the provider side rather than through Terra. |
 | `last_updated_at` | `Any` | No | Last update time (RFC 3339) |
 | `planned_date` | `str` | No | New scheduled date (YYYY-MM-DD) |
@@ -829,6 +833,7 @@ planned_workout = client.PlannedWorkout()
 | `coercion_warnings` | - | - | - |
 | `created_at` | - | - | - |
 | `details` | - | - | - |
+| `id` | - | - | - |
 | `is_external` | - | - | - |
 | `last_updated_at` | - | - | - |
 | `planned_date` | - | - | Yes |
@@ -1002,6 +1007,7 @@ workout = client.Workout()
 | `estimated_distance_meters` | `Any` | No | Estimated total distance in meters |
 | `estimated_duration_seconds` | `Any` | No | Estimated total duration in seconds |
 | `ftp` | `float` | No | Functional Threshold Power in watts |
+| `id` | `str` | No |  |
 | `max_heart_rate` | `float` | No | Maximum heart rate in BPM |
 | `name` | `str` | Yes | Name of the workout |
 | `planned_date` | `str` | Yes | Date to schedule the workout on (YYYY-MM-DD) |

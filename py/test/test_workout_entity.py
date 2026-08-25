@@ -80,6 +80,7 @@ class TestWorkoutEntity:
 
         workout_ref01_data = helpers.to_map(runner.entity_data(workout_ref01_ent.create(workout_ref01_data, None)))
         assert workout_ref01_data is not None
+        assert workout_ref01_data["id"] is not None
 
         # LIST
         workout_ref01_match = {}
@@ -87,17 +88,36 @@ class TestWorkoutEntity:
         workout_ref01_list_result = workout_ref01_ent.list(workout_ref01_match, None)
         assert isinstance(workout_ref01_list_result, list)
 
-        # LOAD
-        workout_ref01_match_dt0 = {}
-        workout_ref01_data_dt0_loaded = workout_ref01_ent.load(workout_ref01_match_dt0, None)
-        assert workout_ref01_data_dt0_loaded is not None
+        found_item = vs.select(
+            runner.entity_list_to_data(workout_ref01_list_result),
+            {"id": workout_ref01_data["id"]})
+        assert not vs.isempty(found_item)
 
+        # LOAD
+        workout_ref01_match_dt0 = {
+            "id": workout_ref01_data["id"],
+        }
+        workout_ref01_data_dt0_loaded = workout_ref01_ent.load(workout_ref01_match_dt0, None)
+        workout_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(workout_ref01_data_dt0_loaded))
+        assert workout_ref01_data_dt0_load_result is not None
+        assert workout_ref01_data_dt0_load_result["id"] == workout_ref01_data["id"]
+
+        # REMOVE
+        workout_ref01_match_rm0 = {
+            "id": workout_ref01_data["id"],
+        }
+        workout_ref01_ent.remove(workout_ref01_match_rm0, None)
 
         # LIST
         workout_ref01_match_rt0 = {}
 
         workout_ref01_list_rt0_result = workout_ref01_ent.list(workout_ref01_match_rt0, None)
         assert isinstance(workout_ref01_list_rt0_result, list)
+
+        not_found_item = vs.select(
+            runner.entity_list_to_data(workout_ref01_list_rt0_result),
+            {"id": workout_ref01_data["id"]})
+        assert vs.isempty(not_found_item)
 
 
 

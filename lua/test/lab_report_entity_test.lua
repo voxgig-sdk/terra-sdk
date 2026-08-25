@@ -84,6 +84,7 @@ describe("LabReportEntity", function()
     assert.is_nil(err)
     lab_report_ref01_data = helpers.to_map(type(lab_report_ref01_data_result) == 'table' and lab_report_ref01_data_result.data_get and lab_report_ref01_data_result:data_get() or lab_report_ref01_data_result)
     assert.is_not_nil(lab_report_ref01_data)
+    assert.is_not_nil(lab_report_ref01_data["id"])
 
     -- LIST
     local lab_report_ref01_match = {}
@@ -92,12 +93,27 @@ describe("LabReportEntity", function()
     assert.is_nil(err)
     assert.is_table(lab_report_ref01_list_result)
 
+    local found_item = vs.select(
+      runner.entity_list_to_data(lab_report_ref01_list_result),
+      { id = lab_report_ref01_data["id"] })
+    assert.is_false(vs.isempty(found_item))
+
     -- LOAD
-    local lab_report_ref01_match_dt0 = {}
+    local lab_report_ref01_match_dt0 = {
+      id = lab_report_ref01_data["id"],
+    }
     local lab_report_ref01_data_dt0_loaded, err = lab_report_ref01_ent:load(lab_report_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(lab_report_ref01_data_dt0_loaded)
+    local lab_report_ref01_data_dt0_load_result = helpers.to_map(type(lab_report_ref01_data_dt0_loaded) == 'table' and lab_report_ref01_data_dt0_loaded.data_get and lab_report_ref01_data_dt0_loaded:data_get() or lab_report_ref01_data_dt0_loaded)
+    assert.is_not_nil(lab_report_ref01_data_dt0_load_result)
+    assert.are.equal(lab_report_ref01_data_dt0_load_result["id"], lab_report_ref01_data["id"])
 
+    -- REMOVE
+    local lab_report_ref01_match_rm0 = {
+      id = lab_report_ref01_data["id"],
+    }
+    local _, err = lab_report_ref01_ent:remove(lab_report_ref01_match_rm0, nil)
+    assert.is_nil(err)
 
     -- LIST
     local lab_report_ref01_match_rt0 = {}
@@ -105,6 +121,11 @@ describe("LabReportEntity", function()
     local lab_report_ref01_list_rt0_result, err = lab_report_ref01_ent:list(lab_report_ref01_match_rt0, nil)
     assert.is_nil(err)
     assert.is_table(lab_report_ref01_list_rt0_result)
+
+    local not_found_item = vs.select(
+      runner.entity_list_to_data(lab_report_ref01_list_rt0_result),
+      { id = lab_report_ref01_data["id"] })
+    assert.is_true(vs.isempty(not_found_item))
 
   end)
 end)

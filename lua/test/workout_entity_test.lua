@@ -84,6 +84,7 @@ describe("WorkoutEntity", function()
     assert.is_nil(err)
     workout_ref01_data = helpers.to_map(type(workout_ref01_data_result) == 'table' and workout_ref01_data_result.data_get and workout_ref01_data_result:data_get() or workout_ref01_data_result)
     assert.is_not_nil(workout_ref01_data)
+    assert.is_not_nil(workout_ref01_data["id"])
 
     -- LIST
     local workout_ref01_match = {}
@@ -92,12 +93,27 @@ describe("WorkoutEntity", function()
     assert.is_nil(err)
     assert.is_table(workout_ref01_list_result)
 
+    local found_item = vs.select(
+      runner.entity_list_to_data(workout_ref01_list_result),
+      { id = workout_ref01_data["id"] })
+    assert.is_false(vs.isempty(found_item))
+
     -- LOAD
-    local workout_ref01_match_dt0 = {}
+    local workout_ref01_match_dt0 = {
+      id = workout_ref01_data["id"],
+    }
     local workout_ref01_data_dt0_loaded, err = workout_ref01_ent:load(workout_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(workout_ref01_data_dt0_loaded)
+    local workout_ref01_data_dt0_load_result = helpers.to_map(type(workout_ref01_data_dt0_loaded) == 'table' and workout_ref01_data_dt0_loaded.data_get and workout_ref01_data_dt0_loaded:data_get() or workout_ref01_data_dt0_loaded)
+    assert.is_not_nil(workout_ref01_data_dt0_load_result)
+    assert.are.equal(workout_ref01_data_dt0_load_result["id"], workout_ref01_data["id"])
 
+    -- REMOVE
+    local workout_ref01_match_rm0 = {
+      id = workout_ref01_data["id"],
+    }
+    local _, err = workout_ref01_ent:remove(workout_ref01_match_rm0, nil)
+    assert.is_nil(err)
 
     -- LIST
     local workout_ref01_match_rt0 = {}
@@ -105,6 +121,11 @@ describe("WorkoutEntity", function()
     local workout_ref01_list_rt0_result, err = workout_ref01_ent:list(workout_ref01_match_rt0, nil)
     assert.is_nil(err)
     assert.is_table(workout_ref01_list_rt0_result)
+
+    local not_found_item = vs.select(
+      runner.entity_list_to_data(workout_ref01_list_rt0_result),
+      { id = workout_ref01_data["id"] })
+    assert.is_true(vs.isempty(not_found_item))
 
   end)
 end)
