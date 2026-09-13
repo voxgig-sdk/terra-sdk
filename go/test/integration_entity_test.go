@@ -98,7 +98,7 @@ func TestIntegrationEntity(t *testing.T) {
 		client := setup.client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		integrationRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.integration", setup.data)))
+		integrationRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.integration")))
 		var integrationRef01Data map[string]any
 		if len(integrationRef01DataRaw) > 0 {
 			integrationRef01Data = core.ToMapAny(integrationRef01DataRaw[0][1])
@@ -147,7 +147,7 @@ func integrationBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"integration01", "integration02", "integration03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -167,7 +167,7 @@ func integrationBasicSetup(extra map[string]any) *entityTestSetup {
 		"TERRA_TEST_INTEGRATION_ENTID": idmap,
 		"TERRA_TEST_LIVE":      "FALSE",
 		"TERRA_TEST_EXPLAIN":   "FALSE",
-		"TERRA_APIKEY":         "NONE",
+		"TERRA_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["TERRA_TEST_INTEGRATION_ENTID"])
@@ -176,11 +176,23 @@ func integrationBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["TERRA_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["TERRA_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewTerraSDK(core.ToMapAny(mergedOpts))
 	}

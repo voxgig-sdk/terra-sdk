@@ -51,8 +51,10 @@ main: kit: entity: body: {
           }
           method: "GET"
           orig: "/body"
-          parts: [
-            "body"
+          segments: [
+            {
+              lit: "body"
+            }
           ]
           select: {
             exist: [

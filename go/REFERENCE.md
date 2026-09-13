@@ -162,7 +162,7 @@ fmt.Println(activity.GetName()) // "activity"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Activity(nil).Load(nil, nil)
+result, err := client.Activity(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -207,7 +207,7 @@ fmt.Println(athlete.GetName()) // "athlete"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Athlete(nil).Load(nil, nil)
+result, err := client.Athlete(nil).Load(map[string]any{"user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -270,6 +270,7 @@ Create a new entity with the given data.
 
 ```go
 result, err := client.Authentication(nil).Create(map[string]any{
+    "resource": "example_resource",
 }, nil)
 if err != nil {
     panic(err)
@@ -282,7 +283,7 @@ fmt.Println(result)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Authentication(nil).Remove(nil, nil)
+result, err := client.Authentication(nil).Remove(map[string]any{"user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -327,7 +328,7 @@ fmt.Println(body.GetName()) // "body"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Body(nil).Load(nil, nil)
+result, err := client.Body(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -418,7 +419,7 @@ fmt.Println(daily.GetName()) // "daily"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Daily(nil).Load(nil, nil)
+result, err := client.Daily(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -745,7 +746,7 @@ fmt.Println(menstruation.GetName()) // "menstruation"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Menstruation(nil).Load(nil, nil)
+result, err := client.Menstruation(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -790,7 +791,7 @@ fmt.Println(nutrition.GetName()) // "nutrition"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Nutrition(nil).Load(nil, nil)
+result, err := client.Nutrition(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -879,7 +880,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.PlannedWorkout(nil).Load(map[string]any{"id": 1}, nil)
+result, err := client.PlannedWorkout(nil).Load(map[string]any{"id": 1, "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -893,6 +894,7 @@ Update an existing entity. The data must include the entity `id`.
 ```go
 result, err := client.PlannedWorkout(nil).Update(map[string]any{
     "id": 1,
+    "user_id": "user_id",
     // Fields to update
 }, nil)
 if err != nil {
@@ -939,7 +941,7 @@ fmt.Println(sleep.GetName()) // "sleep"
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Sleep(nil).Load(nil, nil)
+result, err := client.Sleep(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -1092,7 +1094,7 @@ fmt.Println(result)
 Remove the entity matching the given criteria.
 
 ```go
-result, err := client.Workout(nil).Remove(map[string]any{"planned_workout_id": 1}, nil)
+result, err := client.Workout(nil).Remove(map[string]any{"planned_workout_id": 1, "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -1139,4 +1141,42 @@ client := sdk.NewTerraSDK(map[string]any{
     },
 })
 ```
+
+
+### Configuring features
+
+Each feature is inactive until switched on, and an SDK with no feature
+configured does no feature work at all. Every option below keeps its default
+unless you name it.
+
+The array form of \`feature\` is significant: several features wrap the
+transport, and the order you list them in is the order they nest.
+
+#### `test`
+
+In-memory mock transport for testing without a live server.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Options above are those the model carries a default for. A feature may
+also accept callback options — a `sink` to receive each record, for
+instance — which have no default and are covered in the full feature
+reference.
+
+**Usage**
+
+Set `feature.test.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
+- Installs the BASE transport that the wrapping features wrap, so it must be
+  activated before them.
+- Inactive by default: leaving it out costs nothing at runtime.
 

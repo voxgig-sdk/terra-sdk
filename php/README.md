@@ -38,7 +38,7 @@ $client = new TerraSDK([
 ```php
 try {
     // load() returns the ENTITY — call data_get() for the Activity record (throws on error).
-    $activity = $client->Activity()->load();
+    $activity = $client->Activity()->load(["start_date" => "example_start_date", "user_id" => "example_user_id"]);
     print_r($activity);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -53,7 +53,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $activity = $client->Activity()->load();
+    $activity = $client->Activity()->load(["start_date" => "example", "user_id" => "example"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -127,7 +127,7 @@ $client = TerraSDK::test();
 
 // Entity ops return the ENTITY (throws on error);
 // call data_get() for the mock record.
-$activity = $client->Activity()->load();
+$activity = $client->Activity()->load(["start_date" => "example", "user_id" => "example"]);
 print_r($activity);
 ```
 
@@ -509,7 +509,7 @@ Create an instance: `$activity = $client->Activity();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Activity record (throws on error).
-$activity = $client->Activity()->load();
+$activity = $client->Activity()->load(["start_date" => "start_date", "user_id" => "user_id"]);
 ```
 
 
@@ -527,7 +527,7 @@ Create an instance: `$athlete = $client->Athlete();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Athlete record (throws on error).
-$athlete = $client->Athlete()->load();
+$athlete = $client->Athlete()->load(["user_id" => "user_id"]);
 ```
 
 
@@ -563,6 +563,7 @@ Create an instance: `$authentication = $client->Authentication();`
 
 ```php
 $authentication = $client->Authentication()->create([
+    "resource" => null, // string
 ]);
 ```
 
@@ -581,7 +582,7 @@ Create an instance: `$body = $client->Body();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Body record (throws on error).
-$body = $client->Body()->load();
+$body = $client->Body()->load(["start_date" => "start_date", "user_id" => "user_id"]);
 ```
 
 
@@ -617,7 +618,7 @@ Create an instance: `$daily = $client->Daily();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Daily record (throws on error).
-$daily = $client->Daily()->load();
+$daily = $client->Daily()->load(["start_date" => "start_date", "user_id" => "user_id"]);
 ```
 
 
@@ -789,7 +790,7 @@ Create an instance: `$menstruation = $client->Menstruation();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Menstruation record (throws on error).
-$menstruation = $client->Menstruation()->load();
+$menstruation = $client->Menstruation()->load(["start_date" => "start_date", "user_id" => "user_id"]);
 ```
 
 
@@ -807,7 +808,7 @@ Create an instance: `$nutrition = $client->Nutrition();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Nutrition record (throws on error).
-$nutrition = $client->Nutrition()->load();
+$nutrition = $client->Nutrition()->load(["start_date" => "start_date", "user_id" => "user_id"]);
 ```
 
 
@@ -843,7 +844,7 @@ Create an instance: `$planned_workout = $client->PlannedWorkout();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the PlannedWorkout record (throws on error).
-$planned_workout = $client->PlannedWorkout()->load(["id" => 1]);
+$planned_workout = $client->PlannedWorkout()->load(["id" => 1, "user_id" => "user_id"]);
 ```
 
 #### Example: List
@@ -868,7 +869,7 @@ Create an instance: `$sleep = $client->Sleep();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Sleep record (throws on error).
-$sleep = $client->Sleep()->load();
+$sleep = $client->Sleep()->load(["start_date" => "start_date", "user_id" => "user_id"]);
 ```
 
 
@@ -949,6 +950,29 @@ $workout = $client->Workout()->create([
     "step_blocks" => null, // array
 ]);
 ```
+
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
 
 
 ## Open types
@@ -1048,7 +1072,7 @@ stores the returned data and match criteria internally.
 
 ```php
 $activity = $client->Activity();
-$activity->load();
+$activity->load(["start_date" => "example", "user_id" => "example"]);
 
 // $activity->data_get() now returns the activity data from the last load
 // $activity->match_get() returns the last match criteria

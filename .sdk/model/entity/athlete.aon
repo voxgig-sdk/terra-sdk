@@ -30,8 +30,10 @@ main: kit: entity: athlete: {
           }
           method: "GET"
           orig: "/athlete"
-          parts: [
-            "athlete"
+          segments: [
+            {
+              lit: "athlete"
+            }
           ]
           select: {
             exist: [

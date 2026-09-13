@@ -18,6 +18,11 @@ type Activity struct {
 
 // ActivityLoadMatch is the typed request payload for Activity.LoadTyped.
 type ActivityLoadMatch struct {
+	EndDate *any `json:"end_date,omitempty"`
+	StartDate any `json:"start_date"`
+	ToWebhook *bool `json:"to_webhook,omitempty"`
+	UserId string `json:"user_id"`
+	WithSample *bool `json:"with_sample,omitempty"`
 }
 
 // Athlete is the typed data model for the athlete entity.
@@ -26,6 +31,8 @@ type Athlete struct {
 
 // AthleteLoadMatch is the typed request payload for Athlete.LoadTyped.
 type AthleteLoadMatch struct {
+	ToWebhook *bool `json:"to_webhook,omitempty"`
+	UserId string `json:"user_id"`
 }
 
 // Authentication is the typed data model for the authentication entity.
@@ -46,6 +53,7 @@ type Authentication struct {
 
 // AuthenticationCreateData is the typed request payload for Authentication.CreateTyped.
 type AuthenticationCreateData struct {
+	Resource string `json:"resource"`
 	AuthFailureRedirectUrl *string `json:"auth_failure_redirect_url,omitempty"`
 	AuthSuccessRedirectUrl *string `json:"auth_success_redirect_url,omitempty"`
 	AuthUrl *string `json:"auth_url,omitempty"`
@@ -62,18 +70,7 @@ type AuthenticationCreateData struct {
 
 // AuthenticationRemoveMatch is the typed request payload for Authentication.RemoveTyped.
 type AuthenticationRemoveMatch struct {
-	AuthFailureRedirectUrl *string `json:"auth_failure_redirect_url,omitempty"`
-	AuthSuccessRedirectUrl *string `json:"auth_success_redirect_url,omitempty"`
-	AuthUrl *string `json:"auth_url,omitempty"`
-	ExpiresIn *int `json:"expires_in,omitempty"`
-	Language *string `json:"language,omitempty"`
-	Providers *string `json:"providers,omitempty"`
-	ReferenceId *string `json:"reference_id,omitempty"`
-	SessionId *string `json:"session_id,omitempty"`
-	Status *string `json:"status,omitempty"`
-	Token *string `json:"token,omitempty"`
-	Url *string `json:"url,omitempty"`
-	UserId *string `json:"user_id,omitempty"`
+	UserId string `json:"user_id"`
 }
 
 // Body is the typed data model for the body entity.
@@ -82,6 +79,11 @@ type Body struct {
 
 // BodyLoadMatch is the typed request payload for Body.LoadTyped.
 type BodyLoadMatch struct {
+	EndDate *any `json:"end_date,omitempty"`
+	StartDate any `json:"start_date"`
+	ToWebhook *bool `json:"to_webhook,omitempty"`
+	UserId string `json:"user_id"`
+	WithSample *bool `json:"with_sample,omitempty"`
 }
 
 // BulkUserInfo is the typed data model for the bulk_user_info entity.
@@ -98,6 +100,11 @@ type Daily struct {
 
 // DailyLoadMatch is the typed request payload for Daily.LoadTyped.
 type DailyLoadMatch struct {
+	EndDate *any `json:"end_date,omitempty"`
+	StartDate any `json:"start_date"`
+	ToWebhook *bool `json:"to_webhook,omitempty"`
+	UserId string `json:"user_id"`
+	WithSample *bool `json:"with_sample,omitempty"`
 }
 
 // Integration is the typed data model for the integration entity.
@@ -161,34 +168,17 @@ type LabReportLoadMatch struct {
 
 // LabReportListMatch is the typed request payload for LabReport.ListTyped.
 type LabReportListMatch struct {
-	CollectionDate *string `json:"collection_date,omitempty"`
-	CollectionTime *string `json:"collection_time,omitempty"`
-	CurrentStatus *string `json:"current_status,omitempty"`
-	FileCount *int `json:"file_count,omitempty"`
-	Id *string `json:"id,omitempty"`
-	InputBytes *int `json:"input_bytes,omitempty"`
-	LabName *string `json:"lab_name,omitempty"`
-	OutputBytes *int `json:"output_bytes,omitempty"`
-	Panels *[]any `json:"panels,omitempty"`
-	PatientAgeAtCollection *int `json:"patient_age_at_collection,omitempty"`
-	PatientSex *string `json:"patient_sex,omitempty"`
 	ReferenceId *string `json:"reference_id,omitempty"`
-	ReportDate *string `json:"report_date,omitempty"`
-	ReportLocale *string `json:"report_locale,omitempty"`
-	ReportNotes *string `json:"report_notes,omitempty"`
-	ReportTime *string `json:"report_time,omitempty"`
-	ReportType *string `json:"report_type,omitempty"`
-	Results *[]any `json:"results,omitempty"`
-	ResultsCount *int `json:"results_count,omitempty"`
-	SessionId *string `json:"session_id,omitempty"`
-	StatusHistory *[]any `json:"status_history,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
+	ReportDateFrom *string `json:"report_date_from,omitempty"`
+	ReportDateTo *string `json:"report_date_to,omitempty"`
 	UploadId *string `json:"upload_id,omitempty"`
-	UploadedAt *string `json:"uploaded_at,omitempty"`
+	UploadedAtFrom *string `json:"uploaded_at_from,omitempty"`
+	UploadedAtTo *string `json:"uploaded_at_to,omitempty"`
 }
 
 // LabReportCreateData is the typed request payload for LabReport.CreateTyped.
 type LabReportCreateData struct {
+	ReferenceId *string `json:"reference_id,omitempty"`
 	CollectionDate *string `json:"collection_date,omitempty"`
 	CollectionTime *string `json:"collection_time,omitempty"`
 	CurrentStatus string `json:"current_status"`
@@ -200,7 +190,6 @@ type LabReportCreateData struct {
 	Panels *[]any `json:"panels,omitempty"`
 	PatientAgeAtCollection *int `json:"patient_age_at_collection,omitempty"`
 	PatientSex *string `json:"patient_sex,omitempty"`
-	ReferenceId *string `json:"reference_id,omitempty"`
 	ReportDate *string `json:"report_date,omitempty"`
 	ReportLocale *string `json:"report_locale,omitempty"`
 	ReportNotes *string `json:"report_notes,omitempty"`
@@ -253,6 +242,11 @@ type Menstruation struct {
 
 // MenstruationLoadMatch is the typed request payload for Menstruation.LoadTyped.
 type MenstruationLoadMatch struct {
+	EndDate *any `json:"end_date,omitempty"`
+	StartDate any `json:"start_date"`
+	ToWebhook *bool `json:"to_webhook,omitempty"`
+	UserId string `json:"user_id"`
+	WithSample *bool `json:"with_sample,omitempty"`
 }
 
 // Nutrition is the typed data model for the nutrition entity.
@@ -261,6 +255,11 @@ type Nutrition struct {
 
 // NutritionLoadMatch is the typed request payload for Nutrition.LoadTyped.
 type NutritionLoadMatch struct {
+	EndDate *any `json:"end_date,omitempty"`
+	StartDate any `json:"start_date"`
+	ToWebhook *bool `json:"to_webhook,omitempty"`
+	UserId string `json:"user_id"`
+	WithSample *bool `json:"with_sample,omitempty"`
 }
 
 // PlannedWorkout is the typed data model for the planned_workout entity.
@@ -281,26 +280,20 @@ type PlannedWorkout struct {
 // PlannedWorkoutLoadMatch is the typed request payload for PlannedWorkout.LoadTyped.
 type PlannedWorkoutLoadMatch struct {
 	Id int `json:"id"`
+	UserId string `json:"user_id"`
 }
 
 // PlannedWorkoutListMatch is the typed request payload for PlannedWorkout.ListTyped.
 type PlannedWorkoutListMatch struct {
-	AthleteMetrics *any `json:"athlete_metrics,omitempty"`
-	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
-	CreatedAt *any `json:"created_at,omitempty"`
-	Details *any `json:"details,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsExternal *bool `json:"is_external,omitempty"`
-	LastUpdatedAt *any `json:"last_updated_at,omitempty"`
-	PlannedDate *string `json:"planned_date,omitempty"`
-	PlannedWorkoutId *string `json:"planned_workout_id,omitempty"`
-	ProviderWorkoutId *string `json:"provider_workout_id,omitempty"`
-	WorkoutId *string `json:"workout_id,omitempty"`
+	EndDate *string `json:"end_date,omitempty"`
+	StartDate *string `json:"start_date,omitempty"`
+	UserId string `json:"user_id"`
 }
 
 // PlannedWorkoutUpdateData is the typed request payload for PlannedWorkout.UpdateTyped.
 type PlannedWorkoutUpdateData struct {
 	Id int `json:"id"`
+	UserId string `json:"user_id"`
 	AthleteMetrics *any `json:"athlete_metrics,omitempty"`
 	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
 	CreatedAt *any `json:"created_at,omitempty"`
@@ -319,6 +312,11 @@ type Sleep struct {
 
 // SleepLoadMatch is the typed request payload for Sleep.LoadTyped.
 type SleepLoadMatch struct {
+	EndDate *any `json:"end_date,omitempty"`
+	StartDate any `json:"start_date"`
+	ToWebhook *bool `json:"to_webhook,omitempty"`
+	UserId string `json:"user_id"`
+	WithSample *bool `json:"with_sample,omitempty"`
 }
 
 // User is the typed data model for the user entity.
@@ -327,6 +325,8 @@ type User struct {
 
 // UserLoadMatch is the typed request payload for User.LoadTyped.
 type UserLoadMatch struct {
+	Page *int `json:"page,omitempty"`
+	PerPage *int `json:"per_page,omitempty"`
 }
 
 // Workout is the typed data model for the workout entity.
@@ -400,6 +400,7 @@ type WorkoutCreateData struct {
 // WorkoutRemoveMatch is the typed request payload for Workout.RemoveTyped.
 type WorkoutRemoveMatch struct {
 	PlannedWorkoutId int `json:"planned_workout_id"`
+	UserId string `json:"user_id"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

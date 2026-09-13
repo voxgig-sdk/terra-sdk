@@ -100,7 +100,7 @@ func TestLabReportEntity(t *testing.T) {
 		// CREATE
 		labReportRef01Ent := client.LabReport(nil)
 		labReportRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "lab_report"}, setup.data), "lab_report_ref01"))
+			vs.GetPath(setup.data, []any{"new", "lab_report"}), "lab_report_ref01"))
 
 		labReportRef01DataResult, err := labReportRef01Ent.Create(labReportRef01Data, nil)
 		if err != nil {
@@ -200,7 +200,7 @@ func lab_reportBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"lab_report01", "lab_report02", "lab_report03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -220,7 +220,7 @@ func lab_reportBasicSetup(extra map[string]any) *entityTestSetup {
 		"TERRA_TEST_LAB_REPORT_ENTID": idmap,
 		"TERRA_TEST_LIVE":      "FALSE",
 		"TERRA_TEST_EXPLAIN":   "FALSE",
-		"TERRA_APIKEY":         "NONE",
+		"TERRA_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["TERRA_TEST_LAB_REPORT_ENTID"])
@@ -229,11 +229,23 @@ func lab_reportBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["TERRA_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["TERRA_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewTerraSDK(core.ToMapAny(mergedOpts))
 	}

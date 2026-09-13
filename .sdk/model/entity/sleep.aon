@@ -51,8 +51,10 @@ main: kit: entity: sleep: {
           }
           method: "GET"
           orig: "/sleep"
-          parts: [
-            "sleep"
+          segments: [
+            {
+              lit: "sleep"
+            }
           ]
           select: {
             exist: [

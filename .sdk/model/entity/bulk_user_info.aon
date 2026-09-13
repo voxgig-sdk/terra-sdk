@@ -12,8 +12,10 @@ main: kit: entity: bulk_user_info: {
         {
           method: "POST"
           orig: "/bulkUserInfo"
-          parts: [
-            "bulkUserInfo"
+          segments: [
+            {
+              lit: "bulkUserInfo"
+            }
           ]
           transform: {
             req: "`reqdata`"

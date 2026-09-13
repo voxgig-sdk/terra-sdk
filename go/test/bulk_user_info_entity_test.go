@@ -52,7 +52,7 @@ func TestBulkUserInfoEntity(t *testing.T) {
 		// CREATE
 		bulkUserInfoRef01Ent := client.BulkUserInfo(nil)
 		bulkUserInfoRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "bulk_user_info"}, setup.data), "bulk_user_info_ref01"))
+			vs.GetPath(setup.data, []any{"new", "bulk_user_info"}), "bulk_user_info_ref01"))
 
 		bulkUserInfoRef01DataResult, err := bulkUserInfoRef01Ent.Create(bulkUserInfoRef01Data, nil)
 		if err != nil {
@@ -90,7 +90,7 @@ func bulk_user_infoBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"bulk_user_info01", "bulk_user_info02", "bulk_user_info03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -110,7 +110,7 @@ func bulk_user_infoBasicSetup(extra map[string]any) *entityTestSetup {
 		"TERRA_TEST_BULK_USER_INFO_ENTID": idmap,
 		"TERRA_TEST_LIVE":      "FALSE",
 		"TERRA_TEST_EXPLAIN":   "FALSE",
-		"TERRA_APIKEY":         "NONE",
+		"TERRA_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["TERRA_TEST_BULK_USER_INFO_ENTID"])
@@ -119,11 +119,23 @@ func bulk_user_infoBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["TERRA_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["TERRA_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewTerraSDK(core.ToMapAny(mergedOpts))
 	}

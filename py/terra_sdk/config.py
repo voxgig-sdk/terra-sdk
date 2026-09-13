@@ -1,6 +1,14 @@
 # Terra SDK configuration
 
 
+# The sekreto plugin DEFINITIONS the model selected per feature, imported
+# above by name from the modules the catalogue's active `plugin.def`
+# entries declare. Handed to each feature (secrets builds its Sekreto
+# with them): a provider kind not listed here is unknown to that SDK.
+FEATURE_PLUGINS = {
+}
+
+
 _shared_config = None
 
 
@@ -116,8 +124,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/activity",
-                "parts": [
-                  "activity",
+                "segments": [
+                  {
+                    "lit": "activity",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -132,6 +142,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "activity",
+                ],
               },
             ],
           },
@@ -169,8 +182,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/athlete",
-                "parts": [
-                  "athlete",
+                "segments": [
+                  {
+                    "lit": "athlete",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -182,6 +197,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "athlete",
+                ],
               },
             ],
           },
@@ -284,9 +302,13 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/auth/authenticateUser",
-                "parts": [
-                  "auth",
-                  "authenticateUser",
+                "segments": [
+                  {
+                    "lit": "auth",
+                  },
+                  {
+                    "lit": "authenticateUser",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -298,36 +320,56 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "auth",
+                  "authenticateUser",
+                ],
               },
               {
                 "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/auth/generateAuthToken",
-                "parts": [
-                  "auth",
-                  "generateAuthToken",
+                "segments": [
+                  {
+                    "lit": "auth",
+                  },
+                  {
+                    "lit": "generateAuthToken",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "auth",
+                  "generateAuthToken",
+                ],
               },
               {
                 "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/auth/generateWidgetSession",
-                "parts": [
-                  "auth",
-                  "generateWidgetSession",
+                "segments": [
+                  {
+                    "lit": "auth",
+                  },
+                  {
+                    "lit": "generateWidgetSession",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "auth",
+                  "generateWidgetSession",
+                ],
               },
             ],
           },
@@ -350,9 +392,13 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/auth/deauthenticateUser",
-                "parts": [
-                  "auth",
-                  "deauthenticateUser",
+                "segments": [
+                  {
+                    "lit": "auth",
+                  },
+                  {
+                    "lit": "deauthenticateUser",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -363,6 +409,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "auth",
+                  "deauthenticateUser",
+                ],
               },
             ],
           },
@@ -419,8 +469,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/body",
-                "parts": [
-                  "body",
+                "segments": [
+                  {
+                    "lit": "body",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -435,6 +487,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "body",
+                ],
               },
             ],
           },
@@ -456,14 +511,19 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/bulkUserInfo",
-                "parts": [
-                  "bulkUserInfo",
+                "segments": [
+                  {
+                    "lit": "bulkUserInfo",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "bulkUserInfo",
+                ],
               },
             ],
           },
@@ -520,8 +580,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/daily",
-                "parts": [
-                  "daily",
+                "segments": [
+                  {
+                    "lit": "daily",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -536,6 +598,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "daily",
+                ],
               },
             ],
           },
@@ -610,9 +675,13 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/integrations/detailed",
-                "parts": [
-                  "integrations",
-                  "detailed",
+                "segments": [
+                  {
+                    "lit": "integrations",
+                  },
+                  {
+                    "lit": "detailed",
+                  },
                 ],
                 "select": {
                   "$action": "detailed",
@@ -624,20 +693,29 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.providers`",
                 },
+                "parts": [
+                  "integrations",
+                  "detailed",
+                ],
               },
               {
                 "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/integrations",
-                "parts": [
-                  "integrations",
+                "segments": [
+                  {
+                    "lit": "integrations",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "integrations",
+                ],
               },
             ],
           },
@@ -747,6 +825,7 @@ def make_config():
             "type": "`$ARRAY`",
           },
           {
+            "format": "date-time",
             "name": "updated_at",
             "type": "`$STRING`",
           },
@@ -755,10 +834,15 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "date-time",
             "name": "uploaded_at",
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "lab_report",
         "op": {
           "create": {
@@ -780,8 +864,10 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/lab-reports",
-                "parts": [
-                  "lab-reports",
+                "segments": [
+                  {
+                    "lit": "lab-reports",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -792,6 +878,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "lab-reports",
+                ],
               },
             ],
           },
@@ -843,8 +932,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/lab-reports",
-                "parts": [
-                  "lab-reports",
+                "segments": [
+                  {
+                    "lit": "lab-reports",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -860,6 +951,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.sessions`",
                 },
+                "parts": [
+                  "lab-reports",
+                ],
               },
             ],
           },
@@ -883,15 +977,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/lab-reports/{session_id}",
-                "parts": [
-                  "lab-reports",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "session_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "lab-reports",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -901,6 +999,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "lab-reports",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -924,15 +1026,19 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/lab-reports/{session_id}",
-                "parts": [
-                  "lab-reports",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "session_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "lab-reports",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -942,6 +1048,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "lab-reports",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -984,6 +1094,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "lab_report_delivery",
         "op": {
           "list": {
@@ -1006,16 +1120,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/lab-reports/{session_id}/deliveries",
-                "parts": [
-                  "lab-reports",
-                  "{id}",
-                  "deliveries",
-                ],
                 "rename": {
                   "param": {
                     "session_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "lab-reports",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "deliveries",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1025,6 +1145,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.deliveries`",
                 },
+                "parts": [
+                  "lab-reports",
+                  "{id}",
+                  "deliveries",
+                ],
               },
             ],
           },
@@ -1049,6 +1174,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "lab_report_file",
         "op": {
           "list": {
@@ -1071,16 +1200,22 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/lab-reports/{session_id}/files",
-                "parts": [
-                  "lab-reports",
-                  "{id}",
-                  "files",
-                ],
                 "rename": {
                   "param": {
                     "session_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "lab-reports",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "files",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1090,6 +1225,11 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "lab-reports",
+                  "{id}",
+                  "files",
+                ],
               },
             ],
           },
@@ -1146,8 +1286,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/menstruation",
-                "parts": [
-                  "menstruation",
+                "segments": [
+                  {
+                    "lit": "menstruation",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1162,6 +1304,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "menstruation",
+                ],
               },
             ],
           },
@@ -1218,8 +1363,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/nutrition",
-                "parts": [
-                  "nutrition",
+                "segments": [
+                  {
+                    "lit": "nutrition",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1234,6 +1381,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "nutrition",
+                ],
               },
             ],
           },
@@ -1278,6 +1428,7 @@ def make_config():
             "type": "`$ANY`",
           },
           {
+            "format": "date",
             "name": "planned_date",
             "op": {
               "update": {
@@ -1304,6 +1455,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "planned_workout",
         "op": {
           "list": {
@@ -1337,8 +1492,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/plannedWorkouts",
-                "parts": [
-                  "plannedWorkouts",
+                "segments": [
+                  {
+                    "lit": "plannedWorkouts",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1351,6 +1508,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "plannedWorkouts",
+                ],
               },
             ],
           },
@@ -1382,15 +1542,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/plannedWorkouts/{planned_workout_id}",
-                "parts": [
-                  "plannedWorkouts",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "planned_workout_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "plannedWorkouts",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1401,6 +1565,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "plannedWorkouts",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -1432,15 +1600,19 @@ def make_config():
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/plannedWorkouts/{planned_workout_id}",
-                "parts": [
-                  "plannedWorkouts",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "planned_workout_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "plannedWorkouts",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1451,6 +1623,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "plannedWorkouts",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -1507,8 +1683,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/sleep",
-                "parts": [
-                  "sleep",
+                "segments": [
+                  {
+                    "lit": "sleep",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1523,6 +1701,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "sleep",
+                ],
               },
             ],
           },
@@ -1561,8 +1742,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/subscriptions",
-                "parts": [
-                  "subscriptions",
+                "segments": [
+                  {
+                    "lit": "subscriptions",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1574,6 +1757,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "subscriptions",
+                ],
               },
               {
                 "args": {
@@ -1595,8 +1781,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/userInfo",
-                "parts": [
-                  "userInfo",
+                "segments": [
+                  {
+                    "lit": "userInfo",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1608,6 +1796,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "userInfo",
+                ],
               },
             ],
           },
@@ -1668,6 +1859,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "date",
             "name": "planned_date",
             "req": True,
             "short": "Date to schedule the workout on (YYYY-MM-DD)",
@@ -1719,6 +1911,10 @@ def make_config():
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "workout",
         "op": {
           "create": {
@@ -1749,16 +1945,22 @@ def make_config():
                 "kind": "http",
                 "method": "POST",
                 "orig": "/workouts/{workout_id}/plan",
-                "parts": [
-                  "workouts",
-                  "{id}",
-                  "plan",
-                ],
                 "rename": {
                   "param": {
                     "workout_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "workouts",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "plan",
+                  },
+                ],
                 "select": {
                   "$action": "plan",
                   "exist": [
@@ -1770,20 +1972,30 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "workouts",
+                  "{id}",
+                  "plan",
+                ],
               },
               {
                 "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/workouts",
-                "parts": [
-                  "workouts",
+                "segments": [
+                  {
+                    "lit": "workouts",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "workouts",
+                ],
               },
             ],
           },
@@ -1796,14 +2008,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/workouts",
-                "parts": [
-                  "workouts",
+                "segments": [
+                  {
+                    "lit": "workouts",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "workouts",
+                ],
               },
             ],
           },
@@ -1826,15 +2043,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/workouts/{workout_id}",
-                "parts": [
-                  "workouts",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "workout_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "workouts",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1844,6 +2065,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "workouts",
+                  "{id}",
+                ],
               },
             ],
           },
@@ -1875,9 +2100,13 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/plannedWorkouts/{planned_workout_id}",
-                "parts": [
-                  "plannedWorkouts",
-                  "{planned_workout_id}",
+                "segments": [
+                  {
+                    "lit": "plannedWorkouts",
+                  },
+                  {
+                    "var": "planned_workout_id",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -1889,6 +2118,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "plannedWorkouts",
+                  "{planned_workout_id}",
+                ],
               },
               {
                 "args": {
@@ -1905,15 +2138,19 @@ def make_config():
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/workouts/{workout_id}",
-                "parts": [
-                  "workouts",
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "workout_id": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "lit": "workouts",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "id",
@@ -1923,6 +2160,10 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "workouts",
+                  "{id}",
+                ],
               },
             ],
           },

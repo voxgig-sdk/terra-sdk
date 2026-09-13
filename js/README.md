@@ -36,7 +36,7 @@ const client = new TerraSDK({
 ### Load an Activity
 
 ```js
-const activity = await client.Activity().load()
+const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
 console.log(activity)
 ```
 
@@ -63,7 +63,7 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const activity = await client.Activity().load()
+  const activity = await client.Activity().load({ start_date: "example", user_id: "example" })
   console.log(activity)
 } catch (err) {
   console.error('load failed:', err)
@@ -130,7 +130,7 @@ Create a mock client for unit testing — no server required:
 ```js
 const client = TerraSDK.test()
 
-const activity = await client.Activity().load()
+const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
 // activity is the entity, populated with mock response data
 // — call activity.data() for the record itself
 console.log(activity)
@@ -151,7 +151,7 @@ Entity instances remember their last match and data:
 const entity = client.Activity()
 
 // First call runs the operation and stores its result
-await entity.load()
+await entity.load({ start_date: 'example_start_date', user_id: 'example_user_id' })
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -554,7 +554,7 @@ Create an instance: `const activity = client.Activity()`
 #### Example: Load
 
 ```ts
-const activity = await client.Activity().load()
+const activity = await client.Activity().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 
@@ -571,7 +571,7 @@ Create an instance: `const athlete = client.Athlete()`
 #### Example: Load
 
 ```ts
-const athlete = await client.Athlete().load()
+const athlete = await client.Athlete().load({ user_id: 'user_id' })
 ```
 
 
@@ -607,6 +607,7 @@ Create an instance: `const authentication = client.Authentication()`
 
 ```ts
 const authentication = await client.Authentication().create({
+  resource: 'example_resource',
 })
 ```
 
@@ -624,7 +625,7 @@ Create an instance: `const body = client.Body()`
 #### Example: Load
 
 ```ts
-const body = await client.Body().load()
+const body = await client.Body().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 
@@ -659,7 +660,7 @@ Create an instance: `const daily = client.Daily()`
 #### Example: Load
 
 ```ts
-const daily = await client.Daily().load()
+const daily = await client.Daily().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 
@@ -825,7 +826,7 @@ Create an instance: `const menstruation = client.Menstruation()`
 #### Example: Load
 
 ```ts
-const menstruation = await client.Menstruation().load()
+const menstruation = await client.Menstruation().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 
@@ -842,7 +843,7 @@ Create an instance: `const nutrition = client.Nutrition()`
 #### Example: Load
 
 ```ts
-const nutrition = await client.Nutrition().load()
+const nutrition = await client.Nutrition().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 
@@ -877,13 +878,13 @@ Create an instance: `const planned_workout = client.PlannedWorkout()`
 #### Example: Load
 
 ```ts
-const planned_workout = await client.PlannedWorkout().load({ id: 1 })
+const planned_workout = await client.PlannedWorkout().load({ id: 1, user_id: 'user_id' })
 ```
 
 #### Example: List
 
 ```ts
-const planned_workouts = await client.PlannedWorkout().list()
+const planned_workouts = await client.PlannedWorkout().list({ user_id: "example" })
 ```
 
 
@@ -900,7 +901,7 @@ Create an instance: `const sleep = client.Sleep()`
 #### Example: Load
 
 ```ts
-const sleep = await client.Sleep().load()
+const sleep = await client.Sleep().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 
@@ -978,6 +979,29 @@ const workout = await client.Workout().create({
   step_blocks: [],
 })
 ```
+
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
 
 
 ## Open types
@@ -1069,7 +1093,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const activity = client.Activity()
-await activity.load()
+await activity.load({ start_date: "example", user_id: "example" })
 
 // activity.data() now returns the activity data from the last `load`
 // activity.match() returns the last match criteria

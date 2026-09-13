@@ -54,7 +54,7 @@ func main() {
     })
 
     // Load a single activity — the value is the loaded record.
-    activity, err := client.Activity(nil).Load(nil, nil)
+    activity, err := client.Activity(nil).Load(map[string]any{"start_date": "example_start_date", "user_id": "example_user_id"}, nil)
     if err != nil {
         panic(err)
     }
@@ -69,7 +69,7 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-activity, err := client.Activity(nil).Load(nil, nil)
+activity, err := client.Activity(nil).Load(map[string]any{"start_date": "example", "user_id": "example"}, nil)
 if err != nil {
     // handle err
     return
@@ -139,7 +139,7 @@ Create a mock client for unit testing — no server required:
 client := sdk.Test()
 
 activity, err := client.Activity(nil).Load(
-    nil, nil,
+    map[string]any{"start_date": "example", "user_id": "example"}, nil,
 )
 if err != nil {
     panic(err)
@@ -523,7 +523,7 @@ Create an instance: `activity := client.Activity(nil)`
 #### Example: Load
 
 ```go
-activity, err := client.Activity(nil).Load(nil, nil)
+activity, err := client.Activity(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -544,7 +544,7 @@ Create an instance: `athlete := client.Athlete(nil)`
 #### Example: Load
 
 ```go
-athlete, err := client.Athlete(nil).Load(nil, nil)
+athlete, err := client.Athlete(nil).Load(map[string]any{"user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -584,6 +584,7 @@ Create an instance: `authentication := client.Authentication(nil)`
 
 ```go
 result, err := client.Authentication(nil).Create(map[string]any{
+    "resource": "example_resource",
 }, nil)
 if err != nil {
     panic(err)
@@ -605,7 +606,7 @@ Create an instance: `body := client.Body(nil)`
 #### Example: Load
 
 ```go
-body, err := client.Body(nil).Load(nil, nil)
+body, err := client.Body(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -648,7 +649,7 @@ Create an instance: `daily := client.Daily(nil)`
 #### Example: Load
 
 ```go
-daily, err := client.Daily(nil).Load(nil, nil)
+daily, err := client.Daily(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -842,7 +843,7 @@ Create an instance: `menstruation := client.Menstruation(nil)`
 #### Example: Load
 
 ```go
-menstruation, err := client.Menstruation(nil).Load(nil, nil)
+menstruation, err := client.Menstruation(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -863,7 +864,7 @@ Create an instance: `nutrition := client.Nutrition(nil)`
 #### Example: Load
 
 ```go
-nutrition, err := client.Nutrition(nil).Load(nil, nil)
+nutrition, err := client.Nutrition(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -902,7 +903,7 @@ Create an instance: `plannedWorkout := client.PlannedWorkout(nil)`
 #### Example: Load
 
 ```go
-plannedWorkout, err := client.PlannedWorkout(nil).Load(map[string]any{"id": 1}, nil)
+plannedWorkout, err := client.PlannedWorkout(nil).Load(map[string]any{"id": 1, "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -933,7 +934,7 @@ Create an instance: `sleep := client.Sleep(nil)`
 #### Example: Load
 
 ```go
-sleep, err := client.Sleep(nil).Load(nil, nil)
+sleep, err := client.Sleep(nil).Load(map[string]any{"start_date": "start_date", "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -1032,6 +1033,29 @@ if err != nil {
 fmt.Println(result)
 ```
 
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
+
 
 ## Open types
 
@@ -1127,7 +1151,7 @@ stores the returned data and match criteria internally.
 
 ```go
 activity := client.Activity(nil)
-activity.Load(nil, nil)
+activity.Load(map[string]any{"start_date": "example", "user_id": "example"}, nil)
 
 // activity.Data() now returns the activity data from the last load
 // activity.Match() returns the last match criteria

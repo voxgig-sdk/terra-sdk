@@ -50,7 +50,7 @@ func TestSleepEntity(t *testing.T) {
 		client := setup.client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		sleepRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.sleep", setup.data)))
+		sleepRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.sleep")))
 		var sleepRef01Data map[string]any
 		if len(sleepRef01DataRaw) > 0 {
 			sleepRef01Data = core.ToMapAny(sleepRef01DataRaw[0][1])
@@ -97,7 +97,7 @@ func sleepBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"sleep01", "sleep02", "sleep03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -117,7 +117,7 @@ func sleepBasicSetup(extra map[string]any) *entityTestSetup {
 		"TERRA_TEST_SLEEP_ENTID": idmap,
 		"TERRA_TEST_LIVE":      "FALSE",
 		"TERRA_TEST_EXPLAIN":   "FALSE",
-		"TERRA_APIKEY":         "NONE",
+		"TERRA_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["TERRA_TEST_SLEEP_ENTID"])
@@ -126,11 +126,23 @@ func sleepBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["TERRA_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["TERRA_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewTerraSDK(core.ToMapAny(mergedOpts))
 	}

@@ -62,7 +62,7 @@ function user_direct_setup(mockres)
   local env = runner.env_override({
     ["TERRA_TEST_USER_ENTID"] = {},
     ["TERRA_TEST_LIVE"] = "FALSE",
-    ["TERRA_APIKEY"] = "NONE",
+    ["TERRA_APIKEY"] = "",
   })
 
   local live = env["TERRA_TEST_LIVE"] == "TRUE"
@@ -71,6 +71,13 @@ function user_direct_setup(mockres)
     local merged_opts = {
       apikey = env["TERRA_APIKEY"],
     }
+    -- sdk-test-control.json's test.client.options goes UNDER the generated
+    -- fields: it adds to the live client, it does not redirect it.
+    for _k, _v in pairs(runner.live_client_options()) do
+      if merged_opts[_k] == nil then
+        merged_opts[_k] = _v
+      end
+    end
     local client = sdk.new(merged_opts)
     return {
       client = client,

@@ -119,14 +119,22 @@ func lab_report_fileDirectSetup(mockres any) *lab_report_fileDirectSetupResult {
 	env := envOverride(map[string]any{
 		"TERRA_TEST_LAB_REPORT_FILE_ENTID": map[string]any{},
 		"TERRA_TEST_LIVE":    "FALSE",
-		"TERRA_APIKEY":       "NONE",
+		"TERRA_APIKEY":       "",
 	})
 
 	live := env["TERRA_TEST_LIVE"] == "TRUE"
 
 	if live {
-		mergedOpts := map[string]any{
+		// sdk-test-control.json's test.client.options seeds the live
+		// client; the generated fields below overwrite anything they name.
+		mergedOpts := map[string]any{}
+		for k, v := range liveClientOptions() {
+			mergedOpts[k] = v
+		}
+		for k, v := range map[string]any{
 			"apikey": env["TERRA_APIKEY"],
+		} {
+			mergedOpts[k] = v
 		}
 		client := sdk.NewTerraSDK(mergedOpts)
 

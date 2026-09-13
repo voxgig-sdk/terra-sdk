@@ -46,6 +46,7 @@ main: kit: entity: planned_workout: {
       type: "`$ANY`"
     }
     {
+      format: "date"
       name: "planned_date"
       op: {
         update: {
@@ -115,8 +116,10 @@ main: kit: entity: planned_workout: {
           }
           method: "GET"
           orig: "/plannedWorkouts"
-          parts: [
-            "plannedWorkouts"
+          segments: [
+            {
+              lit: "plannedWorkouts"
+            }
           ]
           select: {
             exist: [
@@ -158,15 +161,19 @@ main: kit: entity: planned_workout: {
           }
           method: "GET"
           orig: "/plannedWorkouts/{planned_workout_id}"
-          parts: [
-            "plannedWorkouts"
-            "{id}"
-          ]
           rename: {
             param: {
               planned_workout_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "plannedWorkouts"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -206,15 +213,19 @@ main: kit: entity: planned_workout: {
           }
           method: "PATCH"
           orig: "/plannedWorkouts/{planned_workout_id}"
-          parts: [
-            "plannedWorkouts"
-            "{id}"
-          ]
           rename: {
             param: {
               planned_workout_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "plannedWorkouts"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

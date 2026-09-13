@@ -122,6 +122,7 @@ main: kit: entity: lab_report: {
       type: "`$ARRAY`"
     }
     {
+      format: "date-time"
       name: "updated_at"
       req: false
       type: "`$STRING`"
@@ -132,6 +133,7 @@ main: kit: entity: lab_report: {
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "uploaded_at"
       req: false
       type: "`$STRING`"
@@ -163,8 +165,10 @@ main: kit: entity: lab_report: {
           }
           method: "POST"
           orig: "/lab-reports"
-          parts: [
-            "lab-reports"
+          segments: [
+            {
+              lit: "lab-reports"
+            }
           ]
           select: {
             exist: [
@@ -230,8 +234,10 @@ main: kit: entity: lab_report: {
           }
           method: "GET"
           orig: "/lab-reports"
-          parts: [
-            "lab-reports"
+          segments: [
+            {
+              lit: "lab-reports"
+            }
           ]
           select: {
             exist: [
@@ -268,15 +274,19 @@ main: kit: entity: lab_report: {
           }
           method: "GET"
           orig: "/lab-reports/{session_id}"
-          parts: [
-            "lab-reports"
-            "{id}"
-          ]
           rename: {
             param: {
               session_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "lab-reports"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -307,15 +317,19 @@ main: kit: entity: lab_report: {
           }
           method: "DELETE"
           orig: "/lab-reports/{session_id}"
-          parts: [
-            "lab-reports"
-            "{id}"
-          ]
           rename: {
             param: {
               session_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "lab-reports"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

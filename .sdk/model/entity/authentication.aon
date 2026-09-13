@@ -108,9 +108,13 @@ main: kit: entity: authentication: {
           }
           method: "POST"
           orig: "/auth/authenticateUser"
-          parts: [
-            "auth"
-            "authenticateUser"
+          segments: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "authenticateUser"
+            }
           ]
           select: {
             exist: [
@@ -126,9 +130,13 @@ main: kit: entity: authentication: {
         {
           method: "POST"
           orig: "/auth/generateAuthToken"
-          parts: [
-            "auth"
-            "generateAuthToken"
+          segments: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "generateAuthToken"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -138,9 +146,13 @@ main: kit: entity: authentication: {
         {
           method: "POST"
           orig: "/auth/generateWidgetSession"
-          parts: [
-            "auth"
-            "generateWidgetSession"
+          segments: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "generateWidgetSession"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -166,9 +178,13 @@ main: kit: entity: authentication: {
           }
           method: "DELETE"
           orig: "/auth/deauthenticateUser"
-          parts: [
-            "auth"
-            "deauthenticateUser"
+          segments: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "deauthenticateUser"
+            }
           ]
           select: {
             exist: [

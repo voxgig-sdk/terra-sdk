@@ -51,8 +51,10 @@ main: kit: entity: nutrition: {
           }
           method: "GET"
           orig: "/nutrition"
-          parts: [
-            "nutrition"
+          segments: [
+            {
+              lit: "nutrition"
+            }
           ]
           select: {
             exist: [

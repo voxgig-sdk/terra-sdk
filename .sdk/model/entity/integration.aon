@@ -78,9 +78,13 @@ main: kit: entity: integration: {
           }
           method: "GET"
           orig: "/integrations/detailed"
-          parts: [
-            "integrations"
-            "detailed"
+          segments: [
+            {
+              lit: "integrations"
+            }
+            {
+              lit: "detailed"
+            }
           ]
           select: {
             "$action": "detailed"
@@ -96,8 +100,10 @@ main: kit: entity: integration: {
         {
           method: "GET"
           orig: "/integrations"
-          parts: [
-            "integrations"
+          segments: [
+            {
+              lit: "integrations"
+            }
           ]
           transform: {
             req: "`reqdata`"

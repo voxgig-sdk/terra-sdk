@@ -1,10 +1,17 @@
 export interface Activity {
 }
 export interface ActivityLoadMatch {
+    end_date?: any;
+    start_date: any;
+    to_webhook?: boolean;
+    user_id: string;
+    with_sample?: boolean;
 }
 export interface Athlete {
 }
 export interface AthleteLoadMatch {
+    to_webhook?: boolean;
+    user_id: string;
 }
 export interface Authentication {
     auth_failure_redirect_url?: string;
@@ -21,6 +28,7 @@ export interface Authentication {
     user_id?: string;
 }
 export interface AuthenticationCreateData {
+    resource: string;
     auth_failure_redirect_url?: string;
     auth_success_redirect_url?: string;
     auth_url?: string;
@@ -35,22 +43,16 @@ export interface AuthenticationCreateData {
     user_id?: string;
 }
 export interface AuthenticationRemoveMatch {
-    auth_failure_redirect_url?: string;
-    auth_success_redirect_url?: string;
-    auth_url?: string;
-    expires_in?: number;
-    language?: string;
-    providers?: string;
-    reference_id?: string;
-    session_id?: string;
-    status?: string;
-    token?: string;
-    url?: string;
-    user_id?: string;
+    user_id: string;
 }
 export interface Body {
 }
 export interface BodyLoadMatch {
+    end_date?: any;
+    start_date: any;
+    to_webhook?: boolean;
+    user_id: string;
+    with_sample?: boolean;
 }
 export interface BulkUserInfo {
 }
@@ -59,6 +61,11 @@ export interface BulkUserInfoCreateData {
 export interface Daily {
 }
 export interface DailyLoadMatch {
+    end_date?: any;
+    start_date: any;
+    to_webhook?: boolean;
+    user_id: string;
+    with_sample?: boolean;
 }
 export interface Integration {
     enabled?: boolean;
@@ -114,32 +121,15 @@ export interface LabReportLoadMatch {
     id: string;
 }
 export interface LabReportListMatch {
-    collection_date?: string;
-    collection_time?: string;
-    current_status?: string;
-    file_count?: number;
-    id?: string;
-    input_bytes?: number;
-    lab_name?: string;
-    output_bytes?: number;
-    panels?: any[];
-    patient_age_at_collection?: number;
-    patient_sex?: string;
     reference_id?: string;
-    report_date?: string;
-    report_locale?: string;
-    report_notes?: string;
-    report_time?: string;
-    report_type?: string;
-    results?: any[];
-    results_count?: number;
-    session_id?: string;
-    status_history?: any[];
-    updated_at?: string;
+    report_date_from?: string;
+    report_date_to?: string;
     upload_id?: string;
-    uploaded_at?: string;
+    uploaded_at_from?: string;
+    uploaded_at_to?: string;
 }
 export interface LabReportCreateData {
+    reference_id?: string;
     collection_date?: string;
     collection_time?: string;
     current_status: string;
@@ -151,7 +141,6 @@ export interface LabReportCreateData {
     panels?: any[];
     patient_age_at_collection?: number;
     patient_sex?: string;
-    reference_id?: string;
     report_date?: string;
     report_locale?: string;
     report_notes?: string;
@@ -190,10 +179,20 @@ export interface LabReportFileListMatch {
 export interface Menstruation {
 }
 export interface MenstruationLoadMatch {
+    end_date?: any;
+    start_date: any;
+    to_webhook?: boolean;
+    user_id: string;
+    with_sample?: boolean;
 }
 export interface Nutrition {
 }
 export interface NutritionLoadMatch {
+    end_date?: any;
+    start_date: any;
+    to_webhook?: boolean;
+    user_id: string;
+    with_sample?: boolean;
 }
 export interface PlannedWorkout {
     athlete_metrics?: any;
@@ -210,22 +209,16 @@ export interface PlannedWorkout {
 }
 export interface PlannedWorkoutLoadMatch {
     id: number;
+    user_id: string;
 }
 export interface PlannedWorkoutListMatch {
-    athlete_metrics?: any;
-    coercion_warnings?: string;
-    created_at?: any;
-    details?: any;
-    id?: string;
-    is_external?: boolean;
-    last_updated_at?: any;
-    planned_date?: string;
-    planned_workout_id?: string;
-    provider_workout_id?: string;
-    workout_id?: string;
+    end_date?: string;
+    start_date?: string;
+    user_id: string;
 }
 export interface PlannedWorkoutUpdateData {
     id: number;
+    user_id: string;
     athlete_metrics?: any;
     coercion_warnings?: string;
     created_at?: any;
@@ -240,10 +233,17 @@ export interface PlannedWorkoutUpdateData {
 export interface Sleep {
 }
 export interface SleepLoadMatch {
+    end_date?: any;
+    start_date: any;
+    to_webhook?: boolean;
+    user_id: string;
+    with_sample?: boolean;
 }
 export interface User {
 }
 export interface UserLoadMatch {
+    page?: number;
+    per_page?: number;
 }
 export interface Workout {
     description?: string;
@@ -309,4 +309,5 @@ export interface WorkoutCreateData {
 }
 export interface WorkoutRemoveMatch {
     planned_workout_id: number;
+    user_id: string;
 }

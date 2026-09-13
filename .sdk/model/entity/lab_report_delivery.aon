@@ -66,16 +66,22 @@ main: kit: entity: lab_report_delivery: {
           }
           method: "GET"
           orig: "/lab-reports/{session_id}/deliveries"
-          parts: [
-            "lab-reports"
-            "{id}"
-            "deliveries"
-          ]
           rename: {
             param: {
               session_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "lab-reports"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "deliveries"
+            }
+          ]
           select: {
             exist: [
               "id"

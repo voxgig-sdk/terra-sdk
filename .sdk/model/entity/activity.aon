@@ -51,8 +51,10 @@ main: kit: entity: activity: {
           }
           method: "GET"
           orig: "/activity"
-          parts: [
-            "activity"
+          segments: [
+            {
+              lit: "activity"
+            }
           ]
           select: {
             exist: [

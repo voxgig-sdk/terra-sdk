@@ -20,16 +20,27 @@ class Activity(TypedDict):
     pass
 
 
-class ActivityLoadMatch(TypedDict):
-    pass
+class ActivityLoadMatchRequired(TypedDict):
+    start_date: Any
+    user_id: str
+
+
+class ActivityLoadMatch(ActivityLoadMatchRequired, total=False):
+    end_date: Any
+    to_webhook: bool
+    with_sample: bool
 
 
 class Athlete(TypedDict):
     pass
 
 
-class AthleteLoadMatch(TypedDict):
-    pass
+class AthleteLoadMatchRequired(TypedDict):
+    user_id: str
+
+
+class AthleteLoadMatch(AthleteLoadMatchRequired, total=False):
+    to_webhook: bool
 
 
 class Authentication(TypedDict, total=False):
@@ -47,7 +58,11 @@ class Authentication(TypedDict, total=False):
     user_id: str
 
 
-class AuthenticationCreateData(TypedDict, total=False):
+class AuthenticationCreateDataRequired(TypedDict):
+    resource: str
+
+
+class AuthenticationCreateData(AuthenticationCreateDataRequired, total=False):
     auth_failure_redirect_url: str
     auth_success_redirect_url: str
     auth_url: str
@@ -62,18 +77,7 @@ class AuthenticationCreateData(TypedDict, total=False):
     user_id: str
 
 
-class AuthenticationRemoveMatch(TypedDict, total=False):
-    auth_failure_redirect_url: str
-    auth_success_redirect_url: str
-    auth_url: str
-    expires_in: int
-    language: str
-    providers: str
-    reference_id: str
-    session_id: str
-    status: str
-    token: str
-    url: str
+class AuthenticationRemoveMatch(TypedDict):
     user_id: str
 
 
@@ -81,8 +85,15 @@ class Body(TypedDict):
     pass
 
 
-class BodyLoadMatch(TypedDict):
-    pass
+class BodyLoadMatchRequired(TypedDict):
+    start_date: Any
+    user_id: str
+
+
+class BodyLoadMatch(BodyLoadMatchRequired, total=False):
+    end_date: Any
+    to_webhook: bool
+    with_sample: bool
 
 
 class BulkUserInfo(TypedDict):
@@ -97,8 +108,15 @@ class Daily(TypedDict):
     pass
 
 
-class DailyLoadMatch(TypedDict):
-    pass
+class DailyLoadMatchRequired(TypedDict):
+    start_date: Any
+    user_id: str
+
+
+class DailyLoadMatch(DailyLoadMatchRequired, total=False):
+    end_date: Any
+    to_webhook: bool
+    with_sample: bool
 
 
 class Integration(TypedDict, total=False):
@@ -160,30 +178,12 @@ class LabReportLoadMatch(TypedDict):
 
 
 class LabReportListMatch(TypedDict, total=False):
-    collection_date: str
-    collection_time: str
-    current_status: str
-    file_count: int
-    id: str
-    input_bytes: int
-    lab_name: str
-    output_bytes: int
-    panels: list
-    patient_age_at_collection: int
-    patient_sex: str
     reference_id: str
-    report_date: str
-    report_locale: str
-    report_notes: str
-    report_time: str
-    report_type: str
-    results: list
-    results_count: int
-    session_id: str
-    status_history: list
-    updated_at: str
+    report_date_from: str
+    report_date_to: str
     upload_id: str
-    uploaded_at: str
+    uploaded_at_from: str
+    uploaded_at_to: str
 
 
 class LabReportCreateDataRequired(TypedDict):
@@ -193,6 +193,7 @@ class LabReportCreateDataRequired(TypedDict):
 
 
 class LabReportCreateData(LabReportCreateDataRequired, total=False):
+    reference_id: str
     collection_date: str
     collection_time: str
     file_count: int
@@ -203,7 +204,6 @@ class LabReportCreateData(LabReportCreateDataRequired, total=False):
     panels: list
     patient_age_at_collection: int
     patient_sex: str
-    reference_id: str
     report_date: str
     report_locale: str
     report_notes: str
@@ -253,16 +253,30 @@ class Menstruation(TypedDict):
     pass
 
 
-class MenstruationLoadMatch(TypedDict):
-    pass
+class MenstruationLoadMatchRequired(TypedDict):
+    start_date: Any
+    user_id: str
+
+
+class MenstruationLoadMatch(MenstruationLoadMatchRequired, total=False):
+    end_date: Any
+    to_webhook: bool
+    with_sample: bool
 
 
 class Nutrition(TypedDict):
     pass
 
 
-class NutritionLoadMatch(TypedDict):
-    pass
+class NutritionLoadMatchRequired(TypedDict):
+    start_date: Any
+    user_id: str
+
+
+class NutritionLoadMatch(NutritionLoadMatchRequired, total=False):
+    end_date: Any
+    to_webhook: bool
+    with_sample: bool
 
 
 class PlannedWorkout(TypedDict, total=False):
@@ -281,24 +295,21 @@ class PlannedWorkout(TypedDict, total=False):
 
 class PlannedWorkoutLoadMatch(TypedDict):
     id: int
+    user_id: str
 
 
-class PlannedWorkoutListMatch(TypedDict, total=False):
-    athlete_metrics: Any
-    coercion_warnings: str
-    created_at: Any
-    details: Any
-    id: str
-    is_external: bool
-    last_updated_at: Any
-    planned_date: str
-    planned_workout_id: str
-    provider_workout_id: str
-    workout_id: str
+class PlannedWorkoutListMatchRequired(TypedDict):
+    user_id: str
+
+
+class PlannedWorkoutListMatch(PlannedWorkoutListMatchRequired, total=False):
+    end_date: str
+    start_date: str
 
 
 class PlannedWorkoutUpdateDataRequired(TypedDict):
     id: int
+    user_id: str
 
 
 class PlannedWorkoutUpdateData(PlannedWorkoutUpdateDataRequired, total=False):
@@ -318,16 +329,24 @@ class Sleep(TypedDict):
     pass
 
 
-class SleepLoadMatch(TypedDict):
-    pass
+class SleepLoadMatchRequired(TypedDict):
+    start_date: Any
+    user_id: str
+
+
+class SleepLoadMatch(SleepLoadMatchRequired, total=False):
+    end_date: Any
+    to_webhook: bool
+    with_sample: bool
 
 
 class User(TypedDict):
     pass
 
 
-class UserLoadMatch(TypedDict):
-    pass
+class UserLoadMatch(TypedDict, total=False):
+    page: int
+    per_page: int
 
 
 class WorkoutRequired(TypedDict):
@@ -402,3 +421,4 @@ class WorkoutCreateData(WorkoutCreateDataRequired, total=False):
 
 class WorkoutRemoveMatch(TypedDict):
     planned_workout_id: int
+    user_id: str

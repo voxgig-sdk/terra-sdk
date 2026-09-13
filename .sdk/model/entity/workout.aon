@@ -63,6 +63,7 @@ main: kit: entity: workout: {
       type: "`$STRING`"
     }
     {
+      format: "date"
       name: "planned_date"
       req: true
       short: "Date to schedule the workout on (YYYY-MM-DD)"
@@ -153,16 +154,22 @@ main: kit: entity: workout: {
           }
           method: "POST"
           orig: "/workouts/{workout_id}/plan"
-          parts: [
-            "workouts"
-            "{id}"
-            "plan"
-          ]
           rename: {
             param: {
               workout_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "workouts"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "plan"
+            }
+          ]
           select: {
             "$action": "plan"
             exist: [
@@ -178,8 +185,10 @@ main: kit: entity: workout: {
         {
           method: "POST"
           orig: "/workouts"
-          parts: [
-            "workouts"
+          segments: [
+            {
+              lit: "workouts"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -194,8 +203,10 @@ main: kit: entity: workout: {
         {
           method: "GET"
           orig: "/workouts"
-          parts: [
-            "workouts"
+          segments: [
+            {
+              lit: "workouts"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -221,15 +232,19 @@ main: kit: entity: workout: {
           }
           method: "GET"
           orig: "/workouts/{workout_id}"
-          parts: [
-            "workouts"
-            "{id}"
-          ]
           rename: {
             param: {
               workout_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "workouts"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"
@@ -268,9 +283,13 @@ main: kit: entity: workout: {
           }
           method: "DELETE"
           orig: "/plannedWorkouts/{planned_workout_id}"
-          parts: [
-            "plannedWorkouts"
-            "{planned_workout_id}"
+          segments: [
+            {
+              lit: "plannedWorkouts"
+            }
+            {
+              var: "planned_workout_id"
+            }
           ]
           select: {
             exist: [
@@ -297,15 +316,19 @@ main: kit: entity: workout: {
           }
           method: "DELETE"
           orig: "/workouts/{workout_id}"
-          parts: [
-            "workouts"
-            "{id}"
-          ]
           rename: {
             param: {
               workout_id: "id"
             }
           }
+          segments: [
+            {
+              lit: "workouts"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "id"

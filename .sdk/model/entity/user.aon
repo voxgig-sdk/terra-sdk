@@ -32,8 +32,10 @@ main: kit: entity: user: {
           }
           method: "GET"
           orig: "/subscriptions"
-          parts: [
-            "subscriptions"
+          segments: [
+            {
+              lit: "subscriptions"
+            }
           ]
           select: {
             exist: [
@@ -67,8 +69,10 @@ main: kit: entity: user: {
           }
           method: "GET"
           orig: "/userInfo"
-          parts: [
-            "userInfo"
+          segments: [
+            {
+              lit: "userInfo"
+            }
           ]
           select: {
             exist: [

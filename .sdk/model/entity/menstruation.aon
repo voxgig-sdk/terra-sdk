@@ -51,8 +51,10 @@ main: kit: entity: menstruation: {
           }
           method: "GET"
           orig: "/menstruation"
-          parts: [
-            "menstruation"
+          segments: [
+            {
+              lit: "menstruation"
+            }
           ]
           select: {
             exist: [

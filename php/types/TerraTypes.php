@@ -20,6 +20,11 @@ class Activity
 /** Request payload for Activity#load. */
 class ActivityLoadMatch
 {
+    public mixed $end_date = null;
+    public mixed $start_date;
+    public ?bool $to_webhook = null;
+    public string $user_id;
+    public ?bool $with_sample = null;
 }
 
 /** Athlete entity data model. */
@@ -30,6 +35,8 @@ class Athlete
 /** Request payload for Athlete#load. */
 class AthleteLoadMatch
 {
+    public ?bool $to_webhook = null;
+    public string $user_id;
 }
 
 /** Authentication entity data model. */
@@ -52,6 +59,7 @@ class Authentication
 /** Request payload for Authentication#create. */
 class AuthenticationCreateData
 {
+    public string $resource;
     public ?string $auth_failure_redirect_url = null;
     public ?string $auth_success_redirect_url = null;
     public ?string $auth_url = null;
@@ -69,18 +77,7 @@ class AuthenticationCreateData
 /** Request payload for Authentication#remove. */
 class AuthenticationRemoveMatch
 {
-    public ?string $auth_failure_redirect_url = null;
-    public ?string $auth_success_redirect_url = null;
-    public ?string $auth_url = null;
-    public ?int $expires_in = null;
-    public ?string $language = null;
-    public ?string $providers = null;
-    public ?string $reference_id = null;
-    public ?string $session_id = null;
-    public ?string $status = null;
-    public ?string $token = null;
-    public ?string $url = null;
-    public ?string $user_id = null;
+    public string $user_id;
 }
 
 /** Body entity data model. */
@@ -91,6 +88,11 @@ class Body
 /** Request payload for Body#load. */
 class BodyLoadMatch
 {
+    public mixed $end_date = null;
+    public mixed $start_date;
+    public ?bool $to_webhook = null;
+    public string $user_id;
+    public ?bool $with_sample = null;
 }
 
 /** BulkUserInfo entity data model. */
@@ -111,6 +113,11 @@ class Daily
 /** Request payload for Daily#load. */
 class DailyLoadMatch
 {
+    public mixed $end_date = null;
+    public mixed $start_date;
+    public ?bool $to_webhook = null;
+    public string $user_id;
+    public ?bool $with_sample = null;
 }
 
 /** Integration entity data model. */
@@ -179,35 +186,18 @@ class LabReportLoadMatch
 /** Request payload for LabReport#list. */
 class LabReportListMatch
 {
-    public ?string $collection_date = null;
-    public ?string $collection_time = null;
-    public ?string $current_status = null;
-    public ?int $file_count = null;
-    public ?string $id = null;
-    public ?int $input_bytes = null;
-    public ?string $lab_name = null;
-    public ?int $output_bytes = null;
-    public ?array $panels = null;
-    public ?int $patient_age_at_collection = null;
-    public ?string $patient_sex = null;
     public ?string $reference_id = null;
-    public ?string $report_date = null;
-    public ?string $report_locale = null;
-    public ?string $report_notes = null;
-    public ?string $report_time = null;
-    public ?string $report_type = null;
-    public ?array $results = null;
-    public ?int $results_count = null;
-    public ?string $session_id = null;
-    public ?array $status_history = null;
-    public ?string $updated_at = null;
+    public ?string $report_date_from = null;
+    public ?string $report_date_to = null;
     public ?string $upload_id = null;
-    public ?string $uploaded_at = null;
+    public ?string $uploaded_at_from = null;
+    public ?string $uploaded_at_to = null;
 }
 
 /** Request payload for LabReport#create. */
 class LabReportCreateData
 {
+    public ?string $reference_id = null;
     public ?string $collection_date = null;
     public ?string $collection_time = null;
     public string $current_status;
@@ -219,7 +209,6 @@ class LabReportCreateData
     public ?array $panels = null;
     public ?int $patient_age_at_collection = null;
     public ?string $patient_sex = null;
-    public ?string $reference_id = null;
     public ?string $report_date = null;
     public ?string $report_locale = null;
     public ?string $report_notes = null;
@@ -279,6 +268,11 @@ class Menstruation
 /** Request payload for Menstruation#load. */
 class MenstruationLoadMatch
 {
+    public mixed $end_date = null;
+    public mixed $start_date;
+    public ?bool $to_webhook = null;
+    public string $user_id;
+    public ?bool $with_sample = null;
 }
 
 /** Nutrition entity data model. */
@@ -289,6 +283,11 @@ class Nutrition
 /** Request payload for Nutrition#load. */
 class NutritionLoadMatch
 {
+    public mixed $end_date = null;
+    public mixed $start_date;
+    public ?bool $to_webhook = null;
+    public string $user_id;
+    public ?bool $with_sample = null;
 }
 
 /** PlannedWorkout entity data model. */
@@ -311,28 +310,22 @@ class PlannedWorkout
 class PlannedWorkoutLoadMatch
 {
     public int $id;
+    public string $user_id;
 }
 
 /** Request payload for PlannedWorkout#list. */
 class PlannedWorkoutListMatch
 {
-    public mixed $athlete_metrics = null;
-    public ?string $coercion_warnings = null;
-    public mixed $created_at = null;
-    public mixed $details = null;
-    public ?string $id = null;
-    public ?bool $is_external = null;
-    public mixed $last_updated_at = null;
-    public ?string $planned_date = null;
-    public ?string $planned_workout_id = null;
-    public ?string $provider_workout_id = null;
-    public ?string $workout_id = null;
+    public ?string $end_date = null;
+    public ?string $start_date = null;
+    public string $user_id;
 }
 
 /** Request payload for PlannedWorkout#update. */
 class PlannedWorkoutUpdateData
 {
     public int $id;
+    public string $user_id;
     public mixed $athlete_metrics = null;
     public ?string $coercion_warnings = null;
     public mixed $created_at = null;
@@ -353,6 +346,11 @@ class Sleep
 /** Request payload for Sleep#load. */
 class SleepLoadMatch
 {
+    public mixed $end_date = null;
+    public mixed $start_date;
+    public ?bool $to_webhook = null;
+    public string $user_id;
+    public ?bool $with_sample = null;
 }
 
 /** User entity data model. */
@@ -363,6 +361,8 @@ class User
 /** Request payload for User#load. */
 class UserLoadMatch
 {
+    public ?int $page = null;
+    public ?int $per_page = null;
 }
 
 /** Workout entity data model. */
@@ -441,5 +441,6 @@ class WorkoutCreateData
 class WorkoutRemoveMatch
 {
     public int $planned_workout_id;
+    public string $user_id;
 }
 

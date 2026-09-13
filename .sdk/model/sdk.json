@@ -87,8 +87,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/activity",
-                  "parts": [
-                    "activity"
+                  "segments": [
+                    {
+                      "lit": "activity"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -148,8 +150,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/athlete",
-                  "parts": [
-                    "athlete"
+                  "segments": [
+                    {
+                      "lit": "athlete"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -294,9 +298,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/auth/authenticateUser",
-                  "parts": [
-                    "auth",
-                    "authenticateUser"
+                  "segments": [
+                    {
+                      "lit": "auth"
+                    },
+                    {
+                      "lit": "authenticateUser"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -315,9 +323,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/auth/generateAuthToken",
-                  "parts": [
-                    "auth",
-                    "generateAuthToken"
+                  "segments": [
+                    {
+                      "lit": "auth"
+                    },
+                    {
+                      "lit": "generateAuthToken"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -331,9 +343,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/auth/generateWidgetSession",
-                  "parts": [
-                    "auth",
-                    "generateWidgetSession"
+                  "segments": [
+                    {
+                      "lit": "auth"
+                    },
+                    {
+                      "lit": "generateWidgetSession"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -364,9 +380,13 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/auth/deauthenticateUser",
-                  "parts": [
-                    "auth",
-                    "deauthenticateUser"
+                  "segments": [
+                    {
+                      "lit": "auth"
+                    },
+                    {
+                      "lit": "deauthenticateUser"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -446,8 +466,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/body",
-                  "parts": [
-                    "body"
+                  "segments": [
+                    {
+                      "lit": "body"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -488,8 +510,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/bulkUserInfo",
-                  "parts": [
-                    "bulkUserInfo"
+                  "segments": [
+                    {
+                      "lit": "bulkUserInfo"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -565,8 +589,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/daily",
-                  "parts": [
-                    "daily"
+                  "segments": [
+                    {
+                      "lit": "daily"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -680,9 +706,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/integrations/detailed",
-                  "parts": [
-                    "integrations",
-                    "detailed"
+                  "segments": [
+                    {
+                      "lit": "integrations"
+                    },
+                    {
+                      "lit": "detailed"
+                    }
                   ],
                   "select": {
                     "$action": "detailed",
@@ -701,8 +731,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/integrations",
-                  "parts": [
-                    "integrations"
+                  "segments": [
+                    {
+                      "lit": "integrations"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -862,6 +894,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "updated_at",
               "req": false,
               "type": "`$STRING`"
@@ -874,6 +907,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "uploaded_at",
               "req": false,
               "type": "`$STRING`"
@@ -907,8 +941,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/lab-reports",
-                  "parts": [
-                    "lab-reports"
+                  "segments": [
+                    {
+                      "lit": "lab-reports"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -983,8 +1019,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/lab-reports",
-                  "parts": [
-                    "lab-reports"
+                  "segments": [
+                    {
+                      "lit": "lab-reports"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1025,15 +1063,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/lab-reports/{session_id}",
-                  "parts": [
-                    "lab-reports",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "session_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "lab-reports"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1068,15 +1110,19 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/lab-reports/{session_id}",
-                  "parts": [
-                    "lab-reports",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "session_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "lab-reports"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1169,16 +1215,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/lab-reports/{session_id}/deliveries",
-                  "parts": [
-                    "lab-reports",
-                    "{id}",
-                    "deliveries"
-                  ],
                   "rename": {
                     "param": {
                       "session_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "lab-reports"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "deliveries"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1249,16 +1301,22 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/lab-reports/{session_id}/files",
-                  "parts": [
-                    "lab-reports",
-                    "{id}",
-                    "files"
-                  ],
                   "rename": {
                     "param": {
                       "session_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "lab-reports"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "files"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -1337,8 +1395,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/menstruation",
-                  "parts": [
-                    "menstruation"
+                  "segments": [
+                    {
+                      "lit": "menstruation"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1422,8 +1482,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/nutrition",
-                  "parts": [
-                    "nutrition"
+                  "segments": [
+                    {
+                      "lit": "nutrition"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1501,6 +1563,7 @@
             },
             {
               "active": true,
+              "format": "date",
               "name": "planned_date",
               "op": {
                 "update": {
@@ -1577,8 +1640,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/plannedWorkouts",
-                  "parts": [
-                    "plannedWorkouts"
+                  "segments": [
+                    {
+                      "lit": "plannedWorkouts"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1625,15 +1690,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/plannedWorkouts/{planned_workout_id}",
-                  "parts": [
-                    "plannedWorkouts",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "planned_workout_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "plannedWorkouts"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id",
@@ -1678,15 +1747,19 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/plannedWorkouts/{planned_workout_id}",
-                  "parts": [
-                    "plannedWorkouts",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "planned_workout_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "plannedWorkouts"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id",
@@ -1766,8 +1839,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/sleep",
-                  "parts": [
-                    "sleep"
+                  "segments": [
+                    {
+                      "lit": "sleep"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1829,8 +1904,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/subscriptions",
-                  "parts": [
-                    "subscriptions"
+                  "segments": [
+                    {
+                      "lit": "subscriptions"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1868,8 +1945,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/userInfo",
-                  "parts": [
-                    "userInfo"
+                  "segments": [
+                    {
+                      "lit": "userInfo"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1963,6 +2042,7 @@
             },
             {
               "active": true,
+              "format": "date",
               "name": "planned_date",
               "req": true,
               "short": "Date to schedule the workout on (YYYY-MM-DD)",
@@ -2063,16 +2143,22 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/workouts/{workout_id}/plan",
-                  "parts": [
-                    "workouts",
-                    "{id}",
-                    "plan"
-                  ],
                   "rename": {
                     "param": {
                       "workout_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "workouts"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "plan"
+                    }
+                  ],
                   "select": {
                     "$action": "plan",
                     "exist": [
@@ -2091,8 +2177,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/workouts",
-                  "parts": [
-                    "workouts"
+                  "segments": [
+                    {
+                      "lit": "workouts"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2112,8 +2200,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/workouts",
-                  "parts": [
-                    "workouts"
+                  "segments": [
+                    {
+                      "lit": "workouts"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2144,15 +2234,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/workouts/{workout_id}",
-                  "parts": [
-                    "workouts",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "workout_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "workouts"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2196,9 +2290,13 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/plannedWorkouts/{planned_workout_id}",
-                  "parts": [
-                    "plannedWorkouts",
-                    "{planned_workout_id}"
+                  "segments": [
+                    {
+                      "lit": "plannedWorkouts"
+                    },
+                    {
+                      "var": "planned_workout_id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2228,15 +2326,19 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/workouts/{workout_id}",
-                  "parts": [
-                    "workouts",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "workout_id": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "workouts"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "id"
@@ -2323,8 +2425,11 @@
             }
           },
           "name": "test",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "go": {
               "deps": {}
@@ -3054,6 +3159,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3079,6 +3187,10 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner_test.go",
+            "test/struct_runner_test.go"
+          ],
           "title": "Golang"
         },
         "go-cli": {
@@ -3130,6 +3242,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -3154,6 +3267,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go CLI"
         },
         "go-mcp": {
@@ -3205,6 +3319,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -3229,6 +3344,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go MCP server"
         },
         "js": {
@@ -3269,6 +3385,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3293,6 +3412,9 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [
+            "test/runner.js"
+          ],
           "title": "JavaScript"
         },
         "lua": {
@@ -3333,6 +3455,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3358,6 +3483,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.lua"
+          ],
           "title": "Lua"
         },
         "php": {
@@ -3392,6 +3520,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3417,6 +3548,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.php"
+          ],
           "title": "PHP"
         },
         "py": {
@@ -3457,6 +3591,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3482,6 +3619,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.py"
+          ],
           "title": "Python"
         },
         "ts": {
@@ -3499,11 +3639,6 @@
               "active": true,
               "kind": "dev",
               "version": "^25.6.0"
-            },
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
             },
             "typescript": {
               "active": true,
@@ -3532,6 +3667,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -3556,6 +3694,14 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [
+            "test/runner.ts",
+            "test/vendor/omni/compat.ts",
+            "src/feature/secrets/sekreto/Providers.ts",
+            "src/feature/secrets/sekreto/Sigv4.ts",
+            "src/feature/secrets/sekreto/provider/Registry.ts",
+            "src/feature/secrets/sekreto/provider/http.ts"
+          ],
           "title": "TypeScript"
         }
       },

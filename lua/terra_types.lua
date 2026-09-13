@@ -9,10 +9,17 @@
 ---@class Activity
 
 ---@class ActivityLoadMatch
+---@field end_date? any
+---@field start_date any
+---@field to_webhook? boolean
+---@field user_id string
+---@field with_sample? boolean
 
 ---@class Athlete
 
 ---@class AthleteLoadMatch
+---@field to_webhook? boolean
+---@field user_id string
 
 ---@class Authentication
 ---@field auth_failure_redirect_url? string
@@ -29,6 +36,7 @@
 ---@field user_id? string
 
 ---@class AuthenticationCreateData
+---@field resource string
 ---@field auth_failure_redirect_url? string
 ---@field auth_success_redirect_url? string
 ---@field auth_url? string
@@ -43,22 +51,16 @@
 ---@field user_id? string
 
 ---@class AuthenticationRemoveMatch
----@field auth_failure_redirect_url? string
----@field auth_success_redirect_url? string
----@field auth_url? string
----@field expires_in? number
----@field language? string
----@field providers? string
----@field reference_id? string
----@field session_id? string
----@field status? string
----@field token? string
----@field url? string
----@field user_id? string
+---@field user_id string
 
 ---@class Body
 
 ---@class BodyLoadMatch
+---@field end_date? any
+---@field start_date any
+---@field to_webhook? boolean
+---@field user_id string
+---@field with_sample? boolean
 
 ---@class BulkUserInfo
 
@@ -67,6 +69,11 @@
 ---@class Daily
 
 ---@class DailyLoadMatch
+---@field end_date? any
+---@field start_date any
+---@field to_webhook? boolean
+---@field user_id string
+---@field with_sample? boolean
 
 ---@class Integration
 ---@field enabled? boolean
@@ -120,32 +127,15 @@
 ---@field id string
 
 ---@class LabReportListMatch
----@field collection_date? string
----@field collection_time? string
----@field current_status? string
----@field file_count? number
----@field id? string
----@field input_bytes? number
----@field lab_name? string
----@field output_bytes? number
----@field panels? table
----@field patient_age_at_collection? number
----@field patient_sex? string
 ---@field reference_id? string
----@field report_date? string
----@field report_locale? string
----@field report_notes? string
----@field report_time? string
----@field report_type? string
----@field results? table
----@field results_count? number
----@field session_id? string
----@field status_history? table
----@field updated_at? string
+---@field report_date_from? string
+---@field report_date_to? string
 ---@field upload_id? string
----@field uploaded_at? string
+---@field uploaded_at_from? string
+---@field uploaded_at_to? string
 
 ---@class LabReportCreateData
+---@field reference_id? string
 ---@field collection_date? string
 ---@field collection_time? string
 ---@field current_status string
@@ -157,7 +147,6 @@
 ---@field panels? table
 ---@field patient_age_at_collection? number
 ---@field patient_sex? string
----@field reference_id? string
 ---@field report_date? string
 ---@field report_locale? string
 ---@field report_notes? string
@@ -196,10 +185,20 @@
 ---@class Menstruation
 
 ---@class MenstruationLoadMatch
+---@field end_date? any
+---@field start_date any
+---@field to_webhook? boolean
+---@field user_id string
+---@field with_sample? boolean
 
 ---@class Nutrition
 
 ---@class NutritionLoadMatch
+---@field end_date? any
+---@field start_date any
+---@field to_webhook? boolean
+---@field user_id string
+---@field with_sample? boolean
 
 ---@class PlannedWorkout
 ---@field athlete_metrics? any
@@ -216,22 +215,16 @@
 
 ---@class PlannedWorkoutLoadMatch
 ---@field id number
+---@field user_id string
 
 ---@class PlannedWorkoutListMatch
----@field athlete_metrics? any
----@field coercion_warnings? string
----@field created_at? any
----@field details? any
----@field id? string
----@field is_external? boolean
----@field last_updated_at? any
----@field planned_date? string
----@field planned_workout_id? string
----@field provider_workout_id? string
----@field workout_id? string
+---@field end_date? string
+---@field start_date? string
+---@field user_id string
 
 ---@class PlannedWorkoutUpdateData
 ---@field id number
+---@field user_id string
 ---@field athlete_metrics? any
 ---@field coercion_warnings? string
 ---@field created_at? any
@@ -246,10 +239,17 @@
 ---@class Sleep
 
 ---@class SleepLoadMatch
+---@field end_date? any
+---@field start_date any
+---@field to_webhook? boolean
+---@field user_id string
+---@field with_sample? boolean
 
 ---@class User
 
 ---@class UserLoadMatch
+---@field page? number
+---@field per_page? number
 
 ---@class Workout
 ---@field description? string
@@ -313,6 +313,7 @@
 
 ---@class WorkoutRemoveMatch
 ---@field planned_workout_id number
+---@field user_id string
 
 local M = {}
 

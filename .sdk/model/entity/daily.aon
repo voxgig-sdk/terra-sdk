@@ -51,8 +51,10 @@ main: kit: entity: daily: {
           }
           method: "GET"
           orig: "/daily"
-          parts: [
-            "daily"
+          segments: [
+            {
+              lit: "daily"
+            }
           ]
           select: {
             exist: [

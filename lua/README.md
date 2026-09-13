@@ -38,7 +38,7 @@ local client = sdk.new({
 ### 3. Load an activity
 
 ```lua
-local activity, err = client:Activity():load()
+local activity, err = client:Activity():load({ start_date = "example_start_date", user_id = "example_user_id" })
 if err then error(err) end
 print(activity)
 ```
@@ -50,7 +50,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local activity, err = client:Activity():load()
+local activity, err = client:Activity():load({ start_date = "example", user_id = "example" })
 if err then error(err) end
 ```
 
@@ -108,7 +108,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Activity():load()
+local result, err = client:Activity():load({ start_date = "example", user_id = "example" })
 -- result is the returned data; err is set on failure
 ```
 
@@ -489,7 +489,7 @@ Create an instance: `local activity = client:Activity(nil)`
 #### Example: Load
 
 ```lua
-local activity, err = client:Activity():load()
+local activity, err = client:Activity():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 
@@ -506,7 +506,7 @@ Create an instance: `local athlete = client:Athlete(nil)`
 #### Example: Load
 
 ```lua
-local athlete, err = client:Athlete():load()
+local athlete, err = client:Athlete():load({ user_id = "user_id" })
 ```
 
 
@@ -542,6 +542,7 @@ Create an instance: `local authentication = client:Authentication(nil)`
 
 ```lua
 local authentication, err = client:Authentication():create({
+  resource = "example_resource", -- string
 })
 ```
 
@@ -559,7 +560,7 @@ Create an instance: `local body = client:Body(nil)`
 #### Example: Load
 
 ```lua
-local body, err = client:Body():load()
+local body, err = client:Body():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 
@@ -594,7 +595,7 @@ Create an instance: `local daily = client:Daily(nil)`
 #### Example: Load
 
 ```lua
-local daily, err = client:Daily():load()
+local daily, err = client:Daily():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 
@@ -760,7 +761,7 @@ Create an instance: `local menstruation = client:Menstruation(nil)`
 #### Example: Load
 
 ```lua
-local menstruation, err = client:Menstruation():load()
+local menstruation, err = client:Menstruation():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 
@@ -777,7 +778,7 @@ Create an instance: `local nutrition = client:Nutrition(nil)`
 #### Example: Load
 
 ```lua
-local nutrition, err = client:Nutrition():load()
+local nutrition, err = client:Nutrition():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 
@@ -812,7 +813,7 @@ Create an instance: `local planned_workout = client:PlannedWorkout(nil)`
 #### Example: Load
 
 ```lua
-local planned_workout, err = client:PlannedWorkout():load({ id = 1 })
+local planned_workout, err = client:PlannedWorkout():load({ id = 1, user_id = "user_id" })
 ```
 
 #### Example: List
@@ -835,7 +836,7 @@ Create an instance: `local sleep = client:Sleep(nil)`
 #### Example: Load
 
 ```lua
-local sleep, err = client:Sleep():load()
+local sleep, err = client:Sleep():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 
@@ -913,6 +914,29 @@ local workout, err = client:Workout():create({
   step_blocks = {}, -- table
 })
 ```
+
+## Features
+
+This SDK ships 1 optional features. Each is **inactive until you
+switch it on**, so an SDK you have not configured behaves exactly as if none of
+them existed — no retries, no cache, no logging, no measurable overhead.
+
+Activate a feature by name in the client options, alongside the options shown
+above:
+
+| Feature | What it does |
+|---|---|
+| [`test`](#test) | In-memory mock transport for testing without a live server |
+
+### test
+
+In-memory mock transport for testing without a live server.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.test.active` to enable it, then override any of the options above.
 
 
 ## Open types
@@ -1012,7 +1036,7 @@ stores the returned data and match criteria internally.
 
 ```lua
 local activity = client:Activity()
-activity:load()
+activity:load({ start_date = "example", user_id = "example" })
 
 -- activity:data_get() now returns the activity data from the last load
 -- activity:match_get() returns the last match criteria

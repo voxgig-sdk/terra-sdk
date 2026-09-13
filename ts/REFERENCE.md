@@ -300,7 +300,7 @@ const activity = client.Activity()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Activity().load()
+const result = await client.Activity().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -344,7 +344,7 @@ const athlete = client.Athlete()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Athlete().load()
+const result = await client.Athlete().load({ user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -406,6 +406,7 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Authentication().create({
+  resource: 'example_resource',
 })
 ```
 
@@ -414,7 +415,7 @@ const result = await client.Authentication().create({
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Authentication().remove()
+const result = await client.Authentication().remove({ user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -458,7 +459,7 @@ const body = client.Body()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Body().load()
+const result = await client.Body().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -547,7 +548,7 @@ const daily = client.Daily()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Daily().load()
+const result = await client.Daily().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -877,7 +878,7 @@ const menstruation = client.Menstruation()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Menstruation().load()
+const result = await client.Menstruation().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -921,7 +922,7 @@ const nutrition = client.Nutrition()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Nutrition().load()
+const result = await client.Nutrition().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -997,7 +998,7 @@ const planned_workout = client.PlannedWorkout()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.PlannedWorkout().list()
+const results = await client.PlannedWorkout().list({ user_id: "example" })
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -1005,7 +1006,7 @@ const results = await client.PlannedWorkout().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.PlannedWorkout().load({ id: 1 })
+const result = await client.PlannedWorkout().load({ id: 1, user_id: 'user_id' })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -1015,6 +1016,7 @@ Update an existing entity. The data must include the entity `id`.
 ```ts
 const result = await client.PlannedWorkout().update({
   id: 1,
+  user_id: 'user_id',
   // Fields to update
 })
 ```
@@ -1060,7 +1062,7 @@ const sleep = client.Sleep()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Sleep().load()
+const result = await client.Sleep().load({ start_date: 'start_date', user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -1219,7 +1221,7 @@ const result = await client.Workout().load({ id: 1 })
 Remove the entity matching the given criteria.
 
 ```ts
-const result = await client.Workout().remove({ planned_workout_id: 1 })
+const result = await client.Workout().remove({ planned_workout_id: 1, user_id: 'user_id' })
 ```
 
 ### Common Methods
@@ -1266,4 +1268,42 @@ const client = new TerraSDK({
   }
 })
 ```
+
+
+### Configuring features
+
+Each feature is inactive until switched on, and an SDK with no feature
+configured does no feature work at all. Every option below keeps its default
+unless you name it.
+
+The array form of \`feature\` is significant: several features wrap the
+transport, and the order you list them in is the order they nest.
+
+#### `test`
+
+In-memory mock transport for testing without a live server.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Options above are those the model carries a default for. A feature may
+also accept callback options — a `sink` to receive each record, for
+instance — which have no default and are covered in the full feature
+reference.
+
+**Usage**
+
+Set `feature.test.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
+- Installs the BASE transport that the wrapping features wrap, so it must be
+  activated before them.
+- Inactive by default: leaving it out costs nothing at runtime.
 

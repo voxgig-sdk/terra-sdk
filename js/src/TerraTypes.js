@@ -12,6 +12,11 @@
 
 /**
  * @typedef {Object} ActivityLoadMatch
+ * @property {*} [end_date]
+ * @property {*} start_date
+ * @property {boolean} [to_webhook]
+ * @property {string} user_id
+ * @property {boolean} [with_sample]
  */
 
 /**
@@ -20,6 +25,8 @@
 
 /**
  * @typedef {Object} AthleteLoadMatch
+ * @property {boolean} [to_webhook]
+ * @property {string} user_id
  */
 
 /**
@@ -40,6 +47,7 @@
 
 /**
  * @typedef {Object} AuthenticationCreateData
+ * @property {string} resource
  * @property {string} [auth_failure_redirect_url]
  * @property {string} [auth_success_redirect_url]
  * @property {string} [auth_url]
@@ -56,18 +64,7 @@
 
 /**
  * @typedef {Object} AuthenticationRemoveMatch
- * @property {string} [auth_failure_redirect_url]
- * @property {string} [auth_success_redirect_url]
- * @property {string} [auth_url]
- * @property {number} [expires_in]
- * @property {string} [language]
- * @property {string} [providers]
- * @property {string} [reference_id]
- * @property {string} [session_id]
- * @property {string} [status]
- * @property {string} [token]
- * @property {string} [url]
- * @property {string} [user_id]
+ * @property {string} user_id
  */
 
 /**
@@ -76,6 +73,11 @@
 
 /**
  * @typedef {Object} BodyLoadMatch
+ * @property {*} [end_date]
+ * @property {*} start_date
+ * @property {boolean} [to_webhook]
+ * @property {string} user_id
+ * @property {boolean} [with_sample]
  */
 
 /**
@@ -92,6 +94,11 @@
 
 /**
  * @typedef {Object} DailyLoadMatch
+ * @property {*} [end_date]
+ * @property {*} start_date
+ * @property {boolean} [to_webhook]
+ * @property {string} user_id
+ * @property {boolean} [with_sample]
  */
 
 /**
@@ -155,34 +162,17 @@
 
 /**
  * @typedef {Object} LabReportListMatch
- * @property {string} [collection_date]
- * @property {string} [collection_time]
- * @property {string} [current_status]
- * @property {number} [file_count]
- * @property {string} [id]
- * @property {number} [input_bytes]
- * @property {string} [lab_name]
- * @property {number} [output_bytes]
- * @property {Array} [panels]
- * @property {number} [patient_age_at_collection]
- * @property {string} [patient_sex]
  * @property {string} [reference_id]
- * @property {string} [report_date]
- * @property {string} [report_locale]
- * @property {string} [report_notes]
- * @property {string} [report_time]
- * @property {string} [report_type]
- * @property {Array} [results]
- * @property {number} [results_count]
- * @property {string} [session_id]
- * @property {Array} [status_history]
- * @property {string} [updated_at]
+ * @property {string} [report_date_from]
+ * @property {string} [report_date_to]
  * @property {string} [upload_id]
- * @property {string} [uploaded_at]
+ * @property {string} [uploaded_at_from]
+ * @property {string} [uploaded_at_to]
  */
 
 /**
  * @typedef {Object} LabReportCreateData
+ * @property {string} [reference_id]
  * @property {string} [collection_date]
  * @property {string} [collection_time]
  * @property {string} current_status
@@ -194,7 +184,6 @@
  * @property {Array} [panels]
  * @property {number} [patient_age_at_collection]
  * @property {string} [patient_sex]
- * @property {string} [reference_id]
  * @property {string} [report_date]
  * @property {string} [report_locale]
  * @property {string} [report_notes]
@@ -247,6 +236,11 @@
 
 /**
  * @typedef {Object} MenstruationLoadMatch
+ * @property {*} [end_date]
+ * @property {*} start_date
+ * @property {boolean} [to_webhook]
+ * @property {string} user_id
+ * @property {boolean} [with_sample]
  */
 
 /**
@@ -255,6 +249,11 @@
 
 /**
  * @typedef {Object} NutritionLoadMatch
+ * @property {*} [end_date]
+ * @property {*} start_date
+ * @property {boolean} [to_webhook]
+ * @property {string} user_id
+ * @property {boolean} [with_sample]
  */
 
 /**
@@ -275,26 +274,20 @@
 /**
  * @typedef {Object} PlannedWorkoutLoadMatch
  * @property {number} id
+ * @property {string} user_id
  */
 
 /**
  * @typedef {Object} PlannedWorkoutListMatch
- * @property {*} [athlete_metrics]
- * @property {string} [coercion_warnings]
- * @property {*} [created_at]
- * @property {*} [details]
- * @property {string} [id]
- * @property {boolean} [is_external]
- * @property {*} [last_updated_at]
- * @property {string} [planned_date]
- * @property {string} [planned_workout_id]
- * @property {string} [provider_workout_id]
- * @property {string} [workout_id]
+ * @property {string} [end_date]
+ * @property {string} [start_date]
+ * @property {string} user_id
  */
 
 /**
  * @typedef {Object} PlannedWorkoutUpdateData
  * @property {number} id
+ * @property {string} user_id
  * @property {*} [athlete_metrics]
  * @property {string} [coercion_warnings]
  * @property {*} [created_at]
@@ -313,6 +306,11 @@
 
 /**
  * @typedef {Object} SleepLoadMatch
+ * @property {*} [end_date]
+ * @property {*} start_date
+ * @property {boolean} [to_webhook]
+ * @property {string} user_id
+ * @property {boolean} [with_sample]
  */
 
 /**
@@ -321,6 +319,8 @@
 
 /**
  * @typedef {Object} UserLoadMatch
+ * @property {number} [page]
+ * @property {number} [per_page]
  */
 
 /**
@@ -394,5 +394,6 @@
 /**
  * @typedef {Object} WorkoutRemoveMatch
  * @property {number} planned_workout_id
+ * @property {string} user_id
  */
 

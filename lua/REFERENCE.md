@@ -154,7 +154,7 @@ local activity = client:Activity(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Activity():load()
+local result, err = client:Activity():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -200,7 +200,7 @@ local athlete = client:Athlete(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Athlete():load()
+local result, err = client:Athlete():load({ user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -264,6 +264,7 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Authentication():create({
+  resource = --[[ string ]],
 })
 ```
 
@@ -272,7 +273,7 @@ local result, err = client:Authentication():create({
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Authentication():remove()
+local result, err = client:Authentication():remove({ user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -318,7 +319,7 @@ local body = client:Body(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Body():load()
+local result, err = client:Body():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -411,7 +412,7 @@ local daily = client:Daily(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Daily():load()
+local result, err = client:Daily():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -731,7 +732,7 @@ local menstruation = client:Menstruation(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Menstruation():load()
+local result, err = client:Menstruation():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -777,7 +778,7 @@ local nutrition = client:Nutrition(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Nutrition():load()
+local result, err = client:Nutrition():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -863,7 +864,7 @@ local results, err = client:PlannedWorkout():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:PlannedWorkout():load({ id = 1 })
+local result, err = client:PlannedWorkout():load({ id = 1, user_id = "user_id" })
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -873,6 +874,7 @@ Update an existing entity. The data must include the entity `id`.
 ```lua
 local result, err = client:PlannedWorkout():update({
   id = 1,
+  user_id = "user_id",
   -- Fields to update
 })
 ```
@@ -920,7 +922,7 @@ local sleep = client:Sleep(nil)
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Sleep():load()
+local result, err = client:Sleep():load({ start_date = "start_date", user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -1063,7 +1065,7 @@ local result, err = client:Workout():load({ id = 1 })
 Remove the entity matching the given criteria.
 
 ```lua
-local result, err = client:Workout():remove({ planned_workout_id = 1 })
+local result, err = client:Workout():remove({ planned_workout_id = 1, user_id = "user_id" })
 ```
 
 ### Common Methods
@@ -1112,4 +1114,42 @@ local client = sdk.new({
   },
 })
 ```
+
+
+### Configuring features
+
+Each feature is inactive until switched on, and an SDK with no feature
+configured does no feature work at all. Every option below keeps its default
+unless you name it.
+
+The array form of \`feature\` is significant: several features wrap the
+transport, and the order you list them in is the order they nest.
+
+#### `test`
+
+In-memory mock transport for testing without a live server.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Options above are those the model carries a default for. A feature may
+also accept callback options — a `sink` to receive each record, for
+instance — which have no default and are covered in the full feature
+reference.
+
+**Usage**
+
+Set `feature.test.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Attaches to pipeline hooks, not the transport, so activation order does
+  not change what it observes.
+- Installs the BASE transport that the wrapping features wrap, so it must be
+  activated before them.
+- Inactive by default: leaving it out costs nothing at runtime.
 
