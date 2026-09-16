@@ -16,5 +16,2342 @@
     "sleep": {
       "sleep_ref01": {}
     }
+  },
+  "requests": {
+    "GET /sleep": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Sleep_Get",
+        "parameters": [
+          {
+            "description": "Terra user ID (UUID format) to retrieve data for",
+            "in": "query",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Start date for data query - either ISO8601 date (YYYY-MM-DD) or unix timestamp in seconds (10-digit)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "description": "End date for data query - either ISO8601 date (YYYY-MM-DD) or unix timestamp in seconds (10-digit)",
+            "in": "query",
+            "name": "end_date",
+            "required": false,
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          {
+            "description": "Boolean flag specifying whether to send the data retrieved to the webhook instead of in the response (default: true if not provided)\n",
+            "in": "query",
+            "name": "to_webhook",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Boolean flag specifying whether to include detailed samples in the returned payload (default: false)\n",
+            "in": "query",
+            "name": "with_samples",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "data": {
+                          "items": {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "properties": {
+                              "data_enrichment": {
+                                "anyOf": [
+                                  {
+                                    "$defs": {
+                                      "RecordFloat": {
+                                        "properties": {},
+                                        "type": "object",
+                                        "unevaluatedProperties": {
+                                          "type": "number"
+                                        }
+                                      }
+                                    },
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "properties": {
+                                      "readiness_contributors": {
+                                        "anyOf": [
+                                          {
+                                            "properties": {},
+                                            "type": "object",
+                                            "unevaluatedProperties": {
+                                              "type": "number"
+                                            }
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Map of contributing factor name to its weighted contribution to the readiness score."
+                                      },
+                                      "readiness_score": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Readiness score resulting from the sleep session.",
+                                        "examples": [
+                                          82
+                                        ]
+                                      },
+                                      "respiratory_score_v2": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Respiratory score for the session, computed by the v2 model.",
+                                        "examples": [
+                                          90
+                                        ]
+                                      },
+                                      "respiratory_score_v2_contributors": {
+                                        "anyOf": [
+                                          {
+                                            "properties": {},
+                                            "type": "object",
+                                            "unevaluatedProperties": {
+                                              "type": "number"
+                                            }
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Map of contributing factor name to its weighted contribution to the v2 respiratory score."
+                                      },
+                                      "sleep_contributors": {
+                                        "anyOf": [
+                                          {
+                                            "properties": {},
+                                            "type": "object",
+                                            "unevaluatedProperties": {
+                                              "type": "number"
+                                            }
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Map of contributing factor name to its weighted contribution to the sleep score."
+                                      },
+                                      "sleep_score": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Sleep score for the session.",
+                                        "examples": [
+                                          85
+                                        ]
+                                      },
+                                      "sleep_score_v2": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Sleep score for the session, computed by the v2 model.",
+                                        "examples": [
+                                          84
+                                        ]
+                                      },
+                                      "sleep_score_v2_contributors": {
+                                        "anyOf": [
+                                          {
+                                            "properties": {},
+                                            "type": "object",
+                                            "unevaluatedProperties": {
+                                              "type": "number"
+                                            }
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Map of contributing factor name to its weighted contribution to the v2 sleep score."
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Object containing additional enrichment data for the sleep session."
+                              },
+                              "device_data": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "properties": {
+                                      "activation_timestamp": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Activation timestamp of the device, if applicable.",
+                                        "examples": [
+                                          "2022-12-25T00:00:00.000000+05:00"
+                                        ]
+                                      },
+                                      "data_provided": {
+                                        "anyOf": [
+                                          {
+                                            "items": {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "description": "Represents data types that a certain device contributed to.",
+                                              "examples": [
+                                                "STEPS"
+                                              ],
+                                              "oneOf": [
+                                                {
+                                                  "const": "STEPS",
+                                                  "description": "Count of steps taken by the user.",
+                                                  "title": "Steps",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "ACTIVE_MINUTES",
+                                                  "description": "Duration of time the user spent in physical activity.",
+                                                  "title": "Active Minutes",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "BMR",
+                                                  "description": "User's basal metabolic rate - calories burned at rest.",
+                                                  "title": "Basal Metabolic Rate",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "CALORIES",
+                                                  "description": "Calories burned by the user during activity.",
+                                                  "title": "Calories",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "DISTANCE",
+                                                  "description": "Distance traveled by the user during activity.",
+                                                  "title": "Distance",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "HEART_RATE",
+                                                  "description": "User's heart rate measurements.",
+                                                  "title": "Heart Rate",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "OXYGEN_SATURATION",
+                                                  "description": "Blood oxygen saturation level (SpO2) of the user.",
+                                                  "title": "Oxygen Saturation",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "SLEEP_TYPE",
+                                                  "description": "Classification of user's sleep stages or types.",
+                                                  "title": "Sleep Classification",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "SPEED",
+                                                  "description": "User's movement speed during activity.",
+                                                  "title": "Speed",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "CADENCE",
+                                                  "description": "Rate of movement repetition during activity (steps per minute).",
+                                                  "title": "Cadence",
+                                                  "type": "string"
+                                                }
+                                              ]
+                                            },
+                                            "type": "array"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Data provided by the device, as enumerated types."
+                                      },
+                                      "hardware_version": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Hardware version of the device.",
+                                        "examples": [
+                                          "v2.1"
+                                        ]
+                                      },
+                                      "last_upload_date": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Last upload date from the device."
+                                      },
+                                      "manufacturer": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Device manufacturer name.",
+                                        "examples": [
+                                          "Garmin"
+                                        ]
+                                      },
+                                      "name": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Device name - note that this can also be the name of the application/package which the data comes from, if coming from a data aggregator such as Google Fit.",
+                                        "examples": [
+                                          "Forerunner 945"
+                                        ]
+                                      },
+                                      "other_devices": {
+                                        "anyOf": [
+                                          {
+                                            "items": {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "properties": {
+                                                "data_provided": {
+                                                  "anyOf": [
+                                                    {
+                                                      "items": {
+                                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                        "description": "Represents data types that a certain device contributed to.",
+                                                        "examples": [
+                                                          "STEPS"
+                                                        ],
+                                                        "oneOf": [
+                                                          {
+                                                            "const": "STEPS",
+                                                            "description": "Count of steps taken by the user.",
+                                                            "title": "Steps",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "ACTIVE_MINUTES",
+                                                            "description": "Duration of time the user spent in physical activity.",
+                                                            "title": "Active Minutes",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "BMR",
+                                                            "description": "User's basal metabolic rate - calories burned at rest.",
+                                                            "title": "Basal Metabolic Rate",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "CALORIES",
+                                                            "description": "Calories burned by the user during activity.",
+                                                            "title": "Calories",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "DISTANCE",
+                                                            "description": "Distance traveled by the user during activity.",
+                                                            "title": "Distance",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "HEART_RATE",
+                                                            "description": "User's heart rate measurements.",
+                                                            "title": "Heart Rate",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "OXYGEN_SATURATION",
+                                                            "description": "Blood oxygen saturation level (SpO2) of the user.",
+                                                            "title": "Oxygen Saturation",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "SLEEP_TYPE",
+                                                            "description": "Classification of user's sleep stages or types.",
+                                                            "title": "Sleep Classification",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "SPEED",
+                                                            "description": "User's movement speed during activity.",
+                                                            "title": "Speed",
+                                                            "type": "string"
+                                                          },
+                                                          {
+                                                            "const": "CADENCE",
+                                                            "description": "Rate of movement repetition during activity (steps per minute).",
+                                                            "title": "Cadence",
+                                                            "type": "string"
+                                                          }
+                                                        ]
+                                                      },
+                                                      "type": "array"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ],
+                                                  "description": "Data provided by the device, as enumerated types."
+                                                },
+                                                "hardware_version": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ],
+                                                  "description": "Hardware version of the device.",
+                                                  "examples": [
+                                                    "v2.1"
+                                                  ]
+                                                },
+                                                "last_upload_date": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ],
+                                                  "description": "Last upload date from the device."
+                                                },
+                                                "manufacturer": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ],
+                                                  "description": "Device manufacturer name.",
+                                                  "examples": [
+                                                    "Garmin"
+                                                  ]
+                                                },
+                                                "name": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ],
+                                                  "description": "Device name - note that this can also be the name of the application/package which the data comes from, if coming from a data aggregator such as Google Fit.",
+                                                  "examples": [
+                                                    "Forerunner 945"
+                                                  ]
+                                                },
+                                                "serial_number": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ],
+                                                  "description": "Device Serial Number.",
+                                                  "examples": [
+                                                    "GR123456789"
+                                                  ]
+                                                },
+                                                "software_version": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ],
+                                                  "description": "Device Software Version.",
+                                                  "examples": [
+                                                    "5.2.1"
+                                                  ]
+                                                }
+                                              },
+                                              "type": "object"
+                                            },
+                                            "type": "array"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Data pertaining to other devices which may have contributed data for this workout."
+                                      },
+                                      "serial_number": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Device Serial Number.",
+                                        "examples": [
+                                          "GR123456789"
+                                        ]
+                                      },
+                                      "software_version": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Device Software Version.",
+                                        "examples": [
+                                          "5.2.1"
+                                        ]
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Object containing information on the device which recorded data for the payload."
+                              },
+                              "heart_rate_data": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "properties": {
+                                      "detailed": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "properties": {
+                                              "hr_samples": {
+                                                "anyOf": [
+                                                  {
+                                                    "items": {
+                                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                      "properties": {
+                                                        "bpm": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "User's heart rate in bpm",
+                                                          "examples": [
+                                                            142
+                                                          ]
+                                                        },
+                                                        "context": {
+                                                          "anyOf": [
+                                                            {
+                                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                              "description": "Represents the context in which heart rate was measured.",
+                                                              "examples": [
+                                                                1
+                                                              ],
+                                                              "oneOf": [
+                                                                {
+                                                                  "const": 0,
+                                                                  "description": "Heart rate measurement context is not specified.",
+                                                                  "title": "Not Set",
+                                                                  "type": "number"
+                                                                },
+                                                                {
+                                                                  "const": 1,
+                                                                  "description": "Heart rate was measured during physical activity or exercise.",
+                                                                  "title": "Active",
+                                                                  "type": "number"
+                                                                },
+                                                                {
+                                                                  "const": 2,
+                                                                  "description": "Heart rate was measured during rest or non-active periods.",
+                                                                  "title": "Not Active",
+                                                                  "type": "number"
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Represents the context in which heart rate was measured."
+                                                        },
+                                                        "timer_duration_seconds": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Time elapsed since the start of the workout, subtracting time during which the recording was paused",
+                                                          "examples": [
+                                                            600
+                                                          ]
+                                                        },
+                                                        "timestamp": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                          "examples": [
+                                                            "2022-11-23T09:00:00.000000+02:00"
+                                                          ]
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Array of HeartRate data samples recorded for the user during the workout."
+                                              },
+                                              "hrv_samples_rmssd": {
+                                                "anyOf": [
+                                                  {
+                                                    "items": {
+                                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                      "properties": {
+                                                        "hrv_rmssd": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "User's Heart Rate Variability, computed using RMSSD",
+                                                          "examples": [
+                                                            42.1
+                                                          ]
+                                                        },
+                                                        "timestamp": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                          "examples": [
+                                                            "2022-11-23T09:00:00.000000+02:00"
+                                                          ]
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Array of HeartRate Variability data samples recorded for the user during the workout, computed using RMSSD."
+                                              },
+                                              "hrv_samples_sdnn": {
+                                                "anyOf": [
+                                                  {
+                                                    "items": {
+                                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                      "properties": {
+                                                        "hrv_sdnn": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "User's Heart Rate Variability, computed using SDNN",
+                                                          "examples": [
+                                                            48.3
+                                                          ]
+                                                        },
+                                                        "timestamp": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                          "examples": [
+                                                            "2022-11-23T09:00:00.000000+02:00"
+                                                          ]
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Array of HeartRate Variability data samples recorded for the user during the workout, computed using SDNN."
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Object containing detailed heart rate information for the associated workout."
+                                      },
+                                      "summary": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "properties": {
+                                              "avg_hr_bpm": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Average HeartRate of the user during the workout.",
+                                                "examples": [
+                                                  145
+                                                ],
+                                                "minimum": 0
+                                              },
+                                              "avg_hrv_rmssd": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Average HeartRate Variability of the user during the workout, computed using RMSSD.",
+                                                "examples": [
+                                                  35.2
+                                                ]
+                                              },
+                                              "avg_hrv_sdnn": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Average HeartRate Variability of the user during the workout, computed using SDNN.",
+                                                "examples": [
+                                                  45.5
+                                                ]
+                                              },
+                                              "hr_zone_data": {
+                                                "anyOf": [
+                                                  {
+                                                    "items": {
+                                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                      "properties": {
+                                                        "duration_seconds": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Duration spent in the heart rate zone",
+                                                          "examples": [
+                                                            300
+                                                          ]
+                                                        },
+                                                        "end_percentage": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "End percentage (based off user's max HR) of the HR zone",
+                                                          "examples": [
+                                                            70
+                                                          ],
+                                                          "maximum": 100,
+                                                          "minimum": 0
+                                                        },
+                                                        "name": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Name of the associated heart rate zone",
+                                                          "examples": [
+                                                            "Aerobic"
+                                                          ]
+                                                        },
+                                                        "start_percentage": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Start percentage (based off user's max HR) of the HR zone",
+                                                          "examples": [
+                                                            60
+                                                          ],
+                                                          "maximum": 100,
+                                                          "minimum": 0
+                                                        },
+                                                        "zone": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "integer"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Heart rate zone designation, as a zero-based zone index.",
+                                                          "examples": [
+                                                            2
+                                                          ]
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Array of time spent in various HR zones throughout the workout."
+                                              },
+                                              "max_hr_bpm": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Maximum HeartRate of the user during the workout.",
+                                                "examples": [
+                                                  180
+                                                ],
+                                                "minimum": 0
+                                              },
+                                              "min_hr_bpm": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Minimum HeartRate of the user during the workout.",
+                                                "examples": [
+                                                  85
+                                                ],
+                                                "minimum": 0
+                                              },
+                                              "resting_hr_bpm": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Resting HeartRate of the user, as determined by the fitness data provider.",
+                                                "examples": [
+                                                  65
+                                                ],
+                                                "minimum": 0
+                                              },
+                                              "user_max_hr_bpm": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "User's maximum HeartRate based on their age, and other factors as determined by the fitness data provider.",
+                                                "examples": [
+                                                  190
+                                                ]
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Object containing summary heart rate information for the associated workout."
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Object containing information on the user's heart rate during the sleep session."
+                              },
+                              "metadata": {
+                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                "description": "Object containing daily summary metadata.",
+                                "properties": {
+                                  "end_time": {
+                                    "description": "The end time of the associated sleep session, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                    "examples": [
+                                      "2022-11-24T08:00:00.000000+01:00"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "is_nap": {
+                                    "anyOf": [
+                                      {
+                                        "type": "boolean"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Flag indicating whether the sleep session was a nap, or the user's main sleep session for the day.",
+                                    "examples": [
+                                      false
+                                    ]
+                                  },
+                                  "start_time": {
+                                    "description": "The start time of the associated sleep session, in ISO8601 format with microsecond precision. Will always fall on midnight of any given day, and will always be equal to 24h before end_time. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                    "examples": [
+                                      "1999-11-23T22:00:00.000000+02:00"
+                                    ],
+                                    "type": "string"
+                                  },
+                                  "summary_id": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "A unique identifier for the sleep session."
+                                  },
+                                  "timestamp_localization": {
+                                    "anyOf": [
+                                      {
+                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                        "description": "Indicates whether the timestamps in this payload are localized (LOCAL) or in UTC.",
+                                        "enum": [
+                                          0,
+                                          1
+                                        ],
+                                        "examples": [
+                                          0
+                                        ],
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "upload_type": {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "description": "The upload type for the associated sleep session, providing information on whether this was an automatic sleep or user-entered.",
+                                    "examples": [
+                                      1
+                                    ],
+                                    "oneOf": [
+                                      {
+                                        "const": 0,
+                                        "description": "The sleep data upload type is unknown or could not be determined.",
+                                        "title": "Unknown",
+                                        "type": "number"
+                                      },
+                                      {
+                                        "const": 1,
+                                        "description": "The sleep data was manually entered by the user.",
+                                        "title": "Manual",
+                                        "type": "number"
+                                      },
+                                      {
+                                        "const": 2,
+                                        "description": "The sleep data was automatically detected and recorded by a device or service.",
+                                        "title": "Automatic",
+                                        "type": "number"
+                                      },
+                                      {
+                                        "const": 3,
+                                        "description": "The sleep data is preliminary or tentative and may be subject to change.",
+                                        "title": "Tentative",
+                                        "type": "number"
+                                      },
+                                      {
+                                        "const": 4,
+                                        "description": "The sleep data upload type cannot be clearly categorized.",
+                                        "title": "Indeterminate",
+                                        "type": "number"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "end_time",
+                                  "start_time",
+                                  "upload_type"
+                                ],
+                                "type": "object"
+                              },
+                              "readiness_data": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "properties": {
+                                      "readiness": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "User's readiness score for a given day, resulting from the sleep session.",
+                                        "examples": [
+                                          85
+                                        ],
+                                        "maximum": 100,
+                                        "minimum": 0
+                                      },
+                                      "recovery_level": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "User's recovery score for a given day, resulting from the sleep session."
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Object containing information on the user's readiness for the day, based off the quality and duration of their sleep."
+                              },
+                              "respiration_data": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "properties": {
+                                      "breaths_data": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "properties": {
+                                              "avg_breaths_per_min": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Average breathing rate of the user during the sleep session.",
+                                                "examples": [
+                                                  14
+                                                ]
+                                              },
+                                              "end_time": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "The end time of the recording of breathing rate data, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                "examples": [
+                                                  "2022-11-24T08:00:00.000000+01:00"
+                                                ]
+                                              },
+                                              "max_breaths_per_min": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Maximum breathing rate of the user during the sleep session.",
+                                                "examples": [
+                                                  18
+                                                ]
+                                              },
+                                              "min_breaths_per_min": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Minimum breathing rate of the user during the sleep session.",
+                                                "examples": [
+                                                  10
+                                                ]
+                                              },
+                                              "on_demand_reading": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "boolean"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Flag indicating if the reading was performed on demand, or if it was automatically captured by the device.",
+                                                "examples": [
+                                                  false
+                                                ]
+                                              },
+                                              "samples": {
+                                                "anyOf": [
+                                                  {
+                                                    "items": {
+                                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                      "properties": {
+                                                        "breaths_per_min": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "User's respiration rate",
+                                                          "examples": [
+                                                            16
+                                                          ]
+                                                        },
+                                                        "timestamp": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time",
+                                                          "examples": [
+                                                            "2022-11-23T09:00:00.000000+02:00"
+                                                          ]
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "List of breathing rate information sampled throughout the sleep session."
+                                              },
+                                              "start_time": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "The start time of the recording of breathing rate data, in ISO8601 format with microsecond precision. Will always fall on midnight of any given day, and will always be equal to 24h before end_time. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                "examples": [
+                                                  "1999-11-23T22:00:00.000000+02:00"
+                                                ]
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Object containing information on breathing rate for the sleep session."
+                                      },
+                                      "oxygen_saturation_data": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "properties": {
+                                              "avg_saturation_percentage": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Average Oxygen Saturation percentage of the user during the sleep session.",
+                                                "examples": [
+                                                  97
+                                                ]
+                                              },
+                                              "end_time": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "The end time of the recording of oxygen saturation, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                "examples": [
+                                                  "2022-11-24T08:00:00.000000+01:00"
+                                                ]
+                                              },
+                                              "samples": {
+                                                "anyOf": [
+                                                  {
+                                                    "items": {
+                                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                      "properties": {
+                                                        "percentage": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "User's oxygen saturation percentage - referring to either SpO2 or SmO2, based on the `type` field",
+                                                          "examples": [
+                                                            98
+                                                          ]
+                                                        },
+                                                        "timestamp": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                          "examples": [
+                                                            "2022-11-23T09:00:00.000000+02:00"
+                                                          ]
+                                                        },
+                                                        "type": {
+                                                          "anyOf": [
+                                                            {
+                                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                              "description": "Type of oxygen saturation measurement (i.e. blood vs muscle)",
+                                                              "examples": [
+                                                                0
+                                                              ],
+                                                              "oneOf": [
+                                                                {
+                                                                  "const": 0,
+                                                                  "description": "Oxygen saturation measurement for blood.",
+                                                                  "title": "Blood",
+                                                                  "type": "number"
+                                                                },
+                                                                {
+                                                                  "const": 1,
+                                                                  "description": "Oxygen saturation measurement for muscle.",
+                                                                  "title": "Muscle",
+                                                                  "type": "number"
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Type of oxygen saturation measurement (i.e. blood vs muscle)"
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Array of Oxygen Saturation percentage datapoints sampled throughout the sleep session."
+                                              },
+                                              "start_time": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "The start time of the recording of oxygen saturation, in ISO8601 format with microsecond precision. Will always fall on midnight of any given day, and will always be equal to 24h before end_time. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                "examples": [
+                                                  "1999-11-23T22:00:00.000000+02:00"
+                                                ]
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Object containing information on saturation metrics for the sleep session."
+                                      },
+                                      "snoring_data": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "properties": {
+                                              "end_time": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "The end time of the recording of snoring data, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                "examples": [
+                                                  "2022-11-24T08:00:00.000000+01:00"
+                                                ]
+                                              },
+                                              "num_snoring_events": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "integer"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Number of times over the sleep period when the user started snoring, as determined by the device.",
+                                                "examples": [
+                                                  12
+                                                ]
+                                              },
+                                              "samples": {
+                                                "anyOf": [
+                                                  {
+                                                    "items": {
+                                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                      "properties": {
+                                                        "duration_seconds": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "number"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Duration of snoring episode, in seconds",
+                                                          "examples": [
+                                                            120
+                                                          ]
+                                                        },
+                                                        "timestamp": {
+                                                          "anyOf": [
+                                                            {
+                                                              "type": "string"
+                                                            },
+                                                            {
+                                                              "type": "null"
+                                                            }
+                                                          ],
+                                                          "description": "Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                          "examples": [
+                                                            "2022-11-23T09:00:00.000000+02:00"
+                                                          ]
+                                                        }
+                                                      },
+                                                      "type": "object"
+                                                    },
+                                                    "type": "array"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "List of snoring information data points sampled throughout the sleep session."
+                                              },
+                                              "start_time": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "The start time of the recording of snoring data, in ISO8601 format with microsecond precision. Will always fall on midnight of any given day, and will always be equal to 24h before end_time. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                "examples": [
+                                                  "1999-11-23T22:00:00.000000+02:00"
+                                                ]
+                                              },
+                                              "total_snoring_duration_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration for which the user was snoring.",
+                                                "examples": [
+                                                  3600
+                                                ]
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Object containing information on snoring metrics for the sleep session."
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Object containing information on the user's respiration throughout the sleep session."
+                              },
+                              "scores": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "properties": {
+                                      "sleep": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "User's sleep score for the session.",
+                                        "examples": [
+                                          85
+                                        ]
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Scores summarising the user's sleep session."
+                              },
+                              "sleep_durations_data": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "properties": {
+                                      "asleep": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "properties": {
+                                              "duration_REM_sleep_state_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration for which the user was in a state of REM sleep.",
+                                                "examples": [
+                                                  5400
+                                                ]
+                                              },
+                                              "duration_asleep_state_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration for which the user was asleep, in any state.",
+                                                "examples": [
+                                                  25200
+                                                ]
+                                              },
+                                              "duration_deep_sleep_state_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration for which the user was in a state of deep sleep.",
+                                                "examples": [
+                                                  5400
+                                                ]
+                                              },
+                                              "duration_light_sleep_state_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration for which the user was in a state of light sleep.",
+                                                "examples": [
+                                                  14400
+                                                ]
+                                              },
+                                              "num_REM_events": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "integer"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Number of periods of REM sleep captured during the sleep session.",
+                                                "examples": [
+                                                  4
+                                                ]
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Object containing information on the duration the user spent asleep during the sleep recording session."
+                                      },
+                                      "awake": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "properties": {
+                                              "duration_awake_state_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration for which the user was awake during the sleep session.",
+                                                "examples": [
+                                                  1200
+                                                ]
+                                              },
+                                              "duration_long_interruption_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration for which the user was awake during the sleep session, when the interruption of their sleep was greater than 90 seconds.",
+                                                "examples": [
+                                                  600
+                                                ]
+                                              },
+                                              "duration_short_interruption_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration for which the user was awake during the sleep session, when the interruption of their sleep was less than 90 seconds.",
+                                                "examples": [
+                                                  180
+                                                ]
+                                              },
+                                              "num_out_of_bed_events": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "integer"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Number of times the user got out of bed during the sleep session.",
+                                                "examples": [
+                                                  1
+                                                ]
+                                              },
+                                              "num_wakeup_events": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "integer"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Number of times the user woke up during the sleep session.",
+                                                "examples": [
+                                                  3
+                                                ]
+                                              },
+                                              "sleep_latency_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Sleep latency, defined as time between the moment the user lays in bed with the intention to sleep and the moment they actually fall asleep.",
+                                                "examples": [
+                                                  900
+                                                ]
+                                              },
+                                              "wake_up_latency_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Wake up latency, defined as time between the moment the user wakes up and the moment they get out of bed.",
+                                                "examples": [
+                                                  300
+                                                ]
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Object containing information on the duration the user spent awake during the sleep recording session."
+                                      },
+                                      "hypnogram_samples": {
+                                        "anyOf": [
+                                          {
+                                            "items": {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "properties": {
+                                                "level": {
+                                                  "anyOf": [
+                                                    {
+                                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                      "description": "Represents the sleep level of the user during a sleep session, indicating the depth and quality of sleep",
+                                                      "examples": [
+                                                        2
+                                                      ],
+                                                      "oneOf": [
+                                                        {
+                                                          "const": 0,
+                                                          "description": "Sleep level is unknown or could not be determined.",
+                                                          "title": "Unknown",
+                                                          "type": "number"
+                                                        },
+                                                        {
+                                                          "const": 1,
+                                                          "description": "User is awake during the sleep session.",
+                                                          "title": "Awake",
+                                                          "type": "number"
+                                                        },
+                                                        {
+                                                          "const": 2,
+                                                          "description": "User is in a general sleep state.",
+                                                          "title": "Sleeping",
+                                                          "type": "number"
+                                                        },
+                                                        {
+                                                          "const": 3,
+                                                          "description": "User has left the bed during a sleep session.",
+                                                          "title": "Out of bed",
+                                                          "type": "number"
+                                                        },
+                                                        {
+                                                          "const": 4,
+                                                          "description": "User is in light sleep stage.",
+                                                          "title": "Light sleep",
+                                                          "type": "number"
+                                                        },
+                                                        {
+                                                          "const": 5,
+                                                          "description": "User is in deep sleep stage.",
+                                                          "title": "Deep sleep",
+                                                          "type": "number"
+                                                        },
+                                                        {
+                                                          "const": 6,
+                                                          "description": "User is in REM sleep stage.",
+                                                          "title": "REM sleep",
+                                                          "type": "number"
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ]
+                                                },
+                                                "timestamp": {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ],
+                                                  "description": "Time with which the record is associated, in ISO8601 format with microsecond precision. TimeZone info will be provided whenever possible. If absent, the time corresponds to the user's local time.",
+                                                  "examples": [
+                                                    "2022-11-23T09:00:00.000000+02:00"
+                                                  ]
+                                                }
+                                              },
+                                              "type": "object"
+                                            },
+                                            "type": "array"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "List of sleep stage (Hypnogram) samples recorded during the user's sleep session."
+                                      },
+                                      "other": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "properties": {
+                                              "duration_in_bed_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration of time spent in bed.",
+                                                "examples": [
+                                                  28800
+                                                ]
+                                              },
+                                              "duration_unmeasurable_sleep_seconds": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number"
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ],
+                                                "description": "Total duration during which the user's state (awake, asleep, REM, etc) was unmeasurable during the sleep session.",
+                                                "examples": [
+                                                  300
+                                                ]
+                                              }
+                                            },
+                                            "type": "object"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Object containing information on the miscellaneous duration data for the sleep recording session."
+                                      },
+                                      "sleep_efficiency": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Sleep efficiency of the user given as a percentage, measured as time spent asleep divided by time spent in bed.",
+                                        "examples": [
+                                          87.5
+                                        ],
+                                        "maximum": 100,
+                                        "minimum": 0
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Object containing information on the user's duration spent in various sleep stages."
+                              },
+                              "temperature_data": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "properties": {
+                                      "avg_skin_temperature_celsius": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Mean absolute skin temperature in degrees Celsius over the sleep window. Null for providers that only report a baseline deviation.",
+                                        "examples": [
+                                          33.7
+                                        ]
+                                      },
+                                      "delta": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Variation in user's skin temperature from their baseline.",
+                                        "examples": [
+                                          0.5
+                                        ]
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Object containing body temperature information of the user during the sleep recording session."
+                              }
+                            },
+                            "required": [
+                              "metadata"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "type": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "user": {
+                          "$schema": "https://json-schema.org/draft/2020-12/schema",
+                          "properties": {
+                            "active": {
+                              "anyOf": [
+                                {
+                                  "type": "boolean"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "whether the user is active or not (inactive users will not receive any data updates and are in considered ",
+                              "examples": [
+                                true
+                              ]
+                            },
+                            "created_at": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "Time at which the connection was created",
+                              "examples": [
+                                "2022-12-12T10:00:00.000000+00:00"
+                              ]
+                            },
+                            "last_webhook_update": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "Last time at which a webhook update was sent for the connection",
+                              "examples": [
+                                "2022-12-12T10:00:00.000000+00:00"
+                              ]
+                            },
+                            "provider": {
+                              "description": "Connection data source",
+                              "examples": [
+                                "FITBIT"
+                              ],
+                              "minLength": 1,
+                              "type": "string"
+                            },
+                            "reference_id": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "Connection identifier on the developer's end, used to tie connection back to a user on the developer's platform",
+                              "examples": [
+                                "user123@email.com"
+                              ]
+                            },
+                            "scopes": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "(when available) Permissions granted by the user during authentication - to be used as debugging metadata",
+                              "examples": [
+                                "activity:read,sleep:read"
+                              ]
+                            },
+                            "user_id": {
+                              "description": "Terra identifier for the wearable connection",
+                              "examples": [
+                                "123e4567-e89b-12d3-a456-426614174000"
+                              ],
+                              "minLength": 1,
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "user_id",
+                            "provider"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    {
+                      "description": "Acknowledgement returned when `to_webhook` is true (the default): the requested data is fetched asynchronously and delivered to your configured destination, and this body confirms the request was accepted.\n",
+                      "properties": {
+                        "message": {
+                          "description": "Present only for large requests (date range over one month), which are delivered in chunks.",
+                          "example": "Large request submitted. The data is being processed and will be sent to your destination in chunks",
+                          "type": "string"
+                        },
+                        "reference": {
+                          "description": "Payload reference, tying this request to the webhook payload you will receive.",
+                          "example": "5a3c2540-7139-44c6-8158-f81196e2cf2e",
+                          "type": "string"
+                        },
+                        "status": {
+                          "enum": [
+                            "success"
+                          ],
+                          "example": "success",
+                          "type": "string"
+                        },
+                        "trace_id": {
+                          "description": "Trace identifier for this request (equal to `reference`).",
+                          "example": "5a3c2540-7139-44c6-8158-f81196e2cf2e",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "The data type that was requested (e.g. `activity`, `sleep`).",
+                          "example": "activity",
+                          "type": "string"
+                        },
+                        "user": {
+                          "description": "Summary of the connection the data was requested for.",
+                          "properties": {
+                            "active": {
+                              "example": true,
+                              "type": "boolean"
+                            },
+                            "created_at": {
+                              "example": "2024-01-15T09:30:00Z",
+                              "format": "date-time",
+                              "type": "string"
+                            },
+                            "last_webhook_update": {
+                              "example": "2024-01-20T11:00:00Z",
+                              "format": "date-time",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "provider": {
+                              "example": "GARMIN",
+                              "type": "string"
+                            },
+                            "reference_id": {
+                              "example": "user123@email.com",
+                              "type": [
+                                "string",
+                                "null"
+                              ]
+                            },
+                            "scopes": {
+                              "description": "Comma-separated list of granted scopes.",
+                              "example": "activity,sleep,daily",
+                              "type": "string"
+                            },
+                            "user_id": {
+                              "example": "5a3c2540-7139-44c6-8158-f81196e2cf2e",
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "Returned upon successful data request"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "invalid start_date",
+                  "instance": "/activity",
+                  "title": "bad request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "One or more parameters is malformed. The `detail` field describes the specific problem."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "user not found",
+                  "instance": "/activity",
+                  "title": "not found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A referenced resource does not exist on Terra's end."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    }
   }
 }

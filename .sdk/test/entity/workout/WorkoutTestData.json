@@ -84,5 +84,3297 @@
         "workout_id": "WORKOUT01"
       }
     }
+  },
+  "requests": {
+    "POST /workouts/{workout_id}/plan": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Workouts_PlanWorkout",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workout_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Terra user ID of the connection to plan the workout for",
+            "in": "query",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "ftp": {
+                    "description": "Functional Threshold Power in watts",
+                    "type": "number"
+                  },
+                  "max_heart_rate": {
+                    "description": "Maximum heart rate in BPM",
+                    "type": "number"
+                  },
+                  "planned_date": {
+                    "description": "Date to schedule the workout on (YYYY-MM-DD)",
+                    "format": "date",
+                    "type": "string"
+                  },
+                  "pool_length_meters": {
+                    "description": "Pool length in meters (overrides the template value)",
+                    "type": "number"
+                  },
+                  "threshold_heart_rate": {
+                    "description": "Threshold heart rate in BPM",
+                    "type": "number"
+                  },
+                  "threshold_speed": {
+                    "description": "Threshold speed in m/s",
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "planned_date"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "coercion_warnings": {
+                      "description": "Set when the template could not be represented exactly on the provider.",
+                      "type": "string"
+                    },
+                    "planned_workout_id": {
+                      "example": "2048",
+                      "type": "string"
+                    },
+                    "provider_workout_id": {
+                      "description": "Identifier assigned by the provider. Absent for SDK-delivered plans.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "enum": [
+                        "success"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Planned workout created and pushed (or queued for SDK delivery)"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "invalid start_date",
+                  "instance": "/activity",
+                  "title": "bad request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "One or more parameters is malformed. The `detail` field describes the specific problem."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Planned Workouts add-on is not enabled for this account."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "user not found",
+                  "instance": "/activity",
+                  "title": "not found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A referenced resource does not exist on Terra's end."
+          },
+          "424": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The provider rejected the workout push; retry later."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "POST /workouts": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Workouts_CreateWorkout",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                "description": "A reusable workout template, created once and planned onto user calendars",
+                "properties": {
+                  "description": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Description of the workout"
+                  },
+                  "environment": {
+                    "anyOf": [
+                      {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "anyOf": [
+                          {
+                            "const": "indoor",
+                            "type": "string"
+                          },
+                          {
+                            "const": "outdoor",
+                            "type": "string"
+                          },
+                          {
+                            "const": "pool",
+                            "type": "string"
+                          }
+                        ],
+                        "description": "Environment a workout takes place in"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "estimated_calories": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Estimated calories burned"
+                  },
+                  "estimated_distance_meters": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Estimated total distance in meters"
+                  },
+                  "estimated_duration_seconds": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Estimated total duration in seconds"
+                  },
+                  "name": {
+                    "description": "Name of the workout",
+                    "type": "string"
+                  },
+                  "pool_length_meters": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Pool length in meters, for swim workouts"
+                  },
+                  "sport": {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "anyOf": [
+                      {
+                        "const": "running",
+                        "type": "string"
+                      },
+                      {
+                        "const": "cycling",
+                        "type": "string"
+                      },
+                      {
+                        "const": "swimming",
+                        "type": "string"
+                      },
+                      {
+                        "const": "strength",
+                        "type": "string"
+                      },
+                      {
+                        "const": "rowing",
+                        "type": "string"
+                      },
+                      {
+                        "const": "yoga",
+                        "type": "string"
+                      },
+                      {
+                        "const": "pilates",
+                        "type": "string"
+                      },
+                      {
+                        "const": "cardio",
+                        "type": "string"
+                      },
+                      {
+                        "const": "trail_running",
+                        "type": "string"
+                      },
+                      {
+                        "const": "mountain_biking",
+                        "type": "string"
+                      },
+                      {
+                        "const": "backcountry_skiing",
+                        "type": "string"
+                      },
+                      {
+                        "const": "hiking",
+                        "type": "string"
+                      },
+                      {
+                        "const": "walking",
+                        "type": "string"
+                      },
+                      {
+                        "const": "elliptical",
+                        "type": "string"
+                      },
+                      {
+                        "const": "stair_climbing",
+                        "type": "string"
+                      }
+                    ],
+                    "description": "Sport a workout template targets. Indoor/outdoor is expressed separately via environment."
+                  },
+                  "step_blocks": {
+                    "items": {
+                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                      "description": "A block of steps, repeated until its completion condition is met",
+                      "properties": {
+                        "completion_condition": {
+                          "$schema": "https://json-schema.org/draft/2020-12/schema",
+                          "description": "When this block completes (e.g. repeat count via reps)",
+                          "properties": {
+                            "type": {
+                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                              "anyOf": [
+                                {
+                                  "const": "time",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "distance",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "hr",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "calories",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "open",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "power",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "reps",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "hr_percentage",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "power_percentage",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "hr_less_than",
+                                  "type": "string"
+                                },
+                                {
+                                  "const": "hr_greater_than",
+                                  "type": "string"
+                                }
+                              ],
+                              "description": "How a step or block is considered complete"
+                            },
+                            "value": {
+                              "anyOf": [
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "Single value for the condition (e.g. seconds for time, meters for distance)"
+                            },
+                            "value_high": {
+                              "anyOf": [
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "Upper bound when the condition is a range"
+                            },
+                            "value_low": {
+                              "anyOf": [
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "description": "Lower bound when the condition is a range"
+                            }
+                          },
+                          "required": [
+                            "type"
+                          ],
+                          "type": "object"
+                        },
+                        "steps": {
+                          "items": {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "description": "A single step within a step block",
+                            "properties": {
+                              "completion_condition": {
+                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                "description": "When this step completes",
+                                "properties": {
+                                  "type": {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "anyOf": [
+                                      {
+                                        "const": "time",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "distance",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "hr",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "calories",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "open",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "power",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "reps",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "hr_percentage",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "power_percentage",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "hr_less_than",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "hr_greater_than",
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "description": "How a step or block is considered complete"
+                                  },
+                                  "value": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Single value for the condition (e.g. seconds for time, meters for distance)"
+                                  },
+                                  "value_high": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Upper bound when the condition is a range"
+                                  },
+                                  "value_low": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Lower bound when the condition is a range"
+                                  }
+                                },
+                                "required": [
+                                  "type"
+                                ],
+                                "type": "object"
+                              },
+                              "controls": {
+                                "anyOf": [
+                                  {
+                                    "items": {
+                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                      "description": "Equipment control applied during a step",
+                                      "properties": {
+                                        "type": {
+                                          "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                          "anyOf": [
+                                            {
+                                              "const": "grade",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "resistance",
+                                              "type": "string"
+                                            }
+                                          ],
+                                          "description": "Equipment control adjusted during a step (e.g. treadmill incline)"
+                                        },
+                                        "value": {
+                                          "description": "Control value (e.g. 0.02 for a 2% treadmill grade)",
+                                          "type": "number"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "value"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Equipment controls applied during the step"
+                              },
+                              "intensity_targets": {
+                                "anyOf": [
+                                  {
+                                    "items": {
+                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                      "description": "Target intensity range for a step (e.g. heart-rate or power zone)",
+                                      "properties": {
+                                        "target_type": {
+                                          "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                          "anyOf": [
+                                            {
+                                              "const": "speed",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "heart_rate",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "open",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "cadence",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "power",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "swim_stroke",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "speed_lap",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "heart_rate_lap",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "pace",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "heart_rate_threshold_percentage",
+                                              "type": "string"
+                                            },
+                                            {
+                                              "const": "heart_rate_max_percentage",
+                                              "type": "string"
+                                            }
+                                          ],
+                                          "description": "Quantity an intensity target constrains"
+                                        },
+                                        "value": {
+                                          "anyOf": [
+                                            {
+                                              "type": "number"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ],
+                                          "description": "Single target value"
+                                        },
+                                        "value_high": {
+                                          "anyOf": [
+                                            {
+                                              "type": "number"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ],
+                                          "description": "Upper bound of the target range"
+                                        },
+                                        "value_low": {
+                                          "anyOf": [
+                                            {
+                                              "type": "number"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ],
+                                          "description": "Lower bound of the target range"
+                                        }
+                                      },
+                                      "required": [
+                                        "target_type"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    "type": "array"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Intensity targets to hold during the step"
+                              },
+                              "intensity_type": {
+                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                "anyOf": [
+                                  {
+                                    "const": "rest",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "warmup",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "cooldown",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "recovery",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "active",
+                                    "type": "string"
+                                  }
+                                ],
+                                "description": "Intensity classification of a workout step"
+                              },
+                              "notes": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Free-text coaching notes shown to the athlete"
+                              },
+                              "strength": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "description": "Strength-exercise details for a step",
+                                    "properties": {
+                                      "exercise_category": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Garmin Training API exerciseCategory string (e.g. BENCH_PRESS, SQUAT)"
+                                      },
+                                      "exercise_name": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Display name of the exercise"
+                                      },
+                                      "weight": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Weight to lift"
+                                      },
+                                      "weight_display_unit": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "anyOf": [
+                                              {
+                                                "const": "kg",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "lbs",
+                                                "type": "string"
+                                              }
+                                            ],
+                                            "description": "Weight display unit for strength exercises"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "swimming": {
+                                "anyOf": [
+                                  {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "description": "Swimming details for a step",
+                                    "properties": {
+                                      "drill_type": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "anyOf": [
+                                              {
+                                                "const": "kick",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "pull",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "drill",
+                                                "type": "string"
+                                              }
+                                            ],
+                                            "description": "Swim drill type"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "equipment": {
+                                        "anyOf": [
+                                          {
+                                            "items": {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "anyOf": [
+                                                {
+                                                  "const": "none",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "swim_fins",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "swim_kickboard",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "swim_paddles",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "swim_pull_buoy",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "swim_snorkel",
+                                                  "type": "string"
+                                                }
+                                              ],
+                                              "description": "Swim equipment used during a step"
+                                            },
+                                            "type": "array"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "stroke_type": {
+                                        "anyOf": [
+                                          {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "anyOf": [
+                                              {
+                                                "const": "backstroke",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "breaststroke",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "drill",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "butterfly",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "freestyle",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "mixed",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "im",
+                                                "type": "string"
+                                              }
+                                            ],
+                                            "description": "Swim stroke for a swimming step"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "completion_condition",
+                              "intensity_type"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "required": [
+                        "completion_condition",
+                        "steps"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "workout_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Terra identifier of the stored template. Set by Terra in responses; ignored on create."
+                  }
+                },
+                "required": [
+                  "name",
+                  "sport",
+                  "step_blocks"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "success"
+                      ],
+                      "type": "string"
+                    },
+                    "workout_id": {
+                      "example": "1024",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Template stored"
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "invalid start_date",
+                  "instance": "/activity",
+                  "title": "bad request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "One or more parameters is malformed. The `detail` field describes the specific problem."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /workouts": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Workouts_ListWorkouts",
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "description": "A reusable workout template, created once and planned onto user calendars",
+                    "properties": {
+                      "description": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "description": "Description of the workout"
+                      },
+                      "environment": {
+                        "anyOf": [
+                          {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "anyOf": [
+                              {
+                                "const": "indoor",
+                                "type": "string"
+                              },
+                              {
+                                "const": "outdoor",
+                                "type": "string"
+                              },
+                              {
+                                "const": "pool",
+                                "type": "string"
+                              }
+                            ],
+                            "description": "Environment a workout takes place in"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "estimated_calories": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "description": "Estimated calories burned"
+                      },
+                      "estimated_distance_meters": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "description": "Estimated total distance in meters"
+                      },
+                      "estimated_duration_seconds": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "description": "Estimated total duration in seconds"
+                      },
+                      "name": {
+                        "description": "Name of the workout",
+                        "type": "string"
+                      },
+                      "pool_length_meters": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "description": "Pool length in meters, for swim workouts"
+                      },
+                      "sport": {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "anyOf": [
+                          {
+                            "const": "running",
+                            "type": "string"
+                          },
+                          {
+                            "const": "cycling",
+                            "type": "string"
+                          },
+                          {
+                            "const": "swimming",
+                            "type": "string"
+                          },
+                          {
+                            "const": "strength",
+                            "type": "string"
+                          },
+                          {
+                            "const": "rowing",
+                            "type": "string"
+                          },
+                          {
+                            "const": "yoga",
+                            "type": "string"
+                          },
+                          {
+                            "const": "pilates",
+                            "type": "string"
+                          },
+                          {
+                            "const": "cardio",
+                            "type": "string"
+                          },
+                          {
+                            "const": "trail_running",
+                            "type": "string"
+                          },
+                          {
+                            "const": "mountain_biking",
+                            "type": "string"
+                          },
+                          {
+                            "const": "backcountry_skiing",
+                            "type": "string"
+                          },
+                          {
+                            "const": "hiking",
+                            "type": "string"
+                          },
+                          {
+                            "const": "walking",
+                            "type": "string"
+                          },
+                          {
+                            "const": "elliptical",
+                            "type": "string"
+                          },
+                          {
+                            "const": "stair_climbing",
+                            "type": "string"
+                          }
+                        ],
+                        "description": "Sport a workout template targets. Indoor/outdoor is expressed separately via environment."
+                      },
+                      "step_blocks": {
+                        "items": {
+                          "$schema": "https://json-schema.org/draft/2020-12/schema",
+                          "description": "A block of steps, repeated until its completion condition is met",
+                          "properties": {
+                            "completion_condition": {
+                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                              "description": "When this block completes (e.g. repeat count via reps)",
+                              "properties": {
+                                "type": {
+                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                  "anyOf": [
+                                    {
+                                      "const": "time",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "distance",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "hr",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "calories",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "open",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "power",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "reps",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "hr_percentage",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "power_percentage",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "hr_less_than",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "hr_greater_than",
+                                      "type": "string"
+                                    }
+                                  ],
+                                  "description": "How a step or block is considered complete"
+                                },
+                                "value": {
+                                  "anyOf": [
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Single value for the condition (e.g. seconds for time, meters for distance)"
+                                },
+                                "value_high": {
+                                  "anyOf": [
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Upper bound when the condition is a range"
+                                },
+                                "value_low": {
+                                  "anyOf": [
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Lower bound when the condition is a range"
+                                }
+                              },
+                              "required": [
+                                "type"
+                              ],
+                              "type": "object"
+                            },
+                            "steps": {
+                              "items": {
+                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                "description": "A single step within a step block",
+                                "properties": {
+                                  "completion_condition": {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "description": "When this step completes",
+                                    "properties": {
+                                      "type": {
+                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                        "anyOf": [
+                                          {
+                                            "const": "time",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "distance",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "hr",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "calories",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "open",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "power",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "reps",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "hr_percentage",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "power_percentage",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "hr_less_than",
+                                            "type": "string"
+                                          },
+                                          {
+                                            "const": "hr_greater_than",
+                                            "type": "string"
+                                          }
+                                        ],
+                                        "description": "How a step or block is considered complete"
+                                      },
+                                      "value": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Single value for the condition (e.g. seconds for time, meters for distance)"
+                                      },
+                                      "value_high": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Upper bound when the condition is a range"
+                                      },
+                                      "value_low": {
+                                        "anyOf": [
+                                          {
+                                            "type": "number"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ],
+                                        "description": "Lower bound when the condition is a range"
+                                      }
+                                    },
+                                    "required": [
+                                      "type"
+                                    ],
+                                    "type": "object"
+                                  },
+                                  "controls": {
+                                    "anyOf": [
+                                      {
+                                        "items": {
+                                          "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                          "description": "Equipment control applied during a step",
+                                          "properties": {
+                                            "type": {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "anyOf": [
+                                                {
+                                                  "const": "grade",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "resistance",
+                                                  "type": "string"
+                                                }
+                                              ],
+                                              "description": "Equipment control adjusted during a step (e.g. treadmill incline)"
+                                            },
+                                            "value": {
+                                              "description": "Control value (e.g. 0.02 for a 2% treadmill grade)",
+                                              "type": "number"
+                                            }
+                                          },
+                                          "required": [
+                                            "type",
+                                            "value"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "type": "array"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Equipment controls applied during the step"
+                                  },
+                                  "intensity_targets": {
+                                    "anyOf": [
+                                      {
+                                        "items": {
+                                          "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                          "description": "Target intensity range for a step (e.g. heart-rate or power zone)",
+                                          "properties": {
+                                            "target_type": {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "anyOf": [
+                                                {
+                                                  "const": "speed",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "heart_rate",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "open",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "cadence",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "power",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "swim_stroke",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "speed_lap",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "heart_rate_lap",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "pace",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "heart_rate_threshold_percentage",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "heart_rate_max_percentage",
+                                                  "type": "string"
+                                                }
+                                              ],
+                                              "description": "Quantity an intensity target constrains"
+                                            },
+                                            "value": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "number"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ],
+                                              "description": "Single target value"
+                                            },
+                                            "value_high": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "number"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ],
+                                              "description": "Upper bound of the target range"
+                                            },
+                                            "value_low": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "number"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ],
+                                              "description": "Lower bound of the target range"
+                                            }
+                                          },
+                                          "required": [
+                                            "target_type"
+                                          ],
+                                          "type": "object"
+                                        },
+                                        "type": "array"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Intensity targets to hold during the step"
+                                  },
+                                  "intensity_type": {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "anyOf": [
+                                      {
+                                        "const": "rest",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "warmup",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "cooldown",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "recovery",
+                                        "type": "string"
+                                      },
+                                      {
+                                        "const": "active",
+                                        "type": "string"
+                                      }
+                                    ],
+                                    "description": "Intensity classification of a workout step"
+                                  },
+                                  "notes": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ],
+                                    "description": "Free-text coaching notes shown to the athlete"
+                                  },
+                                  "strength": {
+                                    "anyOf": [
+                                      {
+                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                        "description": "Strength-exercise details for a step",
+                                        "properties": {
+                                          "exercise_category": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ],
+                                            "description": "Garmin Training API exerciseCategory string (e.g. BENCH_PRESS, SQUAT)"
+                                          },
+                                          "exercise_name": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ],
+                                            "description": "Display name of the exercise"
+                                          },
+                                          "weight": {
+                                            "anyOf": [
+                                              {
+                                                "type": "number"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ],
+                                            "description": "Weight to lift"
+                                          },
+                                          "weight_display_unit": {
+                                            "anyOf": [
+                                              {
+                                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                "anyOf": [
+                                                  {
+                                                    "const": "kg",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "lbs",
+                                                    "type": "string"
+                                                  }
+                                                ],
+                                                "description": "Weight display unit for strength exercises"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "swimming": {
+                                    "anyOf": [
+                                      {
+                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                        "description": "Swimming details for a step",
+                                        "properties": {
+                                          "drill_type": {
+                                            "anyOf": [
+                                              {
+                                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                "anyOf": [
+                                                  {
+                                                    "const": "kick",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "pull",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "drill",
+                                                    "type": "string"
+                                                  }
+                                                ],
+                                                "description": "Swim drill type"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          "equipment": {
+                                            "anyOf": [
+                                              {
+                                                "items": {
+                                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                  "anyOf": [
+                                                    {
+                                                      "const": "none",
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "const": "swim_fins",
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "const": "swim_kickboard",
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "const": "swim_paddles",
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "const": "swim_pull_buoy",
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "const": "swim_snorkel",
+                                                      "type": "string"
+                                                    }
+                                                  ],
+                                                  "description": "Swim equipment used during a step"
+                                                },
+                                                "type": "array"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          "stroke_type": {
+                                            "anyOf": [
+                                              {
+                                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                "anyOf": [
+                                                  {
+                                                    "const": "backstroke",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "breaststroke",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "drill",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "butterfly",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "freestyle",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "mixed",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "im",
+                                                    "type": "string"
+                                                  }
+                                                ],
+                                                "description": "Swim stroke for a swimming step"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "completion_condition",
+                                  "intensity_type"
+                                ],
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "required": [
+                            "completion_condition",
+                            "steps"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "workout_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "description": "Terra identifier of the stored template. Set by Terra in responses; ignored on create."
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "sport",
+                      "step_blocks"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Stored templates, each including its workout_id"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /workouts/{workout_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Workouts_GetWorkout",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workout_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "description": "A reusable workout template, created once and planned onto user calendars",
+                  "properties": {
+                    "description": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Description of the workout"
+                    },
+                    "environment": {
+                      "anyOf": [
+                        {
+                          "$schema": "https://json-schema.org/draft/2020-12/schema",
+                          "anyOf": [
+                            {
+                              "const": "indoor",
+                              "type": "string"
+                            },
+                            {
+                              "const": "outdoor",
+                              "type": "string"
+                            },
+                            {
+                              "const": "pool",
+                              "type": "string"
+                            }
+                          ],
+                          "description": "Environment a workout takes place in"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "estimated_calories": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Estimated calories burned"
+                    },
+                    "estimated_distance_meters": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Estimated total distance in meters"
+                    },
+                    "estimated_duration_seconds": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Estimated total duration in seconds"
+                    },
+                    "name": {
+                      "description": "Name of the workout",
+                      "type": "string"
+                    },
+                    "pool_length_meters": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Pool length in meters, for swim workouts"
+                    },
+                    "sport": {
+                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                      "anyOf": [
+                        {
+                          "const": "running",
+                          "type": "string"
+                        },
+                        {
+                          "const": "cycling",
+                          "type": "string"
+                        },
+                        {
+                          "const": "swimming",
+                          "type": "string"
+                        },
+                        {
+                          "const": "strength",
+                          "type": "string"
+                        },
+                        {
+                          "const": "rowing",
+                          "type": "string"
+                        },
+                        {
+                          "const": "yoga",
+                          "type": "string"
+                        },
+                        {
+                          "const": "pilates",
+                          "type": "string"
+                        },
+                        {
+                          "const": "cardio",
+                          "type": "string"
+                        },
+                        {
+                          "const": "trail_running",
+                          "type": "string"
+                        },
+                        {
+                          "const": "mountain_biking",
+                          "type": "string"
+                        },
+                        {
+                          "const": "backcountry_skiing",
+                          "type": "string"
+                        },
+                        {
+                          "const": "hiking",
+                          "type": "string"
+                        },
+                        {
+                          "const": "walking",
+                          "type": "string"
+                        },
+                        {
+                          "const": "elliptical",
+                          "type": "string"
+                        },
+                        {
+                          "const": "stair_climbing",
+                          "type": "string"
+                        }
+                      ],
+                      "description": "Sport a workout template targets. Indoor/outdoor is expressed separately via environment."
+                    },
+                    "step_blocks": {
+                      "items": {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "description": "A block of steps, repeated until its completion condition is met",
+                        "properties": {
+                          "completion_condition": {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "description": "When this block completes (e.g. repeat count via reps)",
+                            "properties": {
+                              "type": {
+                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                "anyOf": [
+                                  {
+                                    "const": "time",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "distance",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "hr",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "calories",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "open",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "power",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "reps",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "hr_percentage",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "power_percentage",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "hr_less_than",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "const": "hr_greater_than",
+                                    "type": "string"
+                                  }
+                                ],
+                                "description": "How a step or block is considered complete"
+                              },
+                              "value": {
+                                "anyOf": [
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Single value for the condition (e.g. seconds for time, meters for distance)"
+                              },
+                              "value_high": {
+                                "anyOf": [
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Upper bound when the condition is a range"
+                              },
+                              "value_low": {
+                                "anyOf": [
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Lower bound when the condition is a range"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "type": "object"
+                          },
+                          "steps": {
+                            "items": {
+                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                              "description": "A single step within a step block",
+                              "properties": {
+                                "completion_condition": {
+                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                  "description": "When this step completes",
+                                  "properties": {
+                                    "type": {
+                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                      "anyOf": [
+                                        {
+                                          "const": "time",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "distance",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "hr",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "calories",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "open",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "power",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "reps",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "hr_percentage",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "power_percentage",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "hr_less_than",
+                                          "type": "string"
+                                        },
+                                        {
+                                          "const": "hr_greater_than",
+                                          "type": "string"
+                                        }
+                                      ],
+                                      "description": "How a step or block is considered complete"
+                                    },
+                                    "value": {
+                                      "anyOf": [
+                                        {
+                                          "type": "number"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ],
+                                      "description": "Single value for the condition (e.g. seconds for time, meters for distance)"
+                                    },
+                                    "value_high": {
+                                      "anyOf": [
+                                        {
+                                          "type": "number"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ],
+                                      "description": "Upper bound when the condition is a range"
+                                    },
+                                    "value_low": {
+                                      "anyOf": [
+                                        {
+                                          "type": "number"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ],
+                                      "description": "Lower bound when the condition is a range"
+                                    }
+                                  },
+                                  "required": [
+                                    "type"
+                                  ],
+                                  "type": "object"
+                                },
+                                "controls": {
+                                  "anyOf": [
+                                    {
+                                      "items": {
+                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                        "description": "Equipment control applied during a step",
+                                        "properties": {
+                                          "type": {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "anyOf": [
+                                              {
+                                                "const": "grade",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "resistance",
+                                                "type": "string"
+                                              }
+                                            ],
+                                            "description": "Equipment control adjusted during a step (e.g. treadmill incline)"
+                                          },
+                                          "value": {
+                                            "description": "Control value (e.g. 0.02 for a 2% treadmill grade)",
+                                            "type": "number"
+                                          }
+                                        },
+                                        "required": [
+                                          "type",
+                                          "value"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Equipment controls applied during the step"
+                                },
+                                "intensity_targets": {
+                                  "anyOf": [
+                                    {
+                                      "items": {
+                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                        "description": "Target intensity range for a step (e.g. heart-rate or power zone)",
+                                        "properties": {
+                                          "target_type": {
+                                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                            "anyOf": [
+                                              {
+                                                "const": "speed",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "heart_rate",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "open",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "cadence",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "power",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "swim_stroke",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "speed_lap",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "heart_rate_lap",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "pace",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "heart_rate_threshold_percentage",
+                                                "type": "string"
+                                              },
+                                              {
+                                                "const": "heart_rate_max_percentage",
+                                                "type": "string"
+                                              }
+                                            ],
+                                            "description": "Quantity an intensity target constrains"
+                                          },
+                                          "value": {
+                                            "anyOf": [
+                                              {
+                                                "type": "number"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ],
+                                            "description": "Single target value"
+                                          },
+                                          "value_high": {
+                                            "anyOf": [
+                                              {
+                                                "type": "number"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ],
+                                            "description": "Upper bound of the target range"
+                                          },
+                                          "value_low": {
+                                            "anyOf": [
+                                              {
+                                                "type": "number"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ],
+                                            "description": "Lower bound of the target range"
+                                          }
+                                        },
+                                        "required": [
+                                          "target_type"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Intensity targets to hold during the step"
+                                },
+                                "intensity_type": {
+                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                  "anyOf": [
+                                    {
+                                      "const": "rest",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "warmup",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "cooldown",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "recovery",
+                                      "type": "string"
+                                    },
+                                    {
+                                      "const": "active",
+                                      "type": "string"
+                                    }
+                                  ],
+                                  "description": "Intensity classification of a workout step"
+                                },
+                                "notes": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Free-text coaching notes shown to the athlete"
+                                },
+                                "strength": {
+                                  "anyOf": [
+                                    {
+                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                      "description": "Strength-exercise details for a step",
+                                      "properties": {
+                                        "exercise_category": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ],
+                                          "description": "Garmin Training API exerciseCategory string (e.g. BENCH_PRESS, SQUAT)"
+                                        },
+                                        "exercise_name": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ],
+                                          "description": "Display name of the exercise"
+                                        },
+                                        "weight": {
+                                          "anyOf": [
+                                            {
+                                              "type": "number"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ],
+                                          "description": "Weight to lift"
+                                        },
+                                        "weight_display_unit": {
+                                          "anyOf": [
+                                            {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "anyOf": [
+                                                {
+                                                  "const": "kg",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "lbs",
+                                                  "type": "string"
+                                                }
+                                              ],
+                                              "description": "Weight display unit for strength exercises"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "swimming": {
+                                  "anyOf": [
+                                    {
+                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                      "description": "Swimming details for a step",
+                                      "properties": {
+                                        "drill_type": {
+                                          "anyOf": [
+                                            {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "anyOf": [
+                                                {
+                                                  "const": "kick",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "pull",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "drill",
+                                                  "type": "string"
+                                                }
+                                              ],
+                                              "description": "Swim drill type"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "equipment": {
+                                          "anyOf": [
+                                            {
+                                              "items": {
+                                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                                "anyOf": [
+                                                  {
+                                                    "const": "none",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "swim_fins",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "swim_kickboard",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "swim_paddles",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "swim_pull_buoy",
+                                                    "type": "string"
+                                                  },
+                                                  {
+                                                    "const": "swim_snorkel",
+                                                    "type": "string"
+                                                  }
+                                                ],
+                                                "description": "Swim equipment used during a step"
+                                              },
+                                              "type": "array"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "stroke_type": {
+                                          "anyOf": [
+                                            {
+                                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                              "anyOf": [
+                                                {
+                                                  "const": "backstroke",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "breaststroke",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "drill",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "butterfly",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "freestyle",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "mixed",
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "const": "im",
+                                                  "type": "string"
+                                                }
+                                              ],
+                                              "description": "Swim stroke for a swimming step"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "completion_condition",
+                                "intensity_type"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "completion_condition",
+                          "steps"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "workout_id": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Terra identifier of the stored template. Set by Terra in responses; ignored on create."
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "sport",
+                    "step_blocks"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The stored template"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "user not found",
+                  "instance": "/activity",
+                  "title": "not found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A referenced resource does not exist on Terra's end."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "DELETE /plannedWorkouts/{planned_workout_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Workouts_DeletePlannedWorkout",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "planned_workout_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "description": "Planned workout deleted"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "user not found",
+                  "instance": "/activity",
+                  "title": "not found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A referenced resource does not exist on Terra's end."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "DELETE /workouts/{workout_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Workouts_DeleteWorkout",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "workout_id",
+            "required": true,
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "description": "Template and all planned instances deleted"
+          },
+          "207": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Some provider-side deletions failed; the template is retained. Retry to complete the cascade.\n"
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "user not found",
+                  "instance": "/activity",
+                  "title": "not found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A referenced resource does not exist on Terra's end."
+          },
+          "424": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Provider-side deletion could not be performed; retry later."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    }
   }
 }

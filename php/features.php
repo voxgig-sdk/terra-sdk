@@ -4,7 +4,14 @@ declare(strict_types=1);
 // Terra SDK feature factory
 
 require_once __DIR__ . '/feature/BaseFeature.php';
+require_once __DIR__ . '/feature/DebugFeature.php';
+require_once __DIR__ . '/feature/IdempotencyFeature.php';
+require_once __DIR__ . '/feature/MetricsFeature.php';
+require_once __DIR__ . '/feature/PagingFeature.php';
+require_once __DIR__ . '/feature/RatelimitFeature.php';
+require_once __DIR__ . '/feature/RetryFeature.php';
 require_once __DIR__ . '/feature/TestFeature.php';
+require_once __DIR__ . '/feature/TimeoutFeature.php';
 
 
 class TerraFeatures
@@ -14,8 +21,22 @@ class TerraFeatures
         switch ($name) {
             case "base":
                 return new TerraBaseFeature();
+            case "debug":
+                return new TerraDebugFeature();
+            case "idempotency":
+                return new TerraIdempotencyFeature();
+            case "metrics":
+                return new TerraMetricsFeature();
+            case "paging":
+                return new TerraPagingFeature();
+            case "ratelimit":
+                return new TerraRatelimitFeature();
+            case "retry":
+                return new TerraRetryFeature();
             case "test":
                 return new TerraTestFeature();
+            case "timeout":
+                return new TerraTimeoutFeature();
             default:
                 return new TerraBaseFeature();
         }
@@ -31,7 +52,14 @@ class TerraFeatures
     {
         switch ($name) {
             case "base":
+            case "debug":
+            case "idempotency":
+            case "metrics":
+            case "paging":
+            case "ratelimit":
+            case "retry":
             case "test":
+            case "timeout":
                 return true;
             default:
                 return false;

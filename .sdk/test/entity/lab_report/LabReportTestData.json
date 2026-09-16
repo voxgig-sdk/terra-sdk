@@ -5,13 +5,13 @@
         "collection_date": "sf0",
         "collection_time": "sf1",
         "current_status": "sf2",
-        "file_count": "sf3",
+        "file_count": 243,
         "id": "LAB_REPORT00",
-        "input_bytes": "sf5",
+        "input_bytes": 245,
         "lab_name": "sf6",
-        "output_bytes": "sf7",
+        "output_bytes": 247,
         "panels": [],
-        "patient_age_at_collection": "sf9",
+        "patient_age_at_collection": 249,
         "patient_sex": "sfa",
         "reference_id": "REFERENCE01",
         "report_date": "sfc",
@@ -20,7 +20,7 @@
         "report_time": "sff",
         "report_type": "s100",
         "results": [],
-        "results_count": "s102",
+        "results_count": 258,
         "session_id": "SESSION01",
         "status_history": [],
         "updated_at": "s105",
@@ -31,13 +31,13 @@
         "collection_date": "s1e0",
         "collection_time": "s1e1",
         "current_status": "s1e2",
-        "file_count": "s1e3",
+        "file_count": 483,
         "id": "LAB_REPORT01",
-        "input_bytes": "s1e5",
+        "input_bytes": 485,
         "lab_name": "s1e6",
-        "output_bytes": "s1e7",
+        "output_bytes": 487,
         "panels": [],
-        "patient_age_at_collection": "s1e9",
+        "patient_age_at_collection": 489,
         "patient_sex": "s1ea",
         "reference_id": "REFERENCE01",
         "report_date": "s1ec",
@@ -46,7 +46,7 @@
         "report_time": "s1ef",
         "report_type": "s1f0",
         "results": [],
-        "results_count": "s1f2",
+        "results_count": 498,
         "session_id": "SESSION01",
         "status_history": [],
         "updated_at": "s1f5",
@@ -57,13 +57,13 @@
         "collection_date": "s2d0",
         "collection_time": "s2d1",
         "current_status": "s2d2",
-        "file_count": "s2d3",
+        "file_count": 723,
         "id": "LAB_REPORT02",
-        "input_bytes": "s2d5",
+        "input_bytes": 725,
         "lab_name": "s2d6",
-        "output_bytes": "s2d7",
+        "output_bytes": 727,
         "panels": [],
-        "patient_age_at_collection": "s2d9",
+        "patient_age_at_collection": 729,
         "patient_sex": "s2da",
         "reference_id": "REFERENCE01",
         "report_date": "s2dc",
@@ -72,7 +72,7 @@
         "report_time": "s2df",
         "report_type": "s2e0",
         "results": [],
-        "results_count": "s2e2",
+        "results_count": 738,
         "session_id": "SESSION01",
         "status_history": [],
         "updated_at": "s2e5",
@@ -87,12 +87,12 @@
         "collection_date": "s3c0",
         "collection_time": "s3c1",
         "current_status": "s3c2",
-        "file_count": "s3c3",
-        "input_bytes": "s3c5",
+        "file_count": 963,
+        "input_bytes": 965,
         "lab_name": "s3c6",
-        "output_bytes": "s3c7",
+        "output_bytes": 967,
         "panels": [],
-        "patient_age_at_collection": "s3c9",
+        "patient_age_at_collection": 969,
         "patient_sex": "s3ca",
         "reference_id": "REFERENCE01",
         "report_date": "s3cc",
@@ -101,12 +101,1619 @@
         "report_time": "s3cf",
         "report_type": "s3d0",
         "results": [],
-        "results_count": "s3d2",
+        "results_count": 978,
         "session_id": "SESSION01",
         "status_history": [],
         "updated_at": "s3d5",
         "upload_id": "UPLOAD01",
         "uploaded_at": "s3d7"
+      }
+    }
+  },
+  "requests": {
+    "POST /lab-reports": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "LabReports_Upload",
+        "parameters": [
+          {
+            "description": "Your external identifier for this report or patient.",
+            "example": "patient_456",
+            "in": "query",
+            "name": "reference_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "description": "The lab report file (PDF, PNG, JPEG, GIF, or WebP; max 20 MB).",
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "file"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "description": "Returned by the upload endpoint. A single upload may fan out to multiple sessions.",
+                  "properties": {
+                    "current_status": {
+                      "description": "Processing status as a clean lowercase string.",
+                      "examples": [
+                        "processing"
+                      ],
+                      "type": "string"
+                    },
+                    "upload_id": {
+                      "description": "Durable correlation key for the upload; every resulting session and webhook carries it.",
+                      "examples": [
+                        "upl_4a2b8c1d"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "upload_id",
+                    "current_status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Upload accepted for processing."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "invalid start_date",
+                  "instance": "/activity",
+                  "title": "bad request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "One or more parameters is malformed. The `detail` field describes the specific problem."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The credential is not authorized for this operation."
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The uploaded payload exceeds the size limit."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /lab-reports": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "LabReports_List",
+        "parameters": [
+          {
+            "description": "Filter by your external reference ID.",
+            "in": "query",
+            "name": "reference_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter by upload handle — returns every report from that upload.",
+            "in": "query",
+            "name": "upload_id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Lab report date lower bound (inclusive, ISO-8601 `YYYY-MM-DD`).",
+            "in": "query",
+            "name": "report_date_from",
+            "required": false,
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Lab report date upper bound (inclusive, ISO-8601 `YYYY-MM-DD`).",
+            "in": "query",
+            "name": "report_date_to",
+            "required": false,
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Upload date lower bound (inclusive, ISO-8601 `YYYY-MM-DD`).",
+            "in": "query",
+            "name": "uploaded_at_from",
+            "required": false,
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Upload date upper bound (inclusive, ISO-8601 `YYYY-MM-DD`).",
+            "in": "query",
+            "name": "uploaded_at_to",
+            "required": false,
+            "schema": {
+              "format": "date",
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "properties": {
+                    "sessions": {
+                      "items": {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "description": "A lab report session. Returned in full on retrieve; list items carry the summary fields only (no results/panels).",
+                        "properties": {
+                          "collection_date": {
+                            "description": "Specimen collection date (YYYY-MM-DD); omitted if not extracted.",
+                            "type": "string"
+                          },
+                          "collection_time": {
+                            "description": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted.",
+                            "type": "string"
+                          },
+                          "current_status": {
+                            "description": "Current status as a clean lowercase string (open enum), e.g. processing, sent, partially_sent, failed.",
+                            "examples": [
+                              "sent"
+                            ],
+                            "type": "string"
+                          },
+                          "file_count": {
+                            "type": "integer"
+                          },
+                          "input_bytes": {
+                            "type": "integer"
+                          },
+                          "lab_name": {
+                            "type": "string"
+                          },
+                          "output_bytes": {
+                            "type": "integer"
+                          },
+                          "panels": {
+                            "description": "Report-level panels that results reference by panel_id. Omitted if the report has no panel grouping.",
+                            "items": {
+                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                              "description": "A report-level grouping that results reference by panel_id.",
+                              "properties": {
+                                "id": {
+                                  "description": "Report-local ordinal; matches LabReportBiomarker.panel_id.",
+                                  "type": "integer"
+                                },
+                                "key": {
+                                  "description": "Normalized dedup key (deterministic text, not a LOINC code).",
+                                  "type": "string"
+                                },
+                                "name": {
+                                  "description": "Verbatim panel header as printed on the report.",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "id"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "patient_age_at_collection": {
+                            "description": "Patient age in years; omitted if unknown.",
+                            "type": "integer"
+                          },
+                          "patient_sex": {
+                            "description": "Clean lowercase string (open enum); omitted if unspecified.",
+                            "examples": [
+                              "female"
+                            ],
+                            "type": "string"
+                          },
+                          "reference_id": {
+                            "description": "Your external reference; omitted if not set.",
+                            "type": "string"
+                          },
+                          "report_date": {
+                            "description": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
+                            "type": "string"
+                          },
+                          "report_locale": {
+                            "examples": [
+                              "en-GB"
+                            ],
+                            "type": "string"
+                          },
+                          "report_notes": {
+                            "type": "string"
+                          },
+                          "report_time": {
+                            "description": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
+                            "type": "string"
+                          },
+                          "report_type": {
+                            "description": "Report type as a clean lowercase string (open enum — handle unknown values gracefully).",
+                            "examples": [
+                              "lab"
+                            ],
+                            "type": "string"
+                          },
+                          "results": {
+                            "description": "The layered biomarker results. Populated on retrieve, not on list.",
+                            "items": {
+                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                              "description": "One layered result: verbatim source, normalized biomarker identity, one typed measurement, and the interpretation. measurement and interpretation are byte-identical to the webhook payload.",
+                              "properties": {
+                                "biomarker": {
+                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                  "description": "The normalized identity layer.",
+                                  "properties": {
+                                    "display_name": {
+                                      "type": "string"
+                                    },
+                                    "key": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ],
+                                      "description": "Canonical biomarker slug, or null when unmatched — the sole no-match signal. Do not key off loinc_code, which can be null on a match."
+                                    },
+                                    "loinc_code": {
+                                      "description": "LOINC code; omitted when the matched biomarker has no LOINC mapping.",
+                                      "type": "string"
+                                    },
+                                    "panel_id": {
+                                      "description": "References panels[].id on the enclosing session.",
+                                      "type": "integer"
+                                    },
+                                    "panel_key": {
+                                      "type": "string"
+                                    },
+                                    "specimen": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "key"
+                                  ],
+                                  "type": "object"
+                                },
+                                "interpretation": {
+                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                  "description": "The per-result abnormality layer.",
+                                  "properties": {
+                                    "applied_range": {
+                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                      "description": "Bounds of the reference range the flag was judged against.",
+                                      "properties": {
+                                        "lower": {
+                                          "type": "number"
+                                        },
+                                        "upper": {
+                                          "type": "number"
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "flag": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ],
+                                      "description": "Coded signal (high/low/normal), or null when there is no signal."
+                                    },
+                                    "flag_raw": {
+                                      "description": "The lab's verbatim flag.",
+                                      "type": "string"
+                                    },
+                                    "source": {
+                                      "description": "Provenance of flag — report, computed, or none.",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "flag",
+                                    "source"
+                                  ],
+                                  "type": "object"
+                                },
+                                "measurement": {
+                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                  "description": "The single typed value of a result. Exactly one value field is set, named by type.",
+                                  "properties": {
+                                    "absent_reason": {
+                                      "type": "string"
+                                    },
+                                    "bounded": {
+                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                      "description": "A one-sided bound. operator is lt or gt; value is the magnitude (e.g. lt with 0.5 means <0.5).",
+                                      "properties": {
+                                        "operator": {
+                                          "description": "lt or gt.",
+                                          "type": "string"
+                                        },
+                                        "value": {
+                                          "type": "number"
+                                        }
+                                      },
+                                      "required": [
+                                        "operator",
+                                        "value"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    "numeric": {
+                                      "type": "number"
+                                    },
+                                    "qualitative": {
+                                      "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                      "properties": {
+                                        "code": {
+                                          "description": "Coded qualitative answer (LOINC/SNOMED) when available.",
+                                          "type": "string"
+                                        },
+                                        "text": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "type": "object"
+                                    },
+                                    "text": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "description": "One of numeric, bounded, qualitative, text, absent.",
+                                      "examples": [
+                                        "numeric"
+                                      ],
+                                      "type": "string"
+                                    },
+                                    "ucum_code": {
+                                      "type": "string"
+                                    },
+                                    "units": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "type"
+                                  ],
+                                  "type": "object"
+                                },
+                                "reference_ranges": {
+                                  "items": {
+                                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                    "description": "One reference range. type describes the range, not a verdict on the result.",
+                                    "properties": {
+                                      "context": {
+                                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                        "description": "The patient dimensions a reference range is scoped by.",
+                                        "properties": {
+                                          "age_lower": {
+                                            "type": "integer"
+                                          },
+                                          "age_upper": {
+                                            "type": "integer"
+                                          },
+                                          "cycle_phase": {
+                                            "type": "string"
+                                          },
+                                          "gestational_week_lower": {
+                                            "type": "integer"
+                                          },
+                                          "gestational_week_upper": {
+                                            "type": "integer"
+                                          },
+                                          "modifiers": {
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array"
+                                          },
+                                          "pregnancy_status": {
+                                            "type": "string"
+                                          },
+                                          "reference_population": {
+                                            "type": "string"
+                                          },
+                                          "sex": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "lower": {
+                                        "type": "number"
+                                      },
+                                      "type": {
+                                        "type": "string"
+                                      },
+                                      "upper": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "source": {
+                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                  "description": "The verbatim provenance layer — what the report literally printed.",
+                                  "properties": {
+                                    "flag": {
+                                      "description": "Verbatim flag; the coded form is under interpretation.",
+                                      "type": "string"
+                                    },
+                                    "method": {
+                                      "type": "string"
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "notes": {
+                                      "type": "string"
+                                    },
+                                    "panel": {
+                                      "type": "string"
+                                    },
+                                    "reference_text": {
+                                      "type": "string"
+                                    },
+                                    "units": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "description": "Raw value string as printed.",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                }
+                              },
+                              "required": [
+                                "source",
+                                "biomarker",
+                                "measurement",
+                                "interpretation"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "results_count": {
+                            "type": "integer"
+                          },
+                          "session_id": {
+                            "examples": [
+                              "297405620317847552"
+                            ],
+                            "type": "string"
+                          },
+                          "status_history": {
+                            "items": {
+                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                              "properties": {
+                                "note": {
+                                  "type": "string"
+                                },
+                                "status": {
+                                  "type": "string"
+                                },
+                                "timestamp": {
+                                  "format": "date-time",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "status"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "updated_at": {
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          "upload_id": {
+                            "type": "string"
+                          },
+                          "uploaded_at": {
+                            "format": "date-time",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "session_id",
+                          "report_type",
+                          "current_status"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "sessions"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of lab report sessions."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "invalid start_date",
+                  "instance": "/activity",
+                  "title": "bad request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "One or more parameters is malformed. The `detail` field describes the specific problem."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /lab-reports/{session_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "LabReports_Get",
+        "parameters": [
+          {
+            "description": "The session's snowflake ID.",
+            "example": "297405620317847552",
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "description": "A lab report session. Returned in full on retrieve; list items carry the summary fields only (no results/panels).",
+                  "properties": {
+                    "collection_date": {
+                      "description": "Specimen collection date (YYYY-MM-DD); omitted if not extracted.",
+                      "type": "string"
+                    },
+                    "collection_time": {
+                      "description": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted.",
+                      "type": "string"
+                    },
+                    "current_status": {
+                      "description": "Current status as a clean lowercase string (open enum), e.g. processing, sent, partially_sent, failed.",
+                      "examples": [
+                        "sent"
+                      ],
+                      "type": "string"
+                    },
+                    "file_count": {
+                      "type": "integer"
+                    },
+                    "input_bytes": {
+                      "type": "integer"
+                    },
+                    "lab_name": {
+                      "type": "string"
+                    },
+                    "output_bytes": {
+                      "type": "integer"
+                    },
+                    "panels": {
+                      "description": "Report-level panels that results reference by panel_id. Omitted if the report has no panel grouping.",
+                      "items": {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "description": "A report-level grouping that results reference by panel_id.",
+                        "properties": {
+                          "id": {
+                            "description": "Report-local ordinal; matches LabReportBiomarker.panel_id.",
+                            "type": "integer"
+                          },
+                          "key": {
+                            "description": "Normalized dedup key (deterministic text, not a LOINC code).",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Verbatim panel header as printed on the report.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "patient_age_at_collection": {
+                      "description": "Patient age in years; omitted if unknown.",
+                      "type": "integer"
+                    },
+                    "patient_sex": {
+                      "description": "Clean lowercase string (open enum); omitted if unspecified.",
+                      "examples": [
+                        "female"
+                      ],
+                      "type": "string"
+                    },
+                    "reference_id": {
+                      "description": "Your external reference; omitted if not set.",
+                      "type": "string"
+                    },
+                    "report_date": {
+                      "description": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
+                      "type": "string"
+                    },
+                    "report_locale": {
+                      "examples": [
+                        "en-GB"
+                      ],
+                      "type": "string"
+                    },
+                    "report_notes": {
+                      "type": "string"
+                    },
+                    "report_time": {
+                      "description": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
+                      "type": "string"
+                    },
+                    "report_type": {
+                      "description": "Report type as a clean lowercase string (open enum — handle unknown values gracefully).",
+                      "examples": [
+                        "lab"
+                      ],
+                      "type": "string"
+                    },
+                    "results": {
+                      "description": "The layered biomarker results. Populated on retrieve, not on list.",
+                      "items": {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "description": "One layered result: verbatim source, normalized biomarker identity, one typed measurement, and the interpretation. measurement and interpretation are byte-identical to the webhook payload.",
+                        "properties": {
+                          "biomarker": {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "description": "The normalized identity layer.",
+                            "properties": {
+                              "display_name": {
+                                "type": "string"
+                              },
+                              "key": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Canonical biomarker slug, or null when unmatched — the sole no-match signal. Do not key off loinc_code, which can be null on a match."
+                              },
+                              "loinc_code": {
+                                "description": "LOINC code; omitted when the matched biomarker has no LOINC mapping.",
+                                "type": "string"
+                              },
+                              "panel_id": {
+                                "description": "References panels[].id on the enclosing session.",
+                                "type": "integer"
+                              },
+                              "panel_key": {
+                                "type": "string"
+                              },
+                              "specimen": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "key"
+                            ],
+                            "type": "object"
+                          },
+                          "interpretation": {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "description": "The per-result abnormality layer.",
+                            "properties": {
+                              "applied_range": {
+                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                "description": "Bounds of the reference range the flag was judged against.",
+                                "properties": {
+                                  "lower": {
+                                    "type": "number"
+                                  },
+                                  "upper": {
+                                    "type": "number"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "flag": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "description": "Coded signal (high/low/normal), or null when there is no signal."
+                              },
+                              "flag_raw": {
+                                "description": "The lab's verbatim flag.",
+                                "type": "string"
+                              },
+                              "source": {
+                                "description": "Provenance of flag — report, computed, or none.",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "flag",
+                              "source"
+                            ],
+                            "type": "object"
+                          },
+                          "measurement": {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "description": "The single typed value of a result. Exactly one value field is set, named by type.",
+                            "properties": {
+                              "absent_reason": {
+                                "type": "string"
+                              },
+                              "bounded": {
+                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                "description": "A one-sided bound. operator is lt or gt; value is the magnitude (e.g. lt with 0.5 means <0.5).",
+                                "properties": {
+                                  "operator": {
+                                    "description": "lt or gt.",
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "operator",
+                                  "value"
+                                ],
+                                "type": "object"
+                              },
+                              "numeric": {
+                                "type": "number"
+                              },
+                              "qualitative": {
+                                "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                "properties": {
+                                  "code": {
+                                    "description": "Coded qualitative answer (LOINC/SNOMED) when available.",
+                                    "type": "string"
+                                  },
+                                  "text": {
+                                    "type": "string"
+                                  }
+                                },
+                                "type": "object"
+                              },
+                              "text": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "description": "One of numeric, bounded, qualitative, text, absent.",
+                                "examples": [
+                                  "numeric"
+                                ],
+                                "type": "string"
+                              },
+                              "ucum_code": {
+                                "type": "string"
+                              },
+                              "units": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ],
+                            "type": "object"
+                          },
+                          "reference_ranges": {
+                            "items": {
+                              "$schema": "https://json-schema.org/draft/2020-12/schema",
+                              "description": "One reference range. type describes the range, not a verdict on the result.",
+                              "properties": {
+                                "context": {
+                                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                                  "description": "The patient dimensions a reference range is scoped by.",
+                                  "properties": {
+                                    "age_lower": {
+                                      "type": "integer"
+                                    },
+                                    "age_upper": {
+                                      "type": "integer"
+                                    },
+                                    "cycle_phase": {
+                                      "type": "string"
+                                    },
+                                    "gestational_week_lower": {
+                                      "type": "integer"
+                                    },
+                                    "gestational_week_upper": {
+                                      "type": "integer"
+                                    },
+                                    "modifiers": {
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "type": "array"
+                                    },
+                                    "pregnancy_status": {
+                                      "type": "string"
+                                    },
+                                    "reference_population": {
+                                      "type": "string"
+                                    },
+                                    "sex": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "type": "object"
+                                },
+                                "lower": {
+                                  "type": "number"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "upper": {
+                                  "type": "number"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "source": {
+                            "$schema": "https://json-schema.org/draft/2020-12/schema",
+                            "description": "The verbatim provenance layer — what the report literally printed.",
+                            "properties": {
+                              "flag": {
+                                "description": "Verbatim flag; the coded form is under interpretation.",
+                                "type": "string"
+                              },
+                              "method": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "notes": {
+                                "type": "string"
+                              },
+                              "panel": {
+                                "type": "string"
+                              },
+                              "reference_text": {
+                                "type": "string"
+                              },
+                              "units": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "description": "Raw value string as printed.",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "source",
+                          "biomarker",
+                          "measurement",
+                          "interpretation"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "results_count": {
+                      "type": "integer"
+                    },
+                    "session_id": {
+                      "examples": [
+                        "297405620317847552"
+                      ],
+                      "type": "string"
+                    },
+                    "status_history": {
+                      "items": {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "properties": {
+                          "note": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "timestamp": {
+                            "format": "date-time",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "updated_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "upload_id": {
+                      "type": "string"
+                    },
+                    "uploaded_at": {
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "session_id",
+                    "report_type",
+                    "current_status"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The lab report session."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "invalid start_date",
+                  "instance": "/activity",
+                  "title": "bad request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "One or more parameters is malformed. The `detail` field describes the specific problem."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "user not found",
+                  "instance": "/activity",
+                  "title": "not found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A referenced resource does not exist on Terra's end."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "DELETE /lab-reports/{session_id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "LabReports_Delete",
+        "parameters": [
+          {
+            "description": "The session's snowflake ID.",
+            "example": "297405620317847552",
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "204": {
+            "description": "The session was deleted."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "invalid start_date",
+                  "instance": "/activity",
+                  "title": "bad request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "One or more parameters is malformed. The `detail` field describes the specific problem."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "user not found",
+                  "instance": "/activity",
+                  "title": "not found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A referenced resource does not exist on Terra's end."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
       }
     }
   }

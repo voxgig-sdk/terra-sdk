@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PlannedWorkout | TerraAPI</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">TerraAPI<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/terra-sdk">voxgig-sdk/terra-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">TerraAPI</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/athlete.html">Athlete</a>
+<a href="../api/authentication.html">Authentication</a>
+<a href="../api/body.html">Body</a>
+<a href="../api/bulk_user_info.html">BulkUserInfo</a>
+<a href="../api/daily.html">Daily</a>
+<a href="../api/integration.html">Integration</a>
+<a href="../api/lab_report.html">LabReport</a>
+<a href="../api/lab_report_delivery.html">LabReportDelivery</a>
+<a href="../api/lab_report_file.html">LabReportFile</a>
+<a href="../api/menstruation.html">Menstruation</a>
+<a href="../api/nutrition.html">Nutrition</a>
+<a aria-current="page" href="../api/planned_workout.html">PlannedWorkout</a><div class="nav-sections"><a class="nav-section" href="#get-plannedworkouts">GET /plannedWorkouts</a>
+<a class="nav-section" href="#get-plannedworkoutsplanned_workout_id">GET /plannedWorkouts/{planned_workout_id}</a>
+<a class="nav-section" href="#patch-plannedworkoutsplanned_workout_id">PATCH /plannedWorkouts/{planned_workout_id}</a></div>
+<a href="../api/sleep.html">Sleep</a>
+<a href="../api/user.html">User</a>
+<a href="../api/workout.html">Workout</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="plannedworkout">PlannedWorkout</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-plannedworkouts"><code>/plannedWorkouts</code></a></td>
+<td><code>list</code></td>
+<td>Planned workouts for the connection</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-plannedworkoutsplanned_workout_id"><code>/plannedWorkouts/{planned_workout_id}</code></a></td>
+<td><code>load</code></td>
+<td>The planned workout</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-plannedworkoutsplanned_workout_id"><code>/plannedWorkouts/{planned_workout_id}</code></a></td>
+<td><code>update</code></td>
+<td>Updated planned workout</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>athlete_metrics</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>coercion_warnings</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Set when the template could not be represented exactly on the provider.</td>
+</tr>
+<tr>
+<td><code>created_at</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td>Creation time (RFC 3339)</td>
+</tr>
+<tr>
+<td><code>details</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td>Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>is_external</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>True when the workout was created on the provider side rather than through Terra.</td>
+</tr>
+<tr>
+<td><code>last_updated_at</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td>Last update time (RFC 3339)</td>
+</tr>
+<tr>
+<td><code>planned_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>New scheduled date (YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td><code>planned_workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Terra identifier of the planned workout</td>
+</tr>
+<tr>
+<td><code>provider_workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier assigned by the provider, once pushed.</td>
+</tr>
+<tr>
+<td><code>workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier of the source template.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-plannedworkouts" class="operation" data-method="get"><code>GET</code> /plannedWorkouts</h3>
+<p>Operation ID: <code>Workouts_ListPlannedWorkouts</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>user_id</code> | <code>query</code> | <code>string</code> | Yes |  |
+| <code>start_date</code> | <code>query</code> | <code>string (date)</code> | No | Start of the planned-date window (YYYY-MM-DD). When start_date and end_date are omitted, provider-side workouts default to the trailing 30 days; pass an explicit window to list upcoming workouts. |
+| <code>end_date</code> | <code>query</code> | <code>string (date)</code> | No | End of the planned-date window (YYYY-MM-DD), inclusive. |</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-planned-workouts-for-the-connection" class="status" data-status="2xx">200: Planned workouts for the connection</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[].athlete_metrics</code></td>
+<td><code>object or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].coercion_warnings</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Warnings emitted when the template could not be represented exactly on the provider</td>
+</tr>
+<tr>
+<td><code>[].created_at</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Creation time (RFC 3339)</td>
+</tr>
+<tr>
+<td><code>[].details</code></td>
+<td><code>object or null</code></td>
+<td>No</td>
+<td>Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. Present only for external workouts (is_external true).</td>
+</tr>
+<tr>
+<td><code>[].is_external</code></td>
+<td><code>boolean or null</code></td>
+<td>No</td>
+<td>True when the workout was created on the provider side rather than through Terra</td>
+</tr>
+<tr>
+<td><code>[].last_updated_at</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Last update time (RFC 3339)</td>
+</tr>
+<tr>
+<td><code>[].planned_date</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Scheduled date (YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td><code>[].planned_workout_id</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Terra identifier of the planned workout</td>
+</tr>
+<tr>
+<td><code>[].provider_workout_id</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Identifier of the workout on the provider's side, once pushed</td>
+</tr>
+<tr>
+<td><code>[].workout_id</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Identifier of the workout template this was planned from. Absent for workouts created on the provider side.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h2 id="load">load</h2>
+<h3 id="get-plannedworkoutsplanned_workout_id" class="operation" data-method="get"><code>GET</code> /plannedWorkouts/{planned_workout_id}</h3>
+<p>Operation ID: <code>Workouts_GetPlannedWorkout</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>planned_workout_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |
+| <code>user_id</code> | <code>query</code> | <code>string</code> | Yes |  |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-the-planned-workout" class="status" data-status="2xx">200: The planned workout</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coercion_warnings</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Set when the template could not be represented exactly on the provider.</td>
+</tr>
+<tr>
+<td><code>is_external</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>True when the workout was created on the provider side rather than through Terra.</td>
+</tr>
+<tr>
+<td><code>planned_date</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>planned_workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provider_workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier assigned by the provider, once pushed.</td>
+</tr>
+<tr>
+<td><code>workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier of the source template. Absent for external workouts.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-1" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-1" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h2 id="update">update</h2>
+<h3 id="patch-plannedworkoutsplanned_workout_id" class="operation" data-method="patch"><code>PATCH</code> /plannedWorkouts/{planned_workout_id}</h3>
+<p>Operation ID: <code>Workouts_UpdatePlannedWorkout</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>planned_workout_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |
+| <code>user_id</code> | <code>query</code> | <code>string</code> | Yes |  |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>planned_date</code></td>
+<td><code>string (date)</code></td>
+<td>Yes</td>
+<td>New scheduled date (YYYY-MM-DD)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-updated-planned-workout" class="status" data-status="2xx">200: Updated planned workout</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coercion_warnings</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Set when the template could not be represented exactly on the provider.</td>
+</tr>
+<tr>
+<td><code>is_external</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>True when the workout was created on the provider side rather than through Terra.</td>
+</tr>
+<tr>
+<td><code>planned_date</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>planned_workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provider_workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier assigned by the provider, once pushed.</td>
+</tr>
+<tr>
+<td><code>workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier of the source template. Absent for external workouts.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-1" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-2" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="403-the-planned-workouts-add-on-is-not-enabled-for-this-account" class="status" data-status="4xx">403: The Planned Workouts add-on is not enabled for this account</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-2" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

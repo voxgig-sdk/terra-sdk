@@ -50,5 +50,185 @@
         "types": {}
       }
     }
+  },
+  "requests": {
+    "GET /integrations/detailed": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Integrations_ListDetailed",
+        "parameters": [
+          {
+            "description": "If `true`, allows SDK integrations to be included in the response.",
+            "in": "query",
+            "name": "sdk",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "providers": {
+                      "description": "List of integration providers with their details",
+                      "items": {
+                        "properties": {
+                          "enabled": {
+                            "description": "Whether the integration is enabled",
+                            "example": true,
+                            "type": "boolean"
+                          },
+                          "icon": {
+                            "description": "URL for the provider's icon image",
+                            "example": "https://access.tryterra.co/api/v2/static/assets/img/app_icons/mapmyfitness.webp",
+                            "type": "string"
+                          },
+                          "name": {
+                            "description": "Display name of the integration",
+                            "example": "MapMyFitness",
+                            "type": "string"
+                          },
+                          "provider": {
+                            "description": "Identifier for the provider",
+                            "example": "MAPMYFITNESS",
+                            "type": "string"
+                          },
+                          "setup": {
+                            "description": "Indicates how the integration is set up",
+                            "example": "API_KEYS_MANAGED",
+                            "type": "string"
+                          },
+                          "types": {
+                            "description": "Indicates the types of data available through the provider",
+                            "properties": {
+                              "activity": {
+                                "example": true,
+                                "type": "boolean"
+                              },
+                              "body": {
+                                "example": false,
+                                "type": "boolean"
+                              },
+                              "daily": {
+                                "example": false,
+                                "type": "boolean"
+                              },
+                              "menstruation": {
+                                "example": false,
+                                "type": "boolean"
+                              },
+                              "nutrition": {
+                                "example": false,
+                                "type": "boolean"
+                              },
+                              "sleep": {
+                                "example": false,
+                                "type": "boolean"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "description": "Status of the API response",
+                      "example": "success",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response containing a list of integrations."
+          }
+        },
+        "security": [],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    },
+    "GET /integrations": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "Integrations_List",
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "providers": {
+                      "items": {
+                        "example": "FITBIT",
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "sdk_providers": {
+                      "description": "Providers available through Terra's mobile SDKs rather than cloud connections",
+                      "items": {
+                        "example": "APPLE",
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "status": {
+                      "default": "success",
+                      "enum": [
+                        "success",
+                        "error"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns list of all available integrations on the API"
+          }
+        },
+        "security": [],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "operation"
+      }
+    }
   }
 }

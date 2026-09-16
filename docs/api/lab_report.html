@@ -1,0 +1,1850 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>LabReport | TerraAPI</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">TerraAPI<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/terra-sdk">voxgig-sdk/terra-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">TerraAPI</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/athlete.html">Athlete</a>
+<a href="../api/authentication.html">Authentication</a>
+<a href="../api/body.html">Body</a>
+<a href="../api/bulk_user_info.html">BulkUserInfo</a>
+<a href="../api/daily.html">Daily</a>
+<a href="../api/integration.html">Integration</a>
+<a aria-current="page" href="../api/lab_report.html">LabReport</a><div class="nav-sections"><a class="nav-section" href="#post-lab-reports">POST /lab-reports</a>
+<a class="nav-section" href="#get-lab-reports">GET /lab-reports</a>
+<a class="nav-section" href="#get-lab-reportssession_id">GET /lab-reports/{session_id}</a>
+<a class="nav-section" href="#delete-lab-reportssession_id">DELETE /lab-reports/{session_id}</a></div>
+<a href="../api/lab_report_delivery.html">LabReportDelivery</a>
+<a href="../api/lab_report_file.html">LabReportFile</a>
+<a href="../api/menstruation.html">Menstruation</a>
+<a href="../api/nutrition.html">Nutrition</a>
+<a href="../api/planned_workout.html">PlannedWorkout</a>
+<a href="../api/sleep.html">Sleep</a>
+<a href="../api/user.html">User</a>
+<a href="../api/workout.html">Workout</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="labreport">LabReport</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-lab-reports"><code>/lab-reports</code></a></td>
+<td><code>create</code></td>
+<td>Upload accepted for processing</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-lab-reports"><code>/lab-reports</code></a></td>
+<td><code>list</code></td>
+<td>A list of lab report sessions</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-lab-reportssession_id"><code>/lab-reports/{session_id}</code></a></td>
+<td><code>load</code></td>
+<td>The lab report session</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-lab-reportssession_id"><code>/lab-reports/{session_id}</code></a></td>
+<td><code>remove</code></td>
+<td>The session was deleted</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>collection_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specimen collection date (YYYY-MM-DD); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>collection_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specimen collection time (HH:MM, 24-hour); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>current_status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Current status as a clean lowercase string (open enum), for example</td>
+</tr>
+<tr>
+<td><code>file_count</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>input_bytes</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>lab_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>output_bytes</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>panels</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>Report-level panels that results reference by panel_id.</td>
+</tr>
+<tr>
+<td><code>patient_age_at_collection</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Patient age in years; omitted if unknown.</td>
+</tr>
+<tr>
+<td><code>patient_sex</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Clean lowercase string (open enum); omitted if unspecified.</td>
+</tr>
+<tr>
+<td><code>reference_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Your external reference; omitted if not set.</td>
+</tr>
+<tr>
+<td><code>report_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Date printed on the report (YYYY-MM-DD); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>report_locale</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>report_notes</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>report_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Time printed on the report (HH:MM, 24-hour); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>report_type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Report type as a clean lowercase string (open enum, handle unknown values gracefully).</td>
+</tr>
+<tr>
+<td><code>results</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>The layered biomarker results.</td>
+</tr>
+<tr>
+<td><code>results_count</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>session_id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status_history</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>updated_at</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>upload_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>uploaded_at</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-lab-reports" class="operation" data-method="post"><code>POST</code> /lab-reports</h3>
+<p>Operation ID: <code>LabReports_Upload</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>reference_id</code> | <code>query</code> | <code>string</code> | No | Your external identifier for this report or patient. |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>multipart/form-data</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>file</code></td>
+<td><code>string (binary)</code></td>
+<td>Yes</td>
+<td>The lab report file (PDF, PNG, JPEG, GIF, or WebP; max 20 MB).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="202-upload-accepted-for-processing" class="status" data-status="2xx">202: Upload accepted for processing</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>current_status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Processing status as a clean lowercase string.</td>
+</tr>
+<tr>
+<td><code>upload_id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Durable correlation key for the upload; every resulting session and webhook carries it.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="403-the-credential-is-not-authorized-for-this-operation" class="status" data-status="4xx">403: The credential is not authorized for this operation</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="413-the-uploaded-payload-exceeds-the-size-limit" class="status" data-status="4xx">413: The uploaded payload exceeds the size limit</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-lab-reports" class="operation" data-method="get"><code>GET</code> /lab-reports</h3>
+<p>Operation ID: <code>LabReports_List</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>reference_id</code> | <code>query</code> | <code>string</code> | No | Filter by your external reference ID. |
+| <code>upload_id</code> | <code>query</code> | <code>string</code> | No | Filter by upload handle, returns every report from that upload. |
+| <code>report_date_from</code> | <code>query</code> | <code>string (date)</code> | No | Lab report date lower bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>). |
+| <code>report_date_to</code> | <code>query</code> | <code>string (date)</code> | No | Lab report date upper bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>). |
+| <code>uploaded_at_from</code> | <code>query</code> | <code>string (date)</code> | No | Upload date lower bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>). |
+| <code>uploaded_at_to</code> | <code>query</code> | <code>string (date)</code> | No | Upload date upper bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>). |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-a-list-of-lab-report-sessions" class="status" data-status="2xx">200: A list of lab report sessions</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sessions</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].collection_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specimen collection date (YYYY-MM-DD); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>sessions[].collection_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specimen collection time (HH:MM, 24-hour); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>sessions[].current_status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Current status as a clean lowercase string (open enum), for example processing, sent, partially_sent, failed.</td>
+</tr>
+<tr>
+<td><code>sessions[].file_count</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].input_bytes</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].lab_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].output_bytes</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].panels</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Report-level panels that results reference by panel_id. Omitted if the report has no panel grouping.</td>
+</tr>
+<tr>
+<td><code>sessions[].panels[].id</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>Report-local ordinal; matches LabReportBiomarker.panel_id.</td>
+</tr>
+<tr>
+<td><code>sessions[].panels[].key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Normalized dedup key (deterministic text, not a LOINC code).</td>
+</tr>
+<tr>
+<td><code>sessions[].panels[].name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Verbatim panel header as printed on the report.</td>
+</tr>
+<tr>
+<td><code>sessions[].patient_age_at_collection</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Patient age in years; omitted if unknown.</td>
+</tr>
+<tr>
+<td><code>sessions[].patient_sex</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Clean lowercase string (open enum); omitted if unspecified.</td>
+</tr>
+<tr>
+<td><code>sessions[].reference_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Your external reference; omitted if not set.</td>
+</tr>
+<tr>
+<td><code>sessions[].report_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Date printed on the report (YYYY-MM-DD); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>sessions[].report_locale</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].report_notes</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].report_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Time printed on the report (HH:MM, 24-hour); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>sessions[].report_type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Report type as a clean lowercase string (open enum, handle unknown values gracefully).</td>
+</tr>
+<tr>
+<td><code>sessions[].results</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>The layered biomarker results. Populated on retrieve, not on list.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].biomarker</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The normalized identity layer.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].biomarker.display_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].biomarker.key</code></td>
+<td><code>string or null</code></td>
+<td>Yes</td>
+<td>Canonical biomarker slug, or null when unmatched, the sole no-match signal. Do not key off loinc_code, which can be null on a match.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].biomarker.loinc_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>LOINC code; omitted when the matched biomarker has no LOINC mapping.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].biomarker.panel_id</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>References panels[].id on the enclosing session.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].biomarker.panel_key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].biomarker.specimen</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].interpretation</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The per-result abnormality layer.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].interpretation.applied_range</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Bounds of the reference range the flag was judged against.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].interpretation.applied_range.lower</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].interpretation.applied_range.upper</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].interpretation.flag</code></td>
+<td><code>string or null</code></td>
+<td>Yes</td>
+<td>Coded signal (high/low/normal), or null when there is no signal.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].interpretation.flag_raw</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The lab's verbatim flag.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].interpretation.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Provenance of flag, report, computed, or none.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The single typed value of a result. Exactly one value field is set, named by type.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.absent_reason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.bounded</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>A one-sided bound. operator is lt or gt; value is the magnitude (for example lt with 0.5 means &lt;0.5).</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.bounded.operator</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>lt or gt.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.bounded.value</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.numeric</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.qualitative</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.qualitative.code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Coded qualitative answer (LOINC/SNOMED) when available.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.qualitative.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>One of numeric, bounded, qualitative, text, absent.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.ucum_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].measurement.units</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The patient dimensions a reference range is scoped by.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.age_lower</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.age_upper</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.cycle_phase</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.gestational_week_lower</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.gestational_week_upper</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.modifiers</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.pregnancy_status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.reference_population</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].context.sex</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].lower</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].reference_ranges[].upper</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The verbatim provenance layer, what the report literally printed.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source.flag</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Verbatim flag; the coded form is under interpretation.</td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source.method</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source.notes</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source.panel</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source.reference_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source.units</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].results[].source.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Raw value string as printed.</td>
+</tr>
+<tr>
+<td><code>sessions[].results_count</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].session_id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].status_history</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].status_history[].note</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].status_history[].status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].status_history[].timestamp</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].updated_at</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].upload_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sessions[].uploaded_at</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-1" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-1" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h2 id="load">load</h2>
+<h3 id="get-lab-reportssession_id" class="operation" data-method="get"><code>GET</code> /lab-reports/{session_id}</h3>
+<p>Operation ID: <code>LabReports_Get</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>session_id</code> | <code>path</code> | <code>string</code> | Yes | The session's snowflake ID. |</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-the-lab-report-session" class="status" data-status="2xx">200: The lab report session</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>collection_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specimen collection date (YYYY-MM-DD); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>collection_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Specimen collection time (HH:MM, 24-hour); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>current_status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Current status as a clean lowercase string (open enum), for example processing, sent, partially_sent, failed.</td>
+</tr>
+<tr>
+<td><code>file_count</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>input_bytes</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>lab_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>output_bytes</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>panels</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>Report-level panels that results reference by panel_id. Omitted if the report has no panel grouping.</td>
+</tr>
+<tr>
+<td><code>panels[].id</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td>Report-local ordinal; matches LabReportBiomarker.panel_id.</td>
+</tr>
+<tr>
+<td><code>panels[].key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Normalized dedup key (deterministic text, not a LOINC code).</td>
+</tr>
+<tr>
+<td><code>panels[].name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Verbatim panel header as printed on the report.</td>
+</tr>
+<tr>
+<td><code>patient_age_at_collection</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Patient age in years; omitted if unknown.</td>
+</tr>
+<tr>
+<td><code>patient_sex</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Clean lowercase string (open enum); omitted if unspecified.</td>
+</tr>
+<tr>
+<td><code>reference_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Your external reference; omitted if not set.</td>
+</tr>
+<tr>
+<td><code>report_date</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Date printed on the report (YYYY-MM-DD); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>report_locale</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>report_notes</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>report_time</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Time printed on the report (HH:MM, 24-hour); omitted if not extracted.</td>
+</tr>
+<tr>
+<td><code>report_type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Report type as a clean lowercase string (open enum, handle unknown values gracefully).</td>
+</tr>
+<tr>
+<td><code>results</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>The layered biomarker results. Populated on retrieve, not on list.</td>
+</tr>
+<tr>
+<td><code>results[].biomarker</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The normalized identity layer.</td>
+</tr>
+<tr>
+<td><code>results[].biomarker.display_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].biomarker.key</code></td>
+<td><code>string or null</code></td>
+<td>Yes</td>
+<td>Canonical biomarker slug, or null when unmatched, the sole no-match signal. Do not key off loinc_code, which can be null on a match.</td>
+</tr>
+<tr>
+<td><code>results[].biomarker.loinc_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>LOINC code; omitted when the matched biomarker has no LOINC mapping.</td>
+</tr>
+<tr>
+<td><code>results[].biomarker.panel_id</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>References panels[].id on the enclosing session.</td>
+</tr>
+<tr>
+<td><code>results[].biomarker.panel_key</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].biomarker.specimen</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].interpretation</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The per-result abnormality layer.</td>
+</tr>
+<tr>
+<td><code>results[].interpretation.applied_range</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Bounds of the reference range the flag was judged against.</td>
+</tr>
+<tr>
+<td><code>results[].interpretation.applied_range.lower</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].interpretation.applied_range.upper</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].interpretation.flag</code></td>
+<td><code>string or null</code></td>
+<td>Yes</td>
+<td>Coded signal (high/low/normal), or null when there is no signal.</td>
+</tr>
+<tr>
+<td><code>results[].interpretation.flag_raw</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The lab's verbatim flag.</td>
+</tr>
+<tr>
+<td><code>results[].interpretation.source</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Provenance of flag, report, computed, or none.</td>
+</tr>
+<tr>
+<td><code>results[].measurement</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The single typed value of a result. Exactly one value field is set, named by type.</td>
+</tr>
+<tr>
+<td><code>results[].measurement.absent_reason</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].measurement.bounded</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>A one-sided bound. operator is lt or gt; value is the magnitude (for example lt with 0.5 means &lt;0.5).</td>
+</tr>
+<tr>
+<td><code>results[].measurement.bounded.operator</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>lt or gt.</td>
+</tr>
+<tr>
+<td><code>results[].measurement.bounded.value</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].measurement.numeric</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].measurement.qualitative</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].measurement.qualitative.code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Coded qualitative answer (LOINC/SNOMED) when available.</td>
+</tr>
+<tr>
+<td><code>results[].measurement.qualitative.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].measurement.text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].measurement.type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>One of numeric, bounded, qualitative, text, absent.</td>
+</tr>
+<tr>
+<td><code>results[].measurement.ucum_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].measurement.units</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>The patient dimensions a reference range is scoped by.</td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.age_lower</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.age_upper</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.cycle_phase</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.gestational_week_lower</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.gestational_week_upper</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.modifiers</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.pregnancy_status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.reference_population</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].context.sex</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].lower</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].type</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].reference_ranges[].upper</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].source</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>The verbatim provenance layer, what the report literally printed.</td>
+</tr>
+<tr>
+<td><code>results[].source.flag</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Verbatim flag; the coded form is under interpretation.</td>
+</tr>
+<tr>
+<td><code>results[].source.method</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].source.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].source.notes</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].source.panel</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].source.reference_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].source.units</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>results[].source.value</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Raw value string as printed.</td>
+</tr>
+<tr>
+<td><code>results_count</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>session_id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status_history</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status_history[].note</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status_history[].status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status_history[].timestamp</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>updated_at</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>upload_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>uploaded_at</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-2" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-2" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h2 id="remove">remove</h2>
+<h3 id="delete-lab-reportssession_id" class="operation" data-method="delete"><code>DELETE</code> /lab-reports/{session_id}</h3>
+<p>Operation ID: <code>LabReports_Delete</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-3">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>session_id</code> | <code>path</code> | <code>string</code> | Yes | The session's snowflake ID. |</p>
+<h4 id="responses-3">Responses</h4>
+<h5 id="204-the-session-was-deleted" class="status" data-status="2xx">204: The session was deleted</h5>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-3" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-3" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-1" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

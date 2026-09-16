@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PHP | TerraAPI</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">TerraAPI<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/terra-sdk">voxgig-sdk/terra-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">TerraAPI</a></details>
+<details><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/athlete.html">Athlete</a>
+<a href="../api/authentication.html">Authentication</a>
+<a href="../api/body.html">Body</a>
+<a href="../api/bulk_user_info.html">BulkUserInfo</a>
+<a href="../api/daily.html">Daily</a>
+<a href="../api/integration.html">Integration</a>
+<a href="../api/lab_report.html">LabReport</a>
+<a href="../api/lab_report_delivery.html">LabReportDelivery</a>
+<a href="../api/lab_report_file.html">LabReportFile</a>
+<a href="../api/menstruation.html">Menstruation</a>
+<a href="../api/nutrition.html">Nutrition</a>
+<a href="../api/planned_workout.html">PlannedWorkout</a>
+<a href="../api/sleep.html">Sleep</a>
+<a href="../api/user.html">User</a>
+<a href="../api/workout.html">Workout</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details open><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a aria-current="page" href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>SDKs</div><h1 id="php">PHP</h1>
+<p>PHP</p>
+<h2 id="install">Install</h2>
+<p>Not published. Build from the php directory.</p>
+<h2 id="package">Package</h2>
+<p><code>voxgig-sdk/terra</code></p>
+<h2 id="api-reference">API reference</h2>
+<table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../api/activity.html">Activity</a></td>
+<td><code>load</code></td>
+</tr>
+<tr>
+<td><a href="../api/athlete.html">Athlete</a></td>
+<td><code>load</code></td>
+</tr>
+<tr>
+<td><a href="../api/authentication.html">Authentication</a></td>
+<td><code>create</code>, <code>remove</code></td>
+</tr>
+<tr>
+<td><a href="../api/body.html">Body</a></td>
+<td><code>load</code></td>
+</tr>
+<tr>
+<td><a href="../api/bulk_user_info.html">BulkUserInfo</a></td>
+<td><code>create</code></td>
+</tr>
+<tr>
+<td><a href="../api/daily.html">Daily</a></td>
+<td><code>load</code></td>
+</tr>
+<tr>
+<td><a href="../api/integration.html">Integration</a></td>
+<td><code>list</code></td>
+</tr>
+<tr>
+<td><a href="../api/lab_report.html">LabReport</a></td>
+<td><code>create</code>, <code>list</code>, <code>load</code>, <code>remove</code></td>
+</tr>
+<tr>
+<td><a href="../api/lab_report_delivery.html">LabReportDelivery</a></td>
+<td><code>list</code></td>
+</tr>
+<tr>
+<td><a href="../api/lab_report_file.html">LabReportFile</a></td>
+<td><code>list</code></td>
+</tr>
+<tr>
+<td><a href="../api/menstruation.html">Menstruation</a></td>
+<td><code>load</code></td>
+</tr>
+<tr>
+<td><a href="../api/nutrition.html">Nutrition</a></td>
+<td><code>load</code></td>
+</tr>
+<tr>
+<td><a href="../api/planned_workout.html">PlannedWorkout</a></td>
+<td><code>list</code>, <code>load</code>, <code>update</code></td>
+</tr>
+<tr>
+<td><a href="../api/sleep.html">Sleep</a></td>
+<td><code>load</code></td>
+</tr>
+<tr>
+<td><a href="../api/user.html">User</a></td>
+<td><code>load</code></td>
+</tr>
+<tr>
+<td><a href="../api/workout.html">Workout</a></td>
+<td><code>create</code>, <code>list</code>, <code>load</code>, <code>remove</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="configuration">Configuration</h2>
+<p>Set the server URL and credentials for your environment. Enable only the features your application needs.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><a href="../features/debug.html">Request/response capture ring buffer for debugging</a></li>
+<li><a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a></li>
+<li><a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a></li>
+<li><a href="../features/paging.html">Pagination signals for list operations</a></li>
+<li><a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a></li>
+<li><a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a></li>
+<li><a href="../features/test.html">In-memory mock transport for testing without a live server</a></li>
+<li><a href="../features/timeout.html">Per-request timeout with transport abort</a></li>
+</ul>
+<h2 id="set-up-the-client">Set up the client</h2>
+<p>This setup fragment reads credentials from the environment. Use the API operation reference to supply input for each call.</p>
+<pre><code class="language-php">&lt;?php
+require_once 'terra_sdk.php';
+$client = new TerraSDK([&quot;apikey&quot; =&gt; getenv(&quot;TERRA_APIKEY&quot;)]);
+</code></pre>
+<h2 id="client-defaults">Client defaults</h2>
+<pre><code class="language-json">{
+  &quot;base&quot;: &quot;https://access.tryterra.co/api/v2&quot;,
+  &quot;auth&quot;: {
+    &quot;prefix&quot;: &quot;&quot;
+  },
+  &quot;headers&quot;: {
+    &quot;content-type&quot;: &quot;application/json&quot;
+  },
+  &quot;entity&quot;: {
+    &quot;activity&quot;: {},
+    &quot;athlete&quot;: {},
+    &quot;authentication&quot;: {},
+    &quot;body&quot;: {},
+    &quot;bulk_user_info&quot;: {},
+    &quot;daily&quot;: {},
+    &quot;integration&quot;: {},
+    &quot;lab_report&quot;: {},
+    &quot;lab_report_delivery&quot;: {},
+    &quot;lab_report_file&quot;: {},
+    &quot;menstruation&quot;: {},
+    &quot;nutrition&quot;: {},
+    &quot;planned_workout&quot;: {},
+    &quot;sleep&quot;: {},
+    &quot;user&quot;: {},
+    &quot;workout&quot;: {}
+  }
+}
+</code></pre>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Integration | TerraAPI</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">TerraAPI<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/terra-sdk">voxgig-sdk/terra-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">TerraAPI</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/athlete.html">Athlete</a>
+<a href="../api/authentication.html">Authentication</a>
+<a href="../api/body.html">Body</a>
+<a href="../api/bulk_user_info.html">BulkUserInfo</a>
+<a href="../api/daily.html">Daily</a>
+<a aria-current="page" href="../api/integration.html">Integration</a><div class="nav-sections"><a class="nav-section" href="#get-integrationsdetailed">GET /integrations/detailed</a>
+<a class="nav-section" href="#get-integrations">GET /integrations</a></div>
+<a href="../api/lab_report.html">LabReport</a>
+<a href="../api/lab_report_delivery.html">LabReportDelivery</a>
+<a href="../api/lab_report_file.html">LabReportFile</a>
+<a href="../api/menstruation.html">Menstruation</a>
+<a href="../api/nutrition.html">Nutrition</a>
+<a href="../api/planned_workout.html">PlannedWorkout</a>
+<a href="../api/sleep.html">Sleep</a>
+<a href="../api/user.html">User</a>
+<a href="../api/workout.html">Workout</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="integration">Integration</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-integrationsdetailed"><code>/integrations/detailed</code></a></td>
+<td><code>list</code></td>
+<td>Successful response containing a list of integrations</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-integrations"><code>/integrations</code></a></td>
+<td><code>list</code></td>
+<td>Returns list of all available integrations on the API</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Whether the integration is enabled</td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL for the provider's icon image</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Display name of the integration</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier for the provider</td>
+</tr>
+<tr>
+<td><code>providers</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sdk_providers</code></td>
+<td><code>array</code></td>
+<td>No</td>
+<td>Providers available through Terra's mobile SDKs rather than cloud connections</td>
+</tr>
+<tr>
+<td><code>setup</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Indicates how the integration is set up</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>types</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Indicates the types of data available through the provider</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-integrationsdetailed" class="operation" data-method="get"><code>GET</code> /integrations/detailed</h3>
+<p>Operation ID: <code>Integrations_ListDetailed</code>.</p>
+<p>Authentication: not required.</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>sdk</code> | <code>query</code> | <code>boolean</code> | No | If <code>true</code>, allows SDK integrations to be included in the response. |</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-successful-response-containing-a-list-of-integrations" class="status" data-status="2xx">200: Successful response containing a list of integrations</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>providers</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>List of integration providers with their details</td>
+</tr>
+<tr>
+<td><code>providers[].enabled</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Whether the integration is enabled</td>
+</tr>
+<tr>
+<td><code>providers[].icon</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL for the provider's icon image</td>
+</tr>
+<tr>
+<td><code>providers[].name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Display name of the integration</td>
+</tr>
+<tr>
+<td><code>providers[].provider</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier for the provider</td>
+</tr>
+<tr>
+<td><code>providers[].setup</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Indicates how the integration is set up</td>
+</tr>
+<tr>
+<td><code>providers[].types</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Indicates the types of data available through the provider</td>
+</tr>
+<tr>
+<td><code>providers[].types.activity</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>providers[].types.body</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>providers[].types.daily</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>providers[].types.menstruation</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>providers[].types.nutrition</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>providers[].types.sleep</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Status of the API response</td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-integrations" class="operation" data-method="get"><code>GET</code> /integrations</h3>
+<p>Operation ID: <code>Integrations_List</code>.</p>
+<p>Authentication: not required.</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-returns-list-of-all-available-integrations-on-the-api" class="status" data-status="2xx">200: Returns list of all available integrations on the API</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>providers</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sdk_providers</code></td>
+<td><code>array of string</code></td>
+<td>No</td>
+<td>Providers available through Terra's mobile SDKs rather than cloud connections</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: success, error</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

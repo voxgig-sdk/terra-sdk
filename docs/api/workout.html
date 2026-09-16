@@ -1,0 +1,1592 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Workout | TerraAPI</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">TerraAPI<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/terra-sdk">voxgig-sdk/terra-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">TerraAPI</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/athlete.html">Athlete</a>
+<a href="../api/authentication.html">Authentication</a>
+<a href="../api/body.html">Body</a>
+<a href="../api/bulk_user_info.html">BulkUserInfo</a>
+<a href="../api/daily.html">Daily</a>
+<a href="../api/integration.html">Integration</a>
+<a href="../api/lab_report.html">LabReport</a>
+<a href="../api/lab_report_delivery.html">LabReportDelivery</a>
+<a href="../api/lab_report_file.html">LabReportFile</a>
+<a href="../api/menstruation.html">Menstruation</a>
+<a href="../api/nutrition.html">Nutrition</a>
+<a href="../api/planned_workout.html">PlannedWorkout</a>
+<a href="../api/sleep.html">Sleep</a>
+<a href="../api/user.html">User</a>
+<a aria-current="page" href="../api/workout.html">Workout</a><div class="nav-sections"><a class="nav-section" href="#post-workoutsworkout_idplan">POST /workouts/{workout_id}/plan</a>
+<a class="nav-section" href="#post-workouts">POST /workouts</a>
+<a class="nav-section" href="#get-workouts">GET /workouts</a>
+<a class="nav-section" href="#get-workoutsworkout_id">GET /workouts/{workout_id}</a>
+<a class="nav-section" href="#delete-plannedworkoutsplanned_workout_id">DELETE /plannedWorkouts/{planned_workout_id}</a>
+<a class="nav-section" href="#delete-workoutsworkout_id">DELETE /workouts/{workout_id}</a></div></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="workout">Workout</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-workoutsworkout_idplan"><code>/workouts/{workout_id}/plan</code></a></td>
+<td><code>create</code></td>
+<td>Planned workout created and pushed (or queued for SDK delivery)</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-workouts"><code>/workouts</code></a></td>
+<td><code>create</code></td>
+<td>Template stored</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workouts"><code>/workouts</code></a></td>
+<td><code>list</code></td>
+<td>Stored templates, each including its workout_id</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-workoutsworkout_id"><code>/workouts/{workout_id}</code></a></td>
+<td><code>load</code></td>
+<td>The stored template</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-plannedworkoutsplanned_workout_id"><code>/plannedWorkouts/{planned_workout_id}</code></a></td>
+<td><code>remove</code></td>
+<td>Planned workout deleted</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-workoutsworkout_id"><code>/workouts/{workout_id}</code></a></td>
+<td><code>remove</code></td>
+<td>Template and all planned instances deleted</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Description of the workout</td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>estimated_calories</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td>Estimated calories burned</td>
+</tr>
+<tr>
+<td><code>estimated_distance_meters</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td>Estimated total distance in meters</td>
+</tr>
+<tr>
+<td><code>estimated_duration_seconds</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td>Estimated total duration in seconds</td>
+</tr>
+<tr>
+<td><code>ftp</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Functional Threshold Power in watts</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>max_heart_rate</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Maximum heart rate in BPM</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the workout</td>
+</tr>
+<tr>
+<td><code>planned_date</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Date to schedule the workout on (YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td><code>pool_length_meters</code></td>
+<td><code>any</code></td>
+<td>No</td>
+<td>Pool length in meters, for swim workouts</td>
+</tr>
+<tr>
+<td><code>sport</code></td>
+<td><code>any</code></td>
+<td>Yes</td>
+<td>Sport a workout template targets.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>step_blocks</code></td>
+<td><code>array</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>threshold_heart_rate</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Threshold heart rate in BPM</td>
+</tr>
+<tr>
+<td><code>threshold_speed</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Threshold speed in m/s</td>
+</tr>
+<tr>
+<td><code>workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Terra identifier of the stored template.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-workoutsworkout_idplan" class="operation" data-method="post"><code>POST</code> /workouts/{workout_id}/plan</h3>
+<p>Operation ID: <code>Workouts_PlanWorkout</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workout_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |
+| <code>user_id</code> | <code>query</code> | <code>string</code> | Yes | Terra user ID of the connection to plan the workout for |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ftp</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Functional Threshold Power in watts</td>
+</tr>
+<tr>
+<td><code>max_heart_rate</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Maximum heart rate in BPM</td>
+</tr>
+<tr>
+<td><code>planned_date</code></td>
+<td><code>string (date)</code></td>
+<td>Yes</td>
+<td>Date to schedule the workout on (YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td><code>pool_length_meters</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Pool length in meters (overrides the template value)</td>
+</tr>
+<tr>
+<td><code>threshold_heart_rate</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Threshold heart rate in BPM</td>
+</tr>
+<tr>
+<td><code>threshold_speed</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>Threshold speed in m/s</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="201-planned-workout-created-and-pushed-or-queued-for-sdk-delivery" class="status" data-status="2xx">201: Planned workout created and pushed (or queued for SDK delivery)</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coercion_warnings</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Set when the template could not be represented exactly on the provider.</td>
+</tr>
+<tr>
+<td><code>planned_workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>provider_workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier assigned by the provider. Absent for SDK-delivered plans.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: success</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="403-the-planned-workouts-add-on-is-not-enabled-for-this-account" class="status" data-status="4xx">403: The Planned Workouts add-on is not enabled for this account</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="424-the-provider-rejected-the-workout-push-retry-later" class="status" data-status="4xx">424: The provider rejected the workout push; retry later</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-workouts" class="operation" data-method="post"><code>POST</code> /workouts</h3>
+<p>Operation ID: <code>Workouts_CreateWorkout</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>description</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Description of the workout</td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td><code>string or string or string or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>estimated_calories</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated calories burned</td>
+</tr>
+<tr>
+<td><code>estimated_distance_meters</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated total distance in meters</td>
+</tr>
+<tr>
+<td><code>estimated_duration_seconds</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated total duration in seconds</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the workout</td>
+</tr>
+<tr>
+<td><code>pool_length_meters</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Pool length in meters, for swim workouts</td>
+</tr>
+<tr>
+<td><code>sport</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>Sport a workout template targets. Indoor/outdoor is expressed separately via environment.</td>
+</tr>
+<tr>
+<td><code>step_blocks</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>When this block completes (for example repeat count via reps)</td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition.type</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>How a step or block is considered complete</td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition.value</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Single value for the condition (for example seconds for time, meters for distance)</td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition.value_high</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Upper bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition.value_low</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Lower bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>When this step completes</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition.type</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>How a step or block is considered complete</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition.value</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Single value for the condition (for example seconds for time, meters for distance)</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition.value_high</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Upper bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition.value_low</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Lower bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].controls</code></td>
+<td><code>array of object or null</code></td>
+<td>No</td>
+<td>Equipment controls applied during the step</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].intensity_targets</code></td>
+<td><code>array of object or null</code></td>
+<td>No</td>
+<td>Intensity targets to hold during the step</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].intensity_type</code></td>
+<td><code>string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>Intensity classification of a workout step</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].notes</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Free-text coaching notes shown to the athlete</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].strength</code></td>
+<td><code>object or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].swimming</code></td>
+<td><code>object or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workout_id</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Terra identifier of the stored template. Set by Terra in responses; ignored on create.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-template-stored" class="status" data-status="2xx">200: Template stored</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: success</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workout_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-1" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-1" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h2 id="list">list</h2>
+<h3 id="get-workouts" class="operation" data-method="get"><code>GET</code> /workouts</h3>
+<p>Operation ID: <code>Workouts_ListWorkouts</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-stored-templates-each-including-its-workout_id" class="status" data-status="2xx">200: Stored templates, each including its workout_id</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[].description</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Description of the workout</td>
+</tr>
+<tr>
+<td><code>[].environment</code></td>
+<td><code>string or string or string or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].estimated_calories</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated calories burned</td>
+</tr>
+<tr>
+<td><code>[].estimated_distance_meters</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated total distance in meters</td>
+</tr>
+<tr>
+<td><code>[].estimated_duration_seconds</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated total duration in seconds</td>
+</tr>
+<tr>
+<td><code>[].name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the workout</td>
+</tr>
+<tr>
+<td><code>[].pool_length_meters</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Pool length in meters, for swim workouts</td>
+</tr>
+<tr>
+<td><code>[].sport</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>Sport a workout template targets. Indoor/outdoor is expressed separately via environment.</td>
+</tr>
+<tr>
+<td><code>[].step_blocks</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].completion_condition</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>When this block completes (for example repeat count via reps)</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].completion_condition.type</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>How a step or block is considered complete</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].completion_condition.value</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Single value for the condition (for example seconds for time, meters for distance)</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].completion_condition.value_high</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Upper bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].completion_condition.value_low</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Lower bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].completion_condition</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>When this step completes</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].completion_condition.type</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>How a step or block is considered complete</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].completion_condition.value</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Single value for the condition (for example seconds for time, meters for distance)</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].completion_condition.value_high</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Upper bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].completion_condition.value_low</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Lower bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].controls</code></td>
+<td><code>array of object or null</code></td>
+<td>No</td>
+<td>Equipment controls applied during the step</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].intensity_targets</code></td>
+<td><code>array of object or null</code></td>
+<td>No</td>
+<td>Intensity targets to hold during the step</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].intensity_type</code></td>
+<td><code>string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>Intensity classification of a workout step</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].notes</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Free-text coaching notes shown to the athlete</td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].strength</code></td>
+<td><code>object or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].step_blocks[].steps[].swimming</code></td>
+<td><code>object or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[].workout_id</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Terra identifier of the stored template. Set by Terra in responses; ignored on create.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-2" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h2 id="load">load</h2>
+<h3 id="get-workoutsworkout_id" class="operation" data-method="get"><code>GET</code> /workouts/{workout_id}</h3>
+<p>Operation ID: <code>Workouts_GetWorkout</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workout_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
+<h4 id="responses-3">Responses</h4>
+<h5 id="200-the-stored-template" class="status" data-status="2xx">200: The stored template</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>description</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Description of the workout</td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td><code>string or string or string or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>estimated_calories</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated calories burned</td>
+</tr>
+<tr>
+<td><code>estimated_distance_meters</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated total distance in meters</td>
+</tr>
+<tr>
+<td><code>estimated_duration_seconds</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Estimated total duration in seconds</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the workout</td>
+</tr>
+<tr>
+<td><code>pool_length_meters</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Pool length in meters, for swim workouts</td>
+</tr>
+<tr>
+<td><code>sport</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>Sport a workout template targets. Indoor/outdoor is expressed separately via environment.</td>
+</tr>
+<tr>
+<td><code>step_blocks</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>When this block completes (for example repeat count via reps)</td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition.type</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>How a step or block is considered complete</td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition.value</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Single value for the condition (for example seconds for time, meters for distance)</td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition.value_high</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Upper bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>step_blocks[].completion_condition.value_low</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Lower bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>When this step completes</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition.type</code></td>
+<td><code>string or string or string or string or string or string or string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>How a step or block is considered complete</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition.value</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Single value for the condition (for example seconds for time, meters for distance)</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition.value_high</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Upper bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].completion_condition.value_low</code></td>
+<td><code>number or null</code></td>
+<td>No</td>
+<td>Lower bound when the condition is a range</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].controls</code></td>
+<td><code>array of object or null</code></td>
+<td>No</td>
+<td>Equipment controls applied during the step</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].intensity_targets</code></td>
+<td><code>array of object or null</code></td>
+<td>No</td>
+<td>Intensity targets to hold during the step</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].intensity_type</code></td>
+<td><code>string or string or string or string or string</code></td>
+<td>Yes</td>
+<td>Intensity classification of a workout step</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].notes</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Free-text coaching notes shown to the athlete</td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].strength</code></td>
+<td><code>object or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>step_blocks[].steps[].swimming</code></td>
+<td><code>object or null</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>workout_id</code></td>
+<td><code>string or null</code></td>
+<td>No</td>
+<td>Terra identifier of the stored template. Set by Terra in responses; ignored on create.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-3" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-1" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h2 id="remove">remove</h2>
+<h3 id="delete-plannedworkoutsplanned_workout_id" class="operation" data-method="delete"><code>DELETE</code> /plannedWorkouts/{planned_workout_id}</h3>
+<p>Operation ID: <code>Workouts_DeletePlannedWorkout</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>planned_workout_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |
+| <code>user_id</code> | <code>query</code> | <code>string</code> | Yes |  |</p>
+<h4 id="responses-4">Responses</h4>
+<h5 id="204-planned-workout-deleted" class="status" data-status="2xx">204: Planned workout deleted</h5>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-4" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-2" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h3 id="delete-workoutsworkout_id" class="operation" data-method="delete"><code>DELETE</code> /workouts/{workout_id}</h3>
+<p>Operation ID: <code>Workouts_DeleteWorkout</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-3">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>workout_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
+<h4 id="responses-5">Responses</h4>
+<h5 id="204-template-and-all-planned-instances-deleted" class="status" data-status="2xx">204: Template and all planned instances deleted</h5>
+<h5 id="207-some-provider-side-deletions-failed-the-template-is-retained-retry-to-complete-the-cascade" class="status" data-status="2xx">207: Some provider-side deletions failed; the template is retained. Retry to complete the cascade.</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-5" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-3" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="424-provider-side-deletion-could-not-be-performed-retry-later" class="status" data-status="4xx">424: Provider-side deletion could not be performed; retry later</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

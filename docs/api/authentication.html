@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Authentication | TerraAPI</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">TerraAPI<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/terra-sdk">voxgig-sdk/terra-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">TerraAPI</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/athlete.html">Athlete</a>
+<a aria-current="page" href="../api/authentication.html">Authentication</a><div class="nav-sections"><a class="nav-section" href="#post-authauthenticateuser">POST /auth/authenticateUser</a>
+<a class="nav-section" href="#post-authgenerateauthtoken">POST /auth/generateAuthToken</a>
+<a class="nav-section" href="#post-authgeneratewidgetsession">POST /auth/generateWidgetSession</a>
+<a class="nav-section" href="#delete-authdeauthenticateuser">DELETE /auth/deauthenticateUser</a></div>
+<a href="../api/body.html">Body</a>
+<a href="../api/bulk_user_info.html">BulkUserInfo</a>
+<a href="../api/daily.html">Daily</a>
+<a href="../api/integration.html">Integration</a>
+<a href="../api/lab_report.html">LabReport</a>
+<a href="../api/lab_report_delivery.html">LabReportDelivery</a>
+<a href="../api/lab_report_file.html">LabReportFile</a>
+<a href="../api/menstruation.html">Menstruation</a>
+<a href="../api/nutrition.html">Nutrition</a>
+<a href="../api/planned_workout.html">PlannedWorkout</a>
+<a href="../api/sleep.html">Sleep</a>
+<a href="../api/user.html">User</a>
+<a href="../api/workout.html">Workout</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="authentication">Authentication</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-authauthenticateuser"><code>/auth/authenticateUser</code></a></td>
+<td><code>create</code></td>
+<td>Returned when authentication link could be successfully generated</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-authgenerateauthtoken"><code>/auth/generateAuthToken</code></a></td>
+<td><code>create</code></td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-authgeneratewidgetsession"><code>/auth/generateWidgetSession</code></a></td>
+<td><code>create</code></td>
+<td>Returned when authentication link could be successfully generated</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-authdeauthenticateuser"><code>/auth/deauthenticateUser</code></a></td>
+<td><code>remove</code></td>
+<td>Returned when user is successfully deauthenticated and data is deleted</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auth_failure_redirect_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL the user is redirected to upon unsuccessful authentication</td>
+</tr>
+<tr>
+<td><code>auth_success_redirect_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL the user is redirected to upon successful authentication</td>
+</tr>
+<tr>
+<td><code>auth_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>authentication URL the user must be redirected to in order to link their account</td>
+</tr>
+<tr>
+<td><code>expires_in</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>a number in seconds depicting how long the url is valid for</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Display language of the widget</td>
+</tr>
+<tr>
+<td><code>providers</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Comma separated list of providers to display on the device selection page.</td>
+</tr>
+<tr>
+<td><code>reference_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier of the end user on your system, such as a user ID or email associated with them</td>
+</tr>
+<tr>
+<td><code>session_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Session ID for the widget authentication session</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>indicates that the request was successful</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>the widget URL the user must be redirected to in order to link their account</td>
+</tr>
+<tr>
+<td><code>user_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>User ID for the user being created</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-authauthenticateuser" class="operation" data-method="post"><code>POST</code> /auth/authenticateUser</h3>
+<p>Operation ID: <code>Authentication_AuthenticateUser</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>resource</code> | <code>query</code> | <code>string</code> | Yes | Provider resource identifier (for example, 'FITBIT', 'GARMIN', 'OURA'). See &quot;Get detailed list of integrations&quot; for available providers |
+| <code>dev-id</code> | <code>header</code> | <code>string</code> | Yes | your developer ID |</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auth_failure_redirect_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>auth_success_redirect_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>reference_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-returned-when-authentication-link-could-be-successfully-generated" class="status" data-status="2xx">200: Returned when authentication link could be successfully generated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auth_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>authentication URL the user must be redirected to in order to link their account</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: success, error</code></td>
+<td>No</td>
+<td>indicates that the request was successful</td>
+</tr>
+<tr>
+<td><code>user_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>User ID for the user being created</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h3 id="post-authgenerateauthtoken" class="operation" data-method="post"><code>POST</code> /auth/generateAuthToken</h3>
+<p>Operation ID: <code>Authentication_GenerateAuthToken</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-200" class="status" data-status="2xx">200: 200</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>expires_in</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-1" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h3 id="post-authgeneratewidgetsession" class="operation" data-method="post"><code>POST</code> /auth/generateWidgetSession</h3>
+<p>Operation ID: <code>Authentication_GenerateWidgetSession</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auth_failure_redirect_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL the user is redirected to upon unsuccessful authentication</td>
+</tr>
+<tr>
+<td><code>auth_success_redirect_url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>URL the user is redirected to upon successful authentication</td>
+</tr>
+<tr>
+<td><code>language</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Display language of the widget</td>
+</tr>
+<tr>
+<td><code>providers</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Comma separated list of providers to display on the device selection page. This overrides your selected sources on your dashboard</td>
+</tr>
+<tr>
+<td><code>reference_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Identifier of the end user on your system, such as a user ID or email associated with them</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-returned-when-authentication-link-could-be-successfully-generated-1" class="status" data-status="2xx">200: Returned when authentication link could be successfully generated</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>expires_in</code></td>
+<td><code>number</code></td>
+<td>No</td>
+<td>a number in seconds depicting how long the url is valid for</td>
+</tr>
+<tr>
+<td><code>session_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Session ID for the widget authentication session</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: success, error</code></td>
+<td>No</td>
+<td>indicates that the request was successful (value is success)</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>the widget URL the user must be redirected to in order to link their account</td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-1" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h2 id="remove">remove</h2>
+<h3 id="delete-authdeauthenticateuser" class="operation" data-method="delete"><code>DELETE</code> /auth/deauthenticateUser</h3>
+<p>Operation ID: <code>Authentication_DeauthenticateUser</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>user_id</code> | <code>query</code> | <code>string</code> | Yes | Terra user ID (UUID format) to deauthenticate and remove from Terra system |</p>
+<h4 id="responses-3">Responses</h4>
+<h5 id="200-returned-when-user-is-successfully-deauthenticated-and-data-is-deleted" class="status" data-status="2xx">200: Returned when user is successfully deauthenticated and data is deleted</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: success, error</code></td>
+<td>No</td>
+<td>indicates that the deauthentication was successful (value is success)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-2" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

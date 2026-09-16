@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Body | TerraAPI</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">TerraAPI<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/terra-sdk">voxgig-sdk/terra-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">TerraAPI</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/activity.html">Activity</a>
+<a href="../api/athlete.html">Athlete</a>
+<a href="../api/authentication.html">Authentication</a>
+<a aria-current="page" href="../api/body.html">Body</a><div class="nav-sections"><a class="nav-section" href="#get-body">GET /body</a></div>
+<a href="../api/bulk_user_info.html">BulkUserInfo</a>
+<a href="../api/daily.html">Daily</a>
+<a href="../api/integration.html">Integration</a>
+<a href="../api/lab_report.html">LabReport</a>
+<a href="../api/lab_report_delivery.html">LabReportDelivery</a>
+<a href="../api/lab_report_file.html">LabReportFile</a>
+<a href="../api/menstruation.html">Menstruation</a>
+<a href="../api/nutrition.html">Nutrition</a>
+<a href="../api/planned_workout.html">PlannedWorkout</a>
+<a href="../api/sleep.html">Sleep</a>
+<a href="../api/user.html">User</a>
+<a href="../api/workout.html">Workout</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="body">Body</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-body"><code>/body</code></a></td>
+<td><code>load</code></td>
+<td>Returned upon successful data request</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+</table>
+<h2 id="load">load</h2>
+<h3 id="get-body" class="operation" data-method="get"><code>GET</code> /body</h3>
+<p>Operation ID: <code>Body_Get</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>user_id</code> | <code>query</code> | <code>string</code> | Yes | Terra user ID (UUID format) to retrieve data for |
+| <code>start_date</code> | <code>query</code> | <code>integer or string (date)</code> | Yes | Start date for data query - either ISO8601 date (YYYY-MM-DD) or unix timestamp in seconds (10-digit) |
+| <code>end_date</code> | <code>query</code> | <code>integer or string (date)</code> | No | End date for data query - either ISO8601 date (YYYY-MM-DD) or unix timestamp in seconds (10-digit) |
+| <code>to_webhook</code> | <code>query</code> | <code>boolean</code> | No | Boolean flag specifying whether to send the data retrieved to the webhook instead of in the response (default: true if not provided) |
+| <code>with_samples</code> | <code>query</code> | <code>boolean</code> | No | Boolean flag specifying whether to include detailed samples in the returned payload (default: false) |</p>
+<h4 id="responses">Responses</h4>
+<h5 id="200-returned-upon-successful-data-request" class="status" data-status="2xx">200: Returned upon successful data request</h5>
+<p><code>application/json</code></p>
+<p>The response is <code>object or object</code>.</p>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

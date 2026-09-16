@@ -2,7 +2,7 @@
   "existing": {
     "lab_report_delivery": {
       "LAB_REPORT_DELIVERY00": {
-        "attempt_count": "s3c",
+        "attempt_count": 60,
         "destination_id": "DESTINATION01",
         "destination_type": "s3e",
         "id": "LAB_REPORT_DELIVERY00",
@@ -10,7 +10,7 @@
         "status": "s41"
       },
       "LAB_REPORT_DELIVERY01": {
-        "attempt_count": "s78",
+        "attempt_count": 120,
         "destination_id": "DESTINATION01",
         "destination_type": "s7a",
         "id": "LAB_REPORT_DELIVERY01",
@@ -18,7 +18,7 @@
         "status": "s7d"
       },
       "LAB_REPORT_DELIVERY02": {
-        "attempt_count": "sb4",
+        "attempt_count": 180,
         "destination_id": "DESTINATION01",
         "destination_type": "sb6",
         "id": "LAB_REPORT_DELIVERY02",
@@ -30,11 +30,236 @@
   "new": {
     "lab_report_delivery": {
       "lab_report_delivery_ref01": {
-        "attempt_count": "sf0",
+        "attempt_count": 240,
         "destination_id": "DESTINATION01",
         "destination_type": "sf2",
         "last_error": "sf4",
         "status": "sf5"
+      }
+    }
+  },
+  "requests": {
+    "GET /lab-reports/{session_id}/deliveries": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "LabReports_ListDeliveries",
+        "parameters": [
+          {
+            "description": "The session's snowflake ID.",
+            "example": "297405620317847552",
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$schema": "https://json-schema.org/draft/2020-12/schema",
+                  "properties": {
+                    "deliveries": {
+                      "items": {
+                        "$schema": "https://json-schema.org/draft/2020-12/schema",
+                        "properties": {
+                          "attempt_count": {
+                            "description": "Retry count — 0 on the first attempt, incremented per retry.",
+                            "type": "integer"
+                          },
+                          "destination_id": {
+                            "type": "string"
+                          },
+                          "destination_type": {
+                            "description": "The destination's type (e.g. webhook, s3).",
+                            "type": "string"
+                          },
+                          "last_error": {
+                            "description": "Most recent delivery error; omitted when delivered.",
+                            "type": "string"
+                          },
+                          "status": {
+                            "description": "pending, delivered, or failed.",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "destination_id",
+                          "status",
+                          "attempt_count"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "deliveries"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Per-destination delivery outcomes."
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "invalid start_date",
+                  "instance": "/activity",
+                  "title": "bad request",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "One or more parameters is malformed. The `detail` field describes the specific problem."
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "dev-id or x-api-key headers are missing",
+                  "instance": "/activity",
+                  "title": "unauthorized",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Authentication credentials are missing or invalid."
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "example": {
+                  "detail": "user not found",
+                  "instance": "/activity",
+                  "title": "not found",
+                  "type": "about:blank"
+                },
+                "schema": {
+                  "description": "An error response, following RFC 9457 (Problem Details for HTTP APIs, which obsoletes RFC 7807). Returned with `Content-Type: application/problem+json` on every 4xx/5xx response. The HTTP status line carries the status code; it is intentionally not repeated in the body. `type`, `title` and `instance` are always present; `detail` is included when a specific explanation is available.\n",
+                  "properties": {
+                    "detail": {
+                      "description": "A human-readable explanation specific to this occurrence of the problem.",
+                      "example": "dev-id or x-api-key headers are missing",
+                      "type": "string"
+                    },
+                    "instance": {
+                      "description": "The request path, including any query string, that produced this problem.",
+                      "example": "/api/v2/activity?user_id=d4aba475-f714-4663-88fe-28f18b8599b0&to_webhook=false",
+                      "type": "string"
+                    },
+                    "title": {
+                      "description": "A short, human-readable summary of the problem type (the lowercased HTTP status text).",
+                      "example": "unauthorized",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "A URI reference identifying the problem type. Defaults to `about:blank`.",
+                      "example": "about:blank",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "title",
+                    "instance"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A referenced resource does not exist on Terra's end."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": [],
+            "DevID": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "description": "Your API key for authentication",
+            "in": "header",
+            "name": "x-api-key",
+            "type": "apiKey"
+          },
+          "DevID": {
+            "description": "Your developer ID for authentication and tracking",
+            "in": "header",
+            "name": "dev-id",
+            "type": "apiKey"
+          }
+        },
+        "securitySource": "definition"
       }
     }
   }

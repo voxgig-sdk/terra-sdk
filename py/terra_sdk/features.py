@@ -1,12 +1,26 @@
 # Terra SDK feature factory
 
 from terra_sdk.feature.base_feature import TerraBaseFeature
+from terra_sdk.feature.debug_feature import TerraDebugFeature
+from terra_sdk.feature.idempotency_feature import TerraIdempotencyFeature
+from terra_sdk.feature.metrics_feature import TerraMetricsFeature
+from terra_sdk.feature.paging_feature import TerraPagingFeature
+from terra_sdk.feature.ratelimit_feature import TerraRatelimitFeature
+from terra_sdk.feature.retry_feature import TerraRetryFeature
 from terra_sdk.feature.test_feature import TerraTestFeature
+from terra_sdk.feature.timeout_feature import TerraTimeoutFeature
 
 
 _FEATURES = {
     "base": lambda: TerraBaseFeature(),
+    "debug": lambda: TerraDebugFeature(),
+    "idempotency": lambda: TerraIdempotencyFeature(),
+    "metrics": lambda: TerraMetricsFeature(),
+    "paging": lambda: TerraPagingFeature(),
+    "ratelimit": lambda: TerraRatelimitFeature(),
+    "retry": lambda: TerraRetryFeature(),
     "test": lambda: TerraTestFeature(),
+    "timeout": lambda: TerraTimeoutFeature(),
 }
 
 
