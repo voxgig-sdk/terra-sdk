@@ -331,15 +331,9 @@ API path: `/daily`
 
 | Field | Description |
 | --- | --- |
-| `enabled` | Whether the integration is enabled |
-| `icon` | URL for the provider's icon image |
-| `name` | Display name of the integration |
-| `provider` | Identifier for the provider |
 | `providers` |  |
 | `sdk_providers` | Providers available through Terra's mobile SDKs rather than cloud connections |
-| `setup` | Indicates how the integration is set up |
 | `status` |  |
-| `types` | Indicates the types of data available through the provider |
 
 Operations: List.
 
@@ -470,17 +464,12 @@ API path: `/subscriptions`
 | `estimated_calories` | Estimated calories burned |
 | `estimated_distance_meters` | Estimated total distance in meters |
 | `estimated_duration_seconds` | Estimated total duration in seconds |
-| `ftp` | Functional Threshold Power in watts |
 | `id` |  |
-| `max_heart_rate` | Maximum heart rate in BPM |
 | `name` | Name of the workout |
-| `planned_date` | Date to schedule the workout on (YYYY-MM-DD) |
 | `pool_length_meters` | Pool length in meters, for swim workouts |
 | `sport` | Sport a workout template targets. |
 | `status` |  |
 | `step_blocks` |  |
-| `threshold_heart_rate` | Threshold heart rate in BPM |
-| `threshold_speed` | Threshold speed in m/s |
 | `workout_id` | Terra identifier of the stored template. |
 
 Operations: Create, List, Load, Remove.
@@ -629,15 +618,9 @@ Create an instance: `integration = client.Integration()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `enabled` | `bool` | Whether the integration is enabled |
-| `icon` | `str` | URL for the provider's icon image |
-| `name` | `str` | Display name of the integration |
-| `provider` | `str` | Identifier for the provider |
 | `providers` | `list` |  |
 | `sdk_providers` | `list` | Providers available through Terra's mobile SDKs rather than cloud connections |
-| `setup` | `str` | Indicates how the integration is set up |
 | `status` | `str` |  |
-| `types` | `dict` | Indicates the types of data available through the provider |
 
 #### Example: List
 
@@ -895,17 +878,12 @@ Create an instance: `workout = client.Workout()`
 | `estimated_calories` | `Any` | Estimated calories burned |
 | `estimated_distance_meters` | `Any` | Estimated total distance in meters |
 | `estimated_duration_seconds` | `Any` | Estimated total duration in seconds |
-| `ftp` | `float` | Functional Threshold Power in watts |
 | `id` | `str` |  |
-| `max_heart_rate` | `float` | Maximum heart rate in BPM |
 | `name` | `str` | Name of the workout |
-| `planned_date` | `str` | Date to schedule the workout on (YYYY-MM-DD) |
 | `pool_length_meters` | `Any` | Pool length in meters, for swim workouts |
 | `sport` | `Any` | Sport a workout template targets. |
 | `status` | `str` |  |
 | `step_blocks` | `list` |  |
-| `threshold_heart_rate` | `float` | Threshold heart rate in BPM |
-| `threshold_speed` | `float` | Threshold speed in m/s |
 | `workout_id` | `str` | Terra identifier of the stored template. |
 
 #### Example: Load
@@ -925,7 +903,6 @@ workouts = client.Workout().list()
 ```python
 workout = client.Workout().create({
     "name": "example_name",  # str
-    "planned_date": "example_planned_date",  # str
     "sport": "example_sport",  # Any
     "step_blocks": [],  # list
 })
@@ -942,14 +919,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -958,7 +935,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -970,7 +947,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -983,7 +960,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -993,7 +970,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -1009,7 +986,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -1025,7 +1002,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -1044,7 +1021,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -1054,7 +1031,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -1126,14 +1103,14 @@ with hook methods named after pipeline stages (e.g. `PrePoint`,
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -1153,6 +1130,7 @@ Use `helpers.to_map()` to safely validate that a value is a dict.
 py/
 ├── terra_sdk.py         -- Main SDK module
 ├── config.py                    -- Configuration
+├── schema.py                    -- Generated option + entity specs
 ├── features.py                  -- Feature factory
 ├── core/                        -- Core types and context
 ├── entity/                      -- Entity implementations

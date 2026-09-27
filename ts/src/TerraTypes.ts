@@ -1,7 +1,7 @@
 // Typed models for the Terra SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
@@ -88,27 +88,15 @@ export interface DailyLoadMatch {
 }
 
 export interface Integration {
-  enabled?: boolean
-  icon?: string
-  name?: string
-  provider?: string
   providers?: any[]
   sdk_providers?: any[]
-  setup?: string
   status?: string
-  types?: Record<string, any>
 }
 
 export interface IntegrationListMatch {
-  enabled?: boolean
-  icon?: string
-  name?: string
-  provider?: string
   providers?: any[]
   sdk_providers?: any[]
-  setup?: string
   status?: string
-  types?: Record<string, any>
 
   // Selects a custom action instead of the plain list:
   //   'detailed'
@@ -298,17 +286,12 @@ export interface Workout {
   estimated_calories?: any
   estimated_distance_meters?: any
   estimated_duration_seconds?: any
-  ftp?: number
   id?: string
-  max_heart_rate?: number
   name: string
-  planned_date: string
   pool_length_meters?: any
   sport: any
   status?: string
   step_blocks: any[]
-  threshold_heart_rate?: number
-  threshold_speed?: number
   workout_id?: string
 }
 
@@ -322,17 +305,12 @@ export interface WorkoutListMatch {
   estimated_calories?: any
   estimated_distance_meters?: any
   estimated_duration_seconds?: any
-  ftp?: number
   id?: string
-  max_heart_rate?: number
   name?: string
-  planned_date?: string
   pool_length_meters?: any
   sport?: any
   status?: string
   step_blocks?: any[]
-  threshold_heart_rate?: number
-  threshold_speed?: number
   workout_id?: string
 }
 
@@ -342,17 +320,12 @@ export interface WorkoutCreateData {
   estimated_calories?: any
   estimated_distance_meters?: any
   estimated_duration_seconds?: any
-  ftp?: number
   id?: string
-  max_heart_rate?: number
   name: string
-  planned_date: string
   pool_length_meters?: any
   sport: any
   status?: string
   step_blocks: any[]
-  threshold_heart_rate?: number
-  threshold_speed?: number
   workout_id?: string
 
   // Selects a custom action instead of the plain create:

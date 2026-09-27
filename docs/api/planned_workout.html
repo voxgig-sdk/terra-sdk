@@ -36,14 +36,14 @@
 <a href="../sdks/ts.html">TypeScript</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="plannedworkout">PlannedWorkout</h1>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="plannedworkout">PlannedWorkout</h1>
 <h2 id="operations">Operations</h2>
 <p>Every route this entity exposes. Each route links to its own reference on this page.</p>
 <table>
@@ -76,6 +76,56 @@
 </tr>
 </tbody>
 </table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">planned_workouts, err := client.PlannedWorkout(nil).List(map[string]any{&quot;user_id&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(planned_workouts)
+planned_workout, err := client.PlannedWorkout(nil).Load(map[string]any{&quot;id&quot;: 1, &quot;user_id&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(planned_workout)
+updated, err := client.PlannedWorkout(nil).Update(map[string]any{&quot;id&quot;: 1, &quot;user_id&quot;: &quot;example&quot;, &quot;athlete_metrics&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(updated)
+</code></pre>
+<h3 id="javascript">JavaScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/js.html#set-up-the-client">JavaScript setup</a>, then call the operations:</p>
+<pre><code class="language-js">const planned_workouts = await client.PlannedWorkout().list({ user_id: &quot;example&quot; })
+const planned_workout = await client.PlannedWorkout().load({ id: 1, user_id: &quot;example&quot; })
+const updated = await client.PlannedWorkout().update({ id: 1, user_id: &quot;example&quot;, athlete_metrics: &quot;example&quot; })
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local planned_workouts, err = client:PlannedWorkout():list({ user_id = &quot;example&quot; })
+local planned_workout, err = client:PlannedWorkout():load({ id = 1, user_id = &quot;example&quot; })
+local updated, err = client:PlannedWorkout():update({ id = 1, user_id = &quot;example&quot;, athlete_metrics = &quot;example&quot; })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$planned_workouts = $client-&gt;PlannedWorkout()-&gt;list([&quot;user_id&quot; =&gt; &quot;example&quot;]);
+$planned_workout = $client-&gt;PlannedWorkout()-&gt;load([&quot;id&quot; =&gt; 1, &quot;user_id&quot; =&gt; &quot;example&quot;]);
+$updated = $client-&gt;PlannedWorkout()-&gt;update([&quot;id&quot; =&gt; 1, &quot;user_id&quot; =&gt; &quot;example&quot;, &quot;athlete_metrics&quot; =&gt; &quot;example&quot;]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">planned_workouts = client.PlannedWorkout().list({&quot;user_id&quot;: &quot;example&quot;})
+planned_workout = client.PlannedWorkout().load({&quot;id&quot;: 1, &quot;user_id&quot;: &quot;example&quot;})
+updated = client.PlannedWorkout().update({&quot;id&quot;: 1, &quot;user_id&quot;: &quot;example&quot;, &quot;athlete_metrics&quot;: &quot;example&quot;})
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const planned_workouts = await client.PlannedWorkout().list({ user_id: &quot;example&quot; })
+const planned_workout = await client.PlannedWorkout().load({ id: 1, user_id: &quot;example&quot; })
+const updated = await client.PlannedWorkout().update({ id: 1, user_id: &quot;example&quot;, athlete_metrics: &quot;example&quot; })
+</code></pre>
 <h2 id="fields">Fields</h2>
 <table>
 <thead>
@@ -91,7 +141,7 @@
 <td><code>athlete_metrics</code></td>
 <td><code>any</code></td>
 <td>No</td>
-<td></td>
+<td>Athlete Metrics</td>
 </tr>
 <tr>
 <td><code>coercion_warnings</code></td>
@@ -115,7 +165,7 @@
 <td><code>id</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Id</td>
 </tr>
 <tr>
 <td><code>is_external</code></td>
@@ -163,7 +213,7 @@
 <p>| Parameter | In | Type | Required | Description |
 | --- | --- | --- | --- |
 | <code>user_id</code> | <code>query</code> | <code>string</code> | Yes |  |
-| <code>start_date</code> | <code>query</code> | <code>string (date)</code> | No | Start of the planned-date window (YYYY-MM-DD). When start_date and end_date are omitted, provider-side workouts default to the trailing 30 days; pass an explicit window to list upcoming workouts. |
+| <code>start_date</code> | <code>query</code> | <code>string (date)</code> | No | Start of the planned-date window (YYYY-MM-DD). When <code>start_date</code> and <code>end_date</code> are omitted, provider-side workouts default to the trailing 30 days; pass an explicit window to list upcoming workouts. |
 | <code>end_date</code> | <code>query</code> | <code>string (date)</code> | No | End of the planned-date window (YYYY-MM-DD), inclusive. |</p>
 <h4 id="responses">Responses</h4>
 <h5 id="200-planned-workouts-for-the-connection" class="status" data-status="2xx">200: Planned workouts for the connection</h5>
@@ -200,7 +250,7 @@
 <td><code>[].details</code></td>
 <td><code>object or null</code></td>
 <td>No</td>
-<td>Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. Present only for external workouts (is_external true).</td>
+<td>Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. Present only for external workouts (<code>is_external</code> true).</td>
 </tr>
 <tr>
 <td><code>[].is_external</code></td>

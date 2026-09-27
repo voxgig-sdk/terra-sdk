@@ -176,6 +176,7 @@ def make_config():
             "base": "https://access.tryterra.co/api/v2",
             "auth": {
                 "prefix": "",
+                "name": "x-api-key",
             },
             "headers": {
         "content-type": "application/json",
@@ -209,42 +210,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "end_date",
-                      "orig": "end_date",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "start_date",
-                      "orig": "start_date",
-                      "reqd": True,
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "to_webhook",
-                      "orig": "to_webhook",
-                      "type": "`$BOOLEAN`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "with_sample",
-                      "orig": "with_sample",
-                      "type": "`$BOOLEAN`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/activity",
@@ -253,6 +218,50 @@ def make_config():
                     "lit": "activity",
                   },
                 ],
+                "parts": [
+                  "activity",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "end_date",
+                      "orig": "end_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "start_date",
+                      "orig": "start_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "to_webhook",
+                      "orig": "to_webhook",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "with_sample",
+                      "orig": "with_sample",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "end_date",
@@ -262,13 +271,6 @@ def make_config():
                     "with_sample",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "activity",
-                ],
               },
             ],
           },
@@ -286,23 +288,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "to_webhook",
-                      "orig": "to_webhook",
-                      "type": "`$BOOLEAN`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/athlete",
@@ -311,19 +296,37 @@ def make_config():
                     "lit": "athlete",
                   },
                 ],
+                "parts": [
+                  "athlete",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "to_webhook",
+                      "orig": "to_webhook",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "to_webhook",
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "athlete",
-                ],
               },
             ],
           },
@@ -336,62 +339,74 @@ def make_config():
         "fields": [
           {
             "name": "auth_failure_redirect_url",
-            "short": "URL the user is redirected to upon unsuccessful authentication",
+            "title": "Auth Failure Redirect Url",
             "type": "`$STRING`",
+            "short": "URL the user is redirected to upon unsuccessful authentication",
           },
           {
             "name": "auth_success_redirect_url",
-            "short": "URL the user is redirected to upon successful authentication",
+            "title": "Auth Success Redirect Url",
             "type": "`$STRING`",
+            "short": "URL the user is redirected to upon successful authentication",
           },
           {
             "name": "auth_url",
-            "short": "authentication URL the user must be redirected to in order to link their account",
+            "title": "Auth Url",
             "type": "`$STRING`",
+            "short": "authentication URL the user must be redirected to in order to link their account",
           },
           {
             "name": "expires_in",
-            "short": "a number in seconds depicting how long the url is valid for",
+            "title": "Expires In",
             "type": "`$INTEGER`",
+            "short": "a number in seconds depicting how long the url is valid for",
           },
           {
             "name": "language",
-            "short": "Display language of the widget",
+            "title": "Language",
             "type": "`$STRING`",
+            "short": "Display language of the widget",
           },
           {
             "name": "providers",
-            "short": "Comma separated list of providers to display on the device selection page.",
+            "title": "Providers",
             "type": "`$STRING`",
+            "short": "Comma separated list of providers to display on the device selection page.",
           },
           {
             "name": "reference_id",
-            "short": "Identifier of the end user on your system, such as a user ID or email associated with them",
+            "title": "Reference Id",
             "type": "`$STRING`",
+            "short": "Identifier of the end user on your system, such as a user ID or email associated with them",
           },
           {
             "name": "session_id",
-            "short": "Session ID for the widget authentication session",
+            "title": "Session Id",
             "type": "`$STRING`",
+            "short": "Session ID for the widget authentication session",
           },
           {
             "name": "status",
-            "short": "indicates that the request was successful",
+            "title": "Status",
             "type": "`$STRING`",
+            "short": "indicates that the request was successful",
           },
           {
             "name": "token",
+            "title": "Token",
             "type": "`$STRING`",
           },
           {
             "name": "url",
-            "short": "the widget URL the user must be redirected to in order to link their account",
+            "title": "Url",
             "type": "`$STRING`",
+            "short": "the widget URL the user must be redirected to in order to link their account",
           },
           {
             "name": "user_id",
-            "short": "User ID for the user being created",
+            "title": "User Id",
             "type": "`$STRING`",
+            "short": "User ID for the user being created",
           },
         ],
         "name": "authentication",
@@ -401,28 +416,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "example": "testingTerra",
-                      "kind": "header",
-                      "name": "dev_id",
-                      "orig": "dev_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "example": "FITBIT",
-                      "kind": "query",
-                      "name": "resource",
-                      "orig": "resource",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/auth/authenticateUser",
@@ -434,23 +427,45 @@ def make_config():
                     "lit": "authenticateUser",
                   },
                 ],
+                "parts": [
+                  "auth",
+                  "authenticateUser",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "dev_id",
+                      "orig": "dev_id",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                      "reqd": True,
+                      "example": "testingTerra",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "resource",
+                      "orig": "resource",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                      "example": "FITBIT",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "dev_id",
                     "resource",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "auth",
-                  "authenticateUser",
-                ],
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/auth/generateAuthToken",
@@ -462,18 +477,19 @@ def make_config():
                     "lit": "generateAuthToken",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "auth",
                   "generateAuthToken",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/auth/generateWidgetSession",
@@ -485,15 +501,17 @@ def make_config():
                     "lit": "generateWidgetSession",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "auth",
                   "generateWidgetSession",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -502,17 +520,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/auth/deauthenticateUser",
@@ -524,19 +531,31 @@ def make_config():
                     "lit": "deauthenticateUser",
                   },
                 ],
+                "parts": [
+                  "auth",
+                  "deauthenticateUser",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "auth",
-                  "deauthenticateUser",
-                ],
               },
             ],
           },
@@ -554,42 +573,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "end_date",
-                      "orig": "end_date",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "start_date",
-                      "orig": "start_date",
-                      "reqd": True,
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "to_webhook",
-                      "orig": "to_webhook",
-                      "type": "`$BOOLEAN`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "with_sample",
-                      "orig": "with_sample",
-                      "type": "`$BOOLEAN`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/body",
@@ -598,6 +581,50 @@ def make_config():
                     "lit": "body",
                   },
                 ],
+                "parts": [
+                  "body",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "end_date",
+                      "orig": "end_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "start_date",
+                      "orig": "start_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "to_webhook",
+                      "orig": "to_webhook",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "with_sample",
+                      "orig": "with_sample",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "end_date",
@@ -607,13 +634,6 @@ def make_config():
                     "with_sample",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "body",
-                ],
               },
             ],
           },
@@ -631,7 +651,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/bulkUserInfo",
@@ -640,14 +659,16 @@ def make_config():
                     "lit": "bulkUserInfo",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "bulkUserInfo",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "bulkUserInfo",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -665,42 +686,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "end_date",
-                      "orig": "end_date",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "start_date",
-                      "orig": "start_date",
-                      "reqd": True,
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "to_webhook",
-                      "orig": "to_webhook",
-                      "type": "`$BOOLEAN`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "with_sample",
-                      "orig": "with_sample",
-                      "type": "`$BOOLEAN`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/daily",
@@ -709,6 +694,50 @@ def make_config():
                     "lit": "daily",
                   },
                 ],
+                "parts": [
+                  "daily",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "end_date",
+                      "orig": "end_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "start_date",
+                      "orig": "start_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "to_webhook",
+                      "orig": "to_webhook",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "with_sample",
+                      "orig": "with_sample",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "end_date",
@@ -718,13 +747,6 @@ def make_config():
                     "with_sample",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "daily",
-                ],
               },
             ],
           },
@@ -736,47 +758,20 @@ def make_config():
       "integration": {
         "fields": [
           {
-            "name": "enabled",
-            "short": "Whether the integration is enabled",
-            "type": "`$BOOLEAN`",
-          },
-          {
-            "name": "icon",
-            "short": "URL for the provider's icon image",
-            "type": "`$STRING`",
-          },
-          {
-            "name": "name",
-            "short": "Display name of the integration",
-            "type": "`$STRING`",
-          },
-          {
-            "name": "provider",
-            "short": "Identifier for the provider",
-            "type": "`$STRING`",
-          },
-          {
             "name": "providers",
+            "title": "Providers",
             "type": "`$ARRAY`",
           },
           {
             "name": "sdk_providers",
-            "short": "Providers available through Terra's mobile SDKs rather than cloud connections",
+            "title": "Sdk Providers",
             "type": "`$ARRAY`",
-          },
-          {
-            "name": "setup",
-            "short": "Indicates how the integration is set up",
-            "type": "`$STRING`",
+            "short": "Providers available through Terra's mobile SDKs rather than cloud connections",
           },
           {
             "name": "status",
+            "title": "Status",
             "type": "`$STRING`",
-          },
-          {
-            "name": "types",
-            "short": "Indicates the types of data available through the provider",
-            "type": "`$OBJECT`",
           },
         ],
         "name": "integration",
@@ -786,16 +781,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "sdk",
-                      "orig": "sdk",
-                      "type": "`$BOOLEAN`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/integrations/detailed",
@@ -807,23 +792,33 @@ def make_config():
                     "lit": "detailed",
                   },
                 ],
+                "parts": [
+                  "integrations",
+                  "detailed",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body.providers`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "sdk",
+                      "orig": "sdk",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "$action": "detailed",
                   "exist": [
                     "sdk",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body.providers`",
-                },
-                "parts": [
-                  "integrations",
-                  "detailed",
-                ],
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/integrations",
@@ -832,14 +827,16 @@ def make_config():
                     "lit": "integrations",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "integrations",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "integrations",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -852,115 +849,139 @@ def make_config():
         "fields": [
           {
             "name": "collection_date",
-            "short": "Specimen collection date (YYYY-MM-DD); omitted if not extracted.",
+            "title": "Collection Date",
             "type": "`$STRING`",
+            "short": "Specimen collection date (YYYY-MM-DD); omitted if not extracted.",
           },
           {
             "name": "collection_time",
-            "short": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted.",
+            "title": "Collection Time",
             "type": "`$STRING`",
+            "short": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted.",
           },
           {
             "name": "current_status",
+            "title": "Current Status",
+            "type": "`$STRING`",
             "req": True,
             "short": "Current status as a clean lowercase string (open enum), e.g.",
-            "type": "`$STRING`",
           },
           {
             "name": "file_count",
+            "title": "File Count",
             "type": "`$INTEGER`",
           },
           {
             "name": "id",
+            "title": "Id",
             "type": "`$STRING`",
           },
           {
             "name": "input_bytes",
+            "title": "Input Bytes",
             "type": "`$INTEGER`",
           },
           {
             "name": "lab_name",
+            "title": "Lab Name",
             "type": "`$STRING`",
           },
           {
             "name": "output_bytes",
+            "title": "Output Bytes",
             "type": "`$INTEGER`",
           },
           {
             "name": "panels",
-            "short": "Report-level panels that results reference by panel_id.",
+            "title": "Panels",
             "type": "`$ARRAY`",
+            "short": "Report-level panels that results reference by panel_id.",
           },
           {
             "name": "patient_age_at_collection",
-            "short": "Patient age in years; omitted if unknown.",
+            "title": "Patient Age At Collection",
             "type": "`$INTEGER`",
+            "short": "Patient age in years; omitted if unknown.",
           },
           {
             "name": "patient_sex",
-            "short": "Clean lowercase string (open enum); omitted if unspecified.",
+            "title": "Patient Sex",
             "type": "`$STRING`",
+            "short": "Clean lowercase string (open enum); omitted if unspecified.",
           },
           {
             "name": "reference_id",
-            "short": "Your external reference; omitted if not set.",
+            "title": "Reference Id",
             "type": "`$STRING`",
+            "short": "Your external reference; omitted if not set.",
           },
           {
             "name": "report_date",
-            "short": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
+            "title": "Report Date",
             "type": "`$STRING`",
+            "short": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
           },
           {
             "name": "report_locale",
+            "title": "Report Locale",
             "type": "`$STRING`",
           },
           {
             "name": "report_notes",
+            "title": "Report Notes",
             "type": "`$STRING`",
           },
           {
             "name": "report_time",
-            "short": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
+            "title": "Report Time",
             "type": "`$STRING`",
+            "short": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
           },
           {
             "name": "report_type",
+            "title": "Report Type",
+            "type": "`$STRING`",
             "req": True,
             "short": "Report type as a clean lowercase string (open enum — handle unknown values gracefully).",
-            "type": "`$STRING`",
           },
           {
             "name": "results",
-            "short": "The layered biomarker results.",
+            "title": "Results",
             "type": "`$ARRAY`",
+            "short": "The layered biomarker results.",
           },
           {
             "name": "results_count",
+            "title": "Results Count",
             "type": "`$INTEGER`",
           },
           {
             "name": "session_id",
-            "req": True,
+            "title": "Session Id",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "status_history",
+            "title": "Status History",
             "type": "`$ARRAY`",
           },
           {
-            "format": "date-time",
             "name": "updated_at",
+            "title": "Updated At",
             "type": "`$STRING`",
+            "format": "date-time",
           },
           {
             "name": "upload_id",
+            "title": "Upload Id",
             "type": "`$STRING`",
           },
           {
-            "format": "date-time",
             "name": "uploaded_at",
+            "title": "Uploaded At",
             "type": "`$STRING`",
+            "format": "date-time",
           },
         ],
         "id": {
@@ -974,17 +995,6 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "example": "patient_456",
-                      "kind": "query",
-                      "name": "reference_id",
-                      "orig": "reference_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/lab-reports",
@@ -993,18 +1003,30 @@ def make_config():
                     "lit": "lab-reports",
                   },
                 ],
+                "parts": [
+                  "lab-reports",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "reference_id",
+                      "orig": "reference_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "example": "patient_456",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "reference_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "lab-reports",
-                ],
               },
             ],
           },
@@ -1013,46 +1035,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "reference_id",
-                      "orig": "reference_id",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "report_date_from",
-                      "orig": "report_date_from",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "report_date_to",
-                      "orig": "report_date_to",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "upload_id",
-                      "orig": "upload_id",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "uploaded_at_from",
-                      "orig": "uploaded_at_from",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "uploaded_at_to",
-                      "orig": "uploaded_at_to",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/lab-reports",
@@ -1061,6 +1043,54 @@ def make_config():
                     "lit": "lab-reports",
                   },
                 ],
+                "parts": [
+                  "lab-reports",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body.sessions`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "reference_id",
+                      "orig": "reference_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "report_date_from",
+                      "orig": "report_date_from",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "report_date_to",
+                      "orig": "report_date_to",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "upload_id",
+                      "orig": "upload_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "uploaded_at_from",
+                      "orig": "uploaded_at_from",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "uploaded_at_to",
+                      "orig": "uploaded_at_to",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "reference_id",
@@ -1071,13 +1101,6 @@ def make_config():
                     "uploaded_at_to",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body.sessions`",
-                },
-                "parts": [
-                  "lab-reports",
-                ],
               },
             ],
           },
@@ -1086,26 +1109,9 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "example": "297405620317847552",
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "session_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/lab-reports/{session_id}",
-                "rename": {
-                  "param": {
-                    "session_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "lab-reports",
@@ -1114,19 +1120,36 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
+                "parts": [
+                  "lab-reports",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "session_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "lab-reports",
-                  "{id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "session_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                      "example": "297405620317847552",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -1135,26 +1158,9 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "example": "297405620317847552",
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "session_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/lab-reports/{session_id}",
-                "rename": {
-                  "param": {
-                    "session_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "lab-reports",
@@ -1163,19 +1169,36 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
+                "parts": [
+                  "lab-reports",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "session_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "lab-reports",
-                  "{id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "session_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                      "example": "297405620317847552",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -1188,34 +1211,40 @@ def make_config():
         "fields": [
           {
             "name": "attempt_count",
+            "title": "Attempt Count",
+            "type": "`$INTEGER`",
             "req": True,
             "short": "Retry count — 0 on the first attempt, incremented per retry.",
-            "type": "`$INTEGER`",
           },
           {
             "name": "destination_id",
-            "req": True,
+            "title": "Destination Id",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "destination_type",
-            "short": "The destination's type (e.g.",
+            "title": "Destination Type",
             "type": "`$STRING`",
+            "short": "The destination's type (e.g.",
           },
           {
             "name": "id",
+            "title": "Id",
             "type": "`$STRING`",
           },
           {
             "name": "last_error",
-            "short": "Most recent delivery error; omitted when delivered.",
+            "title": "Last Error",
             "type": "`$STRING`",
+            "short": "Most recent delivery error; omitted when delivered.",
           },
           {
             "name": "status",
+            "title": "Status",
+            "type": "`$STRING`",
             "req": True,
             "short": "pending, delivered, or failed.",
-            "type": "`$STRING`",
           },
         ],
         "id": {
@@ -1229,26 +1258,9 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "example": "297405620317847552",
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "session_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/lab-reports/{session_id}/deliveries",
-                "rename": {
-                  "param": {
-                    "session_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "lab-reports",
@@ -1260,20 +1272,37 @@ def make_config():
                     "lit": "deliveries",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body.deliveries`",
-                },
                 "parts": [
                   "lab-reports",
                   "{id}",
                   "deliveries",
                 ],
+                "rename": {
+                  "param": {
+                    "session_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body.deliveries`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "session_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                      "example": "297405620317847552",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -1286,16 +1315,19 @@ def make_config():
         "fields": [
           {
             "name": "filename",
+            "title": "Filename",
             "type": "`$STRING`",
           },
           {
             "name": "id",
+            "title": "Id",
             "type": "`$STRING`",
           },
           {
             "name": "presigned_url",
-            "req": True,
+            "title": "Presigned Url",
             "type": "`$STRING`",
+            "req": True,
           },
         ],
         "id": {
@@ -1309,26 +1341,9 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "example": "297405620317847552",
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "session_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/lab-reports/{session_id}/files",
-                "rename": {
-                  "param": {
-                    "session_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "lab-reports",
@@ -1340,20 +1355,37 @@ def make_config():
                     "lit": "files",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "lab-reports",
                   "{id}",
                   "files",
                 ],
+                "rename": {
+                  "param": {
+                    "session_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "session_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                      "example": "297405620317847552",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -1371,42 +1403,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "end_date",
-                      "orig": "end_date",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "start_date",
-                      "orig": "start_date",
-                      "reqd": True,
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "to_webhook",
-                      "orig": "to_webhook",
-                      "type": "`$BOOLEAN`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "with_sample",
-                      "orig": "with_sample",
-                      "type": "`$BOOLEAN`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/menstruation",
@@ -1415,6 +1411,50 @@ def make_config():
                     "lit": "menstruation",
                   },
                 ],
+                "parts": [
+                  "menstruation",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "end_date",
+                      "orig": "end_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "start_date",
+                      "orig": "start_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "to_webhook",
+                      "orig": "to_webhook",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "with_sample",
+                      "orig": "with_sample",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "end_date",
@@ -1424,13 +1464,6 @@ def make_config():
                     "with_sample",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "menstruation",
-                ],
               },
             ],
           },
@@ -1448,42 +1481,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "end_date",
-                      "orig": "end_date",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "start_date",
-                      "orig": "start_date",
-                      "reqd": True,
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "to_webhook",
-                      "orig": "to_webhook",
-                      "type": "`$BOOLEAN`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "with_sample",
-                      "orig": "with_sample",
-                      "type": "`$BOOLEAN`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/nutrition",
@@ -1492,6 +1489,50 @@ def make_config():
                     "lit": "nutrition",
                   },
                 ],
+                "parts": [
+                  "nutrition",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "end_date",
+                      "orig": "end_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "start_date",
+                      "orig": "start_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "to_webhook",
+                      "orig": "to_webhook",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "with_sample",
+                      "orig": "with_sample",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "end_date",
@@ -1501,13 +1542,6 @@ def make_config():
                     "with_sample",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "nutrition",
-                ],
               },
             ],
           },
@@ -1520,40 +1554,48 @@ def make_config():
         "fields": [
           {
             "name": "athlete_metrics",
+            "title": "Athlete Metrics",
             "type": "`$ANY`",
           },
           {
             "name": "coercion_warnings",
-            "short": "Set when the template could not be represented exactly on the provider.",
+            "title": "Coercion Warnings",
             "type": "`$STRING`",
+            "short": "Set when the template could not be represented exactly on the provider.",
           },
           {
             "name": "created_at",
-            "short": "Creation time (RFC 3339)",
+            "title": "Created At",
             "type": "`$ANY`",
+            "short": "Creation time (RFC 3339)",
           },
           {
             "name": "details",
-            "short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
+            "title": "Details",
             "type": "`$ANY`",
+            "short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
           },
           {
             "name": "id",
+            "title": "Id",
             "type": "`$STRING`",
           },
           {
             "name": "is_external",
-            "short": "True when the workout was created on the provider side rather than through Terra.",
+            "title": "Is External",
             "type": "`$BOOLEAN`",
+            "short": "True when the workout was created on the provider side rather than through Terra.",
           },
           {
             "name": "last_updated_at",
-            "short": "Last update time (RFC 3339)",
+            "title": "Last Updated At",
             "type": "`$ANY`",
+            "short": "Last update time (RFC 3339)",
           },
           {
-            "format": "date",
             "name": "planned_date",
+            "title": "Planned Date",
+            "type": "`$STRING`",
             "op": {
               "update": {
                 "req": True,
@@ -1561,22 +1603,25 @@ def make_config():
               },
             },
             "short": "New scheduled date (YYYY-MM-DD)",
-            "type": "`$STRING`",
+            "format": "date",
           },
           {
             "name": "planned_workout_id",
-            "short": "Terra identifier of the planned workout",
+            "title": "Planned Workout Id",
             "type": "`$STRING`",
+            "short": "Terra identifier of the planned workout",
           },
           {
             "name": "provider_workout_id",
-            "short": "Identifier assigned by the provider, once pushed.",
+            "title": "Provider Workout Id",
             "type": "`$STRING`",
+            "short": "Identifier assigned by the provider, once pushed.",
           },
           {
             "name": "workout_id",
-            "short": "Identifier of the source template.",
+            "title": "Workout Id",
             "type": "`$STRING`",
+            "short": "Identifier of the source template.",
           },
         ],
         "id": {
@@ -1590,29 +1635,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "end_date",
-                      "orig": "end_date",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "start_date",
-                      "orig": "start_date",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/plannedWorkouts",
@@ -1621,6 +1643,37 @@ def make_config():
                     "lit": "plannedWorkouts",
                   },
                 ],
+                "parts": [
+                  "plannedWorkouts",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "end_date",
+                      "orig": "end_date",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "start_date",
+                      "orig": "start_date",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "end_date",
@@ -1628,13 +1681,6 @@ def make_config():
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "plannedWorkouts",
-                ],
               },
             ],
           },
@@ -1643,34 +1689,9 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "planned_workout_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/plannedWorkouts/{planned_workout_id}",
-                "rename": {
-                  "param": {
-                    "planned_workout_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "plannedWorkouts",
@@ -1679,20 +1700,45 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "plannedWorkouts",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "planned_workout_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "planned_workout_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "plannedWorkouts",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1701,34 +1747,9 @@ def make_config():
             "name": "update",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "planned_workout_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "PATCH",
                 "orig": "/plannedWorkouts/{planned_workout_id}",
-                "rename": {
-                  "param": {
-                    "planned_workout_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "plannedWorkouts",
@@ -1737,20 +1758,45 @@ def make_config():
                     "var": "id",
                   },
                 ],
+                "parts": [
+                  "plannedWorkouts",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "planned_workout_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "planned_workout_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "id",
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "plannedWorkouts",
-                  "{id}",
-                ],
               },
             ],
           },
@@ -1768,42 +1814,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "end_date",
-                      "orig": "end_date",
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "start_date",
-                      "orig": "start_date",
-                      "reqd": True,
-                      "type": "`$ANY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "to_webhook",
-                      "orig": "to_webhook",
-                      "type": "`$BOOLEAN`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "with_sample",
-                      "orig": "with_sample",
-                      "type": "`$BOOLEAN`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/sleep",
@@ -1812,6 +1822,50 @@ def make_config():
                     "lit": "sleep",
                   },
                 ],
+                "parts": [
+                  "sleep",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "end_date",
+                      "orig": "end_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "start_date",
+                      "orig": "start_date",
+                      "type": "`$ANY`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "to_webhook",
+                      "orig": "to_webhook",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                    {
+                      "name": "with_sample",
+                      "orig": "with_sample",
+                      "type": "`$BOOLEAN`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "end_date",
@@ -1821,13 +1875,6 @@ def make_config():
                     "with_sample",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "sleep",
-                ],
               },
             ],
           },
@@ -1845,24 +1892,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "example": 0,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 500,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/subscriptions",
@@ -1871,37 +1900,40 @@ def make_config():
                     "lit": "subscriptions",
                   },
                 ],
+                "parts": [
+                  "subscriptions",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 0,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 500,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "page",
                     "per_page",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "subscriptions",
-                ],
               },
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "reference_id",
-                      "orig": "reference_id",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/userInfo",
@@ -1910,19 +1942,36 @@ def make_config():
                     "lit": "userInfo",
                   },
                 ],
+                "parts": [
+                  "userInfo",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "reference_id",
+                      "orig": "reference_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "reference_id",
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "userInfo",
-                ],
               },
             ],
           },
@@ -1935,104 +1984,74 @@ def make_config():
         "fields": [
           {
             "name": "description",
-            "short": "Description of the workout",
+            "title": "Description",
             "type": "`$STRING`",
+            "short": "Description of the workout",
           },
           {
             "name": "environment",
+            "title": "Environment",
             "type": "`$ANY`",
-            "union": {
-              "branches": 3,
-              "count": 1,
-              "depth": 2,
-            },
           },
           {
             "name": "estimated_calories",
-            "short": "Estimated calories burned",
+            "title": "Estimated Calories",
             "type": "`$ANY`",
+            "short": "Estimated calories burned",
           },
           {
             "name": "estimated_distance_meters",
-            "short": "Estimated total distance in meters",
+            "title": "Estimated Distance Meters",
             "type": "`$ANY`",
+            "short": "Estimated total distance in meters",
           },
           {
             "name": "estimated_duration_seconds",
-            "short": "Estimated total duration in seconds",
+            "title": "Estimated Duration Seconds",
             "type": "`$ANY`",
-          },
-          {
-            "name": "ftp",
-            "short": "Functional Threshold Power in watts",
-            "type": "`$NUMBER`",
+            "short": "Estimated total duration in seconds",
           },
           {
             "name": "id",
+            "title": "Id",
             "type": "`$STRING`",
-          },
-          {
-            "name": "max_heart_rate",
-            "short": "Maximum heart rate in BPM",
-            "type": "`$NUMBER`",
           },
           {
             "name": "name",
+            "title": "Name",
+            "type": "`$STRING`",
             "req": True,
             "short": "Name of the workout",
-            "type": "`$STRING`",
-          },
-          {
-            "format": "date",
-            "name": "planned_date",
-            "req": True,
-            "short": "Date to schedule the workout on (YYYY-MM-DD)",
-            "type": "`$STRING`",
           },
           {
             "name": "pool_length_meters",
-            "short": "Pool length in meters, for swim workouts",
+            "title": "Pool Length Meters",
             "type": "`$ANY`",
+            "short": "Pool length in meters, for swim workouts",
           },
           {
             "name": "sport",
+            "title": "Sport",
+            "type": "`$ANY`",
             "req": True,
             "short": "Sport a workout template targets.",
-            "type": "`$ANY`",
-            "union": {
-              "branches": 15,
-              "count": 1,
-              "depth": 0,
-            },
           },
           {
             "name": "status",
+            "title": "Status",
             "type": "`$STRING`",
           },
           {
             "name": "step_blocks",
-            "req": True,
+            "title": "Step Blocks",
             "type": "`$ARRAY`",
-            "union": {
-              "branches": 11,
-              "count": 8,
-              "depth": 13,
-            },
-          },
-          {
-            "name": "threshold_heart_rate",
-            "short": "Threshold heart rate in BPM",
-            "type": "`$NUMBER`",
-          },
-          {
-            "name": "threshold_speed",
-            "short": "Threshold speed in m/s",
-            "type": "`$NUMBER`",
+            "req": True,
           },
           {
             "name": "workout_id",
-            "short": "Terra identifier of the stored template.",
+            "title": "Workout Id",
             "type": "`$STRING`",
+            "short": "Terra identifier of the stored template.",
           },
         ],
         "id": {
@@ -2046,34 +2065,9 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "workout_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "POST",
                 "orig": "/workouts/{workout_id}/plan",
-                "rename": {
-                  "param": {
-                    "workout_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "workouts",
@@ -2085,6 +2079,40 @@ def make_config():
                     "lit": "plan",
                   },
                 ],
+                "parts": [
+                  "workouts",
+                  "{id}",
+                  "plan",
+                ],
+                "rename": {
+                  "param": {
+                    "workout_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "workout_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "$action": "plan",
                   "exist": [
@@ -2092,18 +2120,8 @@ def make_config():
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "workouts",
-                  "{id}",
-                  "plan",
-                ],
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/workouts",
@@ -2112,14 +2130,16 @@ def make_config():
                     "lit": "workouts",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "workouts",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "workouts",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -2128,7 +2148,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "GET",
                 "orig": "/workouts",
@@ -2137,14 +2156,16 @@ def make_config():
                     "lit": "workouts",
                   },
                 ],
-                "select": {},
+                "parts": [
+                  "workouts",
+                ],
+                "rename": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "workouts",
-                ],
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -2153,25 +2174,9 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "workout_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/workouts/{workout_id}",
-                "rename": {
-                  "param": {
-                    "workout_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "workouts",
@@ -2180,19 +2185,35 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
+                "parts": [
+                  "workouts",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "workout_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "workouts",
-                  "{id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "workout_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -2201,26 +2222,6 @@ def make_config():
             "name": "remove",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "planned_workout_id",
-                      "orig": "planned_workout_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/plannedWorkouts/{planned_workout_id}",
@@ -2232,41 +2233,46 @@ def make_config():
                     "var": "planned_workout_id",
                   },
                 ],
+                "parts": [
+                  "plannedWorkouts",
+                  "{planned_workout_id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "planned_workout_id",
+                      "orig": "planned_workout_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "planned_workout_id",
                     "user_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "plannedWorkouts",
-                  "{planned_workout_id}",
-                ],
               },
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "id",
-                      "orig": "workout_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "DELETE",
                 "orig": "/workouts/{workout_id}",
-                "rename": {
-                  "param": {
-                    "workout_id": "id",
-                  },
-                },
                 "segments": [
                   {
                     "lit": "workouts",
@@ -2275,19 +2281,35 @@ def make_config():
                     "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "id",
-                  ],
+                "parts": [
+                  "workouts",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "workout_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "workouts",
-                  "{id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "workout_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
@@ -2295,7 +2317,7 @@ def make_config():
         "relations": {
           "ancestors": [
             [
-              "planned_workout",
+              "$.main.kit.entity.planned_workout",
             ],
           ],
         },

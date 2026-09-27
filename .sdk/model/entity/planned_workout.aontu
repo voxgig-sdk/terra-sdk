@@ -1,0 +1,272 @@
+# Entity: planned_workout
+
+main: kit: entity: planned_workout: {
+
+  alias: field: {}
+
+  fields: {
+    athlete_metrics: {
+      h: "Athlete Metrics"
+      n: "athlete_metrics"
+      r: false
+      t: "`$ANY`"
+    }
+    coercion_warnings: {
+      h: "Coercion Warnings"
+      n: "coercion_warnings"
+      r: false
+      sh: "Set when the template could not be represented exactly on the provider."
+      t: "`$STRING`"
+    }
+    created_at: {
+      h: "Created At"
+      n: "created_at"
+      r: false
+      sh: "Creation time (RFC 3339)"
+      t: "`$ANY`"
+    }
+    details: {
+      h: "Details"
+      n: "details"
+      r: false
+      sh: "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider."
+      t: "`$ANY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    is_external: {
+      h: "Is External"
+      n: "is_external"
+      r: false
+      sh: "True when the workout was created on the provider side rather than through Terra."
+      t: "`$BOOLEAN`"
+    }
+    last_updated_at: {
+      h: "Last Updated At"
+      n: "last_updated_at"
+      r: false
+      sh: "Last update time (RFC 3339)"
+      t: "`$ANY`"
+    }
+    planned_date: {
+      fo: "date"
+      h: "Planned Date"
+      n: "planned_date"
+      op: {
+        update: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
+      r: false
+      sh: "New scheduled date (YYYY-MM-DD)"
+      t: "`$STRING`"
+    }
+    planned_workout_id: {
+      h: "Planned Workout Id"
+      n: "planned_workout_id"
+      r: false
+      sh: "Terra identifier of the planned workout"
+      t: "`$STRING`"
+    }
+    provider_workout_id: {
+      h: "Provider Workout Id"
+      n: "provider_workout_id"
+      r: false
+      sh: "Identifier assigned by the provider, once pushed."
+      t: "`$STRING`"
+    }
+    workout_id: {
+      h: "Workout Id"
+      n: "workout_id"
+      r: false
+      sh: "Identifier of the source template."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "planned_workout"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /plannedWorkouts"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "end_date"
+                or: "end_date"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "start_date"
+                or: "start_date"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/plannedWorkouts"
+          q: {
+            exist: [
+              "end_date"
+              "start_date"
+              "user_id"
+            ]
+          }
+          s: [
+            {
+              lit: "plannedWorkouts"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /plannedWorkouts/{planned_workout_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "planned_workout_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/plannedWorkouts/{planned_workout_id}"
+          q: {
+            exist: [
+              "id"
+              "user_id"
+            ]
+          }
+          r: {
+            param: {
+              planned_workout_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "plannedWorkouts"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          co: {
+            id: "PATCH /plannedWorkouts/{planned_workout_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "planned_workout_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "PATCH"
+          o: "/plannedWorkouts/{planned_workout_id}"
+          q: {
+            exist: [
+              "id"
+              "user_id"
+            ]
+          }
+          r: {
+            param: {
+              planned_workout_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "plannedWorkouts"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

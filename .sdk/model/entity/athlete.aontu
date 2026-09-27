@@ -1,0 +1,63 @@
+# Entity: athlete
+
+main: kit: entity: athlete: {
+
+  alias: field: {}
+
+  name: "athlete"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /athlete"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "to_webhook"
+                or: "to_webhook"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/athlete"
+          q: {
+            exist: [
+              "to_webhook"
+              "user_id"
+            ]
+          }
+          s: [
+            {
+              lit: "athlete"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

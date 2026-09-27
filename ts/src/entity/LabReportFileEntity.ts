@@ -19,7 +19,6 @@ import type {
   LabReportFileListMatch,
 } from '../TerraTypes'
 
-// TODO: needs Entity superclass
 class LabReportFileEntity extends TerraEntityBase<LabReportFile> {
 
   constructor(client: TerraSDK, entopts: any) {

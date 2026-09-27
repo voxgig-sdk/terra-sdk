@@ -19,19 +19,12 @@ const FEATURE_CLASS = {
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
 };
-// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
-// the model's active plugin groups. A feature that takes a `plugins` option
-// (secrets over sekreto) reads its own entry; a feature with no plugins has
-// none. Named imports above make each definition statically reachable, so
-// an SDK carries exactly the plugin modules its model selects — the same
-// leanness the old side-effect registry imports bought, without a registry.
 const FEATURE_PLUGINS = {};
 exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
 class Config {
     makeFeature(fn) {
         const fc = FEATURE_CLASS[fn];
         const fi = new fc();
-        // TODO: errors etc
         return fi;
     }
     // False for a feature added at runtime via options.extend (station's
@@ -182,6 +175,7 @@ class Config {
         base: "https://access.tryterra.co/api/v2",
         auth: {
             prefix: '',
+            name: 'x-api-key',
         },
         headers: {
             "content-type": "application/json"
@@ -215,42 +209,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "end_date",
-                                        "orig": "end_date",
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "start_date",
-                                        "orig": "start_date",
-                                        "reqd": true,
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "to_webhook",
-                                        "orig": "to_webhook",
-                                        "type": "`$BOOLEAN`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "with_sample",
-                                        "orig": "with_sample",
-                                        "type": "`$BOOLEAN`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/activity",
@@ -259,6 +217,50 @@ class Config {
                                     "lit": "activity"
                                 }
                             ],
+                            "parts": [
+                                "activity"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "end_date",
+                                        "orig": "end_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "start_date",
+                                        "orig": "start_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "to_webhook",
+                                        "orig": "to_webhook",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "with_sample",
+                                        "orig": "with_sample",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "end_date",
@@ -267,14 +269,7 @@ class Config {
                                     "user_id",
                                     "with_sample"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "activity"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -292,23 +287,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "to_webhook",
-                                        "orig": "to_webhook",
-                                        "type": "`$BOOLEAN`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/athlete",
@@ -317,19 +295,37 @@ class Config {
                                     "lit": "athlete"
                                 }
                             ],
+                            "parts": [
+                                "athlete"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "to_webhook",
+                                        "orig": "to_webhook",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "to_webhook",
                                     "user_id"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "athlete"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -342,62 +338,74 @@ class Config {
             "fields": [
                 {
                     "name": "auth_failure_redirect_url",
-                    "short": "URL the user is redirected to upon unsuccessful authentication",
-                    "type": "`$STRING`"
+                    "title": "Auth Failure Redirect Url",
+                    "type": "`$STRING`",
+                    "short": "URL the user is redirected to upon unsuccessful authentication"
                 },
                 {
                     "name": "auth_success_redirect_url",
-                    "short": "URL the user is redirected to upon successful authentication",
-                    "type": "`$STRING`"
+                    "title": "Auth Success Redirect Url",
+                    "type": "`$STRING`",
+                    "short": "URL the user is redirected to upon successful authentication"
                 },
                 {
                     "name": "auth_url",
-                    "short": "authentication URL the user must be redirected to in order to link their account",
-                    "type": "`$STRING`"
+                    "title": "Auth Url",
+                    "type": "`$STRING`",
+                    "short": "authentication URL the user must be redirected to in order to link their account"
                 },
                 {
                     "name": "expires_in",
-                    "short": "a number in seconds depicting how long the url is valid for",
-                    "type": "`$INTEGER`"
+                    "title": "Expires In",
+                    "type": "`$INTEGER`",
+                    "short": "a number in seconds depicting how long the url is valid for"
                 },
                 {
                     "name": "language",
-                    "short": "Display language of the widget",
-                    "type": "`$STRING`"
+                    "title": "Language",
+                    "type": "`$STRING`",
+                    "short": "Display language of the widget"
                 },
                 {
                     "name": "providers",
-                    "short": "Comma separated list of providers to display on the device selection page.",
-                    "type": "`$STRING`"
+                    "title": "Providers",
+                    "type": "`$STRING`",
+                    "short": "Comma separated list of providers to display on the device selection page."
                 },
                 {
                     "name": "reference_id",
-                    "short": "Identifier of the end user on your system, such as a user ID or email associated with them",
-                    "type": "`$STRING`"
+                    "title": "Reference Id",
+                    "type": "`$STRING`",
+                    "short": "Identifier of the end user on your system, such as a user ID or email associated with them"
                 },
                 {
                     "name": "session_id",
-                    "short": "Session ID for the widget authentication session",
-                    "type": "`$STRING`"
+                    "title": "Session Id",
+                    "type": "`$STRING`",
+                    "short": "Session ID for the widget authentication session"
                 },
                 {
                     "name": "status",
-                    "short": "indicates that the request was successful",
-                    "type": "`$STRING`"
+                    "title": "Status",
+                    "type": "`$STRING`",
+                    "short": "indicates that the request was successful"
                 },
                 {
                     "name": "token",
+                    "title": "Token",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "url",
-                    "short": "the widget URL the user must be redirected to in order to link their account",
-                    "type": "`$STRING`"
+                    "title": "Url",
+                    "type": "`$STRING`",
+                    "short": "the widget URL the user must be redirected to in order to link their account"
                 },
                 {
                     "name": "user_id",
-                    "short": "User ID for the user being created",
-                    "type": "`$STRING`"
+                    "title": "User Id",
+                    "type": "`$STRING`",
+                    "short": "User ID for the user being created"
                 }
             ],
             "name": "authentication",
@@ -407,28 +415,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {
-                                "header": [
-                                    {
-                                        "example": "testingTerra",
-                                        "kind": "header",
-                                        "name": "dev_id",
-                                        "orig": "dev_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ],
-                                "query": [
-                                    {
-                                        "example": "FITBIT",
-                                        "kind": "query",
-                                        "name": "resource",
-                                        "orig": "resource",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "POST",
                             "orig": "/auth/authenticateUser",
@@ -440,23 +426,45 @@ class Config {
                                     "lit": "authenticateUser"
                                 }
                             ],
+                            "parts": [
+                                "auth",
+                                "authenticateUser"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "header": [
+                                    {
+                                        "name": "dev_id",
+                                        "orig": "dev_id",
+                                        "type": "`$STRING`",
+                                        "kind": "header",
+                                        "reqd": true,
+                                        "example": "testingTerra"
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "resource",
+                                        "orig": "resource",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true,
+                                        "example": "FITBIT"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "dev_id",
                                     "resource"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "auth",
-                                "authenticateUser"
-                            ]
+                            }
                         },
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/auth/generateAuthToken",
@@ -468,18 +476,19 @@ class Config {
                                     "lit": "generateAuthToken"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "auth",
+                                "generateAuthToken"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "auth",
-                                "generateAuthToken"
-                            ]
+                            "args": {},
+                            "select": {}
                         },
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/auth/generateWidgetSession",
@@ -491,15 +500,17 @@ class Config {
                                     "lit": "generateWidgetSession"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "auth",
+                                "generateWidgetSession"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "auth",
-                                "generateWidgetSession"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 },
@@ -508,17 +519,6 @@ class Config {
                     "name": "remove",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "DELETE",
                             "orig": "/auth/deauthenticateUser",
@@ -530,19 +530,31 @@ class Config {
                                     "lit": "deauthenticateUser"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "user_id"
-                                ]
-                            },
+                            "parts": [
+                                "auth",
+                                "deauthenticateUser"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "auth",
-                                "deauthenticateUser"
-                            ]
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "user_id"
+                                ]
+                            }
                         }
                     ]
                 }
@@ -560,42 +572,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "end_date",
-                                        "orig": "end_date",
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "start_date",
-                                        "orig": "start_date",
-                                        "reqd": true,
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "to_webhook",
-                                        "orig": "to_webhook",
-                                        "type": "`$BOOLEAN`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "with_sample",
-                                        "orig": "with_sample",
-                                        "type": "`$BOOLEAN`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/body",
@@ -604,6 +580,50 @@ class Config {
                                     "lit": "body"
                                 }
                             ],
+                            "parts": [
+                                "body"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "end_date",
+                                        "orig": "end_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "start_date",
+                                        "orig": "start_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "to_webhook",
+                                        "orig": "to_webhook",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "with_sample",
+                                        "orig": "with_sample",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "end_date",
@@ -612,14 +632,7 @@ class Config {
                                     "user_id",
                                     "with_sample"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "body"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -637,7 +650,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/bulkUserInfo",
@@ -646,14 +658,16 @@ class Config {
                                     "lit": "bulkUserInfo"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "bulkUserInfo"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "bulkUserInfo"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 }
@@ -671,42 +685,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "end_date",
-                                        "orig": "end_date",
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "start_date",
-                                        "orig": "start_date",
-                                        "reqd": true,
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "to_webhook",
-                                        "orig": "to_webhook",
-                                        "type": "`$BOOLEAN`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "with_sample",
-                                        "orig": "with_sample",
-                                        "type": "`$BOOLEAN`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/daily",
@@ -715,6 +693,50 @@ class Config {
                                     "lit": "daily"
                                 }
                             ],
+                            "parts": [
+                                "daily"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "end_date",
+                                        "orig": "end_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "start_date",
+                                        "orig": "start_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "to_webhook",
+                                        "orig": "to_webhook",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "with_sample",
+                                        "orig": "with_sample",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "end_date",
@@ -723,14 +745,7 @@ class Config {
                                     "user_id",
                                     "with_sample"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "daily"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -742,47 +757,20 @@ class Config {
         "integration": {
             "fields": [
                 {
-                    "name": "enabled",
-                    "short": "Whether the integration is enabled",
-                    "type": "`$BOOLEAN`"
-                },
-                {
-                    "name": "icon",
-                    "short": "URL for the provider's icon image",
-                    "type": "`$STRING`"
-                },
-                {
-                    "name": "name",
-                    "short": "Display name of the integration",
-                    "type": "`$STRING`"
-                },
-                {
-                    "name": "provider",
-                    "short": "Identifier for the provider",
-                    "type": "`$STRING`"
-                },
-                {
                     "name": "providers",
+                    "title": "Providers",
                     "type": "`$ARRAY`"
                 },
                 {
                     "name": "sdk_providers",
-                    "short": "Providers available through Terra's mobile SDKs rather than cloud connections",
-                    "type": "`$ARRAY`"
-                },
-                {
-                    "name": "setup",
-                    "short": "Indicates how the integration is set up",
-                    "type": "`$STRING`"
+                    "title": "Sdk Providers",
+                    "type": "`$ARRAY`",
+                    "short": "Providers available through Terra's mobile SDKs rather than cloud connections"
                 },
                 {
                     "name": "status",
+                    "title": "Status",
                     "type": "`$STRING`"
-                },
-                {
-                    "name": "types",
-                    "short": "Indicates the types of data available through the provider",
-                    "type": "`$OBJECT`"
                 }
             ],
             "name": "integration",
@@ -792,16 +780,6 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "sdk",
-                                        "orig": "sdk",
-                                        "type": "`$BOOLEAN`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/integrations/detailed",
@@ -813,23 +791,33 @@ class Config {
                                     "lit": "detailed"
                                 }
                             ],
+                            "parts": [
+                                "integrations",
+                                "detailed"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body.providers`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "sdk",
+                                        "orig": "sdk",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "$action": "detailed",
                                 "exist": [
                                     "sdk"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body.providers`"
-                            },
-                            "parts": [
-                                "integrations",
-                                "detailed"
-                            ]
+                            }
                         },
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "GET",
                             "orig": "/integrations",
@@ -838,14 +826,16 @@ class Config {
                                     "lit": "integrations"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "integrations"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "integrations"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 }
@@ -858,115 +848,139 @@ class Config {
             "fields": [
                 {
                     "name": "collection_date",
-                    "short": "Specimen collection date (YYYY-MM-DD); omitted if not extracted.",
-                    "type": "`$STRING`"
+                    "title": "Collection Date",
+                    "type": "`$STRING`",
+                    "short": "Specimen collection date (YYYY-MM-DD); omitted if not extracted."
                 },
                 {
                     "name": "collection_time",
-                    "short": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted.",
-                    "type": "`$STRING`"
+                    "title": "Collection Time",
+                    "type": "`$STRING`",
+                    "short": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted."
                 },
                 {
                     "name": "current_status",
+                    "title": "Current Status",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "Current status as a clean lowercase string (open enum), e.g.",
-                    "type": "`$STRING`"
+                    "short": "Current status as a clean lowercase string (open enum), e.g."
                 },
                 {
                     "name": "file_count",
+                    "title": "File Count",
                     "type": "`$INTEGER`"
                 },
                 {
                     "name": "id",
+                    "title": "Id",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "input_bytes",
+                    "title": "Input Bytes",
                     "type": "`$INTEGER`"
                 },
                 {
                     "name": "lab_name",
+                    "title": "Lab Name",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "output_bytes",
+                    "title": "Output Bytes",
                     "type": "`$INTEGER`"
                 },
                 {
                     "name": "panels",
-                    "short": "Report-level panels that results reference by panel_id.",
-                    "type": "`$ARRAY`"
+                    "title": "Panels",
+                    "type": "`$ARRAY`",
+                    "short": "Report-level panels that results reference by panel_id."
                 },
                 {
                     "name": "patient_age_at_collection",
-                    "short": "Patient age in years; omitted if unknown.",
-                    "type": "`$INTEGER`"
+                    "title": "Patient Age At Collection",
+                    "type": "`$INTEGER`",
+                    "short": "Patient age in years; omitted if unknown."
                 },
                 {
                     "name": "patient_sex",
-                    "short": "Clean lowercase string (open enum); omitted if unspecified.",
-                    "type": "`$STRING`"
+                    "title": "Patient Sex",
+                    "type": "`$STRING`",
+                    "short": "Clean lowercase string (open enum); omitted if unspecified."
                 },
                 {
                     "name": "reference_id",
-                    "short": "Your external reference; omitted if not set.",
-                    "type": "`$STRING`"
+                    "title": "Reference Id",
+                    "type": "`$STRING`",
+                    "short": "Your external reference; omitted if not set."
                 },
                 {
                     "name": "report_date",
-                    "short": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
-                    "type": "`$STRING`"
+                    "title": "Report Date",
+                    "type": "`$STRING`",
+                    "short": "Date printed on the report (YYYY-MM-DD); omitted if not extracted."
                 },
                 {
                     "name": "report_locale",
+                    "title": "Report Locale",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "report_notes",
+                    "title": "Report Notes",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "report_time",
-                    "short": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
-                    "type": "`$STRING`"
+                    "title": "Report Time",
+                    "type": "`$STRING`",
+                    "short": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted."
                 },
                 {
                     "name": "report_type",
+                    "title": "Report Type",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "Report type as a clean lowercase string (open enum — handle unknown values gracefully).",
-                    "type": "`$STRING`"
+                    "short": "Report type as a clean lowercase string (open enum — handle unknown values gracefully)."
                 },
                 {
                     "name": "results",
-                    "short": "The layered biomarker results.",
-                    "type": "`$ARRAY`"
+                    "title": "Results",
+                    "type": "`$ARRAY`",
+                    "short": "The layered biomarker results."
                 },
                 {
                     "name": "results_count",
+                    "title": "Results Count",
                     "type": "`$INTEGER`"
                 },
                 {
                     "name": "session_id",
-                    "req": true,
-                    "type": "`$STRING`"
+                    "title": "Session Id",
+                    "type": "`$STRING`",
+                    "req": true
                 },
                 {
                     "name": "status_history",
+                    "title": "Status History",
                     "type": "`$ARRAY`"
                 },
                 {
-                    "format": "date-time",
                     "name": "updated_at",
-                    "type": "`$STRING`"
+                    "title": "Updated At",
+                    "type": "`$STRING`",
+                    "format": "date-time"
                 },
                 {
                     "name": "upload_id",
+                    "title": "Upload Id",
                     "type": "`$STRING`"
                 },
                 {
-                    "format": "date-time",
                     "name": "uploaded_at",
-                    "type": "`$STRING`"
+                    "title": "Uploaded At",
+                    "type": "`$STRING`",
+                    "format": "date-time"
                 }
             ],
             "id": {
@@ -980,17 +994,6 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "example": "patient_456",
-                                        "kind": "query",
-                                        "name": "reference_id",
-                                        "orig": "reference_id",
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "POST",
                             "orig": "/lab-reports",
@@ -999,18 +1002,30 @@ class Config {
                                     "lit": "lab-reports"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "reference_id"
-                                ]
-                            },
+                            "parts": [
+                                "lab-reports"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "lab-reports"
-                            ]
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "reference_id",
+                                        "orig": "reference_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "example": "patient_456"
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "reference_id"
+                                ]
+                            }
                         }
                     ]
                 },
@@ -1019,46 +1034,6 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "reference_id",
-                                        "orig": "reference_id",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "report_date_from",
-                                        "orig": "report_date_from",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "report_date_to",
-                                        "orig": "report_date_to",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "upload_id",
-                                        "orig": "upload_id",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "uploaded_at_from",
-                                        "orig": "uploaded_at_from",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "uploaded_at_to",
-                                        "orig": "uploaded_at_to",
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/lab-reports",
@@ -1067,6 +1042,54 @@ class Config {
                                     "lit": "lab-reports"
                                 }
                             ],
+                            "parts": [
+                                "lab-reports"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body.sessions`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "reference_id",
+                                        "orig": "reference_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "report_date_from",
+                                        "orig": "report_date_from",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "report_date_to",
+                                        "orig": "report_date_to",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "upload_id",
+                                        "orig": "upload_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "uploaded_at_from",
+                                        "orig": "uploaded_at_from",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "uploaded_at_to",
+                                        "orig": "uploaded_at_to",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "reference_id",
@@ -1076,14 +1099,7 @@ class Config {
                                     "uploaded_at_from",
                                     "uploaded_at_to"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body.sessions`"
-                            },
-                            "parts": [
-                                "lab-reports"
-                            ]
+                            }
                         }
                     ]
                 },
@@ -1092,26 +1108,9 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "example": "297405620317847552",
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "session_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/lab-reports/{session_id}",
-                            "rename": {
-                                "param": {
-                                    "session_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "lab-reports"
@@ -1120,19 +1119,36 @@ class Config {
                                     "var": "id"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "id"
-                                ]
+                            "parts": [
+                                "lab-reports",
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "session_id": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "lab-reports",
-                                "{id}"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "session_id",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "297405620317847552"
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id"
+                                ]
+                            }
                         }
                     ]
                 },
@@ -1141,26 +1157,9 @@ class Config {
                     "name": "remove",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "example": "297405620317847552",
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "session_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "DELETE",
                             "orig": "/lab-reports/{session_id}",
-                            "rename": {
-                                "param": {
-                                    "session_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "lab-reports"
@@ -1169,19 +1168,36 @@ class Config {
                                     "var": "id"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "id"
-                                ]
+                            "parts": [
+                                "lab-reports",
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "session_id": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "lab-reports",
-                                "{id}"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "session_id",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "297405620317847552"
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id"
+                                ]
+                            }
                         }
                     ]
                 }
@@ -1194,34 +1210,40 @@ class Config {
             "fields": [
                 {
                     "name": "attempt_count",
+                    "title": "Attempt Count",
+                    "type": "`$INTEGER`",
                     "req": true,
-                    "short": "Retry count — 0 on the first attempt, incremented per retry.",
-                    "type": "`$INTEGER`"
+                    "short": "Retry count — 0 on the first attempt, incremented per retry."
                 },
                 {
                     "name": "destination_id",
-                    "req": true,
-                    "type": "`$STRING`"
+                    "title": "Destination Id",
+                    "type": "`$STRING`",
+                    "req": true
                 },
                 {
                     "name": "destination_type",
-                    "short": "The destination's type (e.g.",
-                    "type": "`$STRING`"
+                    "title": "Destination Type",
+                    "type": "`$STRING`",
+                    "short": "The destination's type (e.g."
                 },
                 {
                     "name": "id",
+                    "title": "Id",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "last_error",
-                    "short": "Most recent delivery error; omitted when delivered.",
-                    "type": "`$STRING`"
+                    "title": "Last Error",
+                    "type": "`$STRING`",
+                    "short": "Most recent delivery error; omitted when delivered."
                 },
                 {
                     "name": "status",
+                    "title": "Status",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "pending, delivered, or failed.",
-                    "type": "`$STRING`"
+                    "short": "pending, delivered, or failed."
                 }
             ],
             "id": {
@@ -1235,26 +1257,9 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "example": "297405620317847552",
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "session_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/lab-reports/{session_id}/deliveries",
-                            "rename": {
-                                "param": {
-                                    "session_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "lab-reports"
@@ -1266,20 +1271,37 @@ class Config {
                                     "lit": "deliveries"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "id"
-                                ]
+                            "parts": [
+                                "lab-reports",
+                                "{id}",
+                                "deliveries"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "session_id": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body.deliveries`"
                             },
-                            "parts": [
-                                "lab-reports",
-                                "{id}",
-                                "deliveries"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "session_id",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "297405620317847552"
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id"
+                                ]
+                            }
                         }
                     ]
                 }
@@ -1292,16 +1314,19 @@ class Config {
             "fields": [
                 {
                     "name": "filename",
+                    "title": "Filename",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "id",
+                    "title": "Id",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "presigned_url",
-                    "req": true,
-                    "type": "`$STRING`"
+                    "title": "Presigned Url",
+                    "type": "`$STRING`",
+                    "req": true
                 }
             ],
             "id": {
@@ -1315,26 +1340,9 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "example": "297405620317847552",
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "session_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/lab-reports/{session_id}/files",
-                            "rename": {
-                                "param": {
-                                    "session_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "lab-reports"
@@ -1346,20 +1354,37 @@ class Config {
                                     "lit": "files"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "id"
-                                ]
+                            "parts": [
+                                "lab-reports",
+                                "{id}",
+                                "files"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "session_id": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "lab-reports",
-                                "{id}",
-                                "files"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "session_id",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "297405620317847552"
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id"
+                                ]
+                            }
                         }
                     ]
                 }
@@ -1377,42 +1402,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "end_date",
-                                        "orig": "end_date",
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "start_date",
-                                        "orig": "start_date",
-                                        "reqd": true,
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "to_webhook",
-                                        "orig": "to_webhook",
-                                        "type": "`$BOOLEAN`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "with_sample",
-                                        "orig": "with_sample",
-                                        "type": "`$BOOLEAN`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/menstruation",
@@ -1421,6 +1410,50 @@ class Config {
                                     "lit": "menstruation"
                                 }
                             ],
+                            "parts": [
+                                "menstruation"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "end_date",
+                                        "orig": "end_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "start_date",
+                                        "orig": "start_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "to_webhook",
+                                        "orig": "to_webhook",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "with_sample",
+                                        "orig": "with_sample",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "end_date",
@@ -1429,14 +1462,7 @@ class Config {
                                     "user_id",
                                     "with_sample"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "menstruation"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -1454,42 +1480,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "end_date",
-                                        "orig": "end_date",
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "start_date",
-                                        "orig": "start_date",
-                                        "reqd": true,
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "to_webhook",
-                                        "orig": "to_webhook",
-                                        "type": "`$BOOLEAN`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "with_sample",
-                                        "orig": "with_sample",
-                                        "type": "`$BOOLEAN`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/nutrition",
@@ -1498,6 +1488,50 @@ class Config {
                                     "lit": "nutrition"
                                 }
                             ],
+                            "parts": [
+                                "nutrition"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "end_date",
+                                        "orig": "end_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "start_date",
+                                        "orig": "start_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "to_webhook",
+                                        "orig": "to_webhook",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "with_sample",
+                                        "orig": "with_sample",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "end_date",
@@ -1506,14 +1540,7 @@ class Config {
                                     "user_id",
                                     "with_sample"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "nutrition"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -1526,40 +1553,48 @@ class Config {
             "fields": [
                 {
                     "name": "athlete_metrics",
+                    "title": "Athlete Metrics",
                     "type": "`$ANY`"
                 },
                 {
                     "name": "coercion_warnings",
-                    "short": "Set when the template could not be represented exactly on the provider.",
-                    "type": "`$STRING`"
+                    "title": "Coercion Warnings",
+                    "type": "`$STRING`",
+                    "short": "Set when the template could not be represented exactly on the provider."
                 },
                 {
                     "name": "created_at",
-                    "short": "Creation time (RFC 3339)",
-                    "type": "`$ANY`"
+                    "title": "Created At",
+                    "type": "`$ANY`",
+                    "short": "Creation time (RFC 3339)"
                 },
                 {
                     "name": "details",
-                    "short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
-                    "type": "`$ANY`"
+                    "title": "Details",
+                    "type": "`$ANY`",
+                    "short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider."
                 },
                 {
                     "name": "id",
+                    "title": "Id",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "is_external",
-                    "short": "True when the workout was created on the provider side rather than through Terra.",
-                    "type": "`$BOOLEAN`"
+                    "title": "Is External",
+                    "type": "`$BOOLEAN`",
+                    "short": "True when the workout was created on the provider side rather than through Terra."
                 },
                 {
                     "name": "last_updated_at",
-                    "short": "Last update time (RFC 3339)",
-                    "type": "`$ANY`"
+                    "title": "Last Updated At",
+                    "type": "`$ANY`",
+                    "short": "Last update time (RFC 3339)"
                 },
                 {
-                    "format": "date",
                     "name": "planned_date",
+                    "title": "Planned Date",
+                    "type": "`$STRING`",
                     "op": {
                         "update": {
                             "req": true,
@@ -1567,22 +1602,25 @@ class Config {
                         }
                     },
                     "short": "New scheduled date (YYYY-MM-DD)",
-                    "type": "`$STRING`"
+                    "format": "date"
                 },
                 {
                     "name": "planned_workout_id",
-                    "short": "Terra identifier of the planned workout",
-                    "type": "`$STRING`"
+                    "title": "Planned Workout Id",
+                    "type": "`$STRING`",
+                    "short": "Terra identifier of the planned workout"
                 },
                 {
                     "name": "provider_workout_id",
-                    "short": "Identifier assigned by the provider, once pushed.",
-                    "type": "`$STRING`"
+                    "title": "Provider Workout Id",
+                    "type": "`$STRING`",
+                    "short": "Identifier assigned by the provider, once pushed."
                 },
                 {
                     "name": "workout_id",
-                    "short": "Identifier of the source template.",
-                    "type": "`$STRING`"
+                    "title": "Workout Id",
+                    "type": "`$STRING`",
+                    "short": "Identifier of the source template."
                 }
             ],
             "id": {
@@ -1596,29 +1634,6 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "end_date",
-                                        "orig": "end_date",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "start_date",
-                                        "orig": "start_date",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/plannedWorkouts",
@@ -1627,20 +1642,44 @@ class Config {
                                     "lit": "plannedWorkouts"
                                 }
                             ],
+                            "parts": [
+                                "plannedWorkouts"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "end_date",
+                                        "orig": "end_date",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "start_date",
+                                        "orig": "start_date",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "end_date",
                                     "start_date",
                                     "user_id"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "plannedWorkouts"
-                            ]
+                            }
                         }
                     ]
                 },
@@ -1649,34 +1688,9 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "planned_workout_id",
-                                        "reqd": true,
-                                        "type": "`$INTEGER`"
-                                    }
-                                ],
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/plannedWorkouts/{planned_workout_id}",
-                            "rename": {
-                                "param": {
-                                    "planned_workout_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "plannedWorkouts"
@@ -1685,20 +1699,45 @@ class Config {
                                     "var": "id"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "id",
-                                    "user_id"
-                                ]
+                            "parts": [
+                                "plannedWorkouts",
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "planned_workout_id": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "plannedWorkouts",
-                                "{id}"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "planned_workout_id",
+                                        "type": "`$INTEGER`",
+                                        "kind": "param",
+                                        "reqd": true
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id",
+                                    "user_id"
+                                ]
+                            }
                         }
                     ]
                 },
@@ -1707,34 +1746,9 @@ class Config {
                     "name": "update",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "planned_workout_id",
-                                        "reqd": true,
-                                        "type": "`$INTEGER`"
-                                    }
-                                ],
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "PATCH",
                             "orig": "/plannedWorkouts/{planned_workout_id}",
-                            "rename": {
-                                "param": {
-                                    "planned_workout_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "plannedWorkouts"
@@ -1743,20 +1757,45 @@ class Config {
                                     "var": "id"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "id",
-                                    "user_id"
-                                ]
+                            "parts": [
+                                "plannedWorkouts",
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "planned_workout_id": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "plannedWorkouts",
-                                "{id}"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "planned_workout_id",
+                                        "type": "`$INTEGER`",
+                                        "kind": "param",
+                                        "reqd": true
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id",
+                                    "user_id"
+                                ]
+                            }
                         }
                     ]
                 }
@@ -1774,42 +1813,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "end_date",
-                                        "orig": "end_date",
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "start_date",
-                                        "orig": "start_date",
-                                        "reqd": true,
-                                        "type": "`$ANY`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "to_webhook",
-                                        "orig": "to_webhook",
-                                        "type": "`$BOOLEAN`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "with_sample",
-                                        "orig": "with_sample",
-                                        "type": "`$BOOLEAN`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/sleep",
@@ -1818,6 +1821,50 @@ class Config {
                                     "lit": "sleep"
                                 }
                             ],
+                            "parts": [
+                                "sleep"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "end_date",
+                                        "orig": "end_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "start_date",
+                                        "orig": "start_date",
+                                        "type": "`$ANY`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "to_webhook",
+                                        "orig": "to_webhook",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    },
+                                    {
+                                        "name": "with_sample",
+                                        "orig": "with_sample",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "end_date",
@@ -1826,14 +1873,7 @@ class Config {
                                     "user_id",
                                     "with_sample"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "sleep"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -1851,24 +1891,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "example": 0,
-                                        "kind": "query",
-                                        "name": "page",
-                                        "orig": "page",
-                                        "type": "`$INTEGER`"
-                                    },
-                                    {
-                                        "example": 500,
-                                        "kind": "query",
-                                        "name": "per_page",
-                                        "orig": "per_page",
-                                        "type": "`$INTEGER`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/subscriptions",
@@ -1877,37 +1899,40 @@ class Config {
                                     "lit": "subscriptions"
                                 }
                             ],
+                            "parts": [
+                                "subscriptions"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "page",
+                                        "orig": "page",
+                                        "type": "`$INTEGER`",
+                                        "kind": "query",
+                                        "example": 0
+                                    },
+                                    {
+                                        "name": "per_page",
+                                        "orig": "per_page",
+                                        "type": "`$INTEGER`",
+                                        "kind": "query",
+                                        "example": 500
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "page",
                                     "per_page"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "subscriptions"
-                            ]
+                            }
                         },
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "reference_id",
-                                        "orig": "reference_id",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/userInfo",
@@ -1916,19 +1941,36 @@ class Config {
                                     "lit": "userInfo"
                                 }
                             ],
+                            "parts": [
+                                "userInfo"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "reference_id",
+                                        "orig": "reference_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "reference_id",
                                     "user_id"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "userInfo"
-                            ]
+                            }
                         }
                     ]
                 }
@@ -1941,104 +1983,74 @@ class Config {
             "fields": [
                 {
                     "name": "description",
-                    "short": "Description of the workout",
-                    "type": "`$STRING`"
+                    "title": "Description",
+                    "type": "`$STRING`",
+                    "short": "Description of the workout"
                 },
                 {
                     "name": "environment",
-                    "type": "`$ANY`",
-                    "union": {
-                        "branches": 3,
-                        "count": 1,
-                        "depth": 2
-                    }
+                    "title": "Environment",
+                    "type": "`$ANY`"
                 },
                 {
                     "name": "estimated_calories",
-                    "short": "Estimated calories burned",
-                    "type": "`$ANY`"
+                    "title": "Estimated Calories",
+                    "type": "`$ANY`",
+                    "short": "Estimated calories burned"
                 },
                 {
                     "name": "estimated_distance_meters",
-                    "short": "Estimated total distance in meters",
-                    "type": "`$ANY`"
+                    "title": "Estimated Distance Meters",
+                    "type": "`$ANY`",
+                    "short": "Estimated total distance in meters"
                 },
                 {
                     "name": "estimated_duration_seconds",
-                    "short": "Estimated total duration in seconds",
-                    "type": "`$ANY`"
-                },
-                {
-                    "name": "ftp",
-                    "short": "Functional Threshold Power in watts",
-                    "type": "`$NUMBER`"
+                    "title": "Estimated Duration Seconds",
+                    "type": "`$ANY`",
+                    "short": "Estimated total duration in seconds"
                 },
                 {
                     "name": "id",
+                    "title": "Id",
                     "type": "`$STRING`"
-                },
-                {
-                    "name": "max_heart_rate",
-                    "short": "Maximum heart rate in BPM",
-                    "type": "`$NUMBER`"
                 },
                 {
                     "name": "name",
+                    "title": "Name",
+                    "type": "`$STRING`",
                     "req": true,
-                    "short": "Name of the workout",
-                    "type": "`$STRING`"
-                },
-                {
-                    "format": "date",
-                    "name": "planned_date",
-                    "req": true,
-                    "short": "Date to schedule the workout on (YYYY-MM-DD)",
-                    "type": "`$STRING`"
+                    "short": "Name of the workout"
                 },
                 {
                     "name": "pool_length_meters",
-                    "short": "Pool length in meters, for swim workouts",
-                    "type": "`$ANY`"
+                    "title": "Pool Length Meters",
+                    "type": "`$ANY`",
+                    "short": "Pool length in meters, for swim workouts"
                 },
                 {
                     "name": "sport",
-                    "req": true,
-                    "short": "Sport a workout template targets.",
+                    "title": "Sport",
                     "type": "`$ANY`",
-                    "union": {
-                        "branches": 15,
-                        "count": 1,
-                        "depth": 0
-                    }
+                    "req": true,
+                    "short": "Sport a workout template targets."
                 },
                 {
                     "name": "status",
+                    "title": "Status",
                     "type": "`$STRING`"
                 },
                 {
                     "name": "step_blocks",
-                    "req": true,
+                    "title": "Step Blocks",
                     "type": "`$ARRAY`",
-                    "union": {
-                        "branches": 11,
-                        "count": 8,
-                        "depth": 13
-                    }
-                },
-                {
-                    "name": "threshold_heart_rate",
-                    "short": "Threshold heart rate in BPM",
-                    "type": "`$NUMBER`"
-                },
-                {
-                    "name": "threshold_speed",
-                    "short": "Threshold speed in m/s",
-                    "type": "`$NUMBER`"
+                    "req": true
                 },
                 {
                     "name": "workout_id",
-                    "short": "Terra identifier of the stored template.",
-                    "type": "`$STRING`"
+                    "title": "Workout Id",
+                    "type": "`$STRING`",
+                    "short": "Terra identifier of the stored template."
                 }
             ],
             "id": {
@@ -2052,34 +2064,9 @@ class Config {
                     "name": "create",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "workout_id",
-                                        "reqd": true,
-                                        "type": "`$INTEGER`"
-                                    }
-                                ],
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "POST",
                             "orig": "/workouts/{workout_id}/plan",
-                            "rename": {
-                                "param": {
-                                    "workout_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "workouts"
@@ -2091,25 +2078,49 @@ class Config {
                                     "lit": "plan"
                                 }
                             ],
+                            "parts": [
+                                "workouts",
+                                "{id}",
+                                "plan"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "workout_id": "id"
+                                }
+                            },
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "workout_id",
+                                        "type": "`$INTEGER`",
+                                        "kind": "param",
+                                        "reqd": true
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
                             "select": {
                                 "$action": "plan",
                                 "exist": [
                                     "id",
                                     "user_id"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "workouts",
-                                "{id}",
-                                "plan"
-                            ]
+                            }
                         },
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "POST",
                             "orig": "/workouts",
@@ -2118,14 +2129,16 @@ class Config {
                                     "lit": "workouts"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "workouts"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "workouts"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 },
@@ -2134,7 +2147,6 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "GET",
                             "orig": "/workouts",
@@ -2143,14 +2155,16 @@ class Config {
                                     "lit": "workouts"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "workouts"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "workouts"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 },
@@ -2159,25 +2173,9 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "workout_id",
-                                        "reqd": true,
-                                        "type": "`$INTEGER`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/workouts/{workout_id}",
-                            "rename": {
-                                "param": {
-                                    "workout_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "workouts"
@@ -2186,19 +2184,35 @@ class Config {
                                     "var": "id"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "id"
-                                ]
+                            "parts": [
+                                "workouts",
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "workout_id": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "workouts",
-                                "{id}"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "workout_id",
+                                        "type": "`$INTEGER`",
+                                        "kind": "param",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id"
+                                ]
+                            }
                         }
                     ]
                 },
@@ -2207,26 +2221,6 @@ class Config {
                     "name": "remove",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "kind": "param",
-                                        "name": "planned_workout_id",
-                                        "orig": "planned_workout_id",
-                                        "reqd": true,
-                                        "type": "`$INTEGER`"
-                                    }
-                                ],
-                                "query": [
-                                    {
-                                        "kind": "query",
-                                        "name": "user_id",
-                                        "orig": "user_id",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "DELETE",
                             "orig": "/plannedWorkouts/{planned_workout_id}",
@@ -2238,41 +2232,46 @@ class Config {
                                     "var": "planned_workout_id"
                                 }
                             ],
+                            "parts": [
+                                "plannedWorkouts",
+                                "{planned_workout_id}"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "planned_workout_id",
+                                        "orig": "planned_workout_id",
+                                        "type": "`$INTEGER`",
+                                        "kind": "param",
+                                        "reqd": true
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "user_id",
+                                        "orig": "user_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "planned_workout_id",
                                     "user_id"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "parts": [
-                                "plannedWorkouts",
-                                "{planned_workout_id}"
-                            ]
+                            }
                         },
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "workout_id",
-                                        "reqd": true,
-                                        "type": "`$INTEGER`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "DELETE",
                             "orig": "/workouts/{workout_id}",
-                            "rename": {
-                                "param": {
-                                    "workout_id": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "lit": "workouts"
@@ -2281,19 +2280,35 @@ class Config {
                                     "var": "id"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "id"
-                                ]
+                            "parts": [
+                                "workouts",
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "workout_id": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "workouts",
-                                "{id}"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "workout_id",
+                                        "type": "`$INTEGER`",
+                                        "kind": "param",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id"
+                                ]
+                            }
                         }
                     ]
                 }
@@ -2301,7 +2316,7 @@ class Config {
             "relations": {
                 "ancestors": [
                     [
-                        "planned_workout"
+                        "$.main.kit.entity.planned_workout"
                     ]
                 ]
             }

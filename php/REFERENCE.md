@@ -457,15 +457,9 @@ $integration = $client->Integration();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `enabled` | `bool` | No | Whether the integration is enabled |
-| `icon` | `string` | No | URL for the provider's icon image |
-| `name` | `string` | No | Display name of the integration |
-| `provider` | `string` | No | Identifier for the provider |
 | `providers` | `array` | No |  |
 | `sdk_providers` | `array` | No | Providers available through Terra's mobile SDKs rather than cloud connections |
-| `setup` | `string` | No | Indicates how the integration is set up |
 | `status` | `string` | No |  |
-| `types` | `array` | No | Indicates the types of data available through the provider |
 
 ### Operations
 
@@ -1018,17 +1012,12 @@ $workout = $client->Workout();
 | `estimated_calories` | `mixed` | No | Estimated calories burned |
 | `estimated_distance_meters` | `mixed` | No | Estimated total distance in meters |
 | `estimated_duration_seconds` | `mixed` | No | Estimated total duration in seconds |
-| `ftp` | `float` | No | Functional Threshold Power in watts |
 | `id` | `string` | No |  |
-| `max_heart_rate` | `float` | No | Maximum heart rate in BPM |
 | `name` | `string` | Yes | Name of the workout |
-| `planned_date` | `string` | Yes | Date to schedule the workout on (YYYY-MM-DD) |
 | `pool_length_meters` | `mixed` | No | Pool length in meters, for swim workouts |
 | `sport` | `mixed` | Yes | Sport a workout template targets. |
 | `status` | `string` | No |  |
 | `step_blocks` | `array` | Yes |  |
-| `threshold_heart_rate` | `float` | No | Threshold heart rate in BPM |
-| `threshold_speed` | `float` | No | Threshold speed in m/s |
 | `workout_id` | `string` | No | Terra identifier of the stored template. |
 
 ### Operations
@@ -1040,7 +1029,6 @@ Create a new entity with the given data. Throws on error.
 ```php
 $result = $client->Workout()->create([
   "name" => null, // string
-  "planned_date" => null, // string
   "sport" => null, // mixed
   "step_blocks" => null, // array
 ]);
@@ -1104,14 +1092,14 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1157,7 +1145,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1188,7 +1176,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1219,7 +1207,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1247,7 +1235,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1282,7 +1270,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1313,7 +1301,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1347,7 +1335,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -1378,7 +1366,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

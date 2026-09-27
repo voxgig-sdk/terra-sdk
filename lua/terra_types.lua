@@ -1,7 +1,7 @@
 -- Typed models for the Terra SDK (LuaLS annotations).
 --
--- GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
--- params (op.<name>.points[].args.params[]). Field/param types come from the
+-- GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+-- params (op.<name>.points[].g.params[]). Field/param types come from the
 -- canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 -- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 -- edit by hand.
@@ -76,26 +76,14 @@
 ---@field with_sample? boolean
 
 ---@class Integration
----@field enabled? boolean
----@field icon? string
----@field name? string
----@field provider? string
 ---@field providers? table
 ---@field sdk_providers? table
----@field setup? string
 ---@field status? string
----@field types? table
 
 ---@class IntegrationListMatch
----@field enabled? boolean
----@field icon? string
----@field name? string
----@field provider? string
 ---@field providers? table
 ---@field sdk_providers? table
----@field setup? string
 ---@field status? string
----@field types? table
 
 ---@class LabReport
 ---@field collection_date? string
@@ -257,17 +245,12 @@
 ---@field estimated_calories? any
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
----@field ftp? number
 ---@field id? string
----@field max_heart_rate? number
 ---@field name string
----@field planned_date string
 ---@field pool_length_meters? any
 ---@field sport any
 ---@field status? string
 ---@field step_blocks table
----@field threshold_heart_rate? number
----@field threshold_speed? number
 ---@field workout_id? string
 
 ---@class WorkoutLoadMatch
@@ -279,17 +262,12 @@
 ---@field estimated_calories? any
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
----@field ftp? number
 ---@field id? string
----@field max_heart_rate? number
 ---@field name? string
----@field planned_date? string
 ---@field pool_length_meters? any
 ---@field sport? any
 ---@field status? string
 ---@field step_blocks? table
----@field threshold_heart_rate? number
----@field threshold_speed? number
 ---@field workout_id? string
 
 ---@class WorkoutCreateData
@@ -298,17 +276,12 @@
 ---@field estimated_calories? any
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
----@field ftp? number
 ---@field id? string
----@field max_heart_rate? number
 ---@field name string
----@field planned_date string
 ---@field pool_length_meters? any
 ---@field sport any
 ---@field status? string
 ---@field step_blocks table
----@field threshold_heart_rate? number
----@field threshold_speed? number
 ---@field workout_id? string
 
 ---@class WorkoutRemoveMatch

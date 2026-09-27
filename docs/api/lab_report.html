@@ -37,14 +37,14 @@
 <a href="../sdks/ts.html">TypeScript</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="labreport">LabReport</h1>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="labreport">LabReport</h1>
 <h2 id="operations">Operations</h2>
 <p>Every route this entity exposes. Each route links to its own reference on this page.</p>
 <table>
@@ -83,6 +83,66 @@
 </tr>
 </tbody>
 </table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">lab_reports, err := client.LabReport(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(lab_reports)
+lab_report, err := client.LabReport(nil).Load(map[string]any{&quot;id&quot;: &quot;example_id&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(lab_report)
+created, err := client.LabReport(nil).Create(map[string]any{&quot;current_status&quot;: &quot;example&quot;, &quot;report_type&quot;: &quot;example&quot;, &quot;session_id&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(created)
+removed, err := client.LabReport(nil).Remove(map[string]any{&quot;id&quot;: &quot;example_id&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(removed)
+</code></pre>
+<h3 id="javascript">JavaScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/js.html#set-up-the-client">JavaScript setup</a>, then call the operations:</p>
+<pre><code class="language-js">const lab_reports = await client.LabReport().list()
+const lab_report = await client.LabReport().load({ id: &quot;example_id&quot; })
+const created = await client.LabReport().create({ current_status: &quot;example&quot;, report_type: &quot;example&quot;, session_id: &quot;example&quot; })
+await client.LabReport().remove({ id: &quot;example_id&quot; })
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local lab_reports, err = client:LabReport():list()
+local lab_report, err = client:LabReport():load({ id = &quot;example_id&quot; })
+local created, err = client:LabReport():create({ current_status = &quot;example&quot;, report_type = &quot;example&quot;, session_id = &quot;example&quot; })
+local removed, err = client:LabReport():remove({ id = &quot;example_id&quot; })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$lab_reports = $client-&gt;LabReport()-&gt;list();
+$lab_report = $client-&gt;LabReport()-&gt;load([&quot;id&quot; =&gt; &quot;example_id&quot;]);
+$created = $client-&gt;LabReport()-&gt;create([&quot;current_status&quot; =&gt; &quot;example&quot;, &quot;report_type&quot; =&gt; &quot;example&quot;, &quot;session_id&quot; =&gt; &quot;example&quot;]);
+$client-&gt;LabReport()-&gt;remove([&quot;id&quot; =&gt; &quot;example_id&quot;]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">lab_reports = client.LabReport().list()
+lab_report = client.LabReport().load({&quot;id&quot;: &quot;example_id&quot;})
+created = client.LabReport().create({ &quot;current_status&quot;: &quot;example&quot;, &quot;report_type&quot;: &quot;example&quot;, &quot;session_id&quot;: &quot;example&quot; })
+client.LabReport().remove({&quot;id&quot;: &quot;example_id&quot;})
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const lab_reports = await client.LabReport().list()
+const lab_report = await client.LabReport().load({ id: &quot;example_id&quot; })
+const created = await client.LabReport().create({ current_status: &quot;example&quot;, report_type: &quot;example&quot;, session_id: &quot;example&quot; })
+await client.LabReport().remove({ id: &quot;example_id&quot; })
+</code></pre>
 <h2 id="fields">Fields</h2>
 <table>
 <thead>
@@ -116,37 +176,37 @@
 <td><code>file_count</code></td>
 <td><code>integer</code></td>
 <td>No</td>
-<td></td>
+<td>File Count</td>
 </tr>
 <tr>
 <td><code>id</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Id</td>
 </tr>
 <tr>
 <td><code>input_bytes</code></td>
 <td><code>integer</code></td>
 <td>No</td>
-<td></td>
+<td>Input Bytes</td>
 </tr>
 <tr>
 <td><code>lab_name</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Lab Name</td>
 </tr>
 <tr>
 <td><code>output_bytes</code></td>
 <td><code>integer</code></td>
 <td>No</td>
-<td></td>
+<td>Output Bytes</td>
 </tr>
 <tr>
 <td><code>panels</code></td>
 <td><code>array</code></td>
 <td>No</td>
-<td>Report-level panels that results reference by panel_id.</td>
+<td>Report-level panels that results reference by <code>panel_id</code>.</td>
 </tr>
 <tr>
 <td><code>patient_age_at_collection</code></td>
@@ -176,13 +236,13 @@
 <td><code>report_locale</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Report Locale</td>
 </tr>
 <tr>
 <td><code>report_notes</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Report Notes</td>
 </tr>
 <tr>
 <td><code>report_time</code></td>
@@ -206,37 +266,37 @@
 <td><code>results_count</code></td>
 <td><code>integer</code></td>
 <td>No</td>
-<td></td>
+<td>Results Count</td>
 </tr>
 <tr>
 <td><code>session_id</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td></td>
+<td>Session Id</td>
 </tr>
 <tr>
 <td><code>status_history</code></td>
 <td><code>array</code></td>
 <td>No</td>
-<td></td>
+<td>Status History</td>
 </tr>
 <tr>
 <td><code>updated_at</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Updated At</td>
 </tr>
 <tr>
 <td><code>upload_id</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Upload Id</td>
 </tr>
 <tr>
 <td><code>uploaded_at</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Uploaded At</td>
 </tr>
 </tbody>
 </table>
@@ -511,7 +571,7 @@
 <td><code>sessions[].current_status</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td>Current status as a clean lowercase string (open enum), for example processing, sent, partially_sent, failed.</td>
+<td>Current status as a clean lowercase string (open enum), for example processing, sent, <code>partially_sent</code>, failed.</td>
 </tr>
 <tr>
 <td><code>sessions[].file_count</code></td>
@@ -541,13 +601,13 @@
 <td><code>sessions[].panels</code></td>
 <td><code>array of object</code></td>
 <td>No</td>
-<td>Report-level panels that results reference by panel_id. Omitted if the report has no panel grouping.</td>
+<td>Report-level panels that results reference by <code>panel_id</code>. Omitted if the report has no panel grouping.</td>
 </tr>
 <tr>
 <td><code>sessions[].panels[].id</code></td>
 <td><code>integer</code></td>
 <td>Yes</td>
-<td>Report-local ordinal; matches LabReportBiomarker.panel_id.</td>
+<td>Report-local ordinal; matches LabReportBiomarker.<code>panel_id</code>.</td>
 </tr>
 <tr>
 <td><code>sessions[].panels[].key</code></td>
@@ -631,7 +691,7 @@
 <td><code>sessions[].results[].biomarker.key</code></td>
 <td><code>string or null</code></td>
 <td>Yes</td>
-<td>Canonical biomarker slug, or null when unmatched, the sole no-match signal. Do not key off loinc_code, which can be null on a match.</td>
+<td>Canonical biomarker slug, or null when unmatched, the sole no-match signal. Do not key off <code>loinc_code</code>, which can be null on a match.</td>
 </tr>
 <tr>
 <td><code>sessions[].results[].biomarker.loinc_code</code></td>
@@ -1100,7 +1160,7 @@
 <td><code>current_status</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td>Current status as a clean lowercase string (open enum), for example processing, sent, partially_sent, failed.</td>
+<td>Current status as a clean lowercase string (open enum), for example processing, sent, <code>partially_sent</code>, failed.</td>
 </tr>
 <tr>
 <td><code>file_count</code></td>
@@ -1130,13 +1190,13 @@
 <td><code>panels</code></td>
 <td><code>array of object</code></td>
 <td>No</td>
-<td>Report-level panels that results reference by panel_id. Omitted if the report has no panel grouping.</td>
+<td>Report-level panels that results reference by <code>panel_id</code>. Omitted if the report has no panel grouping.</td>
 </tr>
 <tr>
 <td><code>panels[].id</code></td>
 <td><code>integer</code></td>
 <td>Yes</td>
-<td>Report-local ordinal; matches LabReportBiomarker.panel_id.</td>
+<td>Report-local ordinal; matches LabReportBiomarker.<code>panel_id</code>.</td>
 </tr>
 <tr>
 <td><code>panels[].key</code></td>
@@ -1220,7 +1280,7 @@
 <td><code>results[].biomarker.key</code></td>
 <td><code>string or null</code></td>
 <td>Yes</td>
-<td>Canonical biomarker slug, or null when unmatched, the sole no-match signal. Do not key off loinc_code, which can be null on a match.</td>
+<td>Canonical biomarker slug, or null when unmatched, the sole no-match signal. Do not key off <code>loinc_code</code>, which can be null on a match.</td>
 </tr>
 <tr>
 <td><code>results[].biomarker.loinc_code</code></td>

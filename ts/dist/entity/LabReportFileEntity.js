@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LabReportFileEntity = void 0;
 const TerraEntityBase_1 = require("../TerraEntityBase");
-// TODO: needs Entity superclass
 class LabReportFileEntity extends TerraEntityBase_1.TerraEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

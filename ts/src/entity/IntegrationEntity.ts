@@ -19,7 +19,6 @@ import type {
   IntegrationListMatch,
 } from '../TerraTypes'
 
-// TODO: needs Entity superclass
 class IntegrationEntity extends TerraEntityBase<Integration> {
 
   constructor(client: TerraSDK, entopts: any) {

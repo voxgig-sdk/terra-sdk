@@ -1,0 +1,153 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 16
+  metrics: count: path: 25
+  metrics: count: method: 31
+
+  entity: activity: {
+    path: "/activity": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: athlete: {
+    path: "/athlete": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: authentication: {
+    path: "/auth/authenticateUser": {
+      op: create: method: *POST
+    }
+    path: "/auth/deauthenticateUser": {
+      op: remove: method: *DELETE
+    }
+    path: "/auth/generateAuthToken": {
+      op: create: method: *POST
+    }
+    path: "/auth/generateWidgetSession": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: body: {
+    path: "/body": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: bulk_user_info: {
+    path: "/bulkUserInfo": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: daily: {
+    path: "/daily": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: integration: {
+    path: "/integrations": {
+      op: list: method: *GET
+    }
+    path: "/integrations/detailed": {
+      action: "detailed": {}
+      op: list: method: *GET
+      op: list: transform: res: *("`body.providers`")|top
+    }
+  }
+
+  entity: lab_report: {
+    path: "/lab-reports": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.sessions`")|top
+    }
+    path: "/lab-reports/{session_id}": {
+      rename: param: "session_id": *"id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: lab_report_delivery: {
+    path: "/lab-reports/{session_id}/deliveries": {
+      rename: param: "session_id": *"id"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.deliveries`")|top
+    }
+  }
+
+  entity: lab_report_file: {
+    path: "/lab-reports/{session_id}/files": {
+      rename: param: "session_id": *"id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: menstruation: {
+    path: "/menstruation": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: nutrition: {
+    path: "/nutrition": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: planned_workout: {
+    path: "/plannedWorkouts": {
+      op: list: method: *GET
+    }
+    path: "/plannedWorkouts/{planned_workout_id}": {
+      rename: param: "planned_workout_id": *"id"
+      op: load: method: *GET
+      op: patch: method: *PATCH
+    }
+  }
+
+  entity: sleep: {
+    path: "/sleep": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: user: {
+    path: "/subscriptions": {
+      op: load: method: *GET
+    }
+    path: "/userInfo": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: workout: {
+    path: "/plannedWorkouts/{planned_workout_id}": {
+      op: remove: method: *DELETE
+    }
+    path: "/workouts": {
+      op: create: method: *POST
+      op: list: method: *GET
+    }
+    path: "/workouts/{workout_id}": {
+      rename: param: "workout_id": *"id"
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+    path: "/workouts/{workout_id}/plan": {
+      action: "plan": {}
+      rename: param: "workout_id": *"id"
+      op: create: method: *POST
+    }
+  }
+
+}

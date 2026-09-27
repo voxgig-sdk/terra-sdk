@@ -1,0 +1,362 @@
+# Entity: workout
+
+main: kit: entity: workout: {
+
+  alias: field: {}
+
+  fields: {
+    description: {
+      h: "Description"
+      n: "description"
+      r: false
+      sh: "Description of the workout"
+      t: "`$STRING`"
+    }
+    environment: {
+      h: "Environment"
+      n: "environment"
+      r: false
+      t: "`$ANY`"
+      union: {
+        branches: 3
+        count: 1
+        depth: 2
+      }
+    }
+    estimated_calories: {
+      h: "Estimated Calories"
+      n: "estimated_calories"
+      r: false
+      sh: "Estimated calories burned"
+      t: "`$ANY`"
+    }
+    estimated_distance_meters: {
+      h: "Estimated Distance Meters"
+      n: "estimated_distance_meters"
+      r: false
+      sh: "Estimated total distance in meters"
+      t: "`$ANY`"
+    }
+    estimated_duration_seconds: {
+      h: "Estimated Duration Seconds"
+      n: "estimated_duration_seconds"
+      r: false
+      sh: "Estimated total duration in seconds"
+      t: "`$ANY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: true
+      sh: "Name of the workout"
+      t: "`$STRING`"
+    }
+    pool_length_meters: {
+      h: "Pool Length Meters"
+      n: "pool_length_meters"
+      r: false
+      sh: "Pool length in meters, for swim workouts"
+      t: "`$ANY`"
+    }
+    sport: {
+      h: "Sport"
+      n: "sport"
+      r: true
+      sh: "Sport a workout template targets."
+      t: "`$ANY`"
+      union: {
+        branches: 15
+        count: 1
+        depth: 0
+      }
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      t: "`$STRING`"
+    }
+    step_blocks: {
+      h: "Step Blocks"
+      n: "step_blocks"
+      r: true
+      t: "`$ARRAY`"
+      union: {
+        branches: 11
+        count: 8
+        depth: 13
+      }
+    }
+    workout_id: {
+      h: "Workout Id"
+      n: "workout_id"
+      r: false
+      sh: "Terra identifier of the stored template."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "workout"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /workouts/{workout_id}/plan"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "workout_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/workouts/{workout_id}/plan"
+          q: {
+            "$action": "plan"
+            exist: [
+              "id"
+              "user_id"
+            ]
+          }
+          r: {
+            param: {
+              workout_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "workouts"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "plan"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /workouts"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/workouts"
+          s: [
+            {
+              lit: "workouts"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /workouts"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/workouts"
+          s: [
+            {
+              lit: "workouts"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /workouts/{workout_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "workout_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/workouts/{workout_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              workout_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "workouts"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /plannedWorkouts/{planned_workout_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "planned_workout_id"
+                or: "planned_workout_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/plannedWorkouts/{planned_workout_id}"
+          q: {
+            exist: [
+              "planned_workout_id"
+              "user_id"
+            ]
+          }
+          s: [
+            {
+              lit: "plannedWorkouts"
+            }
+            {
+              var: "planned_workout_id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "DELETE /workouts/{workout_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "workout_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/workouts/{workout_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              workout_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "workouts"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.planned_workout")]
+  ]
+
+}

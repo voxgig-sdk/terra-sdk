@@ -64,11 +64,9 @@ SDK operations: `list`.
 
 Key fields to recognise:
 
-- `enabled`: Whether the integration is enabled
-- `icon`: URL for the provider&#39;s icon image
-- `name`: Display name of the integration
-- `provider`: Identifier for the provider
+- `providers`: List of integration providers with their details
 - `sdk_providers`: Providers available through Terra&#39;s mobile SDKs rather than cloud connections
+- `status`: Status of the API response
 
 ### [LabReport](docs/api/lab_report.html)
 
@@ -81,8 +79,8 @@ Key fields to recognise:
 - `collection_date`: Specimen collection date (YYYY-MM-DD); omitted if not extracted.
 - `collection_time`: Specimen collection time (HH:MM, 24-hour); omitted if not extracted.
 - `current_status`: Processing status as a clean lowercase string.
+- `id`: Report-local ordinal; matches LabReportBiomarker.panel_id.
 - `panels`: Report-level panels that results reference by panel_id. Omitted if the report has no panel grouping.
-- `patient_age_at_collection`: Patient age in years; omitted if unknown.
 
 ### [LabReportDelivery](docs/api/lab_report_delivery.html)
 
@@ -126,8 +124,8 @@ Key fields to recognise:
 - `coercion_warnings`: Warnings emitted when the template could not be represented exactly on the provider
 - `created_at`: Creation time (RFC 3339)
 - `details`: Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. Present only for external workouts (is_external true).
+- `id`: Identifier of the workout on the provider&#39;s side
 - `is_external`: True when the workout was created on the provider side rather than through Terra
-- `last_updated_at`: Last update time (RFC 3339)
 
 ### [Sleep](docs/api/sleep.html)
 
@@ -153,7 +151,7 @@ Key fields to recognise:
 - `estimated_calories`: Estimated calories burned
 - `estimated_distance_meters`: Estimated total distance in meters
 - `estimated_duration_seconds`: Estimated total duration in seconds
-- `ftp`: Functional Threshold Power in watts
+- `name`: Name of the workout
 
 ### Route map
 

@@ -1,7 +1,7 @@
 # Typed models for the Terra SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Field/param types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
 #
@@ -120,27 +120,15 @@ class DailyLoadMatch(DailyLoadMatchRequired, total=False):
 
 
 class Integration(TypedDict, total=False):
-    enabled: bool
-    icon: str
-    name: str
-    provider: str
     providers: list
     sdk_providers: list
-    setup: str
     status: str
-    types: dict
 
 
 class IntegrationListMatch(TypedDict, total=False):
-    enabled: bool
-    icon: str
-    name: str
-    provider: str
     providers: list
     sdk_providers: list
-    setup: str
     status: str
-    types: dict
 
 
 class LabReportRequired(TypedDict):
@@ -351,7 +339,6 @@ class UserLoadMatch(TypedDict, total=False):
 
 class WorkoutRequired(TypedDict):
     name: str
-    planned_date: str
     sport: Any
     step_blocks: list
 
@@ -362,13 +349,9 @@ class Workout(WorkoutRequired, total=False):
     estimated_calories: Any
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
-    ftp: float
     id: str
-    max_heart_rate: float
     pool_length_meters: Any
     status: str
-    threshold_heart_rate: float
-    threshold_speed: float
     workout_id: str
 
 
@@ -382,23 +365,17 @@ class WorkoutListMatch(TypedDict, total=False):
     estimated_calories: Any
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
-    ftp: float
     id: str
-    max_heart_rate: float
     name: str
-    planned_date: str
     pool_length_meters: Any
     sport: Any
     status: str
     step_blocks: list
-    threshold_heart_rate: float
-    threshold_speed: float
     workout_id: str
 
 
 class WorkoutCreateDataRequired(TypedDict):
     name: str
-    planned_date: str
     sport: Any
     step_blocks: list
 
@@ -409,13 +386,9 @@ class WorkoutCreateData(WorkoutCreateDataRequired, total=False):
     estimated_calories: Any
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
-    ftp: float
     id: str
-    max_heart_rate: float
     pool_length_meters: Any
     status: str
-    threshold_heart_rate: float
-    threshold_speed: float
     workout_id: str
 
 

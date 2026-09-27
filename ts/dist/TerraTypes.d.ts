@@ -68,26 +68,14 @@ export interface DailyLoadMatch {
     with_sample?: boolean;
 }
 export interface Integration {
-    enabled?: boolean;
-    icon?: string;
-    name?: string;
-    provider?: string;
     providers?: any[];
     sdk_providers?: any[];
-    setup?: string;
     status?: string;
-    types?: Record<string, any>;
 }
 export interface IntegrationListMatch {
-    enabled?: boolean;
-    icon?: string;
-    name?: string;
-    provider?: string;
     providers?: any[];
     sdk_providers?: any[];
-    setup?: string;
     status?: string;
-    types?: Record<string, any>;
     $action?: string;
     [action: string]: any;
 }
@@ -251,17 +239,12 @@ export interface Workout {
     estimated_calories?: any;
     estimated_distance_meters?: any;
     estimated_duration_seconds?: any;
-    ftp?: number;
     id?: string;
-    max_heart_rate?: number;
     name: string;
-    planned_date: string;
     pool_length_meters?: any;
     sport: any;
     status?: string;
     step_blocks: any[];
-    threshold_heart_rate?: number;
-    threshold_speed?: number;
     workout_id?: string;
 }
 export interface WorkoutLoadMatch {
@@ -273,17 +256,12 @@ export interface WorkoutListMatch {
     estimated_calories?: any;
     estimated_distance_meters?: any;
     estimated_duration_seconds?: any;
-    ftp?: number;
     id?: string;
-    max_heart_rate?: number;
     name?: string;
-    planned_date?: string;
     pool_length_meters?: any;
     sport?: any;
     status?: string;
     step_blocks?: any[];
-    threshold_heart_rate?: number;
-    threshold_speed?: number;
     workout_id?: string;
 }
 export interface WorkoutCreateData {
@@ -292,17 +270,12 @@ export interface WorkoutCreateData {
     estimated_calories?: any;
     estimated_distance_meters?: any;
     estimated_duration_seconds?: any;
-    ftp?: number;
     id?: string;
-    max_heart_rate?: number;
     name: string;
-    planned_date: string;
     pool_length_meters?: any;
     sport: any;
     status?: string;
     step_blocks: any[];
-    threshold_heart_rate?: number;
-    threshold_speed?: number;
     workout_id?: string;
     $action?: string;
     [action: string]: any;

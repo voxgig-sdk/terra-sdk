@@ -1,0 +1,26 @@
+# BasicLabReportFileFlow
+
+main: kit: flow: BasicLabReportFileFlow:
+{
+  entity: "lab_report_file",
+  kind: "basic",
+  name: "BasicLabReportFileFlow",
+  step: [
+    {
+      m: {
+        session_id: "session01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "lab_report_file_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLabReportFileFlow"
+}

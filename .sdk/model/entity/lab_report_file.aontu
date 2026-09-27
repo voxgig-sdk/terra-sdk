@@ -1,0 +1,90 @@
+# Entity: lab_report_file
+
+main: kit: entity: lab_report_file: {
+
+  alias: field: {}
+
+  fields: {
+    filename: {
+      h: "Filename"
+      n: "filename"
+      r: false
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    presigned_url: {
+      h: "Presigned Url"
+      n: "presigned_url"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "lab_report_file"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /lab-reports/{session_id}/files"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "297405620317847552"
+                k: "param"
+                n: "id"
+                or: "session_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/lab-reports/{session_id}/files"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              session_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "lab-reports"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "files"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

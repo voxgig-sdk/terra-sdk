@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 // Typed models for the Terra SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 //
@@ -123,29 +123,17 @@ class DailyLoadMatch
 /** Integration entity data model. */
 class Integration
 {
-    public ?bool $enabled = null;
-    public ?string $icon = null;
-    public ?string $name = null;
-    public ?string $provider = null;
     public ?array $providers = null;
     public ?array $sdk_providers = null;
-    public ?string $setup = null;
     public ?string $status = null;
-    public ?array $types = null;
 }
 
 /** Request payload for Integration#list. */
 class IntegrationListMatch
 {
-    public ?bool $enabled = null;
-    public ?string $icon = null;
-    public ?string $name = null;
-    public ?string $provider = null;
     public ?array $providers = null;
     public ?array $sdk_providers = null;
-    public ?string $setup = null;
     public ?string $status = null;
-    public ?array $types = null;
 }
 
 /** LabReport entity data model. */
@@ -373,17 +361,12 @@ class Workout
     public mixed $estimated_calories = null;
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
-    public ?float $ftp = null;
     public ?string $id = null;
-    public ?float $max_heart_rate = null;
     public string $name;
-    public string $planned_date;
     public mixed $pool_length_meters = null;
     public mixed $sport;
     public ?string $status = null;
     public array $step_blocks;
-    public ?float $threshold_heart_rate = null;
-    public ?float $threshold_speed = null;
     public ?string $workout_id = null;
 }
 
@@ -401,17 +384,12 @@ class WorkoutListMatch
     public mixed $estimated_calories = null;
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
-    public ?float $ftp = null;
     public ?string $id = null;
-    public ?float $max_heart_rate = null;
     public ?string $name = null;
-    public ?string $planned_date = null;
     public mixed $pool_length_meters = null;
     public mixed $sport = null;
     public ?string $status = null;
     public ?array $step_blocks = null;
-    public ?float $threshold_heart_rate = null;
-    public ?float $threshold_speed = null;
     public ?string $workout_id = null;
 }
 
@@ -423,17 +401,12 @@ class WorkoutCreateData
     public mixed $estimated_calories = null;
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
-    public ?float $ftp = null;
     public ?string $id = null;
-    public ?float $max_heart_rate = null;
     public string $name;
-    public string $planned_date;
     public mixed $pool_length_meters = null;
     public mixed $sport;
     public ?string $status = null;
     public array $step_blocks;
-    public ?float $threshold_heart_rate = null;
-    public ?float $threshold_speed = null;
     public ?string $workout_id = null;
 }
 

@@ -1,0 +1,96 @@
+# Entity: integration
+
+main: kit: entity: integration: {
+
+  alias: field: {}
+
+  fields: {
+    providers: {
+      h: "Providers"
+      n: "providers"
+      r: false
+      t: "`$ARRAY`"
+    }
+    sdk_providers: {
+      h: "Sdk Providers"
+      n: "sdk_providers"
+      r: false
+      sh: "Providers available through Terra's mobile SDKs rather than cloud connections"
+      t: "`$ARRAY`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  name: "integration"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /integrations/detailed"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "sdk"
+                or: "sdk"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/integrations/detailed"
+          q: {
+            "$action": "detailed"
+            exist: [
+              "sdk"
+            ]
+          }
+          s: [
+            {
+              lit: "integrations"
+            }
+            {
+              lit: "detailed"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.providers`"
+          }
+        }
+        {
+          co: {
+            id: "GET /integrations"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/integrations"
+          s: [
+            {
+              lit: "integrations"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

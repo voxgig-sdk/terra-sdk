@@ -1,7 +1,7 @@
 // Typed models for the Terra SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -37,18 +37,6 @@ type AthleteLoadMatch struct {
 
 // Authentication is the typed data model for the authentication entity.
 type Authentication struct {
-	AuthFailureRedirectUrl *string `json:"auth_failure_redirect_url,omitempty"`
-	AuthSuccessRedirectUrl *string `json:"auth_success_redirect_url,omitempty"`
-	AuthUrl *string `json:"auth_url,omitempty"`
-	ExpiresIn *int `json:"expires_in,omitempty"`
-	Language *string `json:"language,omitempty"`
-	Providers *string `json:"providers,omitempty"`
-	ReferenceId *string `json:"reference_id,omitempty"`
-	SessionId *string `json:"session_id,omitempty"`
-	Status *string `json:"status,omitempty"`
-	Token *string `json:"token,omitempty"`
-	Url *string `json:"url,omitempty"`
-	UserId *string `json:"user_id,omitempty"`
 }
 
 // AuthenticationCreateData is the typed request payload for Authentication.CreateTyped.
@@ -109,56 +97,17 @@ type DailyLoadMatch struct {
 
 // Integration is the typed data model for the integration entity.
 type Integration struct {
-	Enabled *bool `json:"enabled,omitempty"`
-	Icon *string `json:"icon,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Provider *string `json:"provider,omitempty"`
-	Providers *[]any `json:"providers,omitempty"`
-	SdkProviders *[]any `json:"sdk_providers,omitempty"`
-	Setup *string `json:"setup,omitempty"`
-	Status *string `json:"status,omitempty"`
-	Types *map[string]any `json:"types,omitempty"`
 }
 
 // IntegrationListMatch is the typed request payload for Integration.ListTyped.
 type IntegrationListMatch struct {
-	Enabled *bool `json:"enabled,omitempty"`
-	Icon *string `json:"icon,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Provider *string `json:"provider,omitempty"`
 	Providers *[]any `json:"providers,omitempty"`
 	SdkProviders *[]any `json:"sdk_providers,omitempty"`
-	Setup *string `json:"setup,omitempty"`
 	Status *string `json:"status,omitempty"`
-	Types *map[string]any `json:"types,omitempty"`
 }
 
 // LabReport is the typed data model for the lab_report entity.
 type LabReport struct {
-	CollectionDate *string `json:"collection_date,omitempty"`
-	CollectionTime *string `json:"collection_time,omitempty"`
-	CurrentStatus string `json:"current_status"`
-	FileCount *int `json:"file_count,omitempty"`
-	Id *string `json:"id,omitempty"`
-	InputBytes *int `json:"input_bytes,omitempty"`
-	LabName *string `json:"lab_name,omitempty"`
-	OutputBytes *int `json:"output_bytes,omitempty"`
-	Panels *[]any `json:"panels,omitempty"`
-	PatientAgeAtCollection *int `json:"patient_age_at_collection,omitempty"`
-	PatientSex *string `json:"patient_sex,omitempty"`
-	ReferenceId *string `json:"reference_id,omitempty"`
-	ReportDate *string `json:"report_date,omitempty"`
-	ReportLocale *string `json:"report_locale,omitempty"`
-	ReportNotes *string `json:"report_notes,omitempty"`
-	ReportTime *string `json:"report_time,omitempty"`
-	ReportType string `json:"report_type"`
-	Results *[]any `json:"results,omitempty"`
-	ResultsCount *int `json:"results_count,omitempty"`
-	SessionId string `json:"session_id"`
-	StatusHistory *[]any `json:"status_history,omitempty"`
-	UpdatedAt *string `json:"updated_at,omitempty"`
-	UploadId *string `json:"upload_id,omitempty"`
-	UploadedAt *string `json:"uploaded_at,omitempty"`
 }
 
 // LabReportLoadMatch is the typed request payload for LabReport.LoadTyped.
@@ -211,12 +160,6 @@ type LabReportRemoveMatch struct {
 
 // LabReportDelivery is the typed data model for the lab_report_delivery entity.
 type LabReportDelivery struct {
-	AttemptCount int `json:"attempt_count"`
-	DestinationId string `json:"destination_id"`
-	DestinationType *string `json:"destination_type,omitempty"`
-	Id *string `json:"id,omitempty"`
-	LastError *string `json:"last_error,omitempty"`
-	Status string `json:"status"`
 }
 
 // LabReportDeliveryListMatch is the typed request payload for LabReportDelivery.ListTyped.
@@ -226,9 +169,6 @@ type LabReportDeliveryListMatch struct {
 
 // LabReportFile is the typed data model for the lab_report_file entity.
 type LabReportFile struct {
-	Filename *string `json:"filename,omitempty"`
-	Id *string `json:"id,omitempty"`
-	PresignedUrl string `json:"presigned_url"`
 }
 
 // LabReportFileListMatch is the typed request payload for LabReportFile.ListTyped.
@@ -264,17 +204,6 @@ type NutritionLoadMatch struct {
 
 // PlannedWorkout is the typed data model for the planned_workout entity.
 type PlannedWorkout struct {
-	AthleteMetrics *any `json:"athlete_metrics,omitempty"`
-	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
-	CreatedAt *any `json:"created_at,omitempty"`
-	Details *any `json:"details,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsExternal *bool `json:"is_external,omitempty"`
-	LastUpdatedAt *any `json:"last_updated_at,omitempty"`
-	PlannedDate *string `json:"planned_date,omitempty"`
-	PlannedWorkoutId *string `json:"planned_workout_id,omitempty"`
-	ProviderWorkoutId *string `json:"provider_workout_id,omitempty"`
-	WorkoutId *string `json:"workout_id,omitempty"`
 }
 
 // PlannedWorkoutLoadMatch is the typed request payload for PlannedWorkout.LoadTyped.
@@ -331,23 +260,6 @@ type UserLoadMatch struct {
 
 // Workout is the typed data model for the workout entity.
 type Workout struct {
-	Description *string `json:"description,omitempty"`
-	Environment *any `json:"environment,omitempty"`
-	EstimatedCalories *any `json:"estimated_calories,omitempty"`
-	EstimatedDistanceMeters *any `json:"estimated_distance_meters,omitempty"`
-	EstimatedDurationSeconds *any `json:"estimated_duration_seconds,omitempty"`
-	Ftp *float64 `json:"ftp,omitempty"`
-	Id *string `json:"id,omitempty"`
-	MaxHeartRate *float64 `json:"max_heart_rate,omitempty"`
-	Name string `json:"name"`
-	PlannedDate string `json:"planned_date"`
-	PoolLengthMeters *any `json:"pool_length_meters,omitempty"`
-	Sport any `json:"sport"`
-	Status *string `json:"status,omitempty"`
-	StepBlocks []any `json:"step_blocks"`
-	ThresholdHeartRate *float64 `json:"threshold_heart_rate,omitempty"`
-	ThresholdSpeed *float64 `json:"threshold_speed,omitempty"`
-	WorkoutId *string `json:"workout_id,omitempty"`
 }
 
 // WorkoutLoadMatch is the typed request payload for Workout.LoadTyped.
@@ -362,17 +274,12 @@ type WorkoutListMatch struct {
 	EstimatedCalories *any `json:"estimated_calories,omitempty"`
 	EstimatedDistanceMeters *any `json:"estimated_distance_meters,omitempty"`
 	EstimatedDurationSeconds *any `json:"estimated_duration_seconds,omitempty"`
-	Ftp *float64 `json:"ftp,omitempty"`
 	Id *string `json:"id,omitempty"`
-	MaxHeartRate *float64 `json:"max_heart_rate,omitempty"`
 	Name *string `json:"name,omitempty"`
-	PlannedDate *string `json:"planned_date,omitempty"`
 	PoolLengthMeters *any `json:"pool_length_meters,omitempty"`
 	Sport *any `json:"sport,omitempty"`
 	Status *string `json:"status,omitempty"`
 	StepBlocks *[]any `json:"step_blocks,omitempty"`
-	ThresholdHeartRate *float64 `json:"threshold_heart_rate,omitempty"`
-	ThresholdSpeed *float64 `json:"threshold_speed,omitempty"`
 	WorkoutId *string `json:"workout_id,omitempty"`
 }
 
@@ -383,17 +290,12 @@ type WorkoutCreateData struct {
 	EstimatedCalories *any `json:"estimated_calories,omitempty"`
 	EstimatedDistanceMeters *any `json:"estimated_distance_meters,omitempty"`
 	EstimatedDurationSeconds *any `json:"estimated_duration_seconds,omitempty"`
-	Ftp *float64 `json:"ftp,omitempty"`
 	Id *string `json:"id,omitempty"`
-	MaxHeartRate *float64 `json:"max_heart_rate,omitempty"`
 	Name string `json:"name"`
-	PlannedDate string `json:"planned_date"`
 	PoolLengthMeters *any `json:"pool_length_meters,omitempty"`
 	Sport any `json:"sport"`
 	Status *string `json:"status,omitempty"`
 	StepBlocks []any `json:"step_blocks"`
-	ThresholdHeartRate *float64 `json:"threshold_heart_rate,omitempty"`
-	ThresholdSpeed *float64 `json:"threshold_speed,omitempty"`
 	WorkoutId *string `json:"workout_id,omitempty"`
 }
 

@@ -1,0 +1,237 @@
+# Entity: authentication
+
+main: kit: entity: authentication: {
+
+  alias: field: {}
+
+  fields: {
+    auth_failure_redirect_url: {
+      h: "Auth Failure Redirect Url"
+      n: "auth_failure_redirect_url"
+      r: false
+      sh: "URL the user is redirected to upon unsuccessful authentication"
+      t: "`$STRING`"
+    }
+    auth_success_redirect_url: {
+      h: "Auth Success Redirect Url"
+      n: "auth_success_redirect_url"
+      r: false
+      sh: "URL the user is redirected to upon successful authentication"
+      t: "`$STRING`"
+    }
+    auth_url: {
+      h: "Auth Url"
+      n: "auth_url"
+      r: false
+      sh: "authentication URL the user must be redirected to in order to link their account"
+      t: "`$STRING`"
+    }
+    expires_in: {
+      h: "Expires In"
+      n: "expires_in"
+      r: false
+      sh: "a number in seconds depicting how long the url is valid for"
+      t: "`$INTEGER`"
+    }
+    language: {
+      h: "Language"
+      n: "language"
+      r: false
+      sh: "Display language of the widget"
+      t: "`$STRING`"
+    }
+    providers: {
+      h: "Providers"
+      n: "providers"
+      r: false
+      sh: "Comma separated list of providers to display on the device selection page."
+      t: "`$STRING`"
+    }
+    reference_id: {
+      h: "Reference Id"
+      n: "reference_id"
+      r: false
+      sh: "Identifier of the end user on your system, such as a user ID or email associated with them"
+      t: "`$STRING`"
+    }
+    session_id: {
+      h: "Session Id"
+      n: "session_id"
+      r: false
+      sh: "Session ID for the widget authentication session"
+      t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      sh: "indicates that the request was successful"
+      t: "`$STRING`"
+    }
+    token: {
+      h: "Token"
+      n: "token"
+      r: false
+      t: "`$STRING`"
+    }
+    url: {
+      h: "Url"
+      n: "url"
+      r: false
+      sh: "the widget URL the user must be redirected to in order to link their account"
+      t: "`$STRING`"
+    }
+    user_id: {
+      h: "User Id"
+      n: "user_id"
+      r: false
+      sh: "User ID for the user being created"
+      t: "`$STRING`"
+    }
+  }
+
+  name: "authentication"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /auth/authenticateUser"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                ex: "testingTerra"
+                k: "header"
+                n: "dev_id"
+                or: "dev_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                ex: "FITBIT"
+                k: "query"
+                n: "resource"
+                or: "resource"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/auth/authenticateUser"
+          q: {
+            exist: [
+              "dev_id"
+              "resource"
+            ]
+          }
+          s: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "authenticateUser"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /auth/generateAuthToken"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/auth/generateAuthToken"
+          s: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "generateAuthToken"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /auth/generateWidgetSession"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/auth/generateWidgetSession"
+          s: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "generateWidgetSession"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /auth/deauthenticateUser"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/auth/deauthenticateUser"
+          q: {
+            exist: [
+              "user_id"
+            ]
+          }
+          s: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "deauthenticateUser"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

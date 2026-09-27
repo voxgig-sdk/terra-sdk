@@ -1,0 +1,87 @@
+# Entity: menstruation
+
+main: kit: entity: menstruation: {
+
+  alias: field: {}
+
+  name: "menstruation"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /menstruation"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "end_date"
+                or: "end_date"
+                r: false
+                t: "`$ANY`"
+              }
+              {
+                k: "query"
+                n: "start_date"
+                or: "start_date"
+                r: true
+                t: "`$ANY`"
+              }
+              {
+                k: "query"
+                n: "to_webhook"
+                or: "to_webhook"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "with_sample"
+                or: "with_sample"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/menstruation"
+          q: {
+            exist: [
+              "end_date"
+              "start_date"
+              "to_webhook"
+              "user_id"
+              "with_sample"
+            ]
+          }
+          s: [
+            {
+              lit: "menstruation"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

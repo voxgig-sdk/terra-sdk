@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IntegrationEntity = void 0;
 const TerraEntityBase_1 = require("../TerraEntityBase");
-// TODO: needs Entity superclass
 class IntegrationEntity extends TerraEntityBase_1.TerraEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

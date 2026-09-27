@@ -19,7 +19,6 @@ import type {
   LabReportDeliveryListMatch,
 } from '../TerraTypes'
 
-// TODO: needs Entity superclass
 class LabReportDeliveryEntity extends TerraEntityBase<LabReportDelivery> {
 
   constructor(client: TerraSDK, entopts: any) {

@@ -1,0 +1,112 @@
+# Entity: lab_report_delivery
+
+main: kit: entity: lab_report_delivery: {
+
+  alias: field: {}
+
+  fields: {
+    attempt_count: {
+      h: "Attempt Count"
+      n: "attempt_count"
+      r: true
+      sh: "Retry count — 0 on the first attempt, incremented per retry."
+      t: "`$INTEGER`"
+    }
+    destination_id: {
+      h: "Destination Id"
+      n: "destination_id"
+      r: true
+      t: "`$STRING`"
+    }
+    destination_type: {
+      h: "Destination Type"
+      n: "destination_type"
+      r: false
+      sh: "The destination's type (e.g."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    last_error: {
+      h: "Last Error"
+      n: "last_error"
+      r: false
+      sh: "Most recent delivery error; omitted when delivered."
+      t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: true
+      sh: "pending, delivered, or failed."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "lab_report_delivery"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /lab-reports/{session_id}/deliveries"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "297405620317847552"
+                k: "param"
+                n: "id"
+                or: "session_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/lab-reports/{session_id}/deliveries"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              session_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "lab-reports"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "deliveries"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.deliveries`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}
