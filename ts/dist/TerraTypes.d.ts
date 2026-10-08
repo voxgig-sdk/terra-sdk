@@ -55,8 +55,10 @@ export interface BodyLoadMatch {
     with_sample?: boolean;
 }
 export interface BulkUserInfo {
+    bulk_user_infos?: any[];
 }
 export interface BulkUserInfoCreateData {
+    bulk_user_infos?: any[];
 }
 export interface Daily {
 }

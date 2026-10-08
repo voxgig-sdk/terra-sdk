@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { TerraSDK, BaseFeature, stdutil } from '../../..'
+import { TerraSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('UserEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = TerraSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.User().load({"page":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.TERRA_TEST_LIVE
@@ -51,7 +63,7 @@ describe('UserEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"user","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /subscriptions","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":0,"k":"query","n":"page","or":"page","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"ex":500,"k":"query","n":"per_page","or":"per_page","r":false,"t":"`$INTEGER`","index$":1}]},"k":"http","m":"GET","o":"/subscriptions","q":{"exist":["page","per_page"]},"r":{},"s":[{"lit":"subscriptions"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /userInfo","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"reference_id","or":"reference_id","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"user_id","or":"user_id","r":false,"t":"`$STRING`","index$":1}]},"k":"http","m":"GET","o":"/userInfo","q":{"exist":["reference_id","user_id"]},"r":{},"s":[{"lit":"userInfo"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"user","name__orig":"user","Name":"User","name_":"user","name-":"user","NAME":"USER","index$":14}, {"active":true,"entity":"user","key$":"BasicUserFlow","kind":"basic","name":"BasicUserFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"user_ref01","srcdatavar":"user_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-user_ref01"}}],"index$":0}]}, 'User', {"GET /subscriptions":{"protocol":"http","parameters":[{"name":"page","in":"query","required":false,"schema":{"type":"integer"},"description":"Zero-based page number. If omitted, results are not paginated.","example":0,"index$":0},{"name":"per_page","in":"query","required":false,"schema":{"type":"integer"},"description":"Number of results per page (default is 500).","example":500,"index$":1}]},"GET /userInfo":{"protocol":"http","parameters":[{"name":"user_id","in":"query","description":"user ID to query for","schema":{"type":"string"},"required":false,"index$":0},{"name":"reference_id","in":"query","description":"reference ID to query for","schema":{"type":"string"},"required":false,"index$":1}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"user","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /subscriptions","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":0,"k":"query","n":"page","or":"page","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"ex":500,"k":"query","n":"per_page","or":"per_page","r":false,"t":"`$INTEGER`","index$":1}]},"k":"http","m":"GET","o":"/subscriptions","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"subscriptions"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /userInfo","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"reference_id","or":"reference_id","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"user_id","or":"user_id","r":false,"t":"`$STRING`","index$":1}]},"k":"http","m":"GET","o":"/userInfo","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"userInfo"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"user","name__orig":"user","Name":"User","name_":"user","name-":"user","NAME":"USER","index$":14}, {"active":true,"entity":"user","key$":"BasicUserFlow","kind":"basic","name":"BasicUserFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"user_ref01","srcdatavar":"user_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-user_ref01"}}],"index$":0}]}, 'User', {"GET /subscriptions":{"protocol":"http","parameters":[{"name":"page","in":"query","required":false,"schema":{"type":"integer"},"description":"Zero-based page number. If omitted, results are not paginated.","example":0,"index$":0},{"name":"per_page","in":"query","required":false,"schema":{"type":"integer"},"description":"Number of results per page (default is 500).","example":500,"index$":1}]},"GET /userInfo":{"protocol":"http","parameters":[{"name":"user_id","in":"query","description":"user ID to query for","schema":{"type":"string"},"required":false,"index$":0},{"name":"reference_id","in":"query","description":"reference ID to query for","schema":{"type":"string"},"required":false,"index$":1}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('UserEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

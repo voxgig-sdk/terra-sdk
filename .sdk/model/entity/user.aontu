@@ -37,11 +37,9 @@ main: kit: entity: user: {
           }
           m: "GET"
           o: "/subscriptions"
-          q: {
-            exist: [
-              "page"
-              "per_page"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -79,11 +77,9 @@ main: kit: entity: user: {
           }
           m: "GET"
           o: "/userInfo"
-          q: {
-            exist: [
-              "reference_id"
-              "user_id"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

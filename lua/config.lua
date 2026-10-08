@@ -137,6 +137,7 @@ local function make_config()
         },
         ["optspec"] = {
           ["clearTimer"] = "`$FUNCTION`",
+          ["now"] = "`$FUNCTION`",
           ["setTimer"] = "`$FUNCTION`",
         },
         ["strict"] = false,
@@ -227,7 +228,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "with_sample",
-                      ["orig"] = "with_sample",
+                      ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
                     },
@@ -235,12 +236,13 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "end_date",
                     "start_date",
-                    "to_webhook",
                     "user_id",
-                    "with_sample",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -294,9 +296,12 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "to_webhook",
                     "user_id",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -411,7 +416,7 @@ local function make_config()
                   ["header"] = {
                     {
                       ["name"] = "dev_id",
-                      ["orig"] = "dev_id",
+                      ["orig"] = "dev-id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "header",
                       ["reqd"] = true,
@@ -434,6 +439,10 @@ local function make_config()
                     "dev_id",
                     "resource",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
               {
@@ -459,6 +468,10 @@ local function make_config()
                 },
                 ["args"] = {},
                 ["select"] = {},
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
               {
                 ["kind"] = "http",
@@ -483,6 +496,10 @@ local function make_config()
                 },
                 ["args"] = {},
                 ["select"] = {},
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
             },
           },
@@ -519,6 +536,7 @@ local function make_config()
                       ["type"] = "`$STRING`",
                       ["kind"] = "query",
                       ["reqd"] = true,
+                      ["field"] = true,
                     },
                   },
                 },
@@ -526,6 +544,10 @@ local function make_config()
                   ["exist"] = {
                     "user_id",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -590,7 +612,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "with_sample",
-                      ["orig"] = "with_sample",
+                      ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
                     },
@@ -598,12 +620,13 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "end_date",
                     "start_date",
-                    "to_webhook",
                     "user_id",
-                    "with_sample",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -614,7 +637,14 @@ local function make_config()
         },
       },
       ["bulk_user_info"] = {
-        ["fields"] = {},
+        ["fields"] = {
+          {
+            ["name"] = "bulk_user_infos",
+            ["title"] = "Bulk User Infos",
+            ["type"] = "`$ARRAY`",
+            ["short"] = "List of user IDs to get information for",
+          },
+        },
         ["name"] = "bulk_user_info",
         ["op"] = {
           ["create"] = {
@@ -635,11 +665,19 @@ local function make_config()
                 },
                 ["rename"] = {},
                 ["transform"] = {
-                  ["req"] = "`reqdata`",
+                  ["req"] = "`reqdata.bulk_user_infos`",
                   ["res"] = "`body`",
                 },
                 ["args"] = {},
-                ["select"] = {},
+                ["select"] = {
+                  ["exist"] = {
+                    "bulk_user_infos",
+                  },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
             },
           },
@@ -703,7 +741,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "with_sample",
-                      ["orig"] = "with_sample",
+                      ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
                     },
@@ -711,12 +749,13 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "end_date",
                     "start_date",
-                    "to_webhook",
                     "user_id",
-                    "with_sample",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -754,6 +793,30 @@ local function make_config()
               {
                 ["kind"] = "http",
                 ["method"] = "GET",
+                ["orig"] = "/integrations",
+                ["segments"] = {
+                  {
+                    ["lit"] = "integrations",
+                  },
+                },
+                ["parts"] = {
+                  "integrations",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
+              },
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
                 ["orig"] = "/integrations/detailed",
                 ["segments"] = {
                   {
@@ -784,30 +847,11 @@ local function make_config()
                 },
                 ["select"] = {
                   ["$action"] = "detailed",
-                  ["exist"] = {
-                    "sdk",
-                  },
                 },
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/integrations",
-                ["segments"] = {
-                  {
-                    ["lit"] = "integrations",
-                  },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
-                ["parts"] = {
-                  "integrations",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
               },
             },
           },
@@ -947,6 +991,13 @@ local function make_config()
             ["name"] = "upload_id",
             ["title"] = "Upload Id",
             ["type"] = "`$STRING`",
+            ["op"] = {
+              ["create"] = {
+                ["req"] = true,
+                ["type"] = "`$STRING`",
+              },
+            },
+            ["short"] = "Durable correlation key for the upload; every resulting session and webhook carries it.",
           },
           {
             ["name"] = "uploaded_at",
@@ -990,13 +1041,24 @@ local function make_config()
                       ["type"] = "`$STRING`",
                       ["kind"] = "query",
                       ["example"] = "patient_456",
+                      ["field"] = true,
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "reference_id",
+                ["select"] = {},
+                ["body"] = {
+                  ["fields"] = {
+                    {
+                      ["binary"] = true,
+                      ["name"] = "file",
+                    },
                   },
+                  ["kind"] = "multipart",
+                  ["media"] = "multipart/form-data",
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1029,6 +1091,7 @@ local function make_config()
                       ["orig"] = "reference_id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "query",
+                      ["field"] = true,
                     },
                     {
                       ["name"] = "report_date_from",
@@ -1047,6 +1110,7 @@ local function make_config()
                       ["orig"] = "upload_id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "query",
+                      ["field"] = true,
                     },
                     {
                       ["name"] = "uploaded_at_from",
@@ -1062,15 +1126,10 @@ local function make_config()
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "reference_id",
-                    "report_date_from",
-                    "report_date_to",
-                    "upload_id",
-                    "uploaded_at_from",
-                    "uploaded_at_to",
-                  },
+                ["select"] = {},
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1120,6 +1179,10 @@ local function make_config()
                   ["exist"] = {
                     "id",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1274,6 +1337,10 @@ local function make_config()
                     "id",
                   },
                 },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
             },
           },
@@ -1357,6 +1424,10 @@ local function make_config()
                     "id",
                   },
                 },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
             },
           },
@@ -1420,7 +1491,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "with_sample",
-                      ["orig"] = "with_sample",
+                      ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
                     },
@@ -1428,12 +1499,13 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "end_date",
                     "start_date",
-                    "to_webhook",
                     "user_id",
-                    "with_sample",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1498,7 +1570,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "with_sample",
-                      ["orig"] = "with_sample",
+                      ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
                     },
@@ -1506,12 +1578,13 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "end_date",
                     "start_date",
-                    "to_webhook",
                     "user_id",
-                    "with_sample",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1647,10 +1720,12 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "end_date",
-                    "start_date",
                     "user_id",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1710,6 +1785,10 @@ local function make_config()
                     "user_id",
                   },
                 },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
             },
           },
@@ -1767,6 +1846,10 @@ local function make_config()
                     "id",
                     "user_id",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1831,7 +1914,7 @@ local function make_config()
                     },
                     {
                       ["name"] = "with_sample",
-                      ["orig"] = "with_sample",
+                      ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
                     },
@@ -1839,12 +1922,13 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "end_date",
                     "start_date",
-                    "to_webhook",
                     "user_id",
-                    "with_sample",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -1897,11 +1981,10 @@ local function make_config()
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "page",
-                    "per_page",
-                  },
+                ["select"] = {},
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
               {
@@ -1937,11 +2020,10 @@ local function make_config()
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "reference_id",
-                    "user_id",
-                  },
+                ["select"] = {},
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -2091,6 +2173,10 @@ local function make_config()
                     "user_id",
                   },
                 },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
               {
                 ["kind"] = "http",
@@ -2111,6 +2197,10 @@ local function make_config()
                 },
                 ["args"] = {},
                 ["select"] = {},
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
             },
           },
@@ -2137,6 +2227,10 @@ local function make_config()
                 },
                 ["args"] = {},
                 ["select"] = {},
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
               },
             },
           },
@@ -2184,6 +2278,10 @@ local function make_config()
                   ["exist"] = {
                     "id",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },
@@ -2280,6 +2378,10 @@ local function make_config()
                   ["exist"] = {
                     "id",
                   },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
               },
             },

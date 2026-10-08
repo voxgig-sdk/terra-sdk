@@ -2,19 +2,24 @@
   "existing": {
     "bulk_user_info": {
       "BULK_USER_INFO00": {
+        "bulk_user_infos": [],
         "id": "BULK_USER_INFO00"
       },
       "BULK_USER_INFO01": {
+        "bulk_user_infos": [],
         "id": "BULK_USER_INFO01"
       },
       "BULK_USER_INFO02": {
+        "bulk_user_infos": [],
         "id": "BULK_USER_INFO02"
       }
     }
   },
   "new": {
     "bulk_user_info": {
-      "bulk_user_info_ref01": {}
+      "bulk_user_info_ref01": {
+        "bulk_user_infos": []
+      }
     }
   },
   "requests": {

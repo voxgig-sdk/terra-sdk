@@ -4,12 +4,25 @@ main: kit: entity: bulk_user_info: {
 
   alias: field: {}
 
+  fields: {
+    bulk_user_infos: {
+      h: "Bulk User Infos"
+      n: "bulk_user_infos"
+      r: false
+      sh: "List of user IDs to get information for"
+      t: "`$ARRAY`"
+    }
+  }
+
   name: "bulk_user_info"
   op: {
     create: {
       name: "create"
       points: [
         {
+          bf: [
+            "bulk_user_infos"
+          ]
           co: {
             id: "POST /bulkUserInfo"
             source: "openapi3"
@@ -17,21 +30,27 @@ main: kit: entity: bulk_user_info: {
           }
           m: "POST"
           o: "/bulkUserInfo"
+          q: {
+            exist: [
+              "bulk_user_infos"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "bulkUserInfo"
             }
           ]
           t: {
-            req: "`reqdata`"
+            req: "`reqdata.bulk_user_infos`"
             res: "`body`"
           }
         }
       ]
     }
-  }
-
-  fields: {
   }
 
 

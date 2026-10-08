@@ -21,6 +21,7 @@ export TERRA_APIKEY=sk_live_xxx
 # 4. Each command line is ONE boru expression, run against the API:
 ./terra-cli load 1 activity            # {id:1} shorthand
 ./terra-cli load '{id:1}' activity       # explicit match map
+./terra-cli list integration
 
 # 5. Override the API base URL for a single call
 TERRA_BASE=https://api.example.com ./terra-cli load 1 activity

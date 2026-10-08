@@ -65,6 +65,10 @@ main: kit: entity: lab_report_file: {
               session_id: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "lab-reports"

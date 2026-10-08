@@ -38,12 +38,73 @@ describe('IntegrationEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    constructor() {
+      super()
+      this.name = 'failhook'
+      this.version = '0.0.1'
+      this.active = true
+      this.unexpected = 0
+    }
+    init() { }
+    PreSpec() { throw new Error('integration hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of TerraSDK.test(offline).Integration().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of TerraSDK.test(offline).Integration()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != config.feature?.rbac) {
+      const denied = TerraSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.Integration().stream('list')) { }
+      }, (err) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain = {}
+    const ctrl = { explain }
+    for await (const _item of TerraSDK.test().Integration().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new TerraSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.Integration().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.Integration().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == config.feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = TerraSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Integration().list({"status":1}),
+      (err) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"providers":{"a":true,"h":"Providers","n":"providers","r":false,"t":"`$ARRAY`","key$":"providers","index$":0},"sdk_providers":{"a":true,"h":"Sdk Providers","n":"sdk_providers","r":false,"sh":"Providers available through Terra's mobile SDKs rather than cloud connections","t":"`$ARRAY`","key$":"sdk_providers","index$":1},"status":{"a":true,"h":"Status","n":"status","r":false,"t":"`$STRING`","key$":"status","index$":2}},"name":"integration","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /integrations/detailed","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"sdk","or":"sdk","r":false,"t":"`$BOOLEAN`","index$":0}]},"k":"http","m":"GET","o":"/integrations/detailed","q":{"$action":"detailed","exist":["sdk"]},"r":{},"s":[{"lit":"integrations"},{"lit":"detailed"}],"t":{"req":"`reqdata`","res":"`body.providers`"},"index$":0},{"a":true,"co":{"id":"GET /integrations","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/integrations","q":{},"r":{},"s":[{"lit":"integrations"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"integration","name__orig":"integration","Name":"Integration","name_":"integration","name-":"integration","NAME":"INTEGRATION","index$":6}, {"active":true,"entity":"integration","key$":"BasicIntegrationFlow","kind":"basic","name":"BasicIntegrationFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"integration_ref01"}}],"index$":0}]}, 'Integration', {"GET /integrations/detailed":{"protocol":"http","parameters":[{"in":"query","name":"sdk","required":false,"schema":{"type":"boolean"},"description":"If `true`, allows SDK integrations to be included in the response.","index$":0}]},"GET /integrations":{"protocol":"http","parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"providers":{"a":true,"h":"Providers","n":"providers","r":false,"t":"`$ARRAY`","key$":"providers","index$":0},"sdk_providers":{"a":true,"h":"Sdk Providers","n":"sdk_providers","r":false,"sh":"Providers available through Terra's mobile SDKs rather than cloud connections","t":"`$ARRAY`","key$":"sdk_providers","index$":1},"status":{"a":true,"h":"Status","n":"status","r":false,"t":"`$STRING`","key$":"status","index$":2}},"name":"integration","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /integrations","source":"openapi3","version":2},"g":{},"k":"http","m":"GET","o":"/integrations","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"integrations"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /integrations/detailed","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"sdk","or":"sdk","r":false,"t":"`$BOOLEAN`","index$":0}]},"k":"http","m":"GET","o":"/integrations/detailed","q":{"$action":"detailed"},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"integrations"},{"lit":"detailed"}],"t":{"req":"`reqdata`","res":"`body.providers`"},"index$":1}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"integration","name__orig":"integration","Name":"Integration","name_":"integration","name-":"integration","NAME":"INTEGRATION","index$":6}, {"active":true,"entity":"integration","key$":"BasicIntegrationFlow","kind":"basic","name":"BasicIntegrationFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"integration_ref01"}}],"index$":0}]}, 'Integration', {"GET /integrations":{"protocol":"http","parameters":[]},"GET /integrations/detailed":{"protocol":"http","parameters":[{"in":"query","name":"sdk","required":false,"schema":{"type":"boolean"},"description":"If `true`, allows SDK integrations to be included in the response.","index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -64,6 +125,12 @@ describe('IntegrationEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra) {
   // TODO: fix test def options

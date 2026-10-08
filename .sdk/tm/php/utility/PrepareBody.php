@@ -3,11 +3,16 @@ declare(strict_types=1);
 
 // Terra SDK utility: prepare_body
 
+require_once __DIR__ . '/Media.php';
+
 class TerraPrepareBody
 {
     public static function call(TerraContext $ctx): mixed
     {
         if ($ctx->op->input === 'data') {
+            if (TerraMedia::isRawRequest($ctx->point)) {
+                return TerraMedia::rawBody($ctx->reqdata);
+            }
             $body = ($ctx->utility->transform_request)($ctx);
             // PHP cannot tell an empty map from an empty list, and this
             // vendored struct answers [] where the canonical transform

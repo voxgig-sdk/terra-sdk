@@ -1,0 +1,24 @@
+{
+  point: "warning"
+  note: "Points POST /auth/generateAuthToken and POST /auth/generateWidgetSession on entity=authentication op=create have the same selector (exist: none), so only POST /auth/generateAuthToken is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "authentication"
+  op: "create"
+  points: [
+    "POST /auth/generateAuthToken"
+    "POST /auth/generateWidgetSession"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points GET /subscriptions and GET /userInfo on entity=user op=load have the same selector (exist: none), so only GET /subscriptions is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "user"
+  op: "load"
+  points: [
+    "GET /subscriptions"
+    "GET /userInfo"
+  ]
+
+}

@@ -141,6 +141,7 @@ func MakeConfig() map[string]any {
 				},
 				"optspec": map[string]any{
 					"clearTimer": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
 					"setTimer": "`$FUNCTION`",
 				},
 				"strict": false,
@@ -231,7 +232,7 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "with_sample",
-											"orig": "with_sample",
+											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -239,12 +240,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"end_date",
 										"start_date",
-										"to_webhook",
 										"user_id",
-										"with_sample",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -298,9 +300,12 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"to_webhook",
 										"user_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -415,7 +420,7 @@ func MakeConfig() map[string]any {
 									"header": []any{
 										map[string]any{
 											"name": "dev_id",
-											"orig": "dev_id",
+											"orig": "dev-id",
 											"type": "`$STRING`",
 											"kind": "header",
 											"reqd": true,
@@ -438,6 +443,10 @@ func MakeConfig() map[string]any {
 										"dev_id",
 										"resource",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -463,6 +472,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -487,6 +500,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -523,6 +540,7 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"reqd": true,
+											"field": true,
 										},
 									},
 								},
@@ -530,6 +548,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"user_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -594,7 +616,7 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "with_sample",
-											"orig": "with_sample",
+											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -602,12 +624,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"end_date",
 										"start_date",
-										"to_webhook",
 										"user_id",
-										"with_sample",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -618,7 +641,14 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"bulk_user_info": map[string]any{
-				"fields": []any{},
+				"fields": []any{
+					map[string]any{
+						"name": "bulk_user_infos",
+						"title": "Bulk User Infos",
+						"type": "`$ARRAY`",
+						"short": "List of user IDs to get information for",
+					},
+				},
 				"name": "bulk_user_info",
 				"op": map[string]any{
 					"create": map[string]any{
@@ -639,11 +669,19 @@ func MakeConfig() map[string]any {
 								},
 								"rename": map[string]any{},
 								"transform": map[string]any{
-									"req": "`reqdata`",
+									"req": "`reqdata.bulk_user_infos`",
 									"res": "`body`",
 								},
 								"args": map[string]any{},
-								"select": map[string]any{},
+								"select": map[string]any{
+									"exist": []any{
+										"bulk_user_infos",
+									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -707,7 +745,7 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "with_sample",
-											"orig": "with_sample",
+											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -715,12 +753,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"end_date",
 										"start_date",
-										"to_webhook",
 										"user_id",
-										"with_sample",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -758,6 +797,30 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"kind": "http",
 								"method": "GET",
+								"orig": "/integrations",
+								"segments": []any{
+									map[string]any{
+										"lit": "integrations",
+									},
+								},
+								"parts": []any{
+									"integrations",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
 								"orig": "/integrations/detailed",
 								"segments": []any{
 									map[string]any{
@@ -788,30 +851,11 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"$action": "detailed",
-									"exist": []any{
-										"sdk",
-									},
 								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "GET",
-								"orig": "/integrations",
-								"segments": []any{
-									map[string]any{
-										"lit": "integrations",
-									},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
-								"parts": []any{
-									"integrations",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{},
 							},
 						},
 					},
@@ -951,6 +995,13 @@ func MakeConfig() map[string]any {
 						"name": "upload_id",
 						"title": "Upload Id",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
+						"short": "Durable correlation key for the upload; every resulting session and webhook carries it.",
 					},
 					map[string]any{
 						"name": "uploaded_at",
@@ -994,13 +1045,24 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "patient_456",
+											"field": true,
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"reference_id",
+								"select": map[string]any{},
+								"body": map[string]any{
+									"fields": []any{
+										map[string]any{
+											"binary": true,
+											"name": "file",
+										},
 									},
+									"kind": "multipart",
+									"media": "multipart/form-data",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1033,6 +1095,7 @@ func MakeConfig() map[string]any {
 											"orig": "reference_id",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "report_date_from",
@@ -1051,6 +1114,7 @@ func MakeConfig() map[string]any {
 											"orig": "upload_id",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "uploaded_at_from",
@@ -1066,15 +1130,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"reference_id",
-										"report_date_from",
-										"report_date_to",
-										"upload_id",
-										"uploaded_at_from",
-										"uploaded_at_to",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1124,6 +1183,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1278,6 +1341,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1361,6 +1428,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1424,7 +1495,7 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "with_sample",
-											"orig": "with_sample",
+											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -1432,12 +1503,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"end_date",
 										"start_date",
-										"to_webhook",
 										"user_id",
-										"with_sample",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1502,7 +1574,7 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "with_sample",
-											"orig": "with_sample",
+											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -1510,12 +1582,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"end_date",
 										"start_date",
-										"to_webhook",
 										"user_id",
-										"with_sample",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1651,10 +1724,12 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"end_date",
-										"start_date",
 										"user_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1714,6 +1789,10 @@ func MakeConfig() map[string]any {
 										"user_id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1771,6 +1850,10 @@ func MakeConfig() map[string]any {
 										"id",
 										"user_id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1835,7 +1918,7 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "with_sample",
-											"orig": "with_sample",
+											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
 										},
@@ -1843,12 +1926,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"end_date",
 										"start_date",
-										"to_webhook",
 										"user_id",
-										"with_sample",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1901,11 +1985,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"page",
-										"per_page",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -1941,11 +2024,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"reference_id",
-										"user_id",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2095,6 +2177,10 @@ func MakeConfig() map[string]any {
 										"user_id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -2115,6 +2201,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2141,6 +2231,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2188,6 +2282,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2284,6 +2382,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},

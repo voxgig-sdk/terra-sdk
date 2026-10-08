@@ -33,6 +33,28 @@ main: kit: entity: integration: {
       points: [
         {
           co: {
+            id: "GET /integrations"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/integrations"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "integrations"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
             id: "GET /integrations/detailed"
             source: "openapi3"
             version: 2
@@ -52,9 +74,10 @@ main: kit: entity: integration: {
           o: "/integrations/detailed"
           q: {
             "$action": "detailed"
-            exist: [
-              "sdk"
-            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -67,24 +90,6 @@ main: kit: entity: integration: {
           t: {
             req: "`reqdata`"
             res: "`body.providers`"
-          }
-        }
-        {
-          co: {
-            id: "GET /integrations"
-            source: "openapi3"
-            version: 2
-          }
-          m: "GET"
-          o: "/integrations"
-          s: [
-            {
-              lit: "integrations"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
           }
         }
       ]

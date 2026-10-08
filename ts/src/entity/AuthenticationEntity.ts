@@ -130,9 +130,15 @@ class AuthenticationEntity extends TerraEntityBase<Authentication> {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err: any) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr: any) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -141,11 +147,12 @@ class AuthenticationEntity extends TerraEntityBase<Authentication> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Authentication> return stays clean under strict null checks.
+        // Promise<AuthenticationEntity> return stays clean under strict null checks.
         return undefined as any
       }
     }
   }
+
 
 
 
@@ -255,9 +262,15 @@ class AuthenticationEntity extends TerraEntityBase<Authentication> {
       return out
     }
     catch (err: any) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr: any) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 

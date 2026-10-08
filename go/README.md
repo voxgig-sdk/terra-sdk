@@ -16,7 +16,7 @@ go get github.com/voxgig-sdk/terra-sdk/go@latest
 ```
 
 The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
-release tag — see [Releases](https://github.com/voxgig-sdk/terra-sdk/releases) for the available versions.
+release tag — see [Tags](https://github.com/voxgig-sdk/terra-sdk/tags) for the available versions.
 
 To vendor from a local checkout instead, clone this repo alongside your
 project and add a `replace` directive pointing at the checked-out
@@ -30,14 +30,15 @@ go mod edit -replace github.com/voxgig-sdk/terra-sdk/go=../terra-sdk/go
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### Quickstart
 
 A complete program: create a client, then call the entity operations.
-Each operation returns `(value, error)` — the value is the data itself
-(there is no `{ok, data}` wrapper), so check `err` and use the value
-directly.
+Each operation returns `(value, error)` — the value is the entity, and for
+`List` a `[]any` of entities, one per record (there is no `{ok, data}`
+wrapper), so check `err` and read a record through the entity's
+`Data()`.
 
 ```go
 package main
@@ -53,12 +54,12 @@ func main() {
         "apikey": os.Getenv("TERRA_APIKEY"),
     })
 
-    // Load a single activity — the value is the loaded record.
+    // Load a single activity — the value is the entity; Data() reads its record.
     activity, err := client.Activity(nil).Load(map[string]any{"start_date": "example_start_date", "user_id": "example_user_id"}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(activity)
+    fmt.Println(activity.(sdk.Entity).Data())
 }
 ```
 
@@ -144,7 +145,7 @@ activity, err := client.Activity(nil).Load(
 if err != nil {
     panic(err)
 }
-fmt.Println(activity) // the returned mock data
+fmt.Println(activity.(sdk.Entity).Data()) // the entity's mock record
 ```
 
 ### Use a custom fetch function
@@ -246,11 +247,11 @@ All entities implement the `TerraEntity` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
-| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity. |
-| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
+| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria, and return it. |
+| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria, one per record. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity, and return it. |
+| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity, and return it. |
+| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity, and return it marked as deleted. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -258,13 +259,13 @@ All entities implement the `TerraEntity` interface.
 
 ### Result shape
 
-Entity operations return `(value, error)`. The `value` is the
-operation's data **directly** — there is no wrapper:
+Entity operations return `(value, error)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
-| `List` | a `[]any` of entity records |
+| `Load` / `Create` / `Update` / `Remove` | the entity, whose `Data()` reads its record (`map[string]any`) |
+| `List` | a `[]any` of entities, one per record |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
@@ -272,7 +273,7 @@ slice):
 
     activity, err := client.Activity(nil).Load(nil, nil)
     if err != nil { /* handle */ }
-    // activity is the returned record
+    // activity is the entity; activity.(sdk.Entity).Data() reads its record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -331,6 +332,7 @@ API path: `/body`
 
 | Field | Description |
 | --- | --- |
+| `"bulk_user_infos"` | List of user IDs to get information for |
 
 Operations: Create.
 
@@ -355,7 +357,7 @@ API path: `/daily`
 
 Operations: List.
 
-API path: `/integrations/detailed`
+API path: `/integrations`
 
 #### LabReport
 
@@ -383,7 +385,7 @@ API path: `/integrations/detailed`
 | `"session_id"` |  |
 | `"status_history"` |  |
 | `"updated_at"` |  |
-| `"upload_id"` |  |
+| `"upload_id"` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `"uploaded_at"` |  |
 
 Operations: Create, List, Load, Remove.
@@ -516,7 +518,7 @@ activity, err := client.Activity(nil).Load(map[string]any{"start_date": "start_d
 if err != nil {
     panic(err)
 }
-fmt.Println(activity) // the loaded record
+fmt.Println(activity.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -537,7 +539,7 @@ athlete, err := client.Athlete(nil).Load(map[string]any{"user_id": "user_id"}, n
 if err != nil {
     panic(err)
 }
-fmt.Println(athlete) // the loaded record
+fmt.Println(athlete.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -578,7 +580,7 @@ result, err := client.Authentication(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -599,7 +601,7 @@ body, err := client.Body(nil).Load(map[string]any{"start_date": "start_date", "u
 if err != nil {
     panic(err)
 }
-fmt.Println(body) // the loaded record
+fmt.Println(body.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -613,6 +615,12 @@ Create an instance: `bulkUserInfo := client.BulkUserInfo(nil)`
 | --- | --- |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `bulk_user_infos` | `[]any` | List of user IDs to get information for |
+
 #### Example: Create
 
 ```go
@@ -621,7 +629,7 @@ result, err := client.BulkUserInfo(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -642,7 +650,7 @@ daily, err := client.Daily(nil).Load(map[string]any{"start_date": "start_date", 
 if err != nil {
     panic(err)
 }
-fmt.Println(daily) // the loaded record
+fmt.Println(daily.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -671,7 +679,10 @@ integrations, err := client.Integration(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(integrations) // the array of records
+// A []any of entities, one per record.
+for _, item := range integrations.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -714,7 +725,7 @@ Create an instance: `labReport := client.LabReport(nil)`
 | `session_id` | `string` |  |
 | `status_history` | `[]any` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load
@@ -724,7 +735,7 @@ labReport, err := client.LabReport(nil).Load(map[string]any{"id": "lab_report_id
 if err != nil {
     panic(err)
 }
-fmt.Println(labReport) // the loaded record
+fmt.Println(labReport.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -734,7 +745,10 @@ labReports, err := client.LabReport(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(labReports) // the array of records
+// A []any of entities, one per record.
+for _, item := range labReports.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -748,7 +762,7 @@ result, err := client.LabReport(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -776,11 +790,14 @@ Create an instance: `labReportDelivery := client.LabReportDelivery(nil)`
 #### Example: List
 
 ```go
-labReportDeliverys, err := client.LabReportDelivery(nil).List(nil, nil)
+labReportDeliverys, err := client.LabReportDelivery(nil).List(map[string]any{"id": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(labReportDeliverys) // the array of records
+// A []any of entities, one per record.
+for _, item := range labReportDeliverys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -805,11 +822,14 @@ Create an instance: `labReportFile := client.LabReportFile(nil)`
 #### Example: List
 
 ```go
-labReportFiles, err := client.LabReportFile(nil).List(nil, nil)
+labReportFiles, err := client.LabReportFile(nil).List(map[string]any{"id": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(labReportFiles) // the array of records
+// A []any of entities, one per record.
+for _, item := range labReportFiles.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -830,7 +850,7 @@ menstruation, err := client.Menstruation(nil).Load(map[string]any{"start_date": 
 if err != nil {
     panic(err)
 }
-fmt.Println(menstruation) // the loaded record
+fmt.Println(menstruation.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -851,7 +871,7 @@ nutrition, err := client.Nutrition(nil).Load(map[string]any{"start_date": "start
 if err != nil {
     panic(err)
 }
-fmt.Println(nutrition) // the loaded record
+fmt.Println(nutrition.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -890,17 +910,20 @@ plannedWorkout, err := client.PlannedWorkout(nil).Load(map[string]any{"id": 1, "
 if err != nil {
     panic(err)
 }
-fmt.Println(plannedWorkout) // the loaded record
+fmt.Println(plannedWorkout.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
 
 ```go
-plannedWorkouts, err := client.PlannedWorkout(nil).List(nil, nil)
+plannedWorkouts, err := client.PlannedWorkout(nil).List(map[string]any{"user_id": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(plannedWorkouts) // the array of records
+// A []any of entities, one per record.
+for _, item := range plannedWorkouts.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -921,7 +944,7 @@ sleep, err := client.Sleep(nil).Load(map[string]any{"start_date": "start_date", 
 if err != nil {
     panic(err)
 }
-fmt.Println(sleep) // the loaded record
+fmt.Println(sleep.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -942,7 +965,7 @@ user, err := client.User(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(user) // the loaded record
+fmt.Println(user.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -983,7 +1006,7 @@ workout, err := client.Workout(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(workout) // the loaded record
+fmt.Println(workout.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -993,7 +1016,10 @@ workouts, err := client.Workout(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(workouts) // the array of records
+// A []any of entities, one per record.
+for _, item := range workouts.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -1007,7 +1033,7 @@ result, err := client.Workout(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 ## Features
@@ -1223,7 +1249,9 @@ The Go SDK uses `map[string]any` throughout rather than typed structs.
 This mirrors the dynamic nature of the API and keeps the SDK
 flexible — no code generation is needed when the API schema changes.
 
-Use `core.ToMapAny()` to safely cast results and nested data.
+An operation returns the entity, and its `Data()` returns the record. Use
+`core.ToMapAny()` to safely cast that record, or data nested in it, to
+`map[string]any`: it returns `nil` for anything else, an entity included.
 
 ### Package structure
 

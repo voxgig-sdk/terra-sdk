@@ -71,9 +71,11 @@ export interface BodyLoadMatch {
 }
 
 export interface BulkUserInfo {
+  bulk_user_infos?: any[]
 }
 
 export interface BulkUserInfoCreateData {
+  bulk_user_infos?: any[]
 }
 
 export interface Daily {

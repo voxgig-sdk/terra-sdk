@@ -15,6 +15,24 @@ main: {
         url: "https://github.com/tryterra/openapi/blob/master/LICENSE"
       }
       security: {
+        alternatives: [
+          [
+            {
+              in: "header"
+              name: "x-api-key"
+              prefix: ""
+              scheme: "ApiKeyAuth"
+              type: "apiKey"
+            }
+            {
+              in: "header"
+              name: "dev-id"
+              prefix: ""
+              scheme: "DevID"
+              type: "apiKey"
+            }
+          ]
+        ]
         in: "header"
         name: "x-api-key"
         prefix: ""

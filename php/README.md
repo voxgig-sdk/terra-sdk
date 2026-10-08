@@ -12,15 +12,20 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`):
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/terra-sdk/tags)), or
+from a clone as a Composer path repository:
 
-- Releases: [https://github.com/voxgig-sdk/terra-sdk/releases](https://github.com/voxgig-sdk/terra-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/terra-sdk
+composer config repositories.terra-sdk path ./terra-sdk/php
+composer require voxgig-sdk/terra-sdk:@dev
+```
 
 
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -235,11 +240,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
-| `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
+| `load` | `($reqmatch, $ctrl): mixed` | Load a single entity by match criteria, and return it. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
+| `update` | `($reqdata, $ctrl): mixed` | Update an existing entity, and return it. |
+| `remove` | `($reqmatch, $ctrl): mixed` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -249,9 +254,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -319,6 +324,7 @@ API path: `/body`
 
 | Field | Description |
 | --- | --- |
+| `bulk_user_infos` | List of user IDs to get information for |
 
 Operations: Create.
 
@@ -343,7 +349,7 @@ API path: `/daily`
 
 Operations: List.
 
-API path: `/integrations/detailed`
+API path: `/integrations`
 
 #### LabReport
 
@@ -371,7 +377,7 @@ API path: `/integrations/detailed`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` |  |
 
 Operations: Create, List, Load, Remove.
@@ -588,6 +594,12 @@ Create an instance: `$bulk_user_info = $client->BulkUserInfo();`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `bulk_user_infos` | `array` | List of user IDs to get information for |
+
 #### Example: Create
 
 ```php
@@ -635,7 +647,7 @@ Create an instance: `$integration = $client->Integration();`
 #### Example: List
 
 ```php
-// list() returns an array of Integration records (throws on error).
+// list() returns an array of Integration entities, one per record (throws on error).
 $integrations = $client->Integration()->list();
 ```
 
@@ -679,7 +691,7 @@ Create an instance: `$lab_report = $client->LabReport();`
 | `session_id` | `string` |  |
 | `status_history` | `array` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load
@@ -692,7 +704,7 @@ $lab_report = $client->LabReport()->load(["id" => "lab_report_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of LabReport records (throws on error).
+// list() returns an array of LabReport entities, one per record (throws on error).
 $lab_reports = $client->LabReport()->list();
 ```
 
@@ -731,8 +743,8 @@ Create an instance: `$lab_report_delivery = $client->LabReportDelivery();`
 #### Example: List
 
 ```php
-// list() returns an array of LabReportDelivery records (throws on error).
-$lab_report_deliverys = $client->LabReportDelivery()->list();
+// list() returns an array of LabReportDelivery entities, one per record (throws on error).
+$lab_report_deliverys = $client->LabReportDelivery()->list(["id" => "example"]);
 ```
 
 
@@ -757,8 +769,8 @@ Create an instance: `$lab_report_file = $client->LabReportFile();`
 #### Example: List
 
 ```php
-// list() returns an array of LabReportFile records (throws on error).
-$lab_report_files = $client->LabReportFile()->list();
+// list() returns an array of LabReportFile entities, one per record (throws on error).
+$lab_report_files = $client->LabReportFile()->list(["id" => "example"]);
 ```
 
 
@@ -836,8 +848,8 @@ $planned_workout = $client->PlannedWorkout()->load(["id" => 1, "user_id" => "use
 #### Example: List
 
 ```php
-// list() returns an array of PlannedWorkout records (throws on error).
-$planned_workouts = $client->PlannedWorkout()->list();
+// list() returns an array of PlannedWorkout entities, one per record (throws on error).
+$planned_workouts = $client->PlannedWorkout()->list(["user_id" => "example"]);
 ```
 
 
@@ -917,7 +929,7 @@ $workout = $client->Workout()->load(["id" => 1]);
 #### Example: List
 
 ```php
-// list() returns an array of Workout records (throws on error).
+// list() returns an array of Workout entities, one per record (throws on error).
 $workouts = $client->Workout()->list();
 ```
 

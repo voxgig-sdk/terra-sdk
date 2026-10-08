@@ -98,11 +98,13 @@ class BodyLoadMatch
 /** BulkUserInfo entity data model. */
 class BulkUserInfo
 {
+    public ?array $bulk_user_infos = null;
 }
 
 /** Request payload for BulkUserInfo#create. */
 class BulkUserInfoCreateData
 {
+    public ?array $bulk_user_infos = null;
 }
 
 /** Daily entity data model. */

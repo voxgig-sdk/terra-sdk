@@ -96,6 +96,12 @@ main: kit: entity: authentication: {
       name: "create"
       points: [
         {
+          bf: [
+            "auth_failure_redirect_url"
+            "auth_success_redirect_url"
+            "language"
+            "reference_id"
+          ]
           co: {
             id: "POST /auth/authenticateUser"
             source: "openapi3"
@@ -107,7 +113,7 @@ main: kit: entity: authentication: {
                 ex: "testingTerra"
                 k: "header"
                 n: "dev_id"
-                or: "dev_id"
+                or: "dev-id"
                 r: true
                 t: "`$STRING`"
               }
@@ -131,6 +137,10 @@ main: kit: entity: authentication: {
               "resource"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "auth"
@@ -152,6 +162,10 @@ main: kit: entity: authentication: {
           }
           m: "POST"
           o: "/auth/generateAuthToken"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "auth"
@@ -166,6 +180,13 @@ main: kit: entity: authentication: {
           }
         }
         {
+          bf: [
+            "auth_failure_redirect_url"
+            "auth_success_redirect_url"
+            "language"
+            "providers"
+            "reference_id"
+          ]
           co: {
             id: "POST /auth/generateWidgetSession"
             source: "openapi3"
@@ -173,6 +194,10 @@ main: kit: entity: authentication: {
           }
           m: "POST"
           o: "/auth/generateWidgetSession"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "auth"
@@ -214,6 +239,10 @@ main: kit: entity: authentication: {
             exist: [
               "user_id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

@@ -26,7 +26,7 @@ class AuthenticationEntity extends TerraEntityBase {
   /**
    * @param {AuthenticationCreateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<Authentication>}
+   * @returns {Promise<AuthenticationEntity>}
    */
   async create(reqdata, ctrl) {
 
@@ -126,9 +126,15 @@ class AuthenticationEntity extends TerraEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -144,10 +150,11 @@ class AuthenticationEntity extends TerraEntityBase {
 
 
 
+
   /**
    * @param {AuthenticationRemoveMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Authentication>}
+   * @returns {Promise<AuthenticationEntity>}
    */
   async remove(reqmatch, ctrl) {
 
@@ -259,9 +266,15 @@ class AuthenticationEntity extends TerraEntityBase {
       return out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 

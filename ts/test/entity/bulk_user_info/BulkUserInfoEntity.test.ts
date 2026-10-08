@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { TerraSDK, BaseFeature, stdutil } from '../../..'
+import { TerraSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,8 @@ describe('BulkUserInfoEntity', async () => {
   })
 
 
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.TERRA_TEST_LIVE
@@ -51,7 +53,7 @@ describe('BulkUserInfoEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"bulk_user_info","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /bulkUserInfo","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/bulkUserInfo","q":{},"r":{},"s":[{"lit":"bulkUserInfo"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"bulk_user_info","name__orig":"bulk_user_info","Name":"BulkUserInfo","name_":"bulk_user_info","name-":"bulk-user-info","NAME":"BULK_USER_INFO","index$":4}, {"active":true,"entity":"bulk_user_info","key$":"BasicBulkUserInfoFlow","kind":"basic","name":"BasicBulkUserInfoFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"bulk_user_info_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'BulkUserInfo', {"POST /bulkUserInfo":{"protocol":"http","requestBody":{"content":{"application/json":{"schema":{"type":"array","description":"List of user IDs to get information for","items":{"type":"string"},"index$":1}}},"required":true},"parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"bulk_user_infos":{"a":true,"h":"Bulk User Infos","n":"bulk_user_infos","r":false,"sh":"List of user IDs to get information for","t":"`$ARRAY`","key$":"bulk_user_infos","index$":0}},"name":"bulk_user_info","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["bulk_user_infos"],"co":{"id":"POST /bulkUserInfo","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/bulkUserInfo","q":{"exist":["bulk_user_infos"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"bulkUserInfo"}],"t":{"req":"`reqdata.bulk_user_infos`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"bulk_user_info","name__orig":"bulk_user_info","Name":"BulkUserInfo","name_":"bulk_user_info","name-":"bulk-user-info","NAME":"BULK_USER_INFO","index$":4}, {"active":true,"entity":"bulk_user_info","key$":"BasicBulkUserInfoFlow","kind":"basic","name":"BasicBulkUserInfoFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"bulk_user_info_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'BulkUserInfo', {"POST /bulkUserInfo":{"protocol":"http","requestBody":{"content":{"application/json":{"schema":{"type":"array","description":"List of user IDs to get information for","items":{"type":"string"},"index$":1}}},"required":true},"parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +74,12 @@ describe('BulkUserInfoEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

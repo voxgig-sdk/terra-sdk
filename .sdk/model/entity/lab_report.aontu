@@ -152,7 +152,14 @@ main: kit: entity: lab_report: {
     upload_id: {
       h: "Upload Id"
       n: "upload_id"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
+      sh: "Durable correlation key for the upload; every resulting session and webhook carries it."
       t: "`$STRING`"
     }
     uploaded_at: {
@@ -194,10 +201,19 @@ main: kit: entity: lab_report: {
           }
           m: "POST"
           o: "/lab-reports"
-          q: {
-            exist: [
-              "reference_id"
+          rb: {
+            fields: [
+              {
+                binary: true
+                name: "file"
+              }
             ]
+            kind: "multipart"
+            media: "multipart/form-data"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -268,15 +284,9 @@ main: kit: entity: lab_report: {
           }
           m: "GET"
           o: "/lab-reports"
-          q: {
-            exist: [
-              "reference_id"
-              "report_date_from"
-              "report_date_to"
-              "upload_id"
-              "uploaded_at_from"
-              "uploaded_at_to"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -322,6 +332,10 @@ main: kit: entity: lab_report: {
             param: {
               session_id: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

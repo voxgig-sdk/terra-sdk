@@ -15,15 +15,19 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`):
+release tag (`ts/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/terra-sdk/tags)), or from a
+clone, which carries the compiled `dist/`:
 
-- Releases: [https://github.com/voxgig-sdk/terra-sdk/releases](https://github.com/voxgig-sdk/terra-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/terra-sdk
+npm install ./terra-sdk/ts
+```
 
 
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -37,12 +41,12 @@ const client = new TerraSDK({
 
 ### 3. Load an activity
 
-`load()` returns the entity directly and throws on failure:
+`load()` returns the entity and throws on failure; `.data()` reads its record:
 
 ```ts
 try {
   const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
-  console.log(activity)
+  console.log(activity.data())
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -56,14 +60,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const activity = await client.Activity().load({ start_date: "example", user_id: "example" })
-  console.log(activity)
+  console.log(activity.data())
 } catch (err) {
   console.error('load failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -72,8 +77,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -91,9 +96,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -123,9 +125,8 @@ Create a mock client for unit testing — no server required:
 const client = TerraSDK.test()
 
 const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
-// activity is the entity, populated with mock response data
-// — call activity.data() for the record itself
-console.log(activity)
+// activity is the Activity entity; .data() reads its mock record
+console.log(activity.data())
 ```
 
 You can also use the instance method:
@@ -259,11 +260,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -272,13 +273,13 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `load`, `create` and `update` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
-- `remove` resolves to `void`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -366,6 +367,7 @@ API path: `/body`
 
 | Field | Description |
 | --- | --- |
+| `bulk_user_infos` | List of user IDs to get information for |
 
 Operations: create.
 
@@ -390,7 +392,7 @@ API path: `/daily`
 
 Operations: list.
 
-API path: `/integrations/detailed`
+API path: `/integrations`
 
 #### LabReport
 
@@ -418,7 +420,7 @@ API path: `/integrations/detailed`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` |  |
 
 Operations: create, list, load, remove.
@@ -632,6 +634,12 @@ Create an instance: `const bulk_user_info = client.BulkUserInfo()`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `bulk_user_infos` | `any[]` | List of user IDs to get information for |
+
 #### Example: Create
 
 ```ts
@@ -721,7 +729,7 @@ Create an instance: `const lab_report = client.LabReport()`
 | `session_id` | `string` |  |
 | `status_history` | `any[]` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load

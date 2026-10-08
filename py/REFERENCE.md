@@ -146,9 +146,9 @@ activity = client.Activity()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> ActivityEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Activity().load({"start_date": "start_date", "user_id": "user_id"})
@@ -191,9 +191,9 @@ athlete = client.Athlete()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AthleteEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Athlete().load({"user_id": "user_id"})
@@ -253,9 +253,9 @@ authentication = client.Authentication()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AuthenticationEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Authentication().create({
@@ -263,9 +263,9 @@ result = client.Authentication().create({
 })
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> AuthenticationEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Authentication().remove({"user_id": "user_id"})
@@ -308,9 +308,9 @@ body = client.Body()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> BodyEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Body().load({"start_date": "start_date", "user_id": "user_id"})
@@ -351,11 +351,17 @@ Return the entity name.
 bulk_user_info = client.BulkUserInfo()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bulk_user_infos` | `list` | No | List of user IDs to get information for |
+
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> BulkUserInfoEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.BulkUserInfo().create({
@@ -399,9 +405,9 @@ daily = client.Daily()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> DailyEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Daily().load({"start_date": "start_date", "user_id": "user_id"})
@@ -452,14 +458,14 @@ integration = client.Integration()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[IntegrationEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Integration().list()
 for integration in results:
-    print(integration)
+    print(integration.data_get())
 ```
 
 ### Common Methods
@@ -523,14 +529,43 @@ lab_report = client.LabReport()
 | `session_id` | `str` | Yes |  |
 | `status_history` | `list` | No |  |
 | `updated_at` | `str` | No |  |
-| `upload_id` | `str` | No |  |
+| `upload_id` | `str` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `str` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `collection_date` | - | - | - | - |
+| `collection_time` | - | - | - | - |
+| `current_status` | - | - | - | - |
+| `file_count` | - | - | - | - |
+| `id` | - | - | - | - |
+| `input_bytes` | - | - | - | - |
+| `lab_name` | - | - | - | - |
+| `output_bytes` | - | - | - | - |
+| `panels` | - | - | - | - |
+| `patient_age_at_collection` | - | - | - | - |
+| `patient_sex` | - | - | - | - |
+| `reference_id` | - | - | - | - |
+| `report_date` | - | - | - | - |
+| `report_locale` | - | - | - | - |
+| `report_notes` | - | - | - | - |
+| `report_time` | - | - | - | - |
+| `report_type` | - | - | - | - |
+| `results` | - | - | - | - |
+| `results_count` | - | - | - | - |
+| `session_id` | - | - | - | - |
+| `status_history` | - | - | - | - |
+| `updated_at` | - | - | - | - |
+| `upload_id` | - | - | Yes | - |
+| `uploaded_at` | - | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> LabReportEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.LabReport().create({
@@ -540,27 +575,29 @@ result = client.LabReport().create({
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+#### `list(reqmatch=None, ctrl=None) -> list[LabReportEntity]`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.LabReport().list()
 for lab_report in results:
-    print(lab_report)
+    print(lab_report.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> LabReportEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.LabReport().load({"id": "lab_report_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> LabReportEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.LabReport().remove({"id": "lab_report_id"})
@@ -614,14 +651,14 @@ lab_report_delivery = client.LabReportDelivery()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[LabReportDeliveryEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.LabReportDelivery().list({"id": "example"})
 for lab_report_delivery in results:
-    print(lab_report_delivery)
+    print(lab_report_delivery.data_get())
 ```
 
 ### Common Methods
@@ -669,14 +706,14 @@ lab_report_file = client.LabReportFile()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[LabReportFileEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.LabReportFile().list({"id": "example"})
 for lab_report_file in results:
-    print(lab_report_file)
+    print(lab_report_file.data_get())
 ```
 
 ### Common Methods
@@ -716,9 +753,9 @@ menstruation = client.Menstruation()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> MenstruationEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Menstruation().load({"start_date": "start_date", "user_id": "user_id"})
@@ -761,9 +798,9 @@ nutrition = client.Nutrition()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> NutritionEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Nutrition().load({"start_date": "start_date", "user_id": "user_id"})
@@ -838,27 +875,27 @@ planned_workout = client.PlannedWorkout()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PlannedWorkoutEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.PlannedWorkout().list({"user_id": "example"})
 for planned_workout in results:
-    print(planned_workout)
+    print(planned_workout.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PlannedWorkoutEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.PlannedWorkout().load({"id": 1, "user_id": "user_id"})
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> PlannedWorkoutEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.PlannedWorkout().update({
@@ -905,9 +942,9 @@ sleep = client.Sleep()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> SleepEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Sleep().load({"start_date": "start_date", "user_id": "user_id"})
@@ -950,9 +987,9 @@ user = client.User()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> UserEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.User().load()
@@ -1012,9 +1049,9 @@ workout = client.Workout()
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> WorkoutEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Workout().create({
@@ -1024,27 +1061,27 @@ result = client.Workout().create({
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[WorkoutEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Workout().list()
 for workout in results:
-    print(workout)
+    print(workout.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> WorkoutEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Workout().load({"id": 1})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> WorkoutEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Workout().remove({"planned_workout_id": 1, "user_id": "user_id"})
@@ -1369,6 +1406,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

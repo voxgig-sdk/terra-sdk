@@ -82,9 +82,15 @@ class WorkoutEntity extends TerraEntityBase_1.TerraEntityBase {
             return (ctx.result && ctx.result.ok) ? this : out;
         }
         catch (err) {
-            fres = featureHook(ctx, 'PreUnexpected');
-            if (fres instanceof Promise) {
-                await fres;
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                fres = featureHook(ctx, 'PreUnexpected');
+                if (fres instanceof Promise) {
+                    await fres;
+                }
+            }
+            catch (hookerr) {
+                err = hookerr;
             }
             err = this._unexpected(ctx, err);
             if (err) {
@@ -92,7 +98,7 @@ class WorkoutEntity extends TerraEntityBase_1.TerraEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Workout> return stays clean under strict null checks.
+                // Promise<WorkoutEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }
@@ -163,9 +169,15 @@ class WorkoutEntity extends TerraEntityBase_1.TerraEntityBase {
             return done(ctx);
         }
         catch (err) {
-            fres = featureHook(ctx, 'PreUnexpected');
-            if (fres instanceof Promise) {
-                await fres;
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                fres = featureHook(ctx, 'PreUnexpected');
+                if (fres instanceof Promise) {
+                    await fres;
+                }
+            }
+            catch (hookerr) {
+                err = hookerr;
             }
             err = this._unexpected(ctx, err);
             if (err) {
@@ -173,7 +185,7 @@ class WorkoutEntity extends TerraEntityBase_1.TerraEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Workout[]> return stays clean under strict null checks.
+                // Promise<WorkoutEntity[]> return stays clean under strict null checks.
                 return undefined;
             }
         }
@@ -245,9 +257,15 @@ class WorkoutEntity extends TerraEntityBase_1.TerraEntityBase {
             return (ctx.result && ctx.result.ok) ? this : out;
         }
         catch (err) {
-            fres = featureHook(ctx, 'PreUnexpected');
-            if (fres instanceof Promise) {
-                await fres;
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                fres = featureHook(ctx, 'PreUnexpected');
+                if (fres instanceof Promise) {
+                    await fres;
+                }
+            }
+            catch (hookerr) {
+                err = hookerr;
             }
             err = this._unexpected(ctx, err);
             if (err) {
@@ -255,7 +273,7 @@ class WorkoutEntity extends TerraEntityBase_1.TerraEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<Workout> return stays clean under strict null checks.
+                // Promise<WorkoutEntity> return stays clean under strict null checks.
                 return undefined;
             }
         }
@@ -334,9 +352,15 @@ class WorkoutEntity extends TerraEntityBase_1.TerraEntityBase {
             return out;
         }
         catch (err) {
-            fres = featureHook(ctx, 'PreUnexpected');
-            if (fres instanceof Promise) {
-                await fres;
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                fres = featureHook(ctx, 'PreUnexpected');
+                if (fres instanceof Promise) {
+                    await fres;
+                }
+            }
+            catch (hookerr) {
+                err = hookerr;
             }
             err = this._unexpected(ctx, err);
             if (err) {

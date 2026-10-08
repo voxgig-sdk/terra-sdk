@@ -134,10 +134,12 @@ main: kit: entity: planned_workout: {
           o: "/plannedWorkouts"
           q: {
             exist: [
-              "end_date"
-              "start_date"
               "user_id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -193,6 +195,10 @@ main: kit: entity: planned_workout: {
               planned_workout_id: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "plannedWorkouts"
@@ -212,6 +218,9 @@ main: kit: entity: planned_workout: {
       name: "update"
       points: [
         {
+          bf: [
+            "planned_date"
+          ]
           co: {
             id: "PATCH /plannedWorkouts/{planned_workout_id}"
             source: "openapi3"
@@ -249,6 +258,10 @@ main: kit: entity: planned_workout: {
             param: {
               planned_workout_id: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

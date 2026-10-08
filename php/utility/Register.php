@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 TerraUtility::setRegistrar(function (TerraUtility $u): void {
     $u->clean = [TerraClean::class, 'call'];
+    $u->clean_add = [TerraClean::class, 'add'];
+    $u->clean_explain = [TerraDone::class, 'clean_explain'];
     $u->done = [TerraDone::class, 'call'];
     $u->make_error = [TerraMakeError::class, 'call'];
     $u->feature_add = [TerraFeatureAdd::class, 'call'];

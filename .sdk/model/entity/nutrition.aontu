@@ -48,7 +48,7 @@ main: kit: entity: nutrition: {
               {
                 k: "query"
                 n: "with_sample"
-                or: "with_sample"
+                or: "with_samples"
                 r: false
                 t: "`$BOOLEAN`"
               }
@@ -58,12 +58,13 @@ main: kit: entity: nutrition: {
           o: "/nutrition"
           q: {
             exist: [
-              "end_date"
               "start_date"
-              "to_webhook"
               "user_id"
-              "with_sample"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

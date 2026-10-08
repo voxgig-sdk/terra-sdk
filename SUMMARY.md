@@ -12,19 +12,19 @@ An entity groups related API operations. An operation can have several routes wi
 
 ## What the API provides
 
-### [Activity](docs/api/activity.html)
+### Activity
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### [Athlete](docs/api/athlete.html)
+### Athlete
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### [Authentication](docs/api/authentication.html)
+### Authentication
 
 Results: Returned when authentication link could be successfully generated; 200; Returned when user is successfully deauthenticated and data is deleted.
 
@@ -38,27 +38,31 @@ Key fields to recognise:
 - `expires_in`: a number in seconds depicting how long the url is valid for
 - `language`: Display language of the widget
 
-### [Body](docs/api/body.html)
+### Body
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### [BulkUserInfo](docs/api/bulk_user_info.html)
+### BulkUserInfo
 
 Results: Returned upon successful request.
 
 SDK operations: `create`.
 
-### [Daily](docs/api/daily.html)
+Key fields to recognise:
+
+- `bulk_user_infos`: List of user IDs to get information for
+
+### Daily
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### [Integration](docs/api/integration.html)
+### Integration
 
-Results: Successful response containing a list of integrations.; Returns list of all available integrations on the API.
+Results: Returns list of all available integrations on the API; Successful response containing a list of integrations.
 
 SDK operations: `list`.
 
@@ -68,7 +72,7 @@ Key fields to recognise:
 - `sdk_providers`: Providers available through Terra&#39;s mobile SDKs rather than cloud connections
 - `status`: Status of the API response
 
-### [LabReport](docs/api/lab_report.html)
+### LabReport
 
 Results: Upload accepted for processing.; A list of lab report sessions.; The lab report session.; The session was deleted.
 
@@ -79,10 +83,10 @@ Key fields to recognise:
 - `collection_date`: Specimen collection date (YYYY-MM-DD); omitted if not extracted.
 - `collection_time`: Specimen collection time (HH:MM, 24-hour); omitted if not extracted.
 - `current_status`: Processing status as a clean lowercase string.
-- `id`: Report-local ordinal; matches LabReportBiomarker.panel_id.
-- `panels`: Report-level panels that results reference by panel_id. Omitted if the report has no panel grouping.
+- `id`: Report-local ordinal; matches LabReportBiomarker.`panel_id`.
+- `panels`: Report-level panels that results reference by `panel_id`. Omitted if the report has no panel grouping.
 
-### [LabReportDelivery](docs/api/lab_report_delivery.html)
+### LabReportDelivery
 
 Results: Per-destination delivery outcomes.
 
@@ -95,25 +99,25 @@ Key fields to recognise:
 - `last_error`: Most recent delivery error; omitted when delivered.
 - `status`: pending, delivered, or failed.
 
-### [LabReportFile](docs/api/lab_report_file.html)
+### LabReportFile
 
 Results: Input files and thumbnail with presigned URLs.
 
 SDK operations: `list`.
 
-### [Menstruation](docs/api/menstruation.html)
+### Menstruation
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### [Nutrition](docs/api/nutrition.html)
+### Nutrition
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### [PlannedWorkout](docs/api/planned_workout.html)
+### PlannedWorkout
 
 Results: Planned workouts for the connection; The planned workout; Updated planned workout.
 
@@ -123,25 +127,25 @@ Key fields to recognise:
 
 - `coercion_warnings`: Warnings emitted when the template could not be represented exactly on the provider
 - `created_at`: Creation time (RFC 3339)
-- `details`: Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. Present only for external workouts (is_external true).
+- `details`: Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. Present only for external workouts (`is_external` true).
 - `id`: Identifier of the workout on the provider&#39;s side
 - `is_external`: True when the workout was created on the provider side rather than through Terra
 
-### [Sleep](docs/api/sleep.html)
+### Sleep
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### [User](docs/api/user.html)
+### User
 
 Results: Returned upon a successful request; Returned when the provided resources are found.
 
 SDK operations: `load`.
 
-### [Workout](docs/api/workout.html)
+### Workout
 
-Results: Planned workout created and pushed (or queued for SDK delivery); Template stored; Stored templates, each including its workout_id; The stored template; Planned workout deleted; Template and all planned instances deleted; Some provider-side deletions failed; the template is retained. Retry to complete the cascade.
+Results: Planned workout created and pushed (or queued for SDK delivery); Template stored; Stored templates, each including its `workout_id`; The stored template; Planned workout deleted; Template and all planned instances deleted; Some provider-side deletions failed; the template is retained. Retry to complete the cascade.
 
 SDK operations: `create`, `list`, `load`, `remove`.
 
@@ -159,37 +163,37 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 
 | Entity | SDK operation | HTTP route | Authentication |
 | --- | --- | --- | --- |
-| [Activity](docs/api/activity.html) | `load` | `GET /activity` | Required |
-| [Athlete](docs/api/athlete.html) | `load` | `GET /athlete` | Required |
-| [Authentication](docs/api/authentication.html) | `create` | `POST /auth/authenticateUser` | Required |
-| [Authentication](docs/api/authentication.html) | `create` | `POST /auth/generateAuthToken` | Required |
-| [Authentication](docs/api/authentication.html) | `create` | `POST /auth/generateWidgetSession` | Required |
-| [Authentication](docs/api/authentication.html) | `remove` | `DELETE /auth/deauthenticateUser` | Required |
-| [Body](docs/api/body.html) | `load` | `GET /body` | Required |
-| [BulkUserInfo](docs/api/bulk_user_info.html) | `create` | `POST /bulkUserInfo` | Required |
-| [Daily](docs/api/daily.html) | `load` | `GET /daily` | Required |
-| [Integration](docs/api/integration.html) | `list` | `GET /integrations/detailed` | Not required |
-| [Integration](docs/api/integration.html) | `list` | `GET /integrations` | Not required |
-| [LabReport](docs/api/lab_report.html) | `create` | `POST /lab-reports` | Required |
-| [LabReport](docs/api/lab_report.html) | `list` | `GET /lab-reports` | Required |
-| [LabReport](docs/api/lab_report.html) | `load` | `GET /lab-reports/{session_id}` | Required |
-| [LabReport](docs/api/lab_report.html) | `remove` | `DELETE /lab-reports/{session_id}` | Required |
-| [LabReportDelivery](docs/api/lab_report_delivery.html) | `list` | `GET /lab-reports/{session_id}/deliveries` | Required |
-| [LabReportFile](docs/api/lab_report_file.html) | `list` | `GET /lab-reports/{session_id}/files` | Required |
-| [Menstruation](docs/api/menstruation.html) | `load` | `GET /menstruation` | Required |
-| [Nutrition](docs/api/nutrition.html) | `load` | `GET /nutrition` | Required |
-| [PlannedWorkout](docs/api/planned_workout.html) | `list` | `GET /plannedWorkouts` | Required |
-| [PlannedWorkout](docs/api/planned_workout.html) | `load` | `GET /plannedWorkouts/{planned_workout_id}` | Required |
-| [PlannedWorkout](docs/api/planned_workout.html) | `update` | `PATCH /plannedWorkouts/{planned_workout_id}` | Required |
-| [Sleep](docs/api/sleep.html) | `load` | `GET /sleep` | Required |
-| [User](docs/api/user.html) | `load` | `GET /subscriptions` | Required |
-| [User](docs/api/user.html) | `load` | `GET /userInfo` | Required |
-| [Workout](docs/api/workout.html) | `create` | `POST /workouts/{workout_id}/plan` | Required |
-| [Workout](docs/api/workout.html) | `create` | `POST /workouts` | Required |
-| [Workout](docs/api/workout.html) | `list` | `GET /workouts` | Required |
-| [Workout](docs/api/workout.html) | `load` | `GET /workouts/{workout_id}` | Required |
-| [Workout](docs/api/workout.html) | `remove` | `DELETE /plannedWorkouts/{planned_workout_id}` | Required |
-| [Workout](docs/api/workout.html) | `remove` | `DELETE /workouts/{workout_id}` | Required |
+| Activity | `load` | `GET /activity` | Required |
+| Athlete | `load` | `GET /athlete` | Required |
+| Authentication | `create` | `POST /auth/authenticateUser` | Required |
+| Authentication | `create` | `POST /auth/generateAuthToken` | Required |
+| Authentication | `create` | `POST /auth/generateWidgetSession` | Required |
+| Authentication | `remove` | `DELETE /auth/deauthenticateUser` | Required |
+| Body | `load` | `GET /body` | Required |
+| BulkUserInfo | `create` | `POST /bulkUserInfo` | Required |
+| Daily | `load` | `GET /daily` | Required |
+| Integration | `list` | `GET /integrations` | Not required |
+| Integration | `list` | `GET /integrations/detailed` | Not required |
+| LabReport | `create` | `POST /lab-reports` | Required |
+| LabReport | `list` | `GET /lab-reports` | Required |
+| LabReport | `load` | `GET /lab-reports/{session_id}` | Required |
+| LabReport | `remove` | `DELETE /lab-reports/{session_id}` | Required |
+| LabReportDelivery | `list` | `GET /lab-reports/{session_id}/deliveries` | Required |
+| LabReportFile | `list` | `GET /lab-reports/{session_id}/files` | Required |
+| Menstruation | `load` | `GET /menstruation` | Required |
+| Nutrition | `load` | `GET /nutrition` | Required |
+| PlannedWorkout | `list` | `GET /plannedWorkouts` | Required |
+| PlannedWorkout | `load` | `GET /plannedWorkouts/{planned_workout_id}` | Required |
+| PlannedWorkout | `update` | `PATCH /plannedWorkouts/{planned_workout_id}` | Required |
+| Sleep | `load` | `GET /sleep` | Required |
+| User | `load` | `GET /subscriptions` | Required |
+| User | `load` | `GET /userInfo` | Required |
+| Workout | `create` | `POST /workouts/{workout_id}/plan` | Required |
+| Workout | `create` | `POST /workouts` | Required |
+| Workout | `list` | `GET /workouts` | Required |
+| Workout | `load` | `GET /workouts/{workout_id}` | Required |
+| Workout | `remove` | `DELETE /plannedWorkouts/{planned_workout_id}` | Required |
+| Workout | `remove` | `DELETE /workouts/{workout_id}` | Required |
 
 ## Connect to the API
 
@@ -209,13 +213,13 @@ Check authentication for the route you plan to call. A route that declares no au
 2. Check the operation’s required input and authentication. Use values valid for your account and environment.
 3. Send one request and inspect the returned data before adding retries, concurrency, or a larger batch.
 
-A read request without required parameters or authentication is `GET /integrations/detailed`. For example:
+A read request without required parameters or authentication is `GET /integrations`. For example:
 
 ```sh
-curl --fail-with-body --silent --show-error 'https://access.tryterra.co/api/v2/integrations/detailed'
+curl --fail-with-body --silent --show-error 'https://access.tryterra.co/api/v2/integrations'
 ```
 
-Inspect the response using the [Integration](docs/api/integration.html) reference. This checks the public route; authenticated operations need their own credentials and request data.
+Inspect the response using the Integration reference. This checks the public route; authenticated operations need their own credentials and request data.
 
 For an SDK call, install or build the chosen client, create a client instance with its documented configuration, and call the required entity operation. Language references describe the argument shape, asynchronous behaviour, and returned values.
 
@@ -225,12 +229,12 @@ Choose the language already used by your application or service. The clients rep
 
 | Client | Repository directory | Distribution |
 | --- | --- | --- |
-| [Golang](docs/sdks/go.html) | `go/` | Build from source |
-| [JavaScript](docs/sdks/js.html) | `js/` | Build from source |
-| [Lua](docs/sdks/lua.html) | `lua/` | Build from source |
-| [PHP](docs/sdks/php.html) | `php/` | Build from source |
-| [Python](docs/sdks/py.html) | `py/` | Build from source |
-| [TypeScript](docs/sdks/ts.html) | `ts/` | Build from source |
+| Golang | `go/` | Build from source |
+| JavaScript | `js/` | Build from source |
+| Lua | `lua/` | Build from source |
+| PHP | `php/` | Build from source |
+| Python | `py/` | Build from source |
+| TypeScript | `ts/` | Build from source |
 
 Build-from-source entries are not marked as published in the project model. Follow the build instructions in that target’s README, then consume the resulting package using your language’s local dependency mechanism. Published entries give the installation command recorded for that client.
 
@@ -238,14 +242,14 @@ Build-from-source entries are not marked as published in the project model. Foll
 
 These targets provide another way to use the API. Their available commands or tools can cover a smaller set of operations than the client libraries.
 
-### [Go CLI](docs/tools/go-cli.html)
+### Go CLI
 
 Use the command-line interface for shell-based tasks and scripts.
 
 Repository directory: `go-cli/`. Not published. Build from the go-cli directory.
 
 
-### [Go MCP server](docs/tools/go-mcp.html)
+### Go MCP server
 
 Use the MCP server to expose supported API operations to an MCP client.
 
@@ -258,21 +262,21 @@ Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
 Features supply behaviour around API calls, such as request handling, diagnostics, or local testing. Inclusion in this project does not mean a feature is enabled at runtime. Check the selected SDK’s supported features and configuration defaults, then enable the behaviour your application needs.
 
-- [`debug`](docs/features/debug.html): Request/response capture ring buffer for debugging
-- [`idempotency`](docs/features/idempotency.html): Idempotency keys for safe retries of mutating operations
-- [`metrics`](docs/features/metrics.html): Statistics capture: per-operation counters and latency
-- [`paging`](docs/features/paging.html): Pagination signals for list operations
-- [`ratelimit`](docs/features/ratelimit.html): Client-side rate limiting via a token bucket
-- [`retry`](docs/features/retry.html): Automatic retry of transient failures with exponential backoff
-- [`test`](docs/features/test.html): In-memory mock transport for testing without a live server
-- [`timeout`](docs/features/timeout.html): Per-request timeout with transport abort
+- `debug`: Request/response capture ring buffer for debugging
+- `idempotency`: Idempotency keys for safe retries of mutating operations
+- `metrics`: Statistics capture: per-operation counters and latency
+- `paging`: Pagination signals for list operations
+- `ratelimit`: Client-side rate limiting via a token bucket
+- `retry`: Automatic retry of transient failures with exponential backoff
+- `test`: In-memory mock transport for testing without a live server
+- `timeout`: Per-request timeout with transport abort
 
 Start with the default client configuration. Add request limits and diagnostics as needed, test error paths, and review retry behaviour before using operations that change data. A retry can repeat an operation unless the API provides a suitable guarantee.
 
 ## Continue with the documentation
 
-- Follow the [first-call guide](docs/guides/first-call.html) for the setup sequence.
-- Read the [authentication guide](docs/guides/authentication.html) before using protected routes.
-- Use the [API reference](docs/api/index.html) for request schemas, response formats, and status codes.
+- Follow the first-call guide for the setup sequence.
+- Read the authentication guide before using protected routes.
+- Use the API reference for request schemas, response formats, and status codes.
 - Check the chosen SDK or companion tool reference for its configuration and supported operations.
 

@@ -12,7 +12,7 @@ It exposes the API as capitalised, semantic **Entities** — e.g. `client:Activi
 
 ## Install
 This package is not yet published to LuaRocks. Install it from the
-GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/terra-sdk/releases)),
+GitHub release tag (`lua/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/terra-sdk/tags)),
 or add the source directory to your `LUA_PATH`:
 
 ```bash
@@ -23,7 +23,7 @@ export LUA_PATH="path/to/lua/?.lua;path/to/lua/?/init.lua;;"
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
-loading a specific record.
+loading a specific record. The client sends the API key in the `x-api-key` header.
 
 ### 1. Create a client
 
@@ -37,10 +37,12 @@ local client = sdk.new({
 
 ### 3. Load an activity
 
+`load` returns the entity; `data_get()` reads its record.
+
 ```lua
 local activity, err = client:Activity():load({ start_date = "example_start_date", user_id = "example_user_id" })
 if err then error(err) end
-print(activity)
+for k, val in pairs(activity:data_get()) do print(k, val) end
 ```
 
 
@@ -109,7 +111,7 @@ Create a mock client for unit testing — no server required:
 local client = sdk.test()
 
 local result, err = client:Activity():load({ start_date = "example", user_id = "example" })
--- result is the returned data; err is set on failure
+-- result is the entity; data_get() reads its mock record; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -212,11 +214,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
-| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
-| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
-| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity. |
-| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity. |
+| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria, and return it. |
+| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria, one per record. |
+| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity, and return it. |
+| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity, and return it. |
+| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> table` | Get entity match criteria. |
@@ -226,19 +228,19 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(value, err)`. The `value` is the operation's
-data **directly** — there is no wrapper:
+Entity operations return `(value, err)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
-| `list` | an array (`table`) of entity records |
+| `load` / `create` / `update` / `remove` | the entity, whose `data_get()` reads its record (a `table`) |
+| `list` | an array (`table`) of entities, one per record |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
     local activity, err = client:Activity():load()
     if err then error(err) end
-    -- activity is the loaded record
+    -- activity is the loaded entity
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -297,6 +299,7 @@ API path: `/body`
 
 | Field | Description |
 | --- | --- |
+| `bulk_user_infos` | List of user IDs to get information for |
 
 Operations: Create.
 
@@ -321,7 +324,7 @@ API path: `/daily`
 
 Operations: List.
 
-API path: `/integrations/detailed`
+API path: `/integrations`
 
 #### LabReport
 
@@ -349,7 +352,7 @@ API path: `/integrations/detailed`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` |  |
 
 Operations: Create, List, Load, Remove.
@@ -563,6 +566,12 @@ Create an instance: `local bulk_user_info = client:BulkUserInfo(nil)`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `bulk_user_infos` | `table` | List of user IDs to get information for |
+
 #### Example: Create
 
 ```lua
@@ -652,7 +661,7 @@ Create an instance: `local lab_report = client:LabReport(nil)`
 | `session_id` | `string` |  |
 | `status_history` | `table` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load
@@ -702,7 +711,7 @@ Create an instance: `local lab_report_delivery = client:LabReportDelivery(nil)`
 #### Example: List
 
 ```lua
-local lab_report_deliverys, err = client:LabReportDelivery():list()
+local lab_report_deliverys, err = client:LabReportDelivery():list({ id = "example" })
 ```
 
 
@@ -727,7 +736,7 @@ Create an instance: `local lab_report_file = client:LabReportFile(nil)`
 #### Example: List
 
 ```lua
-local lab_report_files, err = client:LabReportFile():list()
+local lab_report_files, err = client:LabReportFile():list({ id = "example" })
 ```
 
 
@@ -802,7 +811,7 @@ local planned_workout, err = client:PlannedWorkout():load({ id = 1, user_id = "u
 #### Example: List
 
 ```lua
-local planned_workouts, err = client:PlannedWorkout():list()
+local planned_workouts, err = client:PlannedWorkout():list({ user_id = "example" })
 ```
 
 

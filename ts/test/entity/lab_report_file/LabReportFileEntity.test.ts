@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { TerraSDK, BaseFeature, stdutil } from '../../..'
+import { TerraSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,17 +41,29 @@ describe('LabReportFileEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = TerraSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.LabReportFile().list({"id":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.TERRA_TEST_LIVE
-    for (const op of ['list']) {
+    for (const op of []) {
       if (!live && maybeSkipControl(t, 'entityOp', 'lab_report_file.' + op, live)) return
     }
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"filename":{"a":true,"h":"Filename","n":"filename","r":false,"t":"`$STRING`","key$":"filename","index$":0},"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":1},"presigned_url":{"a":true,"h":"Presigned Url","n":"presigned_url","r":true,"t":"`$STRING`","key$":"presigned_url","index$":2}},"id":{"field":"id","name":"id"},"name":"lab_report_file","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /lab-reports/{session_id}/files","source":"openapi3","version":2},"g":{"params":[{"a":true,"ex":"297405620317847552","k":"param","n":"id","or":"session_id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/lab-reports/{session_id}/files","q":{"exist":["id"]},"r":{"param":{"session_id":"id"}},"s":[{"lit":"lab-reports"},{"var":"id"},{"lit":"files"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"lab_report_file","name__orig":"lab_report_file","Name":"LabReportFile","name_":"lab_report_file","name-":"lab-report-file","NAME":"LAB_REPORT_FILE","index$":9}, {"active":true,"entity":"lab_report_file","key$":"BasicLabReportFileFlow","kind":"basic","name":"BasicLabReportFileFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{"session_id":"session01"},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"lab_report_file_ref01"}}],"index$":0}]}, 'LabReportFile', {"GET /lab-reports/{session_id}/files":{"protocol":"http","parameters":[{"name":"session_id","in":"path","required":true,"description":"The session's snowflake ID.","schema":{"type":"string"},"example":"297405620317847552","index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"filename":{"a":true,"h":"Filename","n":"filename","r":false,"t":"`$STRING`","key$":"filename","index$":0},"id":{"a":true,"h":"Id","n":"id","r":false,"t":"`$STRING`","key$":"id","index$":1},"presigned_url":{"a":true,"h":"Presigned Url","n":"presigned_url","r":true,"t":"`$STRING`","key$":"presigned_url","index$":2}},"id":{"field":"id","name":"id"},"name":"lab_report_file","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /lab-reports/{session_id}/files","source":"openapi3","version":2},"g":{"params":[{"a":true,"ex":"297405620317847552","k":"param","n":"id","or":"session_id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/lab-reports/{session_id}/files","q":{"exist":["id"]},"r":{"param":{"session_id":"id"}},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"lab-reports"},{"var":"id"},{"lit":"files"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[]},"key$":"lab_report_file","name__orig":"lab_report_file","Name":"LabReportFile","name_":"lab_report_file","name-":"lab-report-file","NAME":"LAB_REPORT_FILE","index$":9}, {"active":true,"entity":"lab_report_file","key$":"BasicLabReportFileFlow","kind":"basic","name":"BasicLabReportFileFlow","param":{},"step":[{"a":false,"d":{},"i":{},"m":{"session_id":"session01"},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"lab_report_file_ref01"}}],"unreachable":true}]}, 'LabReportFile', {"GET /lab-reports/{session_id}/files":{"protocol":"http","parameters":[{"name":"session_id","in":"path","required":true,"description":"The session's snowflake ID.","schema":{"type":"string"},"example":"297405620317847552","index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -61,18 +73,16 @@ describe('LabReportFileEntity', async () => {
 
     let lab_report_file_ref01_data = Object.values(setup.data.existing.lab_report_file)[0] as any
 
-    // LIST
-    const lab_report_file_ref01_ent = client.LabReportFile()
-    const lab_report_file_ref01_match: any = {}
-    lab_report_file_ref01_match['session_id'] = setup.idmap['session01']
-
-    const lab_report_file_ref01_list = (await lab_report_file_ref01_ent.list(lab_report_file_ref01_match)).map((e: any) => e.data())
-
-
   })
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options
@@ -97,7 +107,7 @@ function basicSetup(extra?: any) {
   const transform = struct.transform
 
   let idmap = transform(
-    ['lab_report_file01','lab_report_file02','lab_report_file03','session01'],
+    ['lab_report_file01','lab_report_file02','lab_report_file03'],
     {
       '`$PACK`': ['', {
         '`$KEY`': '`$COPY`',

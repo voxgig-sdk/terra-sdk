@@ -28,12 +28,12 @@
     }
   },
   "requests": {
-    "GET /integrations/detailed": {
+    "GET /integrations": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
     },
-    "GET /integrations": {
+    "GET /integrations/detailed": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

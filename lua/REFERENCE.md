@@ -151,7 +151,7 @@ local activity = client:Activity(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Activity():load({ start_date = "start_date", user_id = "user_id" })
@@ -197,7 +197,7 @@ local athlete = client:Athlete(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Athlete():load({ user_id = "user_id" })
@@ -260,7 +260,7 @@ local authentication = client:Authentication(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Authentication():create({
@@ -270,7 +270,7 @@ local result, err = client:Authentication():create({
 
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Authentication():remove({ user_id = "user_id" })
@@ -316,7 +316,7 @@ local body = client:Body(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Body():load({ start_date = "start_date", user_id = "user_id" })
@@ -358,11 +358,17 @@ Return the entity name.
 local bulk_user_info = client:BulkUserInfo(nil)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bulk_user_infos` | `table` | No | List of user IDs to get information for |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:BulkUserInfo():create({
@@ -409,7 +415,7 @@ local daily = client:Daily(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Daily():load({ start_date = "start_date", user_id = "user_id" })
@@ -463,7 +469,7 @@ local integration = client:Integration(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Integration():list()
@@ -531,14 +537,43 @@ local lab_report = client:LabReport(nil)
 | `session_id` | `string` | Yes |  |
 | `status_history` | `table` | No |  |
 | `updated_at` | `string` | No |  |
-| `upload_id` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `collection_date` | - | - | - | - |
+| `collection_time` | - | - | - | - |
+| `current_status` | - | - | - | - |
+| `file_count` | - | - | - | - |
+| `id` | - | - | - | - |
+| `input_bytes` | - | - | - | - |
+| `lab_name` | - | - | - | - |
+| `output_bytes` | - | - | - | - |
+| `panels` | - | - | - | - |
+| `patient_age_at_collection` | - | - | - | - |
+| `patient_sex` | - | - | - | - |
+| `reference_id` | - | - | - | - |
+| `report_date` | - | - | - | - |
+| `report_locale` | - | - | - | - |
+| `report_notes` | - | - | - | - |
+| `report_time` | - | - | - | - |
+| `report_type` | - | - | - | - |
+| `results` | - | - | - | - |
+| `results_count` | - | - | - | - |
+| `session_id` | - | - | - | - |
+| `status_history` | - | - | - | - |
+| `updated_at` | - | - | - | - |
+| `upload_id` | - | - | Yes | - |
+| `uploaded_at` | - | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:LabReport():create({
@@ -548,9 +583,11 @@ local result, err = client:LabReport():create({
 })
 ```
 
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
+
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:LabReport():list()
@@ -558,7 +595,7 @@ local results, err = client:LabReport():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:LabReport():load({ id = "lab_report_id" })
@@ -566,7 +603,7 @@ local result, err = client:LabReport():load({ id = "lab_report_id" })
 
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:LabReport():remove({ id = "lab_report_id" })
@@ -623,10 +660,10 @@ local lab_report_delivery = client:LabReportDelivery(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:LabReportDelivery():list()
+local results, err = client:LabReportDelivery():list({ id = "example" })
 ```
 
 ### Common Methods
@@ -677,10 +714,10 @@ local lab_report_file = client:LabReportFile(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:LabReportFile():list()
+local results, err = client:LabReportFile():list({ id = "example" })
 ```
 
 ### Common Methods
@@ -723,7 +760,7 @@ local menstruation = client:Menstruation(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Menstruation():load({ start_date = "start_date", user_id = "user_id" })
@@ -769,7 +806,7 @@ local nutrition = client:Nutrition(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Nutrition():load({ start_date = "start_date", user_id = "user_id" })
@@ -847,15 +884,15 @@ local planned_workout = client:PlannedWorkout(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:PlannedWorkout():list()
+local results, err = client:PlannedWorkout():list({ user_id = "example" })
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:PlannedWorkout():load({ id = 1, user_id = "user_id" })
@@ -863,7 +900,7 @@ local result, err = client:PlannedWorkout():load({ id = 1, user_id = "user_id" }
 
 #### `update(reqdata, ctrl) -> any, err`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:PlannedWorkout():update({
@@ -913,7 +950,7 @@ local sleep = client:Sleep(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Sleep():load({ start_date = "start_date", user_id = "user_id" })
@@ -959,7 +996,7 @@ local user = client:User(nil)
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:User():load()
@@ -1022,7 +1059,7 @@ local workout = client:Workout(nil)
 
 #### `create(reqdata, ctrl) -> any, err`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Workout():create({
@@ -1034,7 +1071,7 @@ local result, err = client:Workout():create({
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
 local results, err = client:Workout():list()
@@ -1042,7 +1079,7 @@ local results, err = client:Workout():list()
 
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Workout():load({ id = 1 })
@@ -1050,7 +1087,7 @@ local result, err = client:Workout():load({ id = 1 })
 
 #### `remove(reqmatch, ctrl) -> any, err`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Workout():remove({ planned_workout_id = 1, user_id = "user_id" })
@@ -1376,6 +1413,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

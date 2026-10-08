@@ -12,6 +12,10 @@ const {
   envOverride,
   liveClientOptions,
   liveDelay,
+  skipIfMissingIds,
+  liveMiss,
+  liveEmpty,
+  describeLive,
 } = require('../../utility')
 
 
@@ -40,8 +44,10 @@ describe('AthleteDirect', async () => {
     const { client, calls } = setup
 
     const params = {}
-    if (!setup.live) {
-
+    if (setup.live) {
+      // no params
+    } else {
+      // no params
     }
 
     const result = await client.direct({
@@ -50,11 +56,17 @@ describe('AthleteDirect', async () => {
       params,
     })
 
-    assert(result.ok === true)
-    assert(setup.live ? result.status >= 200 && result.status < 300 : result.status === 200)
-    assert(null != result.data)
-
-    if (!setup.live) {
+    if (setup.live) {
+      if (!result.ok || result.status < 200 || result.status >= 300) {
+        return void liveMiss(t, LIVE_STRICT, 'Live load failed: ' + describeLive(result))
+      }
+      if (!(null != result.data)) {
+        return void liveMiss(t, LIVE_STRICT, 'Live load returned no data: ' + describeLive(result))
+      }
+    } else {
+      assert(result.ok === true)
+      assert(result.status === 200)
+      assert(null != result.data)
       assert(result.data.id === 'direct01')
       assert(calls.length === 1)
       assert(calls[0].init.method === 'GET')
@@ -64,6 +76,12 @@ describe('AthleteDirect', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function liveScenariosActive() { return false && process.env.TERRA_TEST_LIVE === 'TRUE' }
 function directSetup(mockres) {

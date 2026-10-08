@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { TerraSDK, BaseFeature, stdutil } from '../../..'
+import { TerraSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('MenstruationEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = TerraSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Menstruation().load({"start_date":"x","to_webhook":"x","user_id":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.TERRA_TEST_LIVE
@@ -51,7 +63,7 @@ describe('MenstruationEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"menstruation","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /menstruation","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"end_date","or":"end_date","r":false,"t":"`$ANY`","index$":0},{"a":true,"k":"query","n":"start_date","or":"start_date","r":true,"t":"`$ANY`","index$":1},{"a":true,"k":"query","n":"to_webhook","or":"to_webhook","r":false,"t":"`$BOOLEAN`","index$":2},{"a":true,"k":"query","n":"user_id","or":"user_id","r":true,"t":"`$STRING`","index$":3},{"a":true,"k":"query","n":"with_sample","or":"with_sample","r":false,"t":"`$BOOLEAN`","index$":4}]},"k":"http","m":"GET","o":"/menstruation","q":{"exist":["end_date","start_date","to_webhook","user_id","with_sample"]},"r":{},"s":[{"lit":"menstruation"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"menstruation","name__orig":"menstruation","Name":"Menstruation","name_":"menstruation","name-":"menstruation","NAME":"MENSTRUATION","index$":10}, {"active":true,"entity":"menstruation","key$":"BasicMenstruationFlow","kind":"basic","name":"BasicMenstruationFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"menstruation_ref01","srcdatavar":"menstruation_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-menstruation_ref01"}}],"index$":0}]}, 'Menstruation', {"GET /menstruation":{"protocol":"http","parameters":[{"name":"user_id","in":"query","description":"Terra user ID (UUID format) to retrieve data for","schema":{"type":"string"},"required":true,"index$":0},{"name":"start_date","in":"query","description":"Start date for data query - either ISO8601 date (YYYY-MM-DD) or unix timestamp in seconds (10-digit)","schema":{"oneOf":[{"type":"integer"},{"type":"string","format":"date"}]},"required":true,"index$":1},{"name":"end_date","in":"query","description":"End date for data query - either ISO8601 date (YYYY-MM-DD) or unix timestamp in seconds (10-digit)","schema":{"oneOf":[{"type":"integer"},{"type":"string","format":"date"}]},"required":false,"index$":2},{"name":"to_webhook","in":"query","description":"Boolean flag specifying whether to send the data retrieved to the webhook instead of in the response (default: true if not provided)\n","schema":{"type":"boolean"},"required":false,"index$":3},{"name":"with_samples","in":"query","description":"Boolean flag specifying whether to include detailed samples in the returned payload (default: false)\n","schema":{"type":"boolean"},"required":false,"index$":4}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"menstruation","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /menstruation","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"end_date","or":"end_date","r":false,"t":"`$ANY`","index$":0},{"a":true,"k":"query","n":"start_date","or":"start_date","r":true,"t":"`$ANY`","index$":1},{"a":true,"k":"query","n":"to_webhook","or":"to_webhook","r":false,"t":"`$BOOLEAN`","index$":2},{"a":true,"k":"query","n":"user_id","or":"user_id","r":true,"t":"`$STRING`","index$":3},{"a":true,"k":"query","n":"with_sample","or":"with_samples","r":false,"t":"`$BOOLEAN`","index$":4}]},"k":"http","m":"GET","o":"/menstruation","q":{"exist":["start_date","user_id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"menstruation"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"menstruation","name__orig":"menstruation","Name":"Menstruation","name_":"menstruation","name-":"menstruation","NAME":"MENSTRUATION","index$":10}, {"active":true,"entity":"menstruation","key$":"BasicMenstruationFlow","kind":"basic","name":"BasicMenstruationFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"menstruation_ref01","srcdatavar":"menstruation_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-menstruation_ref01"}}],"index$":0}]}, 'Menstruation', {"GET /menstruation":{"protocol":"http","parameters":[{"name":"user_id","in":"query","description":"Terra user ID (UUID format) to retrieve data for","schema":{"type":"string"},"required":true,"index$":0},{"name":"start_date","in":"query","description":"Start date for data query - either ISO8601 date (YYYY-MM-DD) or unix timestamp in seconds (10-digit)","schema":{"oneOf":[{"type":"integer"},{"type":"string","format":"date"}]},"required":true,"index$":1},{"name":"end_date","in":"query","description":"End date for data query - either ISO8601 date (YYYY-MM-DD) or unix timestamp in seconds (10-digit)","schema":{"oneOf":[{"type":"integer"},{"type":"string","format":"date"}]},"required":false,"index$":2},{"name":"to_webhook","in":"query","description":"Boolean flag specifying whether to send the data retrieved to the webhook instead of in the response (default: true if not provided)\n","schema":{"type":"boolean"},"required":false,"index$":3},{"name":"with_samples","in":"query","description":"Boolean flag specifying whether to include detailed samples in the returned payload (default: false)\n","schema":{"type":"boolean"},"required":false,"index$":4}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('MenstruationEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

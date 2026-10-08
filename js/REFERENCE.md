@@ -268,8 +268,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -284,6 +286,15 @@ Alias for `TerraSDK.test()`.
 
 **Returns:** `TerraSDK` instance in test mode.
 
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
+
 
 ---
 
@@ -297,7 +308,7 @@ const activity = client.Activity()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Activity().load({ start_date: 'start_date', user_id: 'user_id' })
@@ -341,7 +352,7 @@ const athlete = client.Athlete()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Athlete().load({ user_id: 'user_id' })
@@ -402,7 +413,7 @@ const authentication = client.Authentication()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Authentication().create({
@@ -412,7 +423,7 @@ const result = await client.Authentication().create({
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Authentication().remove({ user_id: 'user_id' })
@@ -456,7 +467,7 @@ const body = client.Body()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Body().load({ start_date: 'start_date', user_id: 'user_id' })
@@ -496,11 +507,17 @@ Return a copy of the entity options.
 const bulk_user_info = client.BulkUserInfo()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bulk_user_infos` | `Array` | No | List of user IDs to get information for |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.BulkUserInfo().create({
@@ -545,7 +562,7 @@ const daily = client.Daily()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Daily().load({ start_date: 'start_date', user_id: 'user_id' })
@@ -597,7 +614,7 @@ const integration = client.Integration()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Integration().list()
@@ -663,14 +680,43 @@ const lab_report = client.LabReport()
 | `session_id` | `string` | Yes |  |
 | `status_history` | `Array` | No |  |
 | `updated_at` | `string` | No |  |
-| `upload_id` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `collection_date` | - | - | - | - |
+| `collection_time` | - | - | - | - |
+| `current_status` | - | - | - | - |
+| `file_count` | - | - | - | - |
+| `id` | - | - | - | - |
+| `input_bytes` | - | - | - | - |
+| `lab_name` | - | - | - | - |
+| `output_bytes` | - | - | - | - |
+| `panels` | - | - | - | - |
+| `patient_age_at_collection` | - | - | - | - |
+| `patient_sex` | - | - | - | - |
+| `reference_id` | - | - | - | - |
+| `report_date` | - | - | - | - |
+| `report_locale` | - | - | - | - |
+| `report_notes` | - | - | - | - |
+| `report_time` | - | - | - | - |
+| `report_type` | - | - | - | - |
+| `results` | - | - | - | - |
+| `results_count` | - | - | - | - |
+| `session_id` | - | - | - | - |
+| `status_history` | - | - | - | - |
+| `updated_at` | - | - | - | - |
+| `upload_id` | - | - | Yes | - |
+| `uploaded_at` | - | - | - | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.LabReport().create({
@@ -680,9 +726,11 @@ const result = await client.LabReport().create({
 })
 ```
 
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
+
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.LabReport().list()
@@ -690,7 +738,7 @@ const results = await client.LabReport().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.LabReport().load({ id: 'lab_report_id' })
@@ -698,7 +746,7 @@ const result = await client.LabReport().load({ id: 'lab_report_id' })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.LabReport().remove({ id: 'lab_report_id' })
@@ -753,10 +801,10 @@ const lab_report_delivery = client.LabReportDelivery()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.LabReportDelivery().list()
+const results = await client.LabReportDelivery().list({ id: "example" })
 ```
 
 ### Common Methods
@@ -805,10 +853,10 @@ const lab_report_file = client.LabReportFile()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.LabReportFile().list()
+const results = await client.LabReportFile().list({ id: "example" })
 ```
 
 ### Common Methods
@@ -849,7 +897,7 @@ const menstruation = client.Menstruation()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Menstruation().load({ start_date: 'start_date', user_id: 'user_id' })
@@ -893,7 +941,7 @@ const nutrition = client.Nutrition()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Nutrition().load({ start_date: 'start_date', user_id: 'user_id' })
@@ -969,15 +1017,15 @@ const planned_workout = client.PlannedWorkout()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.PlannedWorkout().list()
+const results = await client.PlannedWorkout().list({ user_id: "example" })
 ```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.PlannedWorkout().load({ id: 1, user_id: 'user_id' })
@@ -985,7 +1033,7 @@ const result = await client.PlannedWorkout().load({ id: 1, user_id: 'user_id' })
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.PlannedWorkout().update({
@@ -1033,7 +1081,7 @@ const sleep = client.Sleep()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Sleep().load({ start_date: 'start_date', user_id: 'user_id' })
@@ -1077,7 +1125,7 @@ const user = client.User()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.User().load()
@@ -1138,7 +1186,7 @@ const workout = client.Workout()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Workout().create({
@@ -1150,7 +1198,7 @@ const result = await client.Workout().create({
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Workout().list()
@@ -1158,7 +1206,7 @@ const results = await client.Workout().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Workout().load({ id: 1 })
@@ -1166,7 +1214,7 @@ const result = await client.Workout().load({ id: 1 })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Workout().remove({ planned_workout_id: 1, user_id: 'user_id' })
@@ -1490,6 +1538,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

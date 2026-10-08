@@ -153,7 +153,7 @@ $activity = $client->Activity();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Activity()->load(["start_date" => "start_date", "user_id" => "user_id"]);
@@ -199,7 +199,7 @@ $athlete = $client->Athlete();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Athlete()->load(["user_id" => "user_id"]);
@@ -262,7 +262,7 @@ $authentication = $client->Authentication();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Authentication()->create([
@@ -272,7 +272,7 @@ $result = $client->Authentication()->create([
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Authentication()->remove(["user_id" => "user_id"]);
@@ -318,7 +318,7 @@ $body = $client->Body();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Body()->load(["start_date" => "start_date", "user_id" => "user_id"]);
@@ -360,11 +360,17 @@ Return the entity name.
 $bulk_user_info = $client->BulkUserInfo();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bulk_user_infos` | `array` | No | List of user IDs to get information for |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->BulkUserInfo()->create([
@@ -411,7 +417,7 @@ $daily = $client->Daily();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Daily()->load(["start_date" => "start_date", "user_id" => "user_id"]);
@@ -465,7 +471,7 @@ $integration = $client->Integration();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Integration()->list();
@@ -533,14 +539,43 @@ $lab_report = $client->LabReport();
 | `session_id` | `string` | Yes |  |
 | `status_history` | `array` | No |  |
 | `updated_at` | `string` | No |  |
-| `upload_id` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `collection_date` | - | - | - | - |
+| `collection_time` | - | - | - | - |
+| `current_status` | - | - | - | - |
+| `file_count` | - | - | - | - |
+| `id` | - | - | - | - |
+| `input_bytes` | - | - | - | - |
+| `lab_name` | - | - | - | - |
+| `output_bytes` | - | - | - | - |
+| `panels` | - | - | - | - |
+| `patient_age_at_collection` | - | - | - | - |
+| `patient_sex` | - | - | - | - |
+| `reference_id` | - | - | - | - |
+| `report_date` | - | - | - | - |
+| `report_locale` | - | - | - | - |
+| `report_notes` | - | - | - | - |
+| `report_time` | - | - | - | - |
+| `report_type` | - | - | - | - |
+| `results` | - | - | - | - |
+| `results_count` | - | - | - | - |
+| `session_id` | - | - | - | - |
+| `status_history` | - | - | - | - |
+| `updated_at` | - | - | - | - |
+| `upload_id` | - | - | Yes | - |
+| `uploaded_at` | - | - | - | - |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->LabReport()->create([
@@ -550,9 +585,11 @@ $result = $client->LabReport()->create([
 ]);
 ```
 
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
+
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->LabReport()->list();
@@ -560,7 +597,7 @@ $results = $client->LabReport()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->LabReport()->load(["id" => "lab_report_id"]);
@@ -568,7 +605,7 @@ $result = $client->LabReport()->load(["id" => "lab_report_id"]);
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->LabReport()->remove(["id" => "lab_report_id"]);
@@ -625,10 +662,10 @@ $lab_report_delivery = $client->LabReportDelivery();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->LabReportDelivery()->list();
+$results = $client->LabReportDelivery()->list(["id" => "example"]);
 ```
 
 ### Common Methods
@@ -679,10 +716,10 @@ $lab_report_file = $client->LabReportFile();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->LabReportFile()->list();
+$results = $client->LabReportFile()->list(["id" => "example"]);
 ```
 
 ### Common Methods
@@ -725,7 +762,7 @@ $menstruation = $client->Menstruation();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Menstruation()->load(["start_date" => "start_date", "user_id" => "user_id"]);
@@ -771,7 +808,7 @@ $nutrition = $client->Nutrition();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Nutrition()->load(["start_date" => "start_date", "user_id" => "user_id"]);
@@ -849,15 +886,15 @@ $planned_workout = $client->PlannedWorkout();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->PlannedWorkout()->list();
+$results = $client->PlannedWorkout()->list(["user_id" => "example"]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->PlannedWorkout()->load(["id" => 1, "user_id" => "user_id"]);
@@ -865,7 +902,7 @@ $result = $client->PlannedWorkout()->load(["id" => 1, "user_id" => "user_id"]);
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->PlannedWorkout()->update([
@@ -915,7 +952,7 @@ $sleep = $client->Sleep();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Sleep()->load(["start_date" => "start_date", "user_id" => "user_id"]);
@@ -961,7 +998,7 @@ $user = $client->User();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->User()->load();
@@ -1024,7 +1061,7 @@ $workout = $client->Workout();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Workout()->create([
@@ -1036,7 +1073,7 @@ $result = $client->Workout()->create([
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Workout()->list();
@@ -1044,7 +1081,7 @@ $results = $client->Workout()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Workout()->load(["id" => 1]);
@@ -1052,7 +1089,7 @@ $result = $client->Workout()->load(["id" => 1]);
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Workout()->remove(["planned_workout_id" => 1, "user_id" => "user_id"]);
@@ -1378,6 +1415,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -53,7 +53,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": true,
+            "active": false,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -180,7 +180,7 @@
                         "a": true,
                         "k": "query",
                         "n": "with_sample",
-                        "or": "with_sample",
+                        "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -191,14 +191,15 @@
                   "o": "/activity",
                   "q": {
                     "exist": [
-                      "end_date",
                       "start_date",
-                      "to_webhook",
-                      "user_id",
-                      "with_sample"
+                      "user_id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "activity"
@@ -260,11 +261,14 @@
                   "o": "/athlete",
                   "q": {
                     "exist": [
-                      "to_webhook",
                       "user_id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "athlete"
@@ -392,6 +396,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "auth_failure_redirect_url",
+                    "auth_success_redirect_url",
+                    "language",
+                    "reference_id"
+                  ],
                   "co": {
                     "id": "POST /auth/authenticateUser",
                     "source": "openapi3",
@@ -404,7 +414,7 @@
                         "ex": "testingTerra",
                         "k": "header",
                         "n": "dev_id",
-                        "or": "dev_id",
+                        "or": "dev-id",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -431,6 +441,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "auth"
@@ -457,6 +471,10 @@
                   "o": "/auth/generateAuthToken",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "auth"
@@ -472,6 +490,13 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "auth_failure_redirect_url",
+                    "auth_success_redirect_url",
+                    "language",
+                    "providers",
+                    "reference_id"
+                  ],
                   "co": {
                     "id": "POST /auth/generateWidgetSession",
                     "source": "openapi3",
@@ -483,6 +508,10 @@
                   "o": "/auth/generateWidgetSession",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "auth"
@@ -530,6 +559,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "auth"
@@ -607,7 +640,7 @@
                         "a": true,
                         "k": "query",
                         "n": "with_sample",
-                        "or": "with_sample",
+                        "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -618,14 +651,15 @@
                   "o": "/body",
                   "q": {
                     "exist": [
-                      "end_date",
                       "start_date",
-                      "to_webhook",
-                      "user_id",
-                      "with_sample"
+                      "user_id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "body"
@@ -648,7 +682,16 @@
           "alias": {
             "field": {}
           },
-          "fields": {},
+          "fields": {
+            "bulk_user_infos": {
+              "a": true,
+              "h": "Bulk User Infos",
+              "n": "bulk_user_infos",
+              "r": false,
+              "sh": "List of user IDs to get information for",
+              "t": "`$ARRAY`"
+            }
+          },
           "name": "bulk_user_info",
           "op": {
             "create": {
@@ -657,6 +700,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "bulk_user_infos"
+                  ],
                   "co": {
                     "id": "POST /bulkUserInfo",
                     "source": "openapi3",
@@ -666,15 +712,23 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/bulkUserInfo",
-                  "q": {},
+                  "q": {
+                    "exist": [
+                      "bulk_user_infos"
+                    ]
+                  },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "bulkUserInfo"
                     }
                   ],
                   "t": {
-                    "req": "`reqdata`",
+                    "req": "`reqdata.bulk_user_infos`",
                     "res": "`body`"
                   }
                 }
@@ -742,7 +796,7 @@
                         "a": true,
                         "k": "query",
                         "n": "with_sample",
-                        "or": "with_sample",
+                        "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -753,14 +807,15 @@
                   "o": "/daily",
                   "q": {
                     "exist": [
-                      "end_date",
                       "start_date",
-                      "to_webhook",
-                      "user_id",
-                      "with_sample"
+                      "user_id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "daily"
@@ -816,6 +871,33 @@
                 {
                   "a": true,
                   "co": {
+                    "id": "GET /integrations",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/integrations",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "integrations"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
                     "id": "GET /integrations/detailed",
                     "source": "openapi3",
                     "version": 2
@@ -836,12 +918,13 @@
                   "m": "GET",
                   "o": "/integrations/detailed",
                   "q": {
-                    "$action": "detailed",
-                    "exist": [
-                      "sdk"
-                    ]
+                    "$action": "detailed"
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "integrations"
@@ -853,29 +936,6 @@
                   "t": {
                     "req": "`reqdata`",
                     "res": "`body.providers`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /integrations",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/integrations",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "integrations"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
                   }
                 }
               ]
@@ -1061,7 +1121,14 @@
               "a": true,
               "h": "Upload Id",
               "n": "upload_id",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
+              "sh": "Durable correlation key for the upload; every resulting session and webhook carries it.",
               "t": "`$STRING`"
             },
             "uploaded_at": {
@@ -1106,12 +1173,22 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/lab-reports",
-                  "q": {
-                    "exist": [
-                      "reference_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rb": {
+                    "fields": [
+                      {
+                        "binary": true,
+                        "name": "file"
+                      }
+                    ],
+                    "kind": "multipart",
+                    "media": "multipart/form-data"
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "lab-reports"
@@ -1190,17 +1267,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/lab-reports",
-                  "q": {
-                    "exist": [
-                      "reference_id",
-                      "report_date_from",
-                      "report_date_to",
-                      "upload_id",
-                      "uploaded_at_from",
-                      "uploaded_at_to"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "lab-reports"
@@ -1249,6 +1321,10 @@
                     "param": {
                       "session_id": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1418,6 +1494,10 @@
                       "session_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "lab-reports"
@@ -1512,6 +1592,10 @@
                       "session_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "lab-reports"
@@ -1592,7 +1676,7 @@
                         "a": true,
                         "k": "query",
                         "n": "with_sample",
-                        "or": "with_sample",
+                        "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -1603,14 +1687,15 @@
                   "o": "/menstruation",
                   "q": {
                     "exist": [
-                      "end_date",
                       "start_date",
-                      "to_webhook",
-                      "user_id",
-                      "with_sample"
+                      "user_id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "menstruation"
@@ -1685,7 +1770,7 @@
                         "a": true,
                         "k": "query",
                         "n": "with_sample",
-                        "or": "with_sample",
+                        "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -1696,14 +1781,15 @@
                   "o": "/nutrition",
                   "q": {
                     "exist": [
-                      "end_date",
                       "start_date",
-                      "to_webhook",
-                      "user_id",
-                      "with_sample"
+                      "user_id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "nutrition"
@@ -1871,12 +1957,14 @@
                   "o": "/plannedWorkouts",
                   "q": {
                     "exist": [
-                      "end_date",
-                      "start_date",
                       "user_id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "plannedWorkouts"
@@ -1936,6 +2024,10 @@
                       "planned_workout_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "plannedWorkouts"
@@ -1957,6 +2049,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "planned_date"
+                  ],
                   "co": {
                     "id": "PATCH /plannedWorkouts/{planned_workout_id}",
                     "source": "openapi3",
@@ -1997,6 +2092,10 @@
                     "param": {
                       "planned_workout_id": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2075,7 +2174,7 @@
                         "a": true,
                         "k": "query",
                         "n": "with_sample",
-                        "or": "with_sample",
+                        "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
                       }
@@ -2086,14 +2185,15 @@
                   "o": "/sleep",
                   "q": {
                     "exist": [
-                      "end_date",
                       "start_date",
-                      "to_webhook",
-                      "user_id",
-                      "with_sample"
+                      "user_id"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "sleep"
@@ -2155,13 +2255,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/subscriptions",
-                  "q": {
-                    "exist": [
-                      "page",
-                      "per_page"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "subscriptions"
@@ -2202,13 +2301,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/userInfo",
-                  "q": {
-                    "exist": [
-                      "reference_id",
-                      "user_id"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "userInfo"
@@ -2352,6 +2450,14 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "ftp",
+                    "max_heart_rate",
+                    "planned_date",
+                    "pool_length_meters",
+                    "threshold_heart_rate",
+                    "threshold_speed"
+                  ],
                   "co": {
                     "id": "POST /workouts/{workout_id}/plan",
                     "source": "openapi3",
@@ -2394,6 +2500,10 @@
                       "workout_id": "id"
                     }
                   },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "workouts"
@@ -2412,6 +2522,18 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "description",
+                    "environment",
+                    "estimated_calories",
+                    "estimated_distance_meters",
+                    "estimated_duration_seconds",
+                    "name",
+                    "pool_length_meters",
+                    "sport",
+                    "step_blocks",
+                    "workout_id"
+                  ],
                   "co": {
                     "id": "POST /workouts",
                     "source": "openapi3",
@@ -2423,6 +2545,10 @@
                   "o": "/workouts",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "workouts"
@@ -2452,6 +2578,10 @@
                   "o": "/workouts",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "workouts"
@@ -2499,6 +2629,10 @@
                     "param": {
                       "workout_id": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -2602,6 +2736,10 @@
                     "param": {
                       "workout_id": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -3380,6 +3518,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -4109,6 +4248,24 @@
           "url": "https://github.com/tryterra/openapi/blob/master/LICENSE"
         },
         "security": {
+          "alternatives": [
+            [
+              {
+                "in": "header",
+                "name": "x-api-key",
+                "prefix": "",
+                "scheme": "ApiKeyAuth",
+                "type": "apiKey"
+              },
+              {
+                "in": "header",
+                "name": "dev-id",
+                "prefix": "",
+                "scheme": "DevID",
+                "type": "apiKey"
+              }
+            ]
+          ],
           "in": "header",
           "name": "x-api-key",
           "prefix": "",
@@ -4130,7 +4287,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -4141,7 +4298,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {
@@ -4178,6 +4340,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -4408,7 +4575,10 @@
             "version": "0.1.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "js": {
           "active": true,
@@ -4784,6 +4954,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

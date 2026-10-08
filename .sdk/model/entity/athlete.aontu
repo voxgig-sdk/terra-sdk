@@ -37,9 +37,12 @@ main: kit: entity: athlete: {
           o: "/athlete"
           q: {
             exist: [
-              "to_webhook"
               "user_id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Lua, JavaScript SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
+> **Features:** `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -50,9 +50,8 @@ const client = TerraSDK.test({
   },
 })
 const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
-// activity is the Activity entity, populated with mock data
-// — call activity.data() for the record itself
-console.log(activity)
+// activity is the Activity entity; .data() reads its mock record
+console.log(activity.data())
 ```
 
 ### Python
@@ -60,7 +59,7 @@ console.log(activity)
 ```python
 client = TerraSDK.test()
 activity = client.Activity().load({"start_date": "example", "user_id": "example"})
-print(activity)
+print(activity.data_get())
 ```
 
 ### PHP
@@ -94,23 +93,22 @@ local result, err = client:Activity():load({ start_date = "example", user_id = "
 ```js
 const client = TerraSDK.test()
 const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
-// activity is the entity, populated with mock data
-// — call activity.data() for the record itself
-console.log(activity)
+// activity is the Activity entity; .data() reads its mock record
+console.log(activity.data())
 ```
 
 ## Packages
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/terra-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/terra-sdk/tags) |
-| Python | `voxgig-sdk-terra-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/terra-sdk/tags) |
-| PHP | `voxgig-sdk/terra-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/terra-sdk/tags) |
+| TypeScript | `@voxgig-sdk/terra-sdk` | publish pending — [install from source](ts/README.md#install) |
+| Python | `voxgig-sdk-terra-sdk` | publish pending — [install from source](py/README.md#install) |
+| PHP | `voxgig-sdk/terra-sdk` | publish pending — [install from source](php/README.md#install) |
 | Golang | `github.com/voxgig-sdk/terra-sdk/go` | `go get github.com/voxgig-sdk/terra-sdk/go@latest` |
-| Lua | `voxgig-sdk-terra-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/terra-sdk/tags) |
-| JavaScript | `@voxgig-sdk/terra-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/terra-sdk/tags) |
-| Go CLI | `github.com/voxgig-sdk/terra-sdk/go-cli` | `go install github.com/voxgig-sdk/terra-sdk/go-cli/cmd/terra@latest` |
-| Go MCP server | `github.com/voxgig-sdk/terra-sdk/go-mcp` | `go get github.com/voxgig-sdk/terra-sdk/go-mcp@latest` |
+| Lua | `voxgig-sdk-terra-sdk` | publish pending — [install from source](lua/README.md#install) |
+| JavaScript | `@voxgig-sdk/terra-sdk-js` | publish pending — [install from source](js/README.md#install) |
+| Go CLI | `github.com/voxgig-sdk/terra-sdk/go-cli` | build from source — [go-cli/README.md](go-cli/README.md) |
+| Go MCP server | `github.com/voxgig-sdk/terra-sdk/go-mcp` | build from source — [go-mcp/README.md](go-mcp/README.md) |
 
 ## Quickstart
 
@@ -123,10 +121,12 @@ const client = new TerraSDK({
   apikey: process.env.TERRA_APIKEY,
 })
 
-// Load activity data (returns a Activity)
+// Load a specific activity (returns the entity, an ActivityEntity)
 const activity = await client.Activity().load()
-console.log(activity)
+console.log(activity.data())
 ```
+
+The client sends the API key in the `x-api-key` header.
 
 See the [TypeScript README](ts/README.md) for the full guide.
 
@@ -140,9 +140,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's list and load operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o terra-mcp .
@@ -199,9 +200,9 @@ client = TerraSDK({
 })
 
 
-# Load a specific activity (returns the record, raises on error)
+# Load a specific activity (returns the entity, raises on error)
 activity = client.Activity().load({"start_date": "example_start_date", "user_id": "example_user_id"})
-print(activity)
+print(activity.data_get())
 ```
 
 ### PHP
@@ -215,7 +216,7 @@ $client = new TerraSDK([
 ]);
 
 
-// Load a specific activity (returns the ENTITY; call data_get() for the record; throws on error)
+// Load a specific activity (returns the entity; data_get() reads its record; throws on error)
 $activity = $client->Activity()->load(["start_date" => "example_start_date", "user_id" => "example_user_id"]);
 print_r($activity->data_get());
 ```
@@ -229,27 +230,29 @@ client := sdk.NewTerraSDK(map[string]any{
     "apikey": os.Getenv("TERRA_APIKEY"),
 })
 
-// Load activity data
+// Load a specific activity (returns the entity; err is non-nil on failure)
 activity, err := client.Activity(nil).Load(map[string]any{"start_date": "example_start_date", "user_id": "example_user_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(activity)
+fmt.Println(activity.(sdk.Entity).Data())
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("terra_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("TERRA_APIKEY"),
 })
 
 
--- Load a specific activity
+-- Load a specific activity (returns the entity; err on failure)
 local activity, err = client:Activity():load({ start_date = "example_start_date", user_id = "example_user_id" })
-print(activity)
+if err then error(err) end
+print(json.encode(activity:data_get()))
 ```
 
 ### JavaScript
@@ -261,6 +264,9 @@ const client = new TerraSDK({
   apikey: process.env.TERRA_APIKEY,
 })
 
+// Load a specific activity (returns the entity)
+const activity = await client.Activity().load()
+console.log(activity.data())
 ```
 
 ## Direct and prepare
@@ -286,10 +292,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -339,10 +344,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 ## Advanced
@@ -391,10 +395,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

@@ -82,10 +82,12 @@
 
 /**
  * @typedef {Object} BulkUserInfo
+ * @property {Array} [bulk_user_infos]
  */
 
 /**
  * @typedef {Object} BulkUserInfoCreateData
+ * @property {Array} [bulk_user_infos]
  */
 
 /**

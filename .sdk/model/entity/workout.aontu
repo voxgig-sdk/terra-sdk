@@ -113,6 +113,14 @@ main: kit: entity: workout: {
       name: "create"
       points: [
         {
+          bf: [
+            "ftp"
+            "max_heart_rate"
+            "planned_date"
+            "pool_length_meters"
+            "threshold_heart_rate"
+            "threshold_speed"
+          ]
           co: {
             id: "POST /workouts/{workout_id}/plan"
             source: "openapi3"
@@ -152,6 +160,10 @@ main: kit: entity: workout: {
               workout_id: "id"
             }
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "workouts"
@@ -169,6 +181,18 @@ main: kit: entity: workout: {
           }
         }
         {
+          bf: [
+            "description"
+            "environment"
+            "estimated_calories"
+            "estimated_distance_meters"
+            "estimated_duration_seconds"
+            "name"
+            "pool_length_meters"
+            "sport"
+            "step_blocks"
+            "workout_id"
+          ]
           co: {
             id: "POST /workouts"
             source: "openapi3"
@@ -176,6 +200,10 @@ main: kit: entity: workout: {
           }
           m: "POST"
           o: "/workouts"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "workouts"
@@ -199,6 +227,10 @@ main: kit: entity: workout: {
           }
           m: "GET"
           o: "/workouts"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "workouts"
@@ -242,6 +274,10 @@ main: kit: entity: workout: {
             param: {
               workout_id: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -336,6 +372,10 @@ main: kit: entity: workout: {
             param: {
               workout_id: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

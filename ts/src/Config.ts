@@ -180,6 +180,7 @@ class Config {
       },
       "optspec": {
         "clearTimer": "`$FUNCTION`",
+        "now": "`$FUNCTION`",
         "setTimer": "`$FUNCTION`"
       },
       "strict": false,
@@ -311,7 +312,7 @@ class Config {
                   },
                   {
                     "name": "with_sample",
-                    "orig": "with_sample",
+                    "orig": "with_samples",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -319,12 +320,13 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "end_date",
                   "start_date",
-                  "to_webhook",
-                  "user_id",
-                  "with_sample"
+                  "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -378,9 +380,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "to_webhook",
                   "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -495,7 +500,7 @@ class Config {
                 "header": [
                   {
                     "name": "dev_id",
-                    "orig": "dev_id",
+                    "orig": "dev-id",
                     "type": "`$STRING`",
                     "kind": "header",
                     "reqd": true,
@@ -518,6 +523,10 @@ class Config {
                   "dev_id",
                   "resource"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -542,7 +551,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             },
             {
               "kind": "http",
@@ -566,7 +579,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -602,7 +619,8 @@ class Config {
                     "orig": "user_id",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "reqd": true
+                    "reqd": true,
+                    "field": true
                   }
                 ]
               },
@@ -610,6 +628,10 @@ class Config {
                 "exist": [
                   "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -674,7 +696,7 @@ class Config {
                   },
                   {
                     "name": "with_sample",
-                    "orig": "with_sample",
+                    "orig": "with_samples",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -682,12 +704,13 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "end_date",
                   "start_date",
-                  "to_webhook",
-                  "user_id",
-                  "with_sample"
+                  "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -698,7 +721,14 @@ class Config {
       }
     },
     "bulk_user_info": {
-      "fields": [],
+      "fields": [
+        {
+          "name": "bulk_user_infos",
+          "title": "Bulk User Infos",
+          "type": "`$ARRAY`",
+          "short": "List of user IDs to get information for"
+        }
+      ],
       "name": "bulk_user_info",
       "op": {
         "create": {
@@ -719,11 +749,19 @@ class Config {
               ],
               "rename": {},
               "transform": {
-                "req": "`reqdata`",
+                "req": "`reqdata.bulk_user_infos`",
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {
+                "exist": [
+                  "bulk_user_infos"
+                ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -787,7 +825,7 @@ class Config {
                   },
                   {
                     "name": "with_sample",
-                    "orig": "with_sample",
+                    "orig": "with_samples",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -795,12 +833,13 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "end_date",
                   "start_date",
-                  "to_webhook",
-                  "user_id",
-                  "with_sample"
+                  "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -838,6 +877,30 @@ class Config {
             {
               "kind": "http",
               "method": "GET",
+              "orig": "/integrations",
+              "segments": [
+                {
+                  "lit": "integrations"
+                }
+              ],
+              "parts": [
+                "integrations"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            },
+            {
+              "kind": "http",
+              "method": "GET",
               "orig": "/integrations/detailed",
               "segments": [
                 {
@@ -867,31 +930,12 @@ class Config {
                 ]
               },
               "select": {
-                "$action": "detailed",
-                "exist": [
-                  "sdk"
-                ]
-              }
-            },
-            {
-              "kind": "http",
-              "method": "GET",
-              "orig": "/integrations",
-              "segments": [
-                {
-                  "lit": "integrations"
-                }
-              ],
-              "parts": [
-                "integrations"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
+                "$action": "detailed"
               },
-              "args": {},
-              "select": {}
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -1030,7 +1074,14 @@ class Config {
         {
           "name": "upload_id",
           "title": "Upload Id",
-          "type": "`$STRING`"
+          "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
+          "short": "Durable correlation key for the upload; every resulting session and webhook carries it."
         },
         {
           "name": "uploaded_at",
@@ -1073,14 +1124,25 @@ class Config {
                     "orig": "reference_id",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "example": "patient_456"
+                    "example": "patient_456",
+                    "field": true
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "reference_id"
-                ]
+              "select": {},
+              "body": {
+                "fields": [
+                  {
+                    "binary": true,
+                    "name": "file"
+                  }
+                ],
+                "kind": "multipart",
+                "media": "multipart/form-data"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1112,7 +1174,8 @@ class Config {
                     "name": "reference_id",
                     "orig": "reference_id",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "report_date_from",
@@ -1130,7 +1193,8 @@ class Config {
                     "name": "upload_id",
                     "orig": "upload_id",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "uploaded_at_from",
@@ -1146,15 +1210,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "reference_id",
-                  "report_date_from",
-                  "report_date_to",
-                  "upload_id",
-                  "uploaded_at_from",
-                  "uploaded_at_to"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1204,6 +1263,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1357,6 +1420,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1440,6 +1507,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1504,7 +1575,7 @@ class Config {
                   },
                   {
                     "name": "with_sample",
-                    "orig": "with_sample",
+                    "orig": "with_samples",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -1512,12 +1583,13 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "end_date",
                   "start_date",
-                  "to_webhook",
-                  "user_id",
-                  "with_sample"
+                  "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1582,7 +1654,7 @@ class Config {
                   },
                   {
                     "name": "with_sample",
-                    "orig": "with_sample",
+                    "orig": "with_samples",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -1590,12 +1662,13 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "end_date",
                   "start_date",
-                  "to_webhook",
-                  "user_id",
-                  "with_sample"
+                  "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1731,10 +1804,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "end_date",
-                  "start_date",
                   "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1793,6 +1868,10 @@ class Config {
                   "id",
                   "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1851,6 +1930,10 @@ class Config {
                   "id",
                   "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1915,7 +1998,7 @@ class Config {
                   },
                   {
                     "name": "with_sample",
-                    "orig": "with_sample",
+                    "orig": "with_samples",
                     "type": "`$BOOLEAN`",
                     "kind": "query"
                   }
@@ -1923,12 +2006,13 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "end_date",
                   "start_date",
-                  "to_webhook",
-                  "user_id",
-                  "with_sample"
+                  "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1981,11 +2065,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "page",
-                  "per_page"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -2021,11 +2104,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "reference_id",
-                  "user_id"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2174,6 +2256,10 @@ class Config {
                   "id",
                   "user_id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -2194,7 +2280,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -2220,7 +2310,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -2268,6 +2362,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2364,6 +2462,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]

@@ -63,8 +63,10 @@
 ---@field with_sample? boolean
 
 ---@class BulkUserInfo
+---@field bulk_user_infos? table
 
 ---@class BulkUserInfoCreateData
+---@field bulk_user_infos? table
 
 ---@class Daily
 

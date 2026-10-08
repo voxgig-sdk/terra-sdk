@@ -24,7 +24,7 @@ class PlannedWorkoutEntity extends TerraEntityBase {
   /**
    * @param {PlannedWorkoutLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<PlannedWorkout>}
+   * @returns {Promise<PlannedWorkoutEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -129,9 +129,15 @@ class PlannedWorkoutEntity extends TerraEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -149,7 +155,7 @@ class PlannedWorkoutEntity extends TerraEntityBase {
   /**
    * @param {PlannedWorkoutListMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<PlannedWorkout[]>}
+   * @returns {Promise<PlannedWorkoutEntity[]>}
    */
   async list(reqmatch, ctrl) {
 
@@ -242,9 +248,15 @@ class PlannedWorkoutEntity extends TerraEntityBase {
       return done(ctx)
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -263,7 +275,7 @@ class PlannedWorkoutEntity extends TerraEntityBase {
   /**
    * @param {PlannedWorkoutUpdateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<PlannedWorkout>}
+   * @returns {Promise<PlannedWorkoutEntity>}
    */
   async update(reqdata, ctrl) {
 
@@ -369,9 +381,15 @@ class PlannedWorkoutEntity extends TerraEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -383,6 +401,7 @@ class PlannedWorkoutEntity extends TerraEntityBase {
       }
     }
   }
+
 
 
 

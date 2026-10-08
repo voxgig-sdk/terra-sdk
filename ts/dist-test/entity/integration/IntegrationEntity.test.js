@@ -54,6 +54,53 @@ const utility_1 = require("../../utility");
         const ent = testsdk.Integration();
         (0, node_assert_1.default)(null != ent);
     });
+    class FailHook extends __1.BaseFeature {
+        name = 'failhook';
+        version = '0.0.1';
+        active = true;
+        unexpected = 0;
+        init() { }
+        PreSpec() { throw new Error('integration hook failed'); }
+        PreUnexpected() { this.unexpected++; }
+    }
+    (0, node_test_1.test)('stream-error', async () => {
+        const offline = { net: { offline: true } };
+        await node_assert_1.default.rejects(async () => {
+            for await (const _item of __1.TerraSDK.test(offline).Integration().stream('list')) { }
+        }, /offline/);
+        for await (const _item of __1.TerraSDK.test(offline).Integration()
+            .stream('list', undefined, { ctrl: { throw: false } })) { }
+        if (null != __1.config.feature?.rbac) {
+            const denied = __1.TerraSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } });
+            await node_assert_1.default.rejects(async () => {
+                for await (const _item of denied.Integration().stream('list')) { }
+            }, (err) => 'rbac_denied' === err.code);
+        }
+    });
+    (0, node_test_1.test)('stream-ctrl', async () => {
+        const explain = {};
+        const ctrl = { explain };
+        for await (const _item of __1.TerraSDK.test().Integration().stream('list', undefined, { ctrl })) { }
+        node_assert_1.default.deepStrictEqual(Object.keys(ctrl), ['explain']);
+        (0, node_assert_1.default)(explain === ctrl.explain && 0 < Object.keys(explain).length);
+    });
+    (0, node_test_1.test)('unexpected', async () => {
+        const hook = new FailHook();
+        const client = new __1.TerraSDK({ feature: { test: { active: true } }, extend: [hook] });
+        await node_assert_1.default.rejects(client.Integration().list(), /hook failed/);
+        (0, node_assert_1.default)(0 < hook.unexpected);
+        const fired = hook.unexpected;
+        node_assert_1.default.strictEqual(await client.Integration().list(undefined, { throw: false }), undefined);
+        (0, node_assert_1.default)(fired < hook.unexpected);
+    });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.TerraSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.Integration().list({ "status": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.TERRA_TEST_LIVE;
         for (const op of ['list']) {
@@ -62,7 +109,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "providers": { "a": true, "h": "Providers", "n": "providers", "r": false, "t": "`$ARRAY`", "key$": "providers", "index$": 0 }, "sdk_providers": { "a": true, "h": "Sdk Providers", "n": "sdk_providers", "r": false, "sh": "Providers available through Terra's mobile SDKs rather than cloud connections", "t": "`$ARRAY`", "key$": "sdk_providers", "index$": 1 }, "status": { "a": true, "h": "Status", "n": "status", "r": false, "t": "`$STRING`", "key$": "status", "index$": 2 } }, "name": "integration", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /integrations/detailed", "source": "openapi3", "version": 2 }, "g": { "query": [{ "a": true, "k": "query", "n": "sdk", "or": "sdk", "r": false, "t": "`$BOOLEAN`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/integrations/detailed", "q": { "$action": "detailed", "exist": ["sdk"] }, "r": {}, "s": [{ "lit": "integrations" }, { "lit": "detailed" }], "t": { "req": "`reqdata`", "res": "`body.providers`" }, "index$": 0 }, { "a": true, "co": { "id": "GET /integrations", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/integrations", "q": {}, "r": {}, "s": [{ "lit": "integrations" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 1 }], "key$": "list" } }, "relations": { "ancestors": [] }, "key$": "integration", "name__orig": "integration", "Name": "Integration", "name_": "integration", "name-": "integration", "NAME": "INTEGRATION", "index$": 6 }, { "active": true, "entity": "integration", "key$": "BasicIntegrationFlow", "kind": "basic", "name": "BasicIntegrationFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "integration_ref01" } }], "index$": 0 }] }, 'Integration', { "GET /integrations/detailed": { "protocol": "http", "parameters": [{ "in": "query", "name": "sdk", "required": false, "schema": { "type": "boolean" }, "description": "If `true`, allows SDK integrations to be included in the response.", "index$": 0 }] }, "GET /integrations": { "protocol": "http", "parameters": [] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "providers": { "a": true, "h": "Providers", "n": "providers", "r": false, "t": "`$ARRAY`", "key$": "providers", "index$": 0 }, "sdk_providers": { "a": true, "h": "Sdk Providers", "n": "sdk_providers", "r": false, "sh": "Providers available through Terra's mobile SDKs rather than cloud connections", "t": "`$ARRAY`", "key$": "sdk_providers", "index$": 1 }, "status": { "a": true, "h": "Status", "n": "status", "r": false, "t": "`$STRING`", "key$": "status", "index$": 2 } }, "name": "integration", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /integrations", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/integrations", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "integrations" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }, { "a": true, "co": { "id": "GET /integrations/detailed", "source": "openapi3", "version": 2 }, "g": { "query": [{ "a": true, "k": "query", "n": "sdk", "or": "sdk", "r": false, "t": "`$BOOLEAN`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/integrations/detailed", "q": { "$action": "detailed" }, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "integrations" }, { "lit": "detailed" }], "t": { "req": "`reqdata`", "res": "`body.providers`" }, "index$": 1 }], "key$": "list" } }, "relations": { "ancestors": [] }, "key$": "integration", "name__orig": "integration", "Name": "Integration", "name_": "integration", "name-": "integration", "NAME": "INTEGRATION", "index$": 6 }, { "active": true, "entity": "integration", "key$": "BasicIntegrationFlow", "kind": "basic", "name": "BasicIntegrationFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "integration_ref01" } }], "index$": 0 }] }, 'Integration', { "GET /integrations": { "protocol": "http", "parameters": [] }, "GET /integrations/detailed": { "protocol": "http", "parameters": [{ "in": "query", "name": "sdk", "required": false, "schema": { "type": "boolean" }, "description": "If `true`, allows SDK integrations to be included in the response.", "index$": 0 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -75,6 +122,11 @@ const utility_1 = require("../../utility");
         const integration_ref01_list = (await integration_ref01_ent.list(integration_ref01_match)).map((e) => e.data());
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

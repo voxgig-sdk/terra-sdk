@@ -163,6 +163,7 @@ class TerraConfig
           ],
           'optspec' => [
             'clearTimer' => '`$FUNCTION`',
+            'now' => '`$FUNCTION`',
             'setTimer' => '`$FUNCTION`',
           ],
           'strict' => false,
@@ -253,7 +254,7 @@ class TerraConfig
                       ],
                       [
                         'name' => 'with_sample',
-                        'orig' => 'with_sample',
+                        'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
                       ],
@@ -261,12 +262,13 @@ class TerraConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'end_date',
                       'start_date',
-                      'to_webhook',
                       'user_id',
-                      'with_sample',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -320,9 +322,12 @@ class TerraConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'to_webhook',
                       'user_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -437,7 +442,7 @@ class TerraConfig
                     'header' => [
                       [
                         'name' => 'dev_id',
-                        'orig' => 'dev_id',
+                        'orig' => 'dev-id',
                         'type' => '`$STRING`',
                         'kind' => 'header',
                         'reqd' => true,
@@ -460,6 +465,10 @@ class TerraConfig
                       'dev_id',
                       'resource',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -485,6 +494,10 @@ class TerraConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -509,6 +522,10 @@ class TerraConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -545,6 +562,7 @@ class TerraConfig
                         'type' => '`$STRING`',
                         'kind' => 'query',
                         'reqd' => true,
+                        'field' => true,
                       ],
                     ],
                   ],
@@ -552,6 +570,10 @@ class TerraConfig
                     'exist' => [
                       'user_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -616,7 +638,7 @@ class TerraConfig
                       ],
                       [
                         'name' => 'with_sample',
-                        'orig' => 'with_sample',
+                        'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
                       ],
@@ -624,12 +646,13 @@ class TerraConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'end_date',
                       'start_date',
-                      'to_webhook',
                       'user_id',
-                      'with_sample',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -640,7 +663,14 @@ class TerraConfig
           ],
         ],
         'bulk_user_info' => [
-          'fields' => [],
+          'fields' => [
+            [
+              'name' => 'bulk_user_infos',
+              'title' => 'Bulk User Infos',
+              'type' => '`$ARRAY`',
+              'short' => 'List of user IDs to get information for',
+            ],
+          ],
           'name' => 'bulk_user_info',
           'op' => [
             'create' => [
@@ -661,11 +691,19 @@ class TerraConfig
                   ],
                   'rename' => [],
                   'transform' => [
-                    'req' => '`reqdata`',
+                    'req' => '`reqdata.bulk_user_infos`',
                     'res' => '`body`',
                   ],
                   'args' => [],
-                  'select' => [],
+                  'select' => [
+                    'exist' => [
+                      'bulk_user_infos',
+                    ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -729,7 +767,7 @@ class TerraConfig
                       ],
                       [
                         'name' => 'with_sample',
-                        'orig' => 'with_sample',
+                        'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
                       ],
@@ -737,12 +775,13 @@ class TerraConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'end_date',
                       'start_date',
-                      'to_webhook',
                       'user_id',
-                      'with_sample',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -780,6 +819,30 @@ class TerraConfig
                 [
                   'kind' => 'http',
                   'method' => 'GET',
+                  'orig' => '/integrations',
+                  'segments' => [
+                    [
+                      'lit' => 'integrations',
+                    ],
+                  ],
+                  'parts' => [
+                    'integrations',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+                [
+                  'kind' => 'http',
+                  'method' => 'GET',
                   'orig' => '/integrations/detailed',
                   'segments' => [
                     [
@@ -810,30 +873,11 @@ class TerraConfig
                   ],
                   'select' => [
                     '$action' => 'detailed',
-                    'exist' => [
-                      'sdk',
-                    ],
                   ],
-                ],
-                [
-                  'kind' => 'http',
-                  'method' => 'GET',
-                  'orig' => '/integrations',
-                  'segments' => [
-                    [
-                      'lit' => 'integrations',
-                    ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
-                  'parts' => [
-                    'integrations',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [],
-                  'select' => [],
                 ],
               ],
             ],
@@ -973,6 +1017,13 @@ class TerraConfig
               'name' => 'upload_id',
               'title' => 'Upload Id',
               'type' => '`$STRING`',
+              'op' => [
+                'create' => [
+                  'req' => true,
+                  'type' => '`$STRING`',
+                ],
+              ],
+              'short' => 'Durable correlation key for the upload; every resulting session and webhook carries it.',
             ],
             [
               'name' => 'uploaded_at',
@@ -1016,13 +1067,24 @@ class TerraConfig
                         'type' => '`$STRING`',
                         'kind' => 'query',
                         'example' => 'patient_456',
+                        'field' => true,
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'reference_id',
+                  'select' => [],
+                  'body' => [
+                    'fields' => [
+                      [
+                        'binary' => true,
+                        'name' => 'file',
+                      ],
                     ],
+                    'kind' => 'multipart',
+                    'media' => 'multipart/form-data',
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1055,6 +1117,7 @@ class TerraConfig
                         'orig' => 'reference_id',
                         'type' => '`$STRING`',
                         'kind' => 'query',
+                        'field' => true,
                       ],
                       [
                         'name' => 'report_date_from',
@@ -1073,6 +1136,7 @@ class TerraConfig
                         'orig' => 'upload_id',
                         'type' => '`$STRING`',
                         'kind' => 'query',
+                        'field' => true,
                       ],
                       [
                         'name' => 'uploaded_at_from',
@@ -1088,15 +1152,10 @@ class TerraConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'reference_id',
-                      'report_date_from',
-                      'report_date_to',
-                      'upload_id',
-                      'uploaded_at_from',
-                      'uploaded_at_to',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1146,6 +1205,10 @@ class TerraConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1300,6 +1363,10 @@ class TerraConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1383,6 +1450,10 @@ class TerraConfig
                       'id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1446,7 +1517,7 @@ class TerraConfig
                       ],
                       [
                         'name' => 'with_sample',
-                        'orig' => 'with_sample',
+                        'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
                       ],
@@ -1454,12 +1525,13 @@ class TerraConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'end_date',
                       'start_date',
-                      'to_webhook',
                       'user_id',
-                      'with_sample',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1524,7 +1596,7 @@ class TerraConfig
                       ],
                       [
                         'name' => 'with_sample',
-                        'orig' => 'with_sample',
+                        'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
                       ],
@@ -1532,12 +1604,13 @@ class TerraConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'end_date',
                       'start_date',
-                      'to_webhook',
                       'user_id',
-                      'with_sample',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1673,10 +1746,12 @@ class TerraConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'end_date',
-                      'start_date',
                       'user_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1736,6 +1811,10 @@ class TerraConfig
                       'user_id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -1793,6 +1872,10 @@ class TerraConfig
                       'id',
                       'user_id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1857,7 +1940,7 @@ class TerraConfig
                       ],
                       [
                         'name' => 'with_sample',
-                        'orig' => 'with_sample',
+                        'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
                       ],
@@ -1865,12 +1948,13 @@ class TerraConfig
                   ],
                   'select' => [
                     'exist' => [
-                      'end_date',
                       'start_date',
-                      'to_webhook',
                       'user_id',
-                      'with_sample',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -1923,11 +2007,10 @@ class TerraConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'page',
-                      'per_page',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
                 [
@@ -1963,11 +2046,10 @@ class TerraConfig
                       ],
                     ],
                   ],
-                  'select' => [
-                    'exist' => [
-                      'reference_id',
-                      'user_id',
-                    ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -2117,6 +2199,10 @@ class TerraConfig
                       'user_id',
                     ],
                   ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
                 [
                   'kind' => 'http',
@@ -2137,6 +2223,10 @@ class TerraConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2163,6 +2253,10 @@ class TerraConfig
                   ],
                   'args' => [],
                   'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
                 ],
               ],
             ],
@@ -2210,6 +2304,10 @@ class TerraConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],
@@ -2306,6 +2404,10 @@ class TerraConfig
                     'exist' => [
                       'id',
                     ],
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
                   ],
                 ],
               ],

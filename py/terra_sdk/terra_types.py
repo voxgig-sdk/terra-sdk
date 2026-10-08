@@ -96,12 +96,12 @@ class BodyLoadMatch(BodyLoadMatchRequired, total=False):
     with_sample: bool
 
 
-class BulkUserInfo(TypedDict):
-    pass
+class BulkUserInfo(TypedDict, total=False):
+    bulk_user_infos: list
 
 
-class BulkUserInfoCreateData(TypedDict):
-    pass
+class BulkUserInfoCreateData(TypedDict, total=False):
+    bulk_user_infos: list
 
 
 class Daily(TypedDict):

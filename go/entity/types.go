@@ -80,6 +80,7 @@ type BulkUserInfo struct {
 
 // BulkUserInfoCreateData is the typed request payload for BulkUserInfo.CreateTyped.
 type BulkUserInfoCreateData struct {
+	BulkUserInfos *[]any `json:"bulk_user_infos,omitempty"`
 }
 
 // Daily is the typed data model for the daily entity.
