@@ -8,7 +8,7 @@ main: kit: flow: BasicLabReportFileFlow:
   step: [
     {
       m: {
-        session_id: "session01"
+        report_id: "report01"
       }
 
       o: "list",

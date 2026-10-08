@@ -41,13 +41,59 @@ describe('UserEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    name = 'failhook'
+    version = '0.0.1'
+    active = true
+    unexpected = 0
+    init() { }
+    PreSpec() { throw new Error('user hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of TerraSDK.test(offline).User().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of TerraSDK.test(offline).User()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != (config as any).feature?.rbac) {
+      const denied = TerraSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.User().stream('list')) { }
+      }, (err: any) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain: any = {}
+    const ctrl: any = { explain }
+    for await (const _item of TerraSDK.test().User().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new TerraSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.User().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.User().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
   test('validate', async (t) => {
     if (null == (config as any).feature?.validate) {
       t.skip('feature not present in this SDK: validate')
       return
     }
     const client = TerraSDK.test(undefined, { feature: { validate: { active: true } } })
-    await assert.rejects(client.User().load({"page":"x"} as any),
+    await assert.rejects(client.User().list({"page":"x"} as any),
       (err: any) => 'validate_failed' === err.code)
   })
 
@@ -56,14 +102,14 @@ describe('UserEntity', async () => {
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.TERRA_TEST_LIVE
-    for (const op of ['load']) {
+    for (const op of ['list', 'load']) {
       if (!live && maybeSkipControl(t, 'entityOp', 'user.' + op, live)) return
     }
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{},"name":"user","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /subscriptions","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":0,"k":"query","n":"page","or":"page","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"ex":500,"k":"query","n":"per_page","or":"per_page","r":false,"t":"`$INTEGER`","index$":1}]},"k":"http","m":"GET","o":"/subscriptions","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"subscriptions"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0},{"a":true,"co":{"id":"GET /userInfo","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"reference_id","or":"reference_id","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"user_id","or":"user_id","r":false,"t":"`$STRING`","index$":1}]},"k":"http","m":"GET","o":"/userInfo","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"userInfo"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":1}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"user","name__orig":"user","Name":"User","name_":"user","name-":"user","NAME":"USER","index$":14}, {"active":true,"entity":"user","key$":"BasicUserFlow","kind":"basic","name":"BasicUserFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"user_ref01","srcdatavar":"user_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-user_ref01"}}],"index$":0}]}, 'User', {"GET /subscriptions":{"protocol":"http","parameters":[{"name":"page","in":"query","required":false,"schema":{"type":"integer"},"description":"Zero-based page number. If omitted, results are not paginated.","example":0,"index$":0},{"name":"per_page","in":"query","required":false,"schema":{"type":"integer"},"description":"Number of results per page (default is 500).","example":500,"index$":1}]},"GET /userInfo":{"protocol":"http","parameters":[{"name":"user_id","in":"query","description":"user ID to query for","schema":{"type":"string"},"required":false,"index$":0},{"name":"reference_id","in":"query","description":"reference ID to query for","schema":{"type":"string"},"required":false,"index$":1}]}}, { strict: LIVE_STRICT, t })
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"max_page":{"a":true,"h":"Max Page","n":"max_page","r":false,"sh":"Total number of pages available for the requested page size","t":"`$INTEGER`","key$":"max_page","index$":0},"next":{"a":true,"h":"Next","n":"next","r":false,"sh":"The next page number, or null if there is no next page","t":["`$ONE`",["`$INTEGER`","`$NULL`"]],"key$":"next","index$":1},"results":{"a":true,"h":"Results","n":"results","r":false,"t":"`$ARRAY`","key$":"results","index$":2},"status":{"a":true,"h":"Status","n":"status","r":false,"t":"`$STRING`","key$":"status","index$":3},"users":{"a":true,"h":"Users","n":"users","r":false,"t":"`$ARRAY`","key$":"users","index$":4}},"name":"user","op":{"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /subscriptions","source":"openapi3","version":2},"g":{"query":[{"a":true,"ex":0,"k":"query","n":"page","or":"page","r":false,"t":"`$INTEGER`","index$":0},{"a":true,"ex":500,"k":"query","n":"per_page","or":"per_page","r":false,"t":"`$INTEGER`","index$":1}]},"k":"http","m":"GET","o":"/subscriptions","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"subscriptions"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /userInfo","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"reference_id","or":"reference_id","r":false,"t":"`$STRING`","index$":0},{"a":true,"k":"query","n":"user_id","or":"user_id","r":false,"t":"`$STRING`","index$":1}]},"k":"http","m":"GET","o":"/userInfo","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"userInfo"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"user","name__orig":"user","Name":"User","name_":"user","name-":"user","NAME":"USER","index$":15}, {"active":true,"entity":"user","key$":"BasicUserFlow","kind":"basic","name":"BasicUserFlow","param":{},"step":[{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"user_ref01"}}],"index$":0},{"a":true,"d":{},"i":{"ref":"user_ref01","srcdatavar":"user_ref01_data","suffix":"_dt0"},"m":{},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-user_ref01"}}],"index$":1}]}, 'User', {"GET /subscriptions":{"protocol":"http","parameters":[{"name":"page","in":"query","required":false,"schema":{"type":"integer"},"description":"Zero-based page number. If omitted, results are not paginated.","example":0,"index$":0},{"name":"per_page","in":"query","required":false,"schema":{"type":"integer"},"description":"Number of results per page (default is 500).","example":500,"index$":1}]},"GET /userInfo":{"protocol":"http","parameters":[{"name":"user_id","in":"query","description":"user ID to query for","schema":{"type":"string"},"required":false,"index$":0},{"name":"reference_id","in":"query","description":"reference ID to query for","schema":{"type":"string"},"required":false,"index$":1}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -73,8 +119,14 @@ describe('UserEntity', async () => {
 
     let user_ref01_data = Object.values(setup.data.existing.user)[0] as any
 
-    // LOAD
+    // LIST
     const user_ref01_ent = client.User()
+    const user_ref01_match: any = {}
+
+    const user_ref01_list = (await user_ref01_ent.list(user_ref01_match)).map((e: any) => e.data())
+
+
+    // LOAD
     const user_ref01_match_dt0: any = {}
     const user_ref01_data_dt0 = (await user_ref01_ent.load(user_ref01_match_dt0)).data()
     assert(null != user_ref01_data_dt0)

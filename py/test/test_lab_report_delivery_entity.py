@@ -46,11 +46,15 @@ class TestLabReportDeliveryEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in []:
+        for _op in ["list"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "lab_report_delivery." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
+        if setup["live"]:
+            for _live_key in ["report01"]:
+                if setup.get("synthetic_only") or setup["idmap"].get(_live_key) is None:
+                    runner.live_miss(LIVE_STRICT, f"Live entity test blocked: needs {_live_key} via TERRA_TEST_LAB_REPORT_DELIVERY_ENTID")
         client = setup["client"]
 
         # Bootstrap entity data from existing test data.
@@ -59,6 +63,15 @@ class TestLabReportDeliveryEntity:
         lab_report_delivery_ref01_data = None
         if len(lab_report_delivery_ref01_data_raw) > 0:
             lab_report_delivery_ref01_data = helpers.to_map(lab_report_delivery_ref01_data_raw[0][1])
+
+        # LIST
+        lab_report_delivery_ref01_ent = client.LabReportDelivery(None)
+        lab_report_delivery_ref01_match = {
+            "report_id": setup["idmap"]["report01"],
+        }
+
+        lab_report_delivery_ref01_list_result = lab_report_delivery_ref01_ent.list(lab_report_delivery_ref01_match, None)
+        assert isinstance(lab_report_delivery_ref01_list_result, list)
 
 
 
@@ -78,7 +91,7 @@ def _lab_report_delivery_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["lab_report_delivery01", "lab_report_delivery02", "lab_report_delivery03"],
+        ["lab_report_delivery01", "lab_report_delivery02", "lab_report_delivery03", "report01"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",

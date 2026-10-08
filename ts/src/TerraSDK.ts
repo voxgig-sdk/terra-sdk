@@ -10,6 +10,7 @@ import { IntegrationEntity } from './entity/IntegrationEntity'
 import { LabReportEntity } from './entity/LabReportEntity'
 import { LabReportDeliveryEntity } from './entity/LabReportDeliveryEntity'
 import { LabReportFileEntity } from './entity/LabReportFileEntity'
+import { LabReportSessionEntity } from './entity/LabReportSessionEntity'
 import { MenstruationEntity } from './entity/MenstruationEntity'
 import { NutritionEntity } from './entity/NutritionEntity'
 import { PlannedWorkoutEntity } from './entity/PlannedWorkoutEntity'
@@ -421,6 +422,15 @@ class TerraSDK {
   LabReportFile(entopts?: Record<string, any>) {
     const self = this
     return new LabReportFileEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.LabReportSession().list()` / `client.LabReportSession().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  LabReportSession(entopts?: Record<string, any>) {
+    const self = this
+    return new LabReportSessionEntity(self, entopts)
   }
 
 

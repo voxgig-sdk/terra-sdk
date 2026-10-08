@@ -107,6 +107,56 @@ main: kit: entity: lab_report_delivery: {
             res: "`body.deliveries`"
           }
         }
+        {
+          co: {
+            id: "GET /reports/{session_id}/deliveries"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "297405620317847552"
+                k: "param"
+                n: "report_id"
+                or: "session_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/reports/{session_id}/deliveries"
+          q: {
+            exist: [
+              "report_id"
+            ]
+          }
+          r: {
+            param: {
+              session_id: "report_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "reports"
+            }
+            {
+              var: "report_id"
+            }
+            {
+              lit: "deliveries"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.deliveries`"
+          }
+        }
       ]
     }
   }

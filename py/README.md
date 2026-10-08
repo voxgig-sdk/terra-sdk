@@ -58,10 +58,10 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    activity = client.Activity().load({"start_date": "example", "user_id": "example"})
-    print(activity.data_get())
+    integrations = client.Integration().list()
+    print([item.data_get() for item in integrations])
 except Exception as err:
-    print(f"load failed: {err}")
+    print(f"list failed: {err}")
 ```
 
 `direct()` does **not** raise — it returns the result envelope. Branch
@@ -126,7 +126,7 @@ Create a mock client for unit testing — no server required:
 client = TerraSDK.test()
 
 # Entity ops return the entity, and list one per record; they raise on error.
-activity = client.Activity().load({"start_date": "example", "user_id": "example"})
+integration = client.Integration().list()
 # data_get() on an entity reads its mock response record
 ```
 
@@ -215,6 +215,7 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `LabReport` | `(data) -> LabReportEntity` | Create a LabReport entity instance. |
 | `LabReportDelivery` | `(data) -> LabReportDeliveryEntity` | Create a LabReportDelivery entity instance. |
 | `LabReportFile` | `(data) -> LabReportFileEntity` | Create a LabReportFile entity instance. |
+| `LabReportSession` | `(data) -> LabReportSessionEntity` | Create a LabReportSession entity instance. |
 | `Menstruation` | `(data) -> MenstruationEntity` | Create a Menstruation entity instance. |
 | `Nutrition` | `(data) -> NutritionEntity` | Create a Nutrition entity instance. |
 | `PlannedWorkout` | `(data) -> PlannedWorkoutEntity` | Create a PlannedWorkout entity instance. |
@@ -282,18 +283,27 @@ API path: `/athlete`
 
 | Field | Description |
 | --- | --- |
+| `apple_app_url` | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
 | `auth_failure_redirect_url` | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | URL the user is redirected to upon successful authentication |
+| `auth_success_redirect_url` | URL the user is redirected to upon successful authentication. |
 | `auth_url` | authentication URL the user must be redirected to in order to link their account |
+| `bypass_feedback` | When false, the user stays on the widget's own result screen instead of being redirected immediately |
+| `connected_uids` | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
 | `expires_in` | a number in seconds depicting how long the url is valid for |
-| `language` | Display language of the widget |
+| `language` | forces the widget UI language (e.g. |
+| `multi_auth` | Keep the user on the widget after each successful connection so they can connect several providers in one session |
 | `providers` | Comma separated list of providers to display on the device selection page. |
 | `reference_id` | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `samsung_app_url` | URL of your own Android app to hand Samsung Health connections to |
+| `sdk_app` | Which Terra reference app an SDK authentication link hands the end user to. |
 | `session_id` | Session ID for the widget authentication session |
+| `show_disconnect` | Show disconnect buttons for providers already connected under reference_id |
 | `status` | indicates that the request was successful |
 | `token` |  |
 | `url` | the widget URL the user must be redirected to in order to link their account |
+| `use_terra_avengers_app` | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | User ID for the user being created |
+| `warnings` | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 Operations: Create, Remove.
 
@@ -343,8 +353,8 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `collection_date` | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `collection_date` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` |  |
 | `id` |  |
@@ -359,7 +369,7 @@ API path: `/integrations`
 | `report_locale` |  |
 | `report_notes` |  |
 | `report_time` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `report_type` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `results` | The layered biomarker results. |
 | `results_count` |  |
 | `session_id` |  |
@@ -399,6 +409,38 @@ Operations: List.
 
 API path: `/lab-reports/{session_id}/files`
 
+#### LabReportSession
+
+| Field | Description |
+| --- | --- |
+| `collection_date` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | Current status as a clean lowercase string (open enum), e.g. |
+| `file_count` |  |
+| `input_bytes` |  |
+| `lab_name` |  |
+| `output_bytes` |  |
+| `panels` | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | Patient age in years; omitted if unknown. |
+| `patient_sex` | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | Your external reference; omitted if not set. |
+| `report_date` | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
+| `report_locale` |  |
+| `report_notes` |  |
+| `report_time` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | The layered biomarker results. |
+| `results_count` |  |
+| `session_id` |  |
+| `status_history` |  |
+| `updated_at` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `uploaded_at` |  |
+
+Operations: Create, List, Load.
+
+API path: `/reports`
+
 #### Menstruation
 
 | Field | Description |
@@ -422,15 +464,18 @@ API path: `/nutrition`
 | Field | Description |
 | --- | --- |
 | `athlete_metrics` |  |
-| `coercion_warnings` | Set when the template could not be represented exactly on the provider. |
-| `created_at` | Creation time (RFC 3339) |
-| `details` | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `coercion_warnings` | Deprecated; use warnings. |
+| `completed_at` | Time the session was reported complete by the user's device. |
+| `created_at` | Creation time (RFC 3339). |
+| `details` | Deprecated. |
 | `id` |  |
 | `is_external` | True when the workout was created on the provider side rather than through Terra. |
-| `last_updated_at` | Last update time (RFC 3339) |
+| `last_updated_at` | Last update time (RFC 3339). |
 | `planned_date` | New scheduled date (YYYY-MM-DD) |
-| `planned_workout_id` | Terra identifier of the planned workout |
+| `planned_workout_id` | Terra identifier of the planned workout. |
 | `provider_workout_id` | Identifier assigned by the provider, once pushed. |
+| `warnings` | Adjustments made when the template could not be represented exactly on the provider. |
+| `workout` | The workout body, as on the list. |
 | `workout_id` | Identifier of the source template. |
 
 Operations: List, Load, Update.
@@ -450,8 +495,13 @@ API path: `/sleep`
 
 | Field | Description |
 | --- | --- |
+| `max_page` | Total number of pages available for the requested page size |
+| `next` | The next page number, or null if there is no next page |
+| `results` |  |
+| `status` |  |
+| `users` |  |
 
-Operations: Load.
+Operations: List, Load.
 
 API path: `/subscriptions`
 
@@ -464,6 +514,8 @@ API path: `/subscriptions`
 | `estimated_calories` | Estimated calories burned |
 | `estimated_distance_meters` | Estimated total distance in meters |
 | `estimated_duration_seconds` | Estimated total duration in seconds |
+| `estimated_intensity_factor` | Planned intensity factor (0-5), where the provider or author supplies one. |
+| `estimated_tss` | Planned training stress score (0-9999), where the provider or author supplies one. |
 | `id` |  |
 | `name` | Name of the workout |
 | `pool_length_meters` | Pool length in meters, for swim workouts |
@@ -530,18 +582,27 @@ Create an instance: `authentication = client.Authentication()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `apple_app_url` | `str` | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
 | `auth_failure_redirect_url` | `str` | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | `str` | URL the user is redirected to upon successful authentication |
+| `auth_success_redirect_url` | `str` | URL the user is redirected to upon successful authentication. |
 | `auth_url` | `str` | authentication URL the user must be redirected to in order to link their account |
+| `bypass_feedback` | `bool` | When false, the user stays on the widget's own result screen instead of being redirected immediately |
+| `connected_uids` | `list` | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
 | `expires_in` | `int` | a number in seconds depicting how long the url is valid for |
-| `language` | `str` | Display language of the widget |
+| `language` | `str` | forces the widget UI language (e.g. |
+| `multi_auth` | `bool` | Keep the user on the widget after each successful connection so they can connect several providers in one session |
 | `providers` | `str` | Comma separated list of providers to display on the device selection page. |
 | `reference_id` | `str` | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `samsung_app_url` | `str` | URL of your own Android app to hand Samsung Health connections to |
+| `sdk_app` | `str` | Which Terra reference app an SDK authentication link hands the end user to. |
 | `session_id` | `str` | Session ID for the widget authentication session |
+| `show_disconnect` | `bool` | Show disconnect buttons for providers already connected under reference_id |
 | `status` | `str` | indicates that the request was successful |
 | `token` | `str` |  |
 | `url` | `str` | the widget URL the user must be redirected to in order to link their account |
+| `use_terra_avengers_app` | `bool` | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | `str` | User ID for the user being created |
+| `warnings` | `list` | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 #### Example: Create
 
@@ -652,8 +713,8 @@ Create an instance: `lab_report = client.LabReport()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `collection_date` | `str` | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | `str` | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `collection_date` | `str` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `str` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `str` | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `int` |  |
 | `id` | `str` |  |
@@ -668,7 +729,7 @@ Create an instance: `lab_report = client.LabReport()`
 | `report_locale` | `str` |  |
 | `report_notes` | `str` |  |
 | `report_time` | `str` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | `str` | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `report_type` | `str` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `results` | `list` | The layered biomarker results. |
 | `results_count` | `int` |  |
 | `session_id` | `str` |  |
@@ -753,6 +814,69 @@ lab_report_files = client.LabReportFile().list({"id": "example"})
 ```
 
 
+### LabReportSession
+
+Create an instance: `lab_report_session = client.LabReportSession()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `collection_date` | `str` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `str` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `str` | Current status as a clean lowercase string (open enum), e.g. |
+| `file_count` | `int` |  |
+| `input_bytes` | `int` |  |
+| `lab_name` | `str` |  |
+| `output_bytes` | `int` |  |
+| `panels` | `list` | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `int` | Patient age in years; omitted if unknown. |
+| `patient_sex` | `str` | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `str` | Your external reference; omitted if not set. |
+| `report_date` | `str` | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
+| `report_locale` | `str` |  |
+| `report_notes` | `str` |  |
+| `report_time` | `str` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `str` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `list` | The layered biomarker results. |
+| `results_count` | `int` |  |
+| `session_id` | `str` |  |
+| `status_history` | `list` |  |
+| `updated_at` | `str` |  |
+| `upload_id` | `str` | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `uploaded_at` | `str` |  |
+
+#### Example: Load
+
+```python
+lab_report_session = client.LabReportSession().load({"session_id": "session_id"})
+```
+
+#### Example: List
+
+```python
+lab_report_sessions = client.LabReportSession().list()
+```
+
+#### Example: Create
+
+```python
+lab_report_session = client.LabReportSession().create({
+    "current_status": "example_current_status",  # str
+    "report_type": "example_report_type",  # str
+    "session_id": "example_session_id",  # str
+})
+```
+
+
 ### Menstruation
 
 Create an instance: `menstruation = client.Menstruation()`
@@ -804,15 +928,18 @@ Create an instance: `planned_workout = client.PlannedWorkout()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `athlete_metrics` | `Any` |  |
-| `coercion_warnings` | `str` | Set when the template could not be represented exactly on the provider. |
-| `created_at` | `Any` | Creation time (RFC 3339) |
-| `details` | `Any` | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `coercion_warnings` | `str` | Deprecated; use warnings. |
+| `completed_at` | `Any` | Time the session was reported complete by the user's device. |
+| `created_at` | `Any` | Creation time (RFC 3339). |
+| `details` | `Any` | Deprecated. |
 | `id` | `str` |  |
 | `is_external` | `bool` | True when the workout was created on the provider side rather than through Terra. |
-| `last_updated_at` | `Any` | Last update time (RFC 3339) |
+| `last_updated_at` | `Any` | Last update time (RFC 3339). |
 | `planned_date` | `str` | New scheduled date (YYYY-MM-DD) |
-| `planned_workout_id` | `str` | Terra identifier of the planned workout |
+| `planned_workout_id` | `str` | Terra identifier of the planned workout. |
 | `provider_workout_id` | `str` | Identifier assigned by the provider, once pushed. |
+| `warnings` | `list` | Adjustments made when the template could not be represented exactly on the provider. |
+| `workout` | `Any` | The workout body, as on the list. |
 | `workout_id` | `str` | Identifier of the source template. |
 
 #### Example: Load
@@ -853,12 +980,29 @@ Create an instance: `user = client.User()`
 
 | Method | Description |
 | --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `max_page` | `int` | Total number of pages available for the requested page size |
+| `next` | `int | None` | The next page number, or null if there is no next page |
+| `results` | `list` |  |
+| `status` | `str` |  |
+| `users` | `list` |  |
 
 #### Example: Load
 
 ```python
 user = client.User().load()
+```
+
+#### Example: List
+
+```python
+users = client.User().list()
 ```
 
 
@@ -884,6 +1028,8 @@ Create an instance: `workout = client.Workout()`
 | `estimated_calories` | `Any` | Estimated calories burned |
 | `estimated_distance_meters` | `Any` | Estimated total distance in meters |
 | `estimated_duration_seconds` | `Any` | Estimated total duration in seconds |
+| `estimated_intensity_factor` | `Any` | Planned intensity factor (0-5), where the provider or author supplies one. |
+| `estimated_tss` | `Any` | Planned training stress score (0-9999), where the provider or author supplies one. |
 | `id` | `str` |  |
 | `name` | `str` | Name of the workout |
 | `pool_length_meters` | `Any` | Pool length in meters, for swim workouts |
@@ -1053,7 +1199,7 @@ activated earlier.
 
 ## Open types
 
-3 fields are carried as open values rather than typed structures.
+4 fields are carried as open values rather than typed structures.
 This follows from the API definition, not from a gap in this SDK: the
 definition describes them with untagged unions —
 `oneOf`/`anyOf` branches with no `discriminator` — so it never states which
@@ -1063,8 +1209,9 @@ guarantee.
 
 | Entity | Field | Variants | Nesting |
 | --- | --- | --- | --- |
+| `planned_workout` | `workout` | 19 | 17 levels |
+| `workout` | `step_blocks` | 19 | 13 levels |
 | `workout` | `sport` | 15 | 0 levels |
-| `workout` | `step_blocks` | 11 | 13 levels |
 | `workout` | `environment` | 3 | 2 levels |
 
 These values round-trip unchanged — read them, modify them, send them back. If
@@ -1150,15 +1297,15 @@ Import entity or utility modules directly only when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-activity = client.Activity()
-activity.load({"start_date": "example", "user_id": "example"})
+integration = client.Integration()
+integration.list()
 
-# activity.data_get() now returns the activity data from the last load
-# activity.match_get() returns the last match criteria
+# integration.data_get() now returns the integration data from the last list
+# integration.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -401,6 +401,12 @@ class TerraSDK:
         return LabReportFileEntity(self, data)
 
 
+    def LabReportSession(self, data=None) -> "LabReportSessionEntity":
+        """Entity factory: client.LabReportSession().list() / client.LabReportSession().load({"id": ...})."""
+        from terra_sdk.entity.lab_report_session_entity import LabReportSessionEntity
+        return LabReportSessionEntity(self, data)
+
+
     def Menstruation(self, data=None) -> "MenstruationEntity":
         """Entity factory: client.Menstruation().list() / client.Menstruation().load({"id": ...})."""
         from terra_sdk.entity.menstruation_entity import MenstruationEntity
@@ -474,6 +480,7 @@ if TYPE_CHECKING:
     from terra_sdk.entity.lab_report_entity import LabReportEntity
     from terra_sdk.entity.lab_report_delivery_entity import LabReportDeliveryEntity
     from terra_sdk.entity.lab_report_file_entity import LabReportFileEntity
+    from terra_sdk.entity.lab_report_session_entity import LabReportSessionEntity
     from terra_sdk.entity.menstruation_entity import MenstruationEntity
     from terra_sdk.entity.nutrition_entity import NutritionEntity
     from terra_sdk.entity.planned_workout_entity import PlannedWorkoutEntity

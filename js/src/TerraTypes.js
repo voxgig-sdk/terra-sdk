@@ -31,35 +31,53 @@
 
 /**
  * @typedef {Object} Authentication
+ * @property {string} [apple_app_url]
  * @property {string} [auth_failure_redirect_url]
  * @property {string} [auth_success_redirect_url]
  * @property {string} [auth_url]
+ * @property {boolean} [bypass_feedback]
+ * @property {Array} [connected_uids]
  * @property {number} [expires_in]
  * @property {string} [language]
+ * @property {boolean} [multi_auth]
  * @property {string} [providers]
  * @property {string} [reference_id]
+ * @property {string} [samsung_app_url]
+ * @property {string} [sdk_app]
  * @property {string} [session_id]
+ * @property {boolean} [show_disconnect]
  * @property {string} [status]
  * @property {string} [token]
  * @property {string} [url]
+ * @property {boolean} [use_terra_avengers_app]
  * @property {string} [user_id]
+ * @property {Array} [warnings]
  */
 
 /**
  * @typedef {Object} AuthenticationCreateData
  * @property {string} resource
+ * @property {string} [apple_app_url]
  * @property {string} [auth_failure_redirect_url]
  * @property {string} [auth_success_redirect_url]
  * @property {string} [auth_url]
+ * @property {boolean} [bypass_feedback]
+ * @property {Array} [connected_uids]
  * @property {number} [expires_in]
  * @property {string} [language]
+ * @property {boolean} [multi_auth]
  * @property {string} [providers]
  * @property {string} [reference_id]
+ * @property {string} [samsung_app_url]
+ * @property {string} [sdk_app]
  * @property {string} [session_id]
+ * @property {boolean} [show_disconnect]
  * @property {string} [status]
  * @property {string} [token]
  * @property {string} [url]
+ * @property {boolean} [use_terra_avengers_app]
  * @property {string} [user_id]
+ * @property {Array} [warnings]
  */
 
 /**
@@ -155,6 +173,7 @@
  * @property {string} [reference_id]
  * @property {string} [report_date_from]
  * @property {string} [report_date_to]
+ * @property {string} [report_type]
  * @property {string} [upload_id]
  * @property {string} [uploaded_at_from]
  * @property {string} [uploaded_at_to]
@@ -221,6 +240,76 @@
  */
 
 /**
+ * @typedef {Object} LabReportSession
+ * @property {string} [collection_date]
+ * @property {string} [collection_time]
+ * @property {string} current_status
+ * @property {number} [file_count]
+ * @property {number} [input_bytes]
+ * @property {string} [lab_name]
+ * @property {number} [output_bytes]
+ * @property {Array} [panels]
+ * @property {number} [patient_age_at_collection]
+ * @property {string} [patient_sex]
+ * @property {string} [reference_id]
+ * @property {string} [report_date]
+ * @property {string} [report_locale]
+ * @property {string} [report_notes]
+ * @property {string} [report_time]
+ * @property {string} report_type
+ * @property {Array} [results]
+ * @property {number} [results_count]
+ * @property {string} session_id
+ * @property {Array} [status_history]
+ * @property {string} [updated_at]
+ * @property {string} [upload_id]
+ * @property {string} [uploaded_at]
+ */
+
+/**
+ * @typedef {Object} LabReportSessionLoadMatch
+ * @property {string} session_id
+ */
+
+/**
+ * @typedef {Object} LabReportSessionListMatch
+ * @property {string} [reference_id]
+ * @property {string} [report_date_from]
+ * @property {string} [report_date_to]
+ * @property {string} [report_type]
+ * @property {string} [upload_id]
+ * @property {string} [uploaded_at_from]
+ * @property {string} [uploaded_at_to]
+ */
+
+/**
+ * @typedef {Object} LabReportSessionCreateData
+ * @property {string} [reference_id]
+ * @property {string} [collection_date]
+ * @property {string} [collection_time]
+ * @property {string} current_status
+ * @property {number} [file_count]
+ * @property {number} [input_bytes]
+ * @property {string} [lab_name]
+ * @property {number} [output_bytes]
+ * @property {Array} [panels]
+ * @property {number} [patient_age_at_collection]
+ * @property {string} [patient_sex]
+ * @property {string} [report_date]
+ * @property {string} [report_locale]
+ * @property {string} [report_notes]
+ * @property {string} [report_time]
+ * @property {string} report_type
+ * @property {Array} [results]
+ * @property {number} [results_count]
+ * @property {string} session_id
+ * @property {Array} [status_history]
+ * @property {string} [updated_at]
+ * @property {string} [upload_id]
+ * @property {string} [uploaded_at]
+ */
+
+/**
  * @typedef {Object} Menstruation
  */
 
@@ -248,16 +337,19 @@
 
 /**
  * @typedef {Object} PlannedWorkout
- * @property {*} [athlete_metrics]
+ * @property {*} athlete_metrics
  * @property {string} [coercion_warnings]
- * @property {*} [created_at]
- * @property {*} [details]
+ * @property {*} [completed_at]
+ * @property {*} created_at
+ * @property {*} details
  * @property {string} [id]
  * @property {boolean} [is_external]
- * @property {*} [last_updated_at]
+ * @property {*} last_updated_at
  * @property {string} [planned_date]
  * @property {string} [planned_workout_id]
  * @property {string} [provider_workout_id]
+ * @property {Array} [warnings]
+ * @property {*} [workout]
  * @property {string} [workout_id]
  */
 
@@ -280,6 +372,7 @@
  * @property {string} user_id
  * @property {*} [athlete_metrics]
  * @property {string} [coercion_warnings]
+ * @property {*} [completed_at]
  * @property {*} [created_at]
  * @property {*} [details]
  * @property {boolean} [is_external]
@@ -287,6 +380,8 @@
  * @property {string} [planned_date]
  * @property {string} [planned_workout_id]
  * @property {string} [provider_workout_id]
+ * @property {Array} [warnings]
+ * @property {*} [workout]
  * @property {string} [workout_id]
  */
 
@@ -305,10 +400,21 @@
 
 /**
  * @typedef {Object} User
+ * @property {number} [max_page]
+ * @property {number|null} [next]
+ * @property {Array} [results]
+ * @property {string} [status]
+ * @property {Array} [users]
  */
 
 /**
  * @typedef {Object} UserLoadMatch
+ * @property {string} [reference_id]
+ * @property {string} [user_id]
+ */
+
+/**
+ * @typedef {Object} UserListMatch
  * @property {number} [page]
  * @property {number} [per_page]
  */
@@ -320,6 +426,8 @@
  * @property {*} [estimated_calories]
  * @property {*} [estimated_distance_meters]
  * @property {*} [estimated_duration_seconds]
+ * @property {*} [estimated_intensity_factor]
+ * @property {*} [estimated_tss]
  * @property {string} [id]
  * @property {string} name
  * @property {*} [pool_length_meters]
@@ -341,6 +449,8 @@
  * @property {*} [estimated_calories]
  * @property {*} [estimated_distance_meters]
  * @property {*} [estimated_duration_seconds]
+ * @property {*} [estimated_intensity_factor]
+ * @property {*} [estimated_tss]
  * @property {string} [id]
  * @property {string} [name]
  * @property {*} [pool_length_meters]
@@ -357,6 +467,8 @@
  * @property {*} [estimated_calories]
  * @property {*} [estimated_distance_meters]
  * @property {*} [estimated_duration_seconds]
+ * @property {*} [estimated_intensity_factor]
+ * @property {*} [estimated_tss]
  * @property {string} [id]
  * @property {string} name
  * @property {*} [pool_length_meters]

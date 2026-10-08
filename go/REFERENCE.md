@@ -88,6 +88,10 @@ Create a new `LabReportDelivery` entity instance. Pass `nil` for no initial data
 
 Create a new `LabReportFile` entity instance. Pass `nil` for no initial data.
 
+#### `LabReportSession(data map[string]any) TerraEntity`
+
+Create a new `LabReportSession` entity instance. Pass `nil` for no initial data.
+
 #### `Menstruation(data map[string]any) TerraEntity`
 
 Create a new `Menstruation` entity instance. Pass `nil` for no initial data.
@@ -265,18 +269,27 @@ fmt.Println(authentication.GetName()) // "authentication"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `apple_app_url` | `string` | No | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
 | `auth_failure_redirect_url` | `string` | No | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication |
+| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication. |
 | `auth_url` | `string` | No | authentication URL the user must be redirected to in order to link their account |
+| `bypass_feedback` | `bool` | No | When false, the user stays on the widget's own result screen instead of being redirected immediately |
+| `connected_uids` | `[]any` | No | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
 | `expires_in` | `int` | No | a number in seconds depicting how long the url is valid for |
-| `language` | `string` | No | Display language of the widget |
+| `language` | `string` | No | forces the widget UI language (e.g. |
+| `multi_auth` | `bool` | No | Keep the user on the widget after each successful connection so they can connect several providers in one session |
 | `providers` | `string` | No | Comma separated list of providers to display on the device selection page. |
 | `reference_id` | `string` | No | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `samsung_app_url` | `string` | No | URL of your own Android app to hand Samsung Health connections to |
+| `sdk_app` | `string` | No | Which Terra reference app an SDK authentication link hands the end user to. |
 | `session_id` | `string` | No | Session ID for the widget authentication session |
+| `show_disconnect` | `bool` | No | Show disconnect buttons for providers already connected under reference_id |
 | `status` | `string` | No | indicates that the request was successful |
 | `token` | `string` | No |  |
 | `url` | `string` | No | the widget URL the user must be redirected to in order to link their account |
+| `use_terra_avengers_app` | `bool` | No | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | `string` | No | User ID for the user being created |
+| `warnings` | `[]any` | No | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 ### Operations
 
@@ -578,8 +591,8 @@ fmt.Println(labReport.GetName()) // "lab_report"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `collection_date` | `string` | No | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | `string` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `int` | No |  |
 | `id` | `string` | No |  |
@@ -594,7 +607,7 @@ fmt.Println(labReport.GetName()) // "lab_report"
 | `report_locale` | `string` | No |  |
 | `report_notes` | `string` | No |  |
 | `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | `string` | Yes | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `results` | `[]any` | No | The layered biomarker results. |
 | `results_count` | `int` | No |  |
 | `session_id` | `string` | Yes |  |
@@ -851,6 +864,147 @@ Return the entity name.
 
 ---
 
+## LabReportSessionEntity
+
+```go
+labReportSession := client.LabReportSession(nil)
+fmt.Println(labReportSession.GetName()) // "lab_report_session"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
+| `file_count` | `int` | No |  |
+| `input_bytes` | `int` | No |  |
+| `lab_name` | `string` | No |  |
+| `output_bytes` | `int` | No |  |
+| `panels` | `[]any` | No | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `int` | No | Patient age in years; omitted if unknown. |
+| `patient_sex` | `string` | No | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `string` | No | Your external reference; omitted if not set. |
+| `report_date` | `string` | No | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
+| `report_locale` | `string` | No |  |
+| `report_notes` | `string` | No |  |
+| `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `[]any` | No | The layered biomarker results. |
+| `results_count` | `int` | No |  |
+| `session_id` | `string` | Yes |  |
+| `status_history` | `[]any` | No |  |
+| `updated_at` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `collection_date` | - | - | - |
+| `collection_time` | - | - | - |
+| `current_status` | - | - | - |
+| `file_count` | - | - | - |
+| `input_bytes` | - | - | - |
+| `lab_name` | - | - | - |
+| `output_bytes` | - | - | - |
+| `panels` | - | - | - |
+| `patient_age_at_collection` | - | - | - |
+| `patient_sex` | - | - | - |
+| `reference_id` | - | - | - |
+| `report_date` | - | - | - |
+| `report_locale` | - | - | - |
+| `report_notes` | - | - | - |
+| `report_time` | - | - | - |
+| `report_type` | - | - | - |
+| `results` | - | - | - |
+| `results_count` | - | - | - |
+| `session_id` | - | - | - |
+| `status_history` | - | - | - |
+| `updated_at` | - | - | - |
+| `upload_id` | - | - | Yes |
+| `uploaded_at` | - | - | - |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns a `[]any` of entities, one per record; `err` is non-nil on failure.
+
+```go
+results, err := client.LabReportSession(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+for _, item := range results.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.LabReportSession(nil).Load(map[string]any{"session_id": "session_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data. Returns the created entity; `err` is non-nil on failure.
+
+```go
+result, err := client.LabReportSession(nil).Create(map[string]any{
+    "current_status": "example_current_status",
+    "report_type": "example_report_type",
+    "session_id": "example_session_id",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `LabReportSessionEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
 ## MenstruationEntity
 
 ```go
@@ -968,16 +1122,19 @@ fmt.Println(plannedWorkout.GetName()) // "planned_workout"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `athlete_metrics` | `any` | No |  |
-| `coercion_warnings` | `string` | No | Set when the template could not be represented exactly on the provider. |
-| `created_at` | `any` | No | Creation time (RFC 3339) |
-| `details` | `any` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `athlete_metrics` | `any` | Yes |  |
+| `coercion_warnings` | `string` | No | Deprecated; use warnings. |
+| `completed_at` | `any` | No | Time the session was reported complete by the user's device. |
+| `created_at` | `any` | Yes | Creation time (RFC 3339). |
+| `details` | `any` | Yes | Deprecated. |
 | `id` | `string` | No |  |
 | `is_external` | `bool` | No | True when the workout was created on the provider side rather than through Terra. |
-| `last_updated_at` | `any` | No | Last update time (RFC 3339) |
+| `last_updated_at` | `any` | Yes | Last update time (RFC 3339). |
 | `planned_date` | `string` | No | New scheduled date (YYYY-MM-DD) |
-| `planned_workout_id` | `string` | No | Terra identifier of the planned workout |
+| `planned_workout_id` | `string` | No | Terra identifier of the planned workout. |
 | `provider_workout_id` | `string` | No | Identifier assigned by the provider, once pushed. |
+| `warnings` | `[]any` | No | Adjustments made when the template could not be represented exactly on the provider. |
+| `workout` | `any` | No | The workout body, as on the list. |
 | `workout_id` | `string` | No | Identifier of the source template. |
 
 ### Field Usage by Operation
@@ -985,16 +1142,19 @@ fmt.Println(plannedWorkout.GetName()) // "planned_workout"
 | Field | load | list | update |
 | --- | --- | --- | --- |
 | `athlete_metrics` | - | - | - |
-| `coercion_warnings` | - | - | - |
+| `coercion_warnings` | - | Yes | - |
+| `completed_at` | - | Yes | - |
 | `created_at` | - | - | - |
 | `details` | - | - | - |
 | `id` | - | - | - |
-| `is_external` | - | - | - |
+| `is_external` | - | Yes | - |
 | `last_updated_at` | - | - | - |
-| `planned_date` | - | - | Yes |
-| `planned_workout_id` | - | - | - |
-| `provider_workout_id` | - | - | - |
-| `workout_id` | - | - | - |
+| `planned_date` | - | Yes | Yes |
+| `planned_workout_id` | - | Yes | - |
+| `provider_workout_id` | - | Yes | - |
+| `warnings` | - | Yes | - |
+| `workout` | - | Yes | - |
+| `workout_id` | - | Yes | - |
 
 ### Operations
 
@@ -1132,7 +1292,31 @@ user := client.User(nil)
 fmt.Println(user.GetName()) // "user"
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `max_page` | `int` | No | Total number of pages available for the requested page size |
+| `next` | `any` | No | The next page number, or null if there is no next page |
+| `results` | `[]any` | No |  |
+| `status` | `string` | No |  |
+| `users` | `[]any` | No |  |
+
 ### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns a `[]any` of entities, one per record; `err` is non-nil on failure.
+
+```go
+results, err := client.User(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+for _, item := range results.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
 
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
@@ -1194,6 +1378,8 @@ fmt.Println(workout.GetName()) // "workout"
 | `estimated_calories` | `any` | No | Estimated calories burned |
 | `estimated_distance_meters` | `any` | No | Estimated total distance in meters |
 | `estimated_duration_seconds` | `any` | No | Estimated total duration in seconds |
+| `estimated_intensity_factor` | `any` | No | Planned intensity factor (0-5), where the provider or author supplies one. |
+| `estimated_tss` | `any` | No | Planned training stress score (0-9999), where the provider or author supplies one. |
 | `id` | `string` | No |  |
 | `name` | `string` | Yes | Name of the workout |
 | `pool_length_meters` | `any` | No | Pool length in meters, for swim workouts |

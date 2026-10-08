@@ -555,6 +555,24 @@ class TerraSDK implements \JsonSerializable
     }
 
 
+    private $_lab_report_session = null;
+
+    // Canonical facade: $client->LabReportSession()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->lab_report_session()
+    // resolves here too.
+    public function LabReportSession($data = null)
+    {
+        require_once __DIR__ . '/entity/lab_report_session_entity.php';
+        if ($data === null) {
+            if ($this->_lab_report_session === null) {
+                $this->_lab_report_session = new LabReportSessionEntity($this, null);
+            }
+            return $this->_lab_report_session;
+        }
+        return new LabReportSessionEntity($this, $data);
+    }
+
+
     private $_menstruation = null;
 
     // Canonical facade: $client->Menstruation()->list() / ->load(["id" => ...]).

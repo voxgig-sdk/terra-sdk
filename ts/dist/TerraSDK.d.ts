@@ -8,6 +8,7 @@ import { IntegrationEntity } from './entity/IntegrationEntity';
 import { LabReportEntity } from './entity/LabReportEntity';
 import { LabReportDeliveryEntity } from './entity/LabReportDeliveryEntity';
 import { LabReportFileEntity } from './entity/LabReportFileEntity';
+import { LabReportSessionEntity } from './entity/LabReportSessionEntity';
 import { MenstruationEntity } from './entity/MenstruationEntity';
 import { NutritionEntity } from './entity/NutritionEntity';
 import { PlannedWorkoutEntity } from './entity/PlannedWorkoutEntity';
@@ -58,6 +59,7 @@ declare class TerraSDK {
     LabReport(entopts?: Record<string, any>): LabReportEntity;
     LabReportDelivery(entopts?: Record<string, any>): LabReportDeliveryEntity;
     LabReportFile(entopts?: Record<string, any>): LabReportFileEntity;
+    LabReportSession(entopts?: Record<string, any>): LabReportSessionEntity;
     Menstruation(entopts?: Record<string, any>): MenstruationEntity;
     Nutrition(entopts?: Record<string, any>): NutritionEntity;
     PlannedWorkout(entopts?: Record<string, any>): PlannedWorkoutEntity;

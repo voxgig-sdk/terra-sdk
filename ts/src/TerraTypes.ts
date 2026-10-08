@@ -25,34 +25,52 @@ export interface AthleteLoadMatch {
 }
 
 export interface Authentication {
+  apple_app_url?: string
   auth_failure_redirect_url?: string
   auth_success_redirect_url?: string
   auth_url?: string
+  bypass_feedback?: boolean
+  connected_uids?: any[]
   expires_in?: number
   language?: string
+  multi_auth?: boolean
   providers?: string
   reference_id?: string
+  samsung_app_url?: string
+  sdk_app?: string
   session_id?: string
+  show_disconnect?: boolean
   status?: string
   token?: string
   url?: string
+  use_terra_avengers_app?: boolean
   user_id?: string
+  warnings?: any[]
 }
 
 export interface AuthenticationCreateData {
   resource: string
+  apple_app_url?: string
   auth_failure_redirect_url?: string
   auth_success_redirect_url?: string
   auth_url?: string
+  bypass_feedback?: boolean
+  connected_uids?: any[]
   expires_in?: number
   language?: string
+  multi_auth?: boolean
   providers?: string
   reference_id?: string
+  samsung_app_url?: string
+  sdk_app?: string
   session_id?: string
+  show_disconnect?: boolean
   status?: string
   token?: string
   url?: string
+  use_terra_avengers_app?: boolean
   user_id?: string
+  warnings?: any[]
 }
 
 export interface AuthenticationRemoveMatch {
@@ -142,6 +160,7 @@ export interface LabReportListMatch {
   reference_id?: string
   report_date_from?: string
   report_date_to?: string
+  report_type?: string
   upload_id?: string
   uploaded_at_from?: string
   uploaded_at_to?: string
@@ -201,6 +220,72 @@ export interface LabReportFileListMatch {
   id: string
 }
 
+export interface LabReportSession {
+  collection_date?: string
+  collection_time?: string
+  current_status: string
+  file_count?: number
+  input_bytes?: number
+  lab_name?: string
+  output_bytes?: number
+  panels?: any[]
+  patient_age_at_collection?: number
+  patient_sex?: string
+  reference_id?: string
+  report_date?: string
+  report_locale?: string
+  report_notes?: string
+  report_time?: string
+  report_type: string
+  results?: any[]
+  results_count?: number
+  session_id: string
+  status_history?: any[]
+  updated_at?: string
+  upload_id?: string
+  uploaded_at?: string
+}
+
+export interface LabReportSessionLoadMatch {
+  session_id: string
+}
+
+export interface LabReportSessionListMatch {
+  reference_id?: string
+  report_date_from?: string
+  report_date_to?: string
+  report_type?: string
+  upload_id?: string
+  uploaded_at_from?: string
+  uploaded_at_to?: string
+}
+
+export interface LabReportSessionCreateData {
+  reference_id?: string
+  collection_date?: string
+  collection_time?: string
+  current_status: string
+  file_count?: number
+  input_bytes?: number
+  lab_name?: string
+  output_bytes?: number
+  panels?: any[]
+  patient_age_at_collection?: number
+  patient_sex?: string
+  report_date?: string
+  report_locale?: string
+  report_notes?: string
+  report_time?: string
+  report_type: string
+  results?: any[]
+  results_count?: number
+  session_id: string
+  status_history?: any[]
+  updated_at?: string
+  upload_id?: string
+  uploaded_at?: string
+}
+
 export interface Menstruation {
 }
 
@@ -224,16 +309,19 @@ export interface NutritionLoadMatch {
 }
 
 export interface PlannedWorkout {
-  athlete_metrics?: any
+  athlete_metrics: any
   coercion_warnings?: string
-  created_at?: any
-  details?: any
+  completed_at?: any
+  created_at: any
+  details: any
   id?: string
   is_external?: boolean
-  last_updated_at?: any
+  last_updated_at: any
   planned_date?: string
   planned_workout_id?: string
   provider_workout_id?: string
+  warnings?: any[]
+  workout?: any
   workout_id?: string
 }
 
@@ -253,6 +341,7 @@ export interface PlannedWorkoutUpdateData {
   user_id: string
   athlete_metrics?: any
   coercion_warnings?: string
+  completed_at?: any
   created_at?: any
   details?: any
   is_external?: boolean
@@ -260,6 +349,8 @@ export interface PlannedWorkoutUpdateData {
   planned_date?: string
   planned_workout_id?: string
   provider_workout_id?: string
+  warnings?: any[]
+  workout?: any
   workout_id?: string
 }
 
@@ -275,9 +366,19 @@ export interface SleepLoadMatch {
 }
 
 export interface User {
+  max_page?: number
+  next?: number | null
+  results?: any[]
+  status?: string
+  users?: any[]
 }
 
 export interface UserLoadMatch {
+  reference_id?: string
+  user_id?: string
+}
+
+export interface UserListMatch {
   page?: number
   per_page?: number
 }
@@ -288,6 +389,8 @@ export interface Workout {
   estimated_calories?: any
   estimated_distance_meters?: any
   estimated_duration_seconds?: any
+  estimated_intensity_factor?: any
+  estimated_tss?: any
   id?: string
   name: string
   pool_length_meters?: any
@@ -307,6 +410,8 @@ export interface WorkoutListMatch {
   estimated_calories?: any
   estimated_distance_meters?: any
   estimated_duration_seconds?: any
+  estimated_intensity_factor?: any
+  estimated_tss?: any
   id?: string
   name?: string
   pool_length_meters?: any
@@ -322,6 +427,8 @@ export interface WorkoutCreateData {
   estimated_calories?: any
   estimated_distance_meters?: any
   estimated_duration_seconds?: any
+  estimated_intensity_factor?: any
+  estimated_tss?: any
   id?: string
   name: string
   pool_length_meters?: any

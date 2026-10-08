@@ -10,6 +10,7 @@ const { IntegrationEntity } = require('./entity/IntegrationEntity')
 const { LabReportEntity } = require('./entity/LabReportEntity')
 const { LabReportDeliveryEntity } = require('./entity/LabReportDeliveryEntity')
 const { LabReportFileEntity } = require('./entity/LabReportFileEntity')
+const { LabReportSessionEntity } = require('./entity/LabReportSessionEntity')
 const { MenstruationEntity } = require('./entity/MenstruationEntity')
 const { NutritionEntity } = require('./entity/NutritionEntity')
 const { PlannedWorkoutEntity } = require('./entity/PlannedWorkoutEntity')
@@ -428,6 +429,15 @@ class TerraSDK {
   LabReportFile(entopts) {
     const self = this
     return new LabReportFileEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.LabReportSession().list()` / `client.LabReportSession().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  LabReportSession(entopts) {
+    const self = this
+    return new LabReportSessionEntity(self, entopts)
   }
 
 

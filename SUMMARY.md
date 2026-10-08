@@ -1,12 +1,12 @@
 # TerraAPI
 
-The Terra API (v2 surface, served at access.tryterra.co/api/v2).
+The Terra API (v2 surface, served at access.tryterra.co/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code `entitlement_required`; disabled environments return `environment_disabled`. Unavailable current authorization returns HTTP 503 with code `authorization_unavailable`. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller&#39;s own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.
 
 ## Start here
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 16 entities and 31 HTTP routes. There are 6 SDK targets and 2 companion tools.
+The selected API surface contains 17 entities and 38 HTTP routes. There are 6 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
@@ -32,11 +32,11 @@ SDK operations: `create`, `remove`.
 
 Key fields to recognise:
 
+- `apple_app_url`: URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app
 - `auth_failure_redirect_url`: URL the user is redirected to upon unsuccessful authentication
-- `auth_success_redirect_url`: URL the user is redirected to upon successful authentication
+- `auth_success_redirect_url`: URL the user is redirected to upon successful authentication.
 - `auth_url`: authentication URL the user must be redirected to in order to link their account
-- `expires_in`: a number in seconds depicting how long the url is valid for
-- `language`: Display language of the widget
+- `bypass_feedback`: When false, the user stays on the widget&#39;s own result screen instead of being redirected immediately
 
 ### Body
 
@@ -80,8 +80,8 @@ SDK operations: `create`, `list`, `load`, `remove`.
 
 Key fields to recognise:
 
-- `collection_date`: Specimen collection date (YYYY-MM-DD); omitted if not extracted.
-- `collection_time`: Specimen collection time (HH:MM, 24-hour); omitted if not extracted.
+- `collection_date`: Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.
+- `collection_time`: Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.
 - `current_status`: Processing status as a clean lowercase string.
 - `id`: Report-local ordinal; matches LabReportBiomarker.`panel_id`.
 - `panels`: Report-level panels that results reference by `panel_id`. Omitted if the report has no panel grouping.
@@ -105,6 +105,20 @@ Results: Input files and thumbnail with presigned URLs.
 
 SDK operations: `list`.
 
+### LabReportSession
+
+Results: Upload accepted for processing.; A list of lab report sessions.; The lab report session.
+
+SDK operations: `create`, `list`, `load`.
+
+Key fields to recognise:
+
+- `collection_date`: Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.
+- `collection_time`: Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.
+- `current_status`: Processing status as a clean lowercase string.
+- `panels`: Report-level panels that results reference by `panel_id`. Omitted if the report has no panel grouping.
+- `patient_age_at_collection`: Patient age in years; omitted if unknown.
+
 ### Menstruation
 
 Results: Returned upon successful data request.
@@ -125,11 +139,11 @@ SDK operations: `list`, `load`, `update`.
 
 Key fields to recognise:
 
-- `coercion_warnings`: Warnings emitted when the template could not be represented exactly on the provider
-- `created_at`: Creation time (RFC 3339)
-- `details`: Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. Present only for external workouts (`is_external` true).
+- `coercion_warnings`: Deprecated: the stored JSON text of the adjustments made when the template was pushed to the provider; use `warnings`. Null when there were none or the workout was created on the provider side.
+- `completed_at`: Time the session was reported complete by the user&#39;s device (RFC 3339, whole seconds, UTC). Null until a device reports it.
+- `created_at`: Creation time (RFC 3339). Null for external workouts.
+- `details`: Deprecated. The provider body of an external workout in its pre-template shape; use `workout`. Null on Terra-created workouts. Removed in the next major SDK release.
 - `id`: Identifier of the workout on the provider&#39;s side
-- `is_external`: True when the workout was created on the provider side rather than through Terra
 
 ### Sleep
 
@@ -141,7 +155,12 @@ SDK operations: `load`.
 
 Results: Returned upon a successful request; Returned when the provided resources are found.
 
-SDK operations: `load`.
+SDK operations: `list`, `load`.
+
+Key fields to recognise:
+
+- `max_page`: Total number of pages available for the requested page size
+- `next`: The next page number, or null if there is no next page
 
 ### Workout
 
@@ -155,7 +174,7 @@ Key fields to recognise:
 - `estimated_calories`: Estimated calories burned
 - `estimated_distance_meters`: Estimated total distance in meters
 - `estimated_duration_seconds`: Estimated total duration in seconds
-- `name`: Name of the workout
+- `estimated_intensity_factor`: Planned intensity factor (0-5), where the provider or author supplies one. Forwarded to TrainingPeaks, which ignores it when any step target is not RPE and derives it from the structure instead.
 
 ### Route map
 
@@ -168,6 +187,7 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | Authentication | `create` | `POST /auth/authenticateUser` | Required |
 | Authentication | `create` | `POST /auth/generateAuthToken` | Required |
 | Authentication | `create` | `POST /auth/generateWidgetSession` | Required |
+| Authentication | `create` | `POST /auth/tokens` | Required |
 | Authentication | `remove` | `DELETE /auth/deauthenticateUser` | Required |
 | Body | `load` | `GET /body` | Required |
 | BulkUserInfo | `create` | `POST /bulkUserInfo` | Required |
@@ -178,15 +198,21 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | LabReport | `list` | `GET /lab-reports` | Required |
 | LabReport | `load` | `GET /lab-reports/{session_id}` | Required |
 | LabReport | `remove` | `DELETE /lab-reports/{session_id}` | Required |
+| LabReport | `remove` | `DELETE /reports/{session_id}` | Required |
 | LabReportDelivery | `list` | `GET /lab-reports/{session_id}/deliveries` | Required |
+| LabReportDelivery | `list` | `GET /reports/{session_id}/deliveries` | Required |
 | LabReportFile | `list` | `GET /lab-reports/{session_id}/files` | Required |
+| LabReportFile | `list` | `GET /reports/{session_id}/files` | Required |
+| LabReportSession | `create` | `POST /reports` | Required |
+| LabReportSession | `list` | `GET /reports` | Required |
+| LabReportSession | `load` | `GET /reports/{session_id}` | Required |
 | Menstruation | `load` | `GET /menstruation` | Required |
 | Nutrition | `load` | `GET /nutrition` | Required |
 | PlannedWorkout | `list` | `GET /plannedWorkouts` | Required |
 | PlannedWorkout | `load` | `GET /plannedWorkouts/{planned_workout_id}` | Required |
 | PlannedWorkout | `update` | `PATCH /plannedWorkouts/{planned_workout_id}` | Required |
 | Sleep | `load` | `GET /sleep` | Required |
-| User | `load` | `GET /subscriptions` | Required |
+| User | `list` | `GET /subscriptions` | Required |
 | User | `load` | `GET /userInfo` | Required |
 | Workout | `create` | `POST /workouts/{workout_id}/plan` | Required |
 | Workout | `create` | `POST /workouts` | Required |
@@ -255,8 +281,8 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `terra_list`: List records for an entity. Supported entities: `integration`, `lab_report`, `lab_report_delivery`, `lab_report_file`, `planned_workout`, `workout`.
-- `terra_load`: Load one record for an entity. Supported entities: `activity`, `athlete`, `body`, `daily`, `lab_report`, `menstruation`, `nutrition`, `planned_workout`, `sleep`, `user`, `workout`.
+- `terra_list`: List records for an entity. Supported entities: `integration`, `lab_report`, `lab_report_delivery`, `lab_report_file`, `lab_report_session`, `planned_workout`, `user`, `workout`.
+- `terra_load`: Load one record for an entity. Supported entities: `activity`, `athlete`, `body`, `daily`, `lab_report`, `lab_report_session`, `menstruation`, `nutrition`, `planned_workout`, `sleep`, `user`, `workout`.
 
 ## Operational features
 

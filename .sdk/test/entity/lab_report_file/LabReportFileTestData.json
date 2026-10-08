@@ -4,17 +4,20 @@
       "LAB_REPORT_FILE00": {
         "filename": "s1e",
         "id": "LAB_REPORT_FILE00",
-        "presigned_url": "s20"
+        "presigned_url": "s20",
+        "report_id": "REPORT01"
       },
       "LAB_REPORT_FILE01": {
         "filename": "s3c",
         "id": "LAB_REPORT_FILE01",
-        "presigned_url": "s3e"
+        "presigned_url": "s3e",
+        "report_id": "REPORT01"
       },
       "LAB_REPORT_FILE02": {
         "filename": "s5a",
         "id": "LAB_REPORT_FILE02",
-        "presigned_url": "s5c"
+        "presigned_url": "s5c",
+        "report_id": "REPORT01"
       }
     }
   },
@@ -28,6 +31,11 @@
   },
   "requests": {
     "GET /lab-reports/{session_id}/files": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /reports/{session_id}/files": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

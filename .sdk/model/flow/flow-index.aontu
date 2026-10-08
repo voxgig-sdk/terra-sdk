@@ -10,6 +10,7 @@
 @"./BasicLabReportDeliveryFlow.aontu"
 @"./BasicLabReportFileFlow.aontu"
 @"./BasicLabReportFlow.aontu"
+@"./BasicLabReportSessionFlow.aontu"
 @"./BasicMenstruationFlow.aontu"
 @"./BasicNutritionFlow.aontu"
 @"./BasicPlannedWorkoutFlow.aontu"

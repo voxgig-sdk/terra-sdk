@@ -18,7 +18,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 ## Entities, not endpoints
 
-This SDK exposes the API as **16 semantic entities** that you
+This SDK exposes the API as **17 semantic entities** that you
 call directly, instead of assembling URL paths and query strings. See the [Entities](#entities) table below for the full list. Entities are
 **Capitalised** to mark them as the primary surface, each with the operations they
 support (`list`, `load`, `create`, `update`, `remove`):
@@ -44,22 +44,22 @@ network, and no credentials:
 // Shape: { entity: { <entity-name>: { <id>: <record> } } }
 const client = TerraSDK.test({
   entity: {
-    activity: {
+    integration: {
       test01: { id: 'test01' },
     },
   },
 })
-const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
-// activity is the Activity entity; .data() reads its mock record
-console.log(activity.data())
+const integrations = await client.Integration().list()
+// integrations is an array of Integration entities, one per mock record
+console.log(integrations.map((integration) => integration.data()))
 ```
 
 ### Python
 
 ```python
 client = TerraSDK.test()
-activity = client.Activity().load({"start_date": "example", "user_id": "example"})
-print(activity.data_get())
+integrations = client.Integration().list()
+print([item.data_get() for item in integrations])
 ```
 
 ### PHP
@@ -67,16 +67,16 @@ print(activity.data_get())
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = TerraSDK::test([
-    "entity" => ["activity" => ["test01" => []]],
+    "entity" => ["integration" => ["test01" => []]],
 ]);
-$activity = $client->Activity()->load(["start_date" => "example", "user_id" => "example"]);
+$integrations = $client->Integration()->list();
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Activity(nil).Load(
+result, err := client.Integration(nil).List(
     nil, nil,
 )
 ```
@@ -85,16 +85,16 @@ result, err := client.Activity(nil).Load(
 
 ```lua
 local client = sdk.test()
-local result, err = client:Activity():load({ start_date = "example", user_id = "example" })
+local results, err = client:Integration():list()
 ```
 
 ### JavaScript
 
 ```js
 const client = TerraSDK.test()
-const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
-// activity is the Activity entity; .data() reads its mock record
-console.log(activity.data())
+const integrations = await client.Integration().list()
+// integrations is an array of Integration entities, one per mock record
+console.log(integrations.map((integration) => integration.data()))
 ```
 
 ## Packages
@@ -163,7 +163,7 @@ Then add it to your agent's MCP config (Claude Desktop, Cursor, etc.):
 
 ## Entities
 
-The API exposes 16 entities:
+The API exposes 17 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
@@ -177,11 +177,12 @@ The API exposes 16 entities:
 | **LabReport** | The LabReport entity (create, list, load, remove). | `/lab-reports` |
 | **LabReportDelivery** | The LabReportDelivery entity (list). | `/lab-reports/{session_id}/deliveries` |
 | **LabReportFile** | The LabReportFile entity (list). | `/lab-reports/{session_id}/files` |
+| **LabReportSession** | The LabReportSession entity (create, list, load). | `/reports` |
 | **Menstruation** | The Menstruation entity (load). | `/menstruation` |
 | **Nutrition** | The Nutrition entity (load). | `/nutrition` |
 | **PlannedWorkout** | The PlannedWorkout entity (list, load, update). | `/plannedWorkouts` |
 | **Sleep** | The Sleep entity (load). | `/sleep` |
-| **User** | The User entity (load). | `/subscriptions` |
+| **User** | The User entity (list, load). | `/subscriptions` |
 | **Workout** | The Workout entity (create, list, load, remove). | `/workouts` |
 
 The operations available across these entities are **load**, **list**, **create**, **update**, **remove** — see each entity's

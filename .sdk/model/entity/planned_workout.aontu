@@ -8,28 +8,49 @@ main: kit: entity: planned_workout: {
     athlete_metrics: {
       h: "Athlete Metrics"
       n: "athlete_metrics"
-      r: false
+      r: true
       t: "`$ANY`"
     }
     coercion_warnings: {
+      de: true
       h: "Coercion Warnings"
       n: "coercion_warnings"
+      op: {
+        list: {
+          req: true
+          type: "`$ANY`"
+        }
+      }
       r: false
-      sh: "Set when the template could not be represented exactly on the provider."
+      sh: "Deprecated; use warnings."
       t: "`$STRING`"
+    }
+    completed_at: {
+      h: "Completed At"
+      n: "completed_at"
+      op: {
+        list: {
+          req: true
+          type: "`$ANY`"
+        }
+      }
+      r: false
+      sh: "Time the session was reported complete by the user's device."
+      t: "`$ANY`"
     }
     created_at: {
       h: "Created At"
       n: "created_at"
-      r: false
-      sh: "Creation time (RFC 3339)"
+      r: true
+      sh: "Creation time (RFC 3339)."
       t: "`$ANY`"
     }
     details: {
+      de: true
       h: "Details"
       n: "details"
-      r: false
-      sh: "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider."
+      r: true
+      sh: "Deprecated."
       t: "`$ANY`"
     }
     id: {
@@ -41,6 +62,12 @@ main: kit: entity: planned_workout: {
     is_external: {
       h: "Is External"
       n: "is_external"
+      op: {
+        list: {
+          req: true
+          type: "`$BOOLEAN`"
+        }
+      }
       r: false
       sh: "True when the workout was created on the provider side rather than through Terra."
       t: "`$BOOLEAN`"
@@ -48,8 +75,8 @@ main: kit: entity: planned_workout: {
     last_updated_at: {
       h: "Last Updated At"
       n: "last_updated_at"
-      r: false
-      sh: "Last update time (RFC 3339)"
+      r: true
+      sh: "Last update time (RFC 3339)."
       t: "`$ANY`"
     }
     planned_date: {
@@ -57,6 +84,10 @@ main: kit: entity: planned_workout: {
       h: "Planned Date"
       n: "planned_date"
       op: {
+        list: {
+          req: true
+          type: "`$STRING`"
+        }
         update: {
           req: true
           type: "`$STRING`"
@@ -69,20 +100,69 @@ main: kit: entity: planned_workout: {
     planned_workout_id: {
       h: "Planned Workout Id"
       n: "planned_workout_id"
+      op: {
+        list: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
-      sh: "Terra identifier of the planned workout"
+      sh: "Terra identifier of the planned workout."
       t: "`$STRING`"
     }
     provider_workout_id: {
       h: "Provider Workout Id"
       n: "provider_workout_id"
+      op: {
+        list: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "Identifier assigned by the provider, once pushed."
       t: "`$STRING`"
     }
+    warnings: {
+      h: "Warnings"
+      n: "warnings"
+      op: {
+        list: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
+      r: false
+      sh: "Adjustments made when the template could not be represented exactly on the provider."
+      t: "`$ARRAY`"
+    }
+    workout: {
+      h: "Workout"
+      n: "workout"
+      op: {
+        list: {
+          req: true
+          type: "`$ANY`"
+        }
+      }
+      r: false
+      sh: "The workout body, as on the list."
+      t: "`$ANY`"
+      union: {
+        branches: 19
+        count: 11
+        depth: 17
+      }
+    }
     workout_id: {
       h: "Workout Id"
       n: "workout_id"
+      op: {
+        list: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "Identifier of the source template."
       t: "`$STRING`"

@@ -97,6 +97,8 @@ func entityFor(client *sdk.TerraSDK, name string) (sdk.TerraEntity, error) {
 		return client.LabReportDelivery(nil), nil
 	case "lab_report_file":
 		return client.LabReportFile(nil), nil
+	case "lab_report_session":
+		return client.LabReportSession(nil), nil
 	case "menstruation":
 		return client.Menstruation(nil), nil
 	case "nutrition":

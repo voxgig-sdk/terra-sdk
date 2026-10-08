@@ -86,6 +86,7 @@ _ENTITIES = {
     "LabReport": "lab_report",
     "LabReportDelivery": "lab_report_delivery",
     "LabReportFile": "lab_report_file",
+    "LabReportSession": "lab_report_session",
     "Menstruation": "menstruation",
     "Nutrition": "nutrition",
     "PlannedWorkout": "planned_workout",

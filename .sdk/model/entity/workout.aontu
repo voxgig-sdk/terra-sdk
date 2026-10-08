@@ -44,6 +44,20 @@ main: kit: entity: workout: {
       sh: "Estimated total duration in seconds"
       t: "`$ANY`"
     }
+    estimated_intensity_factor: {
+      h: "Estimated Intensity Factor"
+      n: "estimated_intensity_factor"
+      r: false
+      sh: "Planned intensity factor (0-5), where the provider or author supplies one."
+      t: "`$ANY`"
+    }
+    estimated_tss: {
+      h: "Estimated Tss"
+      n: "estimated_tss"
+      r: false
+      sh: "Planned training stress score (0-9999), where the provider or author supplies one."
+      t: "`$ANY`"
+    }
     id: {
       h: "Id"
       n: "id"
@@ -88,7 +102,7 @@ main: kit: entity: workout: {
       r: true
       t: "`$ARRAY`"
       union: {
-        branches: 11
+        branches: 19
         count: 8
         depth: 13
       }
@@ -187,6 +201,8 @@ main: kit: entity: workout: {
             "estimated_calories"
             "estimated_distance_meters"
             "estimated_duration_seconds"
+            "estimated_intensity_factor"
+            "estimated_tss"
             "name"
             "pool_length_meters"
             "sport"

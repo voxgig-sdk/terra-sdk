@@ -42,18 +42,27 @@ type Authentication struct {
 // AuthenticationCreateData is the typed request payload for Authentication.CreateTyped.
 type AuthenticationCreateData struct {
 	Resource string `json:"resource"`
+	AppleAppUrl *string `json:"apple_app_url,omitempty"`
 	AuthFailureRedirectUrl *string `json:"auth_failure_redirect_url,omitempty"`
 	AuthSuccessRedirectUrl *string `json:"auth_success_redirect_url,omitempty"`
 	AuthUrl *string `json:"auth_url,omitempty"`
+	BypassFeedback *bool `json:"bypass_feedback,omitempty"`
+	ConnectedUids *[]any `json:"connected_uids,omitempty"`
 	ExpiresIn *int `json:"expires_in,omitempty"`
 	Language *string `json:"language,omitempty"`
+	MultiAuth *bool `json:"multi_auth,omitempty"`
 	Providers *string `json:"providers,omitempty"`
 	ReferenceId *string `json:"reference_id,omitempty"`
+	SamsungAppUrl *string `json:"samsung_app_url,omitempty"`
+	SdkApp *string `json:"sdk_app,omitempty"`
 	SessionId *string `json:"session_id,omitempty"`
+	ShowDisconnect *bool `json:"show_disconnect,omitempty"`
 	Status *string `json:"status,omitempty"`
 	Token *string `json:"token,omitempty"`
 	Url *string `json:"url,omitempty"`
+	UseTerraAvengersApp *bool `json:"use_terra_avengers_app,omitempty"`
 	UserId *string `json:"user_id,omitempty"`
+	Warnings *[]any `json:"warnings,omitempty"`
 }
 
 // AuthenticationRemoveMatch is the typed request payload for Authentication.RemoveTyped.
@@ -121,6 +130,7 @@ type LabReportListMatch struct {
 	ReferenceId *string `json:"reference_id,omitempty"`
 	ReportDateFrom *string `json:"report_date_from,omitempty"`
 	ReportDateTo *string `json:"report_date_to,omitempty"`
+	ReportType *string `json:"report_type,omitempty"`
 	UploadId *string `json:"upload_id,omitempty"`
 	UploadedAtFrom *string `json:"uploaded_at_from,omitempty"`
 	UploadedAtTo *string `json:"uploaded_at_to,omitempty"`
@@ -177,6 +187,53 @@ type LabReportFileListMatch struct {
 	Id string `json:"id"`
 }
 
+// LabReportSession is the typed data model for the lab_report_session entity.
+type LabReportSession struct {
+}
+
+// LabReportSessionLoadMatch is the typed request payload for LabReportSession.LoadTyped.
+type LabReportSessionLoadMatch struct {
+	SessionId string `json:"session_id"`
+}
+
+// LabReportSessionListMatch is the typed request payload for LabReportSession.ListTyped.
+type LabReportSessionListMatch struct {
+	ReferenceId *string `json:"reference_id,omitempty"`
+	ReportDateFrom *string `json:"report_date_from,omitempty"`
+	ReportDateTo *string `json:"report_date_to,omitempty"`
+	ReportType *string `json:"report_type,omitempty"`
+	UploadId *string `json:"upload_id,omitempty"`
+	UploadedAtFrom *string `json:"uploaded_at_from,omitempty"`
+	UploadedAtTo *string `json:"uploaded_at_to,omitempty"`
+}
+
+// LabReportSessionCreateData is the typed request payload for LabReportSession.CreateTyped.
+type LabReportSessionCreateData struct {
+	ReferenceId *string `json:"reference_id,omitempty"`
+	CollectionDate *string `json:"collection_date,omitempty"`
+	CollectionTime *string `json:"collection_time,omitempty"`
+	CurrentStatus string `json:"current_status"`
+	FileCount *int `json:"file_count,omitempty"`
+	InputBytes *int `json:"input_bytes,omitempty"`
+	LabName *string `json:"lab_name,omitempty"`
+	OutputBytes *int `json:"output_bytes,omitempty"`
+	Panels *[]any `json:"panels,omitempty"`
+	PatientAgeAtCollection *int `json:"patient_age_at_collection,omitempty"`
+	PatientSex *string `json:"patient_sex,omitempty"`
+	ReportDate *string `json:"report_date,omitempty"`
+	ReportLocale *string `json:"report_locale,omitempty"`
+	ReportNotes *string `json:"report_notes,omitempty"`
+	ReportTime *string `json:"report_time,omitempty"`
+	ReportType string `json:"report_type"`
+	Results *[]any `json:"results,omitempty"`
+	ResultsCount *int `json:"results_count,omitempty"`
+	SessionId string `json:"session_id"`
+	StatusHistory *[]any `json:"status_history,omitempty"`
+	UpdatedAt *string `json:"updated_at,omitempty"`
+	UploadId *string `json:"upload_id,omitempty"`
+	UploadedAt *string `json:"uploaded_at,omitempty"`
+}
+
 // Menstruation is the typed data model for the menstruation entity.
 type Menstruation struct {
 }
@@ -226,6 +283,7 @@ type PlannedWorkoutUpdateData struct {
 	UserId string `json:"user_id"`
 	AthleteMetrics *any `json:"athlete_metrics,omitempty"`
 	CoercionWarnings *string `json:"coercion_warnings,omitempty"`
+	CompletedAt *any `json:"completed_at,omitempty"`
 	CreatedAt *any `json:"created_at,omitempty"`
 	Details *any `json:"details,omitempty"`
 	IsExternal *bool `json:"is_external,omitempty"`
@@ -233,6 +291,8 @@ type PlannedWorkoutUpdateData struct {
 	PlannedDate *string `json:"planned_date,omitempty"`
 	PlannedWorkoutId *string `json:"planned_workout_id,omitempty"`
 	ProviderWorkoutId *string `json:"provider_workout_id,omitempty"`
+	Warnings *[]any `json:"warnings,omitempty"`
+	Workout *any `json:"workout,omitempty"`
 	WorkoutId *string `json:"workout_id,omitempty"`
 }
 
@@ -255,6 +315,12 @@ type User struct {
 
 // UserLoadMatch is the typed request payload for User.LoadTyped.
 type UserLoadMatch struct {
+	ReferenceId *string `json:"reference_id,omitempty"`
+	UserId *string `json:"user_id,omitempty"`
+}
+
+// UserListMatch is the typed request payload for User.ListTyped.
+type UserListMatch struct {
 	Page *int `json:"page,omitempty"`
 	PerPage *int `json:"per_page,omitempty"`
 }
@@ -275,6 +341,8 @@ type WorkoutListMatch struct {
 	EstimatedCalories *any `json:"estimated_calories,omitempty"`
 	EstimatedDistanceMeters *any `json:"estimated_distance_meters,omitempty"`
 	EstimatedDurationSeconds *any `json:"estimated_duration_seconds,omitempty"`
+	EstimatedIntensityFactor *any `json:"estimated_intensity_factor,omitempty"`
+	EstimatedTss *any `json:"estimated_tss,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
 	PoolLengthMeters *any `json:"pool_length_meters,omitempty"`
@@ -291,6 +359,8 @@ type WorkoutCreateData struct {
 	EstimatedCalories *any `json:"estimated_calories,omitempty"`
 	EstimatedDistanceMeters *any `json:"estimated_distance_meters,omitempty"`
 	EstimatedDurationSeconds *any `json:"estimated_duration_seconds,omitempty"`
+	EstimatedIntensityFactor *any `json:"estimated_intensity_factor,omitempty"`
+	EstimatedTss *any `json:"estimated_tss,omitempty"`
 	Id *string `json:"id,omitempty"`
 	Name string `json:"name"`
 	PoolLengthMeters *any `json:"pool_length_meters,omitempty"`

@@ -562,6 +562,20 @@ function TerraSDK:LabReportFile(data)
 end
 
 
+-- Idiomatic facade: client:LabReportSession():list() / client:LabReportSession():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function TerraSDK:LabReportSession(data)
+  local EntityMod = require("entity.lab_report_session_entity")
+  if data == nil then
+    if self._lab_report_session == nil then
+      self._lab_report_session = EntityMod.new(self, nil)
+    end
+    return self._lab_report_session
+  end
+  return EntityMod.new(self, data)
+end
+
+
 -- Idiomatic facade: client:Menstruation():list() / client:Menstruation():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function TerraSDK:Menstruation(data)

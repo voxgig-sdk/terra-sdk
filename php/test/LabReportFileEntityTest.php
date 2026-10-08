@@ -45,11 +45,18 @@ class LabReportFileEntityTest extends TestCase
         $setup = lab_report_file_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach ([] as $_op) {
+        foreach (["list"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "lab_report_file." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
                 return;
+            }
+        }
+        if (!empty($setup["live"])) {
+            foreach (["report01"] as $_liveKey) {
+                if (!empty($setup["synthetic_only"]) || null === ($setup["idmap"][$_liveKey] ?? null)) {
+                    Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: needs " . $_liveKey . " via TERRA_TEST_LAB_REPORT_FILE_ENTID");
+                }
             }
         }
         $client = $setup["client"];
@@ -61,6 +68,15 @@ class LabReportFileEntityTest extends TestCase
         if (count($lab_report_file_ref01_data_raw) > 0) {
             $lab_report_file_ref01_data = Helpers::to_map($lab_report_file_ref01_data_raw[0][1]);
         }
+
+        // LIST
+        $lab_report_file_ref01_ent = $client->LabReportFile(null);
+        $lab_report_file_ref01_match = [
+            "report_id" => $setup["idmap"]["report01"],
+        ];
+
+        $lab_report_file_ref01_list_result = $lab_report_file_ref01_ent->list($lab_report_file_ref01_match, null);
+        $this->assertIsArray($lab_report_file_ref01_list_result);
 
     }
 }
@@ -80,7 +96,7 @@ function lab_report_file_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["lab_report_file01", "lab_report_file02", "lab_report_file03"] as $k) {
+    foreach (["lab_report_file01", "lab_report_file02", "lab_report_file03", "report01"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

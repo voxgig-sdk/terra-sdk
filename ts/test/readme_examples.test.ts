@@ -41,7 +41,7 @@ const SDK_ROOT = Path.join(__dirname, '..').split(Path.sep).join('/')
 
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = {"entity":{"activity":{"test01":{"id":"test01"}},"athlete":{"test01":{"id":"test01"}},"authentication":{"test01":{"id":"test01"}},"body":{"test01":{"id":"test01"}},"bulk_user_info":{"test01":{"id":"test01"}},"daily":{"test01":{"id":"test01"}},"integration":{"test01":{"id":"test01"}},"lab_report":{"test01":{"id":"test01"}},"lab_report_delivery":{"test01":{"id":"test01"}},"lab_report_file":{"test01":{"id":"test01"}},"menstruation":{"test01":{"id":"test01"}},"nutrition":{"test01":{"id":"test01"}},"planned_workout":{"test01":{"id":"test01"}},"sleep":{"test01":{"id":"test01"}},"user":{"test01":{"id":"test01"}},"workout":{"test01":{"id":"test01"}}}}
+const TEST_SEED = {"entity":{"activity":{"test01":{"id":"test01"}},"athlete":{"test01":{"id":"test01"}},"authentication":{"test01":{"id":"test01"}},"body":{"test01":{"id":"test01"}},"bulk_user_info":{"test01":{"id":"test01"}},"daily":{"test01":{"id":"test01"}},"integration":{"test01":{"id":"test01"}},"lab_report":{"test01":{"id":"test01"}},"lab_report_delivery":{"test01":{"id":"test01"}},"lab_report_file":{"test01":{"id":"test01"}},"lab_report_session":{"test01":{"id":"test01"}},"menstruation":{"test01":{"id":"test01"}},"nutrition":{"test01":{"id":"test01"}},"planned_workout":{"test01":{"id":"test01"}},"sleep":{"test01":{"id":"test01"}},"user":{"test01":{"id":"test01"}},"workout":{"test01":{"id":"test01"}}}}
 const SEED_ARG = JSON.stringify(TEST_SEED)
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')'
 

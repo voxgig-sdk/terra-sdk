@@ -292,6 +292,14 @@
             "field": {}
           },
           "fields": {
+            "apple_app_url": {
+              "a": true,
+              "h": "Apple App Url",
+              "n": "apple_app_url",
+              "r": false,
+              "sh": "URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app",
+              "t": "`$STRING`"
+            },
             "auth_failure_redirect_url": {
               "a": true,
               "h": "Auth Failure Redirect Url",
@@ -305,7 +313,7 @@
               "h": "Auth Success Redirect Url",
               "n": "auth_success_redirect_url",
               "r": false,
-              "sh": "URL the user is redirected to upon successful authentication",
+              "sh": "URL the user is redirected to upon successful authentication.",
               "t": "`$STRING`"
             },
             "auth_url": {
@@ -315,6 +323,22 @@
               "r": false,
               "sh": "authentication URL the user must be redirected to in order to link their account",
               "t": "`$STRING`"
+            },
+            "bypass_feedback": {
+              "a": true,
+              "h": "Bypass Feedback",
+              "n": "bypass_feedback",
+              "r": false,
+              "sh": "When false, the user stays on the widget's own result screen instead of being redirected immediately",
+              "t": "`$BOOLEAN`"
+            },
+            "connected_uids": {
+              "a": true,
+              "h": "Connected Uids",
+              "n": "connected_uids",
+              "r": false,
+              "sh": "Terra user IDs already connected for this end user; their providers show as connected with a disconnect option",
+              "t": "`$ARRAY`"
             },
             "expires_in": {
               "a": true,
@@ -329,8 +353,16 @@
               "h": "Language",
               "n": "language",
               "r": false,
-              "sh": "Display language of the widget",
+              "sh": "forces the widget UI language (e.g.",
               "t": "`$STRING`"
+            },
+            "multi_auth": {
+              "a": true,
+              "h": "Multi Auth",
+              "n": "multi_auth",
+              "r": false,
+              "sh": "Keep the user on the widget after each successful connection so they can connect several providers in one session",
+              "t": "`$BOOLEAN`"
             },
             "providers": {
               "a": true,
@@ -348,6 +380,22 @@
               "sh": "Identifier of the end user on your system, such as a user ID or email associated with them",
               "t": "`$STRING`"
             },
+            "samsung_app_url": {
+              "a": true,
+              "h": "Samsung App Url",
+              "n": "samsung_app_url",
+              "r": false,
+              "sh": "URL of your own Android app to hand Samsung Health connections to",
+              "t": "`$STRING`"
+            },
+            "sdk_app": {
+              "a": true,
+              "h": "Sdk App",
+              "n": "sdk_app",
+              "r": false,
+              "sh": "Which Terra reference app an SDK authentication link hands the end user to.",
+              "t": "`$STRING`"
+            },
             "session_id": {
               "a": true,
               "h": "Session Id",
@@ -355,6 +403,14 @@
               "r": false,
               "sh": "Session ID for the widget authentication session",
               "t": "`$STRING`"
+            },
+            "show_disconnect": {
+              "a": true,
+              "h": "Show Disconnect",
+              "n": "show_disconnect",
+              "r": false,
+              "sh": "Show disconnect buttons for providers already connected under reference_id",
+              "t": "`$BOOLEAN`"
             },
             "status": {
               "a": true,
@@ -379,6 +435,14 @@
               "sh": "the widget URL the user must be redirected to in order to link their account",
               "t": "`$STRING`"
             },
+            "use_terra_avengers_app": {
+              "a": true,
+              "h": "Use Terra Avengers App",
+              "n": "use_terra_avengers_app",
+              "r": false,
+              "sh": "Allow Apple Health connections through the Terra mobile app",
+              "t": "`$BOOLEAN`"
+            },
             "user_id": {
               "a": true,
               "h": "User Id",
@@ -386,6 +450,14 @@
               "r": false,
               "sh": "User ID for the user being created",
               "t": "`$STRING`"
+            },
+            "warnings": {
+              "a": true,
+              "h": "Warnings",
+              "n": "warnings",
+              "r": false,
+              "sh": "present when part of the request could not be honoured, such as requested providers that are unknown or not enabled",
+              "t": "`$ARRAY`"
             }
           },
           "name": "authentication",
@@ -400,7 +472,8 @@
                     "auth_failure_redirect_url",
                     "auth_success_redirect_url",
                     "language",
-                    "reference_id"
+                    "reference_id",
+                    "sdk_app"
                   ],
                   "co": {
                     "id": "POST /auth/authenticateUser",
@@ -465,7 +538,19 @@
                     "source": "openapi3",
                     "version": 2
                   },
-                  "g": {},
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": "user-42",
+                        "k": "query",
+                        "n": "reference_id",
+                        "or": "reference_id",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
                   "k": "http",
                   "m": "POST",
                   "o": "/auth/generateAuthToken",
@@ -491,11 +576,18 @@
                 {
                   "a": true,
                   "bf": [
+                    "apple_app_url",
                     "auth_failure_redirect_url",
                     "auth_success_redirect_url",
+                    "bypass_feedback",
+                    "connected_uids",
                     "language",
+                    "multi_auth",
                     "providers",
-                    "reference_id"
+                    "reference_id",
+                    "samsung_app_url",
+                    "show_disconnect",
+                    "use_terra_avengers_app"
                   ],
                   "co": {
                     "id": "POST /auth/generateWidgetSession",
@@ -518,6 +610,48 @@
                     },
                     {
                       "lit": "generateWidgetSession"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "POST /auth/tokens",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": "user-42",
+                        "k": "query",
+                        "n": "reference_id",
+                        "or": "reference_id",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/auth/tokens",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "auth"
+                    },
+                    {
+                      "lit": "tokens"
                     }
                   ],
                   "t": {
@@ -956,7 +1090,7 @@
               "h": "Collection Date",
               "n": "collection_date",
               "r": false,
-              "sh": "Specimen collection date (YYYY-MM-DD); omitted if not extracted.",
+              "sh": "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.",
               "t": "`$STRING`"
             },
             "collection_time": {
@@ -964,7 +1098,7 @@
               "h": "Collection Time",
               "n": "collection_time",
               "r": false,
-              "sh": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted.",
+              "sh": "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.",
               "t": "`$STRING`"
             },
             "current_status": {
@@ -1077,7 +1211,7 @@
               "h": "Report Type",
               "n": "report_type",
               "r": true,
-              "sh": "Report type as a clean lowercase string (open enum — handle unknown values gracefully).",
+              "sh": "What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully).",
               "t": "`$STRING`"
             },
             "results": {
@@ -1240,6 +1374,15 @@
                       },
                       {
                         "a": true,
+                        "ex": "dexa",
+                        "k": "query",
+                        "n": "report_type",
+                        "or": "report_type",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
                         "k": "query",
                         "n": "upload_id",
                         "or": "upload_id",
@@ -1390,6 +1533,52 @@
                     "req": "`reqdata`",
                     "res": "`body`"
                   }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "DELETE /reports/{session_id}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": "297405620317847552",
+                        "k": "param",
+                        "n": "id",
+                        "or": "session_id",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "DELETE",
+                  "o": "/reports/{session_id}",
+                  "q": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "session_id": "id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "lit": "reports"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
                 }
               ]
             }
@@ -1513,6 +1702,59 @@
                     "req": "`reqdata`",
                     "res": "`body.deliveries`"
                   }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /reports/{session_id}/deliveries",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": "297405620317847552",
+                        "k": "param",
+                        "n": "report_id",
+                        "or": "session_id",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/reports/{session_id}/deliveries",
+                  "q": {
+                    "exist": [
+                      "report_id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "session_id": "report_id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "reports"
+                    },
+                    {
+                      "var": "report_id"
+                    },
+                    {
+                      "lit": "deliveries"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.deliveries`"
+                  }
                 }
               ]
             }
@@ -1605,6 +1847,454 @@
                     },
                     {
                       "lit": "files"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /reports/{session_id}/files",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": "297405620317847552",
+                        "k": "param",
+                        "n": "report_id",
+                        "or": "session_id",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/reports/{session_id}/files",
+                  "q": {
+                    "exist": [
+                      "report_id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "session_id": "report_id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "reports"
+                    },
+                    {
+                      "var": "report_id"
+                    },
+                    {
+                      "lit": "files"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "lab_report_session": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "collection_date": {
+              "a": true,
+              "h": "Collection Date",
+              "n": "collection_date",
+              "r": false,
+              "sh": "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.",
+              "t": "`$STRING`"
+            },
+            "collection_time": {
+              "a": true,
+              "h": "Collection Time",
+              "n": "collection_time",
+              "r": false,
+              "sh": "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.",
+              "t": "`$STRING`"
+            },
+            "current_status": {
+              "a": true,
+              "h": "Current Status",
+              "n": "current_status",
+              "r": true,
+              "sh": "Current status as a clean lowercase string (open enum), e.g.",
+              "t": "`$STRING`"
+            },
+            "file_count": {
+              "a": true,
+              "h": "File Count",
+              "n": "file_count",
+              "r": false,
+              "t": "`$INTEGER`"
+            },
+            "input_bytes": {
+              "a": true,
+              "h": "Input Bytes",
+              "n": "input_bytes",
+              "r": false,
+              "t": "`$INTEGER`"
+            },
+            "lab_name": {
+              "a": true,
+              "h": "Lab Name",
+              "n": "lab_name",
+              "r": false,
+              "t": "`$STRING`"
+            },
+            "output_bytes": {
+              "a": true,
+              "h": "Output Bytes",
+              "n": "output_bytes",
+              "r": false,
+              "t": "`$INTEGER`"
+            },
+            "panels": {
+              "a": true,
+              "h": "Panels",
+              "n": "panels",
+              "r": false,
+              "sh": "Report-level panels that results reference by panel_id.",
+              "t": "`$ARRAY`"
+            },
+            "patient_age_at_collection": {
+              "a": true,
+              "h": "Patient Age At Collection",
+              "n": "patient_age_at_collection",
+              "r": false,
+              "sh": "Patient age in years; omitted if unknown.",
+              "t": "`$INTEGER`"
+            },
+            "patient_sex": {
+              "a": true,
+              "h": "Patient Sex",
+              "n": "patient_sex",
+              "r": false,
+              "sh": "Clean lowercase string (open enum); omitted if unspecified.",
+              "t": "`$STRING`"
+            },
+            "reference_id": {
+              "a": true,
+              "h": "Reference Id",
+              "n": "reference_id",
+              "r": false,
+              "sh": "Your external reference; omitted if not set.",
+              "t": "`$STRING`"
+            },
+            "report_date": {
+              "a": true,
+              "h": "Report Date",
+              "n": "report_date",
+              "r": false,
+              "sh": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
+              "t": "`$STRING`"
+            },
+            "report_locale": {
+              "a": true,
+              "h": "Report Locale",
+              "n": "report_locale",
+              "r": false,
+              "t": "`$STRING`"
+            },
+            "report_notes": {
+              "a": true,
+              "h": "Report Notes",
+              "n": "report_notes",
+              "r": false,
+              "t": "`$STRING`"
+            },
+            "report_time": {
+              "a": true,
+              "h": "Report Time",
+              "n": "report_time",
+              "r": false,
+              "sh": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
+              "t": "`$STRING`"
+            },
+            "report_type": {
+              "a": true,
+              "h": "Report Type",
+              "n": "report_type",
+              "r": true,
+              "sh": "What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully).",
+              "t": "`$STRING`"
+            },
+            "results": {
+              "a": true,
+              "h": "Results",
+              "n": "results",
+              "r": false,
+              "sh": "The layered biomarker results.",
+              "t": "`$ARRAY`"
+            },
+            "results_count": {
+              "a": true,
+              "h": "Results Count",
+              "n": "results_count",
+              "r": false,
+              "t": "`$INTEGER`"
+            },
+            "session_id": {
+              "a": true,
+              "h": "Session Id",
+              "n": "session_id",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "status_history": {
+              "a": true,
+              "h": "Status History",
+              "n": "status_history",
+              "r": false,
+              "t": "`$ARRAY`"
+            },
+            "updated_at": {
+              "a": true,
+              "fo": "date-time",
+              "h": "Updated At",
+              "n": "updated_at",
+              "r": false,
+              "t": "`$STRING`"
+            },
+            "upload_id": {
+              "a": true,
+              "h": "Upload Id",
+              "n": "upload_id",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": false,
+              "sh": "Durable correlation key for the upload; every resulting session and webhook carries it.",
+              "t": "`$STRING`"
+            },
+            "uploaded_at": {
+              "a": true,
+              "fo": "date-time",
+              "h": "Uploaded At",
+              "n": "uploaded_at",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
+          "name": "lab_report_session",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "POST /reports",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": "patient_456",
+                        "k": "query",
+                        "n": "reference_id",
+                        "or": "reference_id",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/reports",
+                  "q": {},
+                  "r": {},
+                  "rb": {
+                    "fields": [
+                      {
+                        "binary": true,
+                        "name": "file"
+                      }
+                    ],
+                    "kind": "multipart",
+                    "media": "multipart/form-data"
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "reports"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /reports",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "reference_id",
+                        "or": "reference_id",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "report_date_from",
+                        "or": "report_date_from",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "report_date_to",
+                        "or": "report_date_to",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "ex": "dexa",
+                        "k": "query",
+                        "n": "report_type",
+                        "or": "report_type",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "upload_id",
+                        "or": "upload_id",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "uploaded_at_from",
+                        "or": "uploaded_at_from",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "uploaded_at_to",
+                        "or": "uploaded_at_to",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/reports",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "reports"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body.sessions`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /reports/{session_id}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": "297405620317847552",
+                        "k": "param",
+                        "n": "session_id",
+                        "or": "session_id",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/reports/{session_id}",
+                  "q": {
+                    "exist": [
+                      "session_id"
+                    ]
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "reports"
+                    },
+                    {
+                      "var": "session_id"
                     }
                   ],
                   "t": {
@@ -1817,31 +2507,53 @@
               "a": true,
               "h": "Athlete Metrics",
               "n": "athlete_metrics",
-              "r": false,
+              "r": true,
               "t": "`$ANY`"
             },
             "coercion_warnings": {
               "a": true,
+              "de": true,
               "h": "Coercion Warnings",
               "n": "coercion_warnings",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$ANY`"
+                }
+              },
               "r": false,
-              "sh": "Set when the template could not be represented exactly on the provider.",
+              "sh": "Deprecated; use warnings.",
               "t": "`$STRING`"
+            },
+            "completed_at": {
+              "a": true,
+              "h": "Completed At",
+              "n": "completed_at",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$ANY`"
+                }
+              },
+              "r": false,
+              "sh": "Time the session was reported complete by the user's device.",
+              "t": "`$ANY`"
             },
             "created_at": {
               "a": true,
               "h": "Created At",
               "n": "created_at",
-              "r": false,
-              "sh": "Creation time (RFC 3339)",
+              "r": true,
+              "sh": "Creation time (RFC 3339).",
               "t": "`$ANY`"
             },
             "details": {
               "a": true,
+              "de": true,
               "h": "Details",
               "n": "details",
-              "r": false,
-              "sh": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
+              "r": true,
+              "sh": "Deprecated.",
               "t": "`$ANY`"
             },
             "id": {
@@ -1855,6 +2567,12 @@
               "a": true,
               "h": "Is External",
               "n": "is_external",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$BOOLEAN`"
+                }
+              },
               "r": false,
               "sh": "True when the workout was created on the provider side rather than through Terra.",
               "t": "`$BOOLEAN`"
@@ -1863,8 +2581,8 @@
               "a": true,
               "h": "Last Updated At",
               "n": "last_updated_at",
-              "r": false,
-              "sh": "Last update time (RFC 3339)",
+              "r": true,
+              "sh": "Last update time (RFC 3339).",
               "t": "`$ANY`"
             },
             "planned_date": {
@@ -1873,6 +2591,10 @@
               "h": "Planned Date",
               "n": "planned_date",
               "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$STRING`"
+                },
                 "update": {
                   "req": true,
                   "type": "`$STRING`"
@@ -1886,22 +2608,73 @@
               "a": true,
               "h": "Planned Workout Id",
               "n": "planned_workout_id",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
-              "sh": "Terra identifier of the planned workout",
+              "sh": "Terra identifier of the planned workout.",
               "t": "`$STRING`"
             },
             "provider_workout_id": {
               "a": true,
               "h": "Provider Workout Id",
               "n": "provider_workout_id",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "Identifier assigned by the provider, once pushed.",
               "t": "`$STRING`"
+            },
+            "warnings": {
+              "a": true,
+              "h": "Warnings",
+              "n": "warnings",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$ARRAY`"
+                }
+              },
+              "r": false,
+              "sh": "Adjustments made when the template could not be represented exactly on the provider.",
+              "t": "`$ARRAY`"
+            },
+            "workout": {
+              "a": true,
+              "h": "Workout",
+              "n": "workout",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$ANY`"
+                }
+              },
+              "r": false,
+              "sh": "The workout body, as on the list.",
+              "t": "`$ANY`",
+              "union": {
+                "branches": 19,
+                "count": 11,
+                "depth": 17
+              }
             },
             "workout_id": {
               "a": true,
               "h": "Workout Id",
               "n": "workout_id",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "Identifier of the source template.",
               "t": "`$STRING`"
@@ -2216,12 +2989,56 @@
           "alias": {
             "field": {}
           },
-          "fields": {},
+          "fields": {
+            "max_page": {
+              "a": true,
+              "h": "Max Page",
+              "n": "max_page",
+              "r": false,
+              "sh": "Total number of pages available for the requested page size",
+              "t": "`$INTEGER`"
+            },
+            "next": {
+              "a": true,
+              "h": "Next",
+              "n": "next",
+              "r": false,
+              "sh": "The next page number, or null if there is no next page",
+              "t": [
+                "`$ONE`",
+                [
+                  "`$INTEGER`",
+                  "`$NULL`"
+                ]
+              ]
+            },
+            "results": {
+              "a": true,
+              "h": "Results",
+              "n": "results",
+              "r": false,
+              "t": "`$ARRAY`"
+            },
+            "status": {
+              "a": true,
+              "h": "Status",
+              "n": "status",
+              "r": false,
+              "t": "`$STRING`"
+            },
+            "users": {
+              "a": true,
+              "h": "Users",
+              "n": "users",
+              "r": false,
+              "t": "`$ARRAY`"
+            }
+          },
           "name": "user",
           "op": {
-            "load": {
+            "list": {
               "input": "data",
-              "name": "load",
+              "name": "list",
               "points": [
                 {
                   "a": true,
@@ -2270,7 +3087,13 @@
                     "req": "`reqdata`",
                     "res": "`body`"
                   }
-                },
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
                 {
                   "a": true,
                   "co": {
@@ -2374,6 +3197,22 @@
               "sh": "Estimated total duration in seconds",
               "t": "`$ANY`"
             },
+            "estimated_intensity_factor": {
+              "a": true,
+              "h": "Estimated Intensity Factor",
+              "n": "estimated_intensity_factor",
+              "r": false,
+              "sh": "Planned intensity factor (0-5), where the provider or author supplies one.",
+              "t": "`$ANY`"
+            },
+            "estimated_tss": {
+              "a": true,
+              "h": "Estimated Tss",
+              "n": "estimated_tss",
+              "r": false,
+              "sh": "Planned training stress score (0-9999), where the provider or author supplies one.",
+              "t": "`$ANY`"
+            },
             "id": {
               "a": true,
               "h": "Id",
@@ -2424,7 +3263,7 @@
               "r": true,
               "t": "`$ARRAY`",
               "union": {
-                "branches": 11,
+                "branches": 19,
                 "count": 8,
                 "depth": 13
               }
@@ -2528,6 +3367,8 @@
                     "estimated_calories",
                     "estimated_distance_meters",
                     "estimated_duration_seconds",
+                    "estimated_intensity_factor",
+                    "estimated_tss",
                     "name",
                     "pool_length_meters",
                     "sport",
@@ -3821,7 +4662,7 @@
               "d": {},
               "i": {},
               "m": {
-                "session_id": "session01"
+                "report_id": "report01"
               },
               "o": "list",
               "s": [],
@@ -3849,7 +4690,7 @@
               "d": {},
               "i": {},
               "m": {
-                "session_id": "session01"
+                "report_id": "report01"
               },
               "o": "list",
               "s": [],
@@ -3949,6 +4790,65 @@
                   "apply": "ItemNotExists",
                   "def": {
                     "ref": "lab_report_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicLabReportSessionFlow": {
+          "active": true,
+          "entity": "lab_report_session",
+          "key$": "BasicLabReportSessionFlow",
+          "kind": "basic",
+          "name": "BasicLabReportSessionFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "lab_report_session_ref01"
+              },
+              "m": {},
+              "o": "create",
+              "s": [],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "lab_report_session_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "lab_report_session_ref01",
+                "srcdatavar": "lab_report_session_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {
+                "id": "lab_report_session01"
+              },
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-lab_report_session_ref01"
                   }
                 }
               ]
@@ -4125,6 +5025,22 @@
             {
               "a": true,
               "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "user_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "a": true,
+              "d": {},
               "i": {
                 "ref": "user_ref01",
                 "srcdatavar": "user_ref01_data",
@@ -4242,7 +5158,7 @@
           "name": "Terra API",
           "url": "https://tryterra.co/"
         },
-        "description": "The Terra API (v2 surface, served at access.tryterra.co/api/v2).",
+        "description": "The Terra API (v2 surface, served at access.tryterra.co/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code entitlement_required; disabled environments return environment_disabled. Unavailable current authorization returns HTTP 503 with code authorization_unavailable. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller's own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.\n",
         "license": {
           "name": "Apache-2.0",
           "url": "https://github.com/tryterra/openapi/blob/master/LICENSE"
@@ -4280,7 +5196,7 @@
         "summary": "The Terra API (v2 surface, served at access.tryterra.co/api/v2).",
         "termsOfService": "https://tryterra.co/terms-of-service",
         "title": "TerraAPI",
-        "version": "2026.08.05",
+        "version": "2026.10.08.1",
         "website": "https://access.tryterra.co"
       },
       "option": {},

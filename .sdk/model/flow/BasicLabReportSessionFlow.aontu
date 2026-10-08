@@ -1,0 +1,52 @@
+# BasicLabReportSessionFlow
+
+main: kit: flow: BasicLabReportSessionFlow:
+{
+  entity: "lab_report_session",
+  kind: "basic",
+  name: "BasicLabReportSessionFlow",
+  step: [
+    {
+      i: {
+        ref: "lab_report_session_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "lab_report_session_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "lab_report_session_ref01",
+        srcdatavar: "lab_report_session_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "lab_report_session01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-lab_report_session_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLabReportSessionFlow"
+}

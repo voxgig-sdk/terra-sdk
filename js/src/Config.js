@@ -246,6 +246,9 @@ class Config {
         lab_report_file: {
         },
   
+        lab_report_session: {
+        },
+  
         menstruation: {
         },
   
@@ -410,6 +413,12 @@ class Config {
     "authentication": {
       "fields": [
         {
+          "name": "apple_app_url",
+          "title": "Apple App Url",
+          "type": "`$STRING`",
+          "short": "URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app"
+        },
+        {
           "name": "auth_failure_redirect_url",
           "title": "Auth Failure Redirect Url",
           "type": "`$STRING`",
@@ -419,13 +428,25 @@ class Config {
           "name": "auth_success_redirect_url",
           "title": "Auth Success Redirect Url",
           "type": "`$STRING`",
-          "short": "URL the user is redirected to upon successful authentication"
+          "short": "URL the user is redirected to upon successful authentication."
         },
         {
           "name": "auth_url",
           "title": "Auth Url",
           "type": "`$STRING`",
           "short": "authentication URL the user must be redirected to in order to link their account"
+        },
+        {
+          "name": "bypass_feedback",
+          "title": "Bypass Feedback",
+          "type": "`$BOOLEAN`",
+          "short": "When false, the user stays on the widget's own result screen instead of being redirected immediately"
+        },
+        {
+          "name": "connected_uids",
+          "title": "Connected Uids",
+          "type": "`$ARRAY`",
+          "short": "Terra user IDs already connected for this end user; their providers show as connected with a disconnect option"
         },
         {
           "name": "expires_in",
@@ -437,7 +458,13 @@ class Config {
           "name": "language",
           "title": "Language",
           "type": "`$STRING`",
-          "short": "Display language of the widget"
+          "short": "forces the widget UI language (e.g."
+        },
+        {
+          "name": "multi_auth",
+          "title": "Multi Auth",
+          "type": "`$BOOLEAN`",
+          "short": "Keep the user on the widget after each successful connection so they can connect several providers in one session"
         },
         {
           "name": "providers",
@@ -452,10 +479,28 @@ class Config {
           "short": "Identifier of the end user on your system, such as a user ID or email associated with them"
         },
         {
+          "name": "samsung_app_url",
+          "title": "Samsung App Url",
+          "type": "`$STRING`",
+          "short": "URL of your own Android app to hand Samsung Health connections to"
+        },
+        {
+          "name": "sdk_app",
+          "title": "Sdk App",
+          "type": "`$STRING`",
+          "short": "Which Terra reference app an SDK authentication link hands the end user to."
+        },
+        {
           "name": "session_id",
           "title": "Session Id",
           "type": "`$STRING`",
           "short": "Session ID for the widget authentication session"
+        },
+        {
+          "name": "show_disconnect",
+          "title": "Show Disconnect",
+          "type": "`$BOOLEAN`",
+          "short": "Show disconnect buttons for providers already connected under reference_id"
         },
         {
           "name": "status",
@@ -475,10 +520,22 @@ class Config {
           "short": "the widget URL the user must be redirected to in order to link their account"
         },
         {
+          "name": "use_terra_avengers_app",
+          "title": "Use Terra Avengers App",
+          "type": "`$BOOLEAN`",
+          "short": "Allow Apple Health connections through the Terra mobile app"
+        },
+        {
           "name": "user_id",
           "title": "User Id",
           "type": "`$STRING`",
           "short": "User ID for the user being created"
+        },
+        {
+          "name": "warnings",
+          "title": "Warnings",
+          "type": "`$ARRAY`",
+          "short": "present when part of the request could not be honoured, such as requested providers that are unknown or not enabled"
         }
       ],
       "name": "authentication",
@@ -562,7 +619,18 @@ class Config {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "args": {},
+              "args": {
+                "query": [
+                  {
+                    "name": "reference_id",
+                    "orig": "reference_id",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "user-42",
+                    "field": true
+                  }
+                ]
+              },
               "select": {},
               "response": {
                 "kind": "json",
@@ -591,6 +659,45 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            },
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/auth/tokens",
+              "segments": [
+                {
+                  "lit": "auth"
+                },
+                {
+                  "lit": "tokens"
+                }
+              ],
+              "parts": [
+                "auth",
+                "tokens"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "reference_id",
+                    "orig": "reference_id",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "user-42",
+                    "field": true
+                  }
+                ]
+              },
               "select": {},
               "response": {
                 "kind": "json",
@@ -962,13 +1069,13 @@ class Config {
           "name": "collection_date",
           "title": "Collection Date",
           "type": "`$STRING`",
-          "short": "Specimen collection date (YYYY-MM-DD); omitted if not extracted."
+          "short": "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted."
         },
         {
           "name": "collection_time",
           "title": "Collection Time",
           "type": "`$STRING`",
-          "short": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted."
+          "short": "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted."
         },
         {
           "name": "current_status",
@@ -1053,7 +1160,7 @@ class Config {
           "title": "Report Type",
           "type": "`$STRING`",
           "req": true,
-          "short": "Report type as a clean lowercase string (open enum — handle unknown values gracefully)."
+          "short": "What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully)."
         },
         {
           "name": "results",
@@ -1202,6 +1309,14 @@ class Config {
                     "kind": "query"
                   },
                   {
+                    "name": "report_type",
+                    "orig": "report_type",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "dexa",
+                    "field": true
+                  },
+                  {
                     "name": "upload_id",
                     "orig": "upload_id",
                     "type": "`$STRING`",
@@ -1301,6 +1416,49 @@ class Config {
               ],
               "parts": [
                 "lab-reports",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "session_id": "id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "session_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true,
+                    "example": "297405620317847552"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
+            },
+            {
+              "kind": "http",
+              "method": "DELETE",
+              "orig": "/reports/{session_id}",
+              "segments": [
+                {
+                  "lit": "reports"
+                },
+                {
+                  "var": "id"
+                }
+              ],
+              "parts": [
+                "reports",
                 "{id}"
               ],
               "rename": {
@@ -1437,6 +1595,57 @@ class Config {
                 "kind": "json",
                 "media": "application/json"
               }
+            },
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/reports/{session_id}/deliveries",
+              "segments": [
+                {
+                  "lit": "reports"
+                },
+                {
+                  "var": "report_id"
+                },
+                {
+                  "lit": "deliveries"
+                }
+              ],
+              "parts": [
+                "reports",
+                "{report_id}",
+                "deliveries"
+              ],
+              "rename": {
+                "param": {
+                  "session_id": "report_id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.deliveries`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "report_id",
+                    "orig": "session_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true,
+                    "example": "297405620317847552"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "report_id"
+                ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -1518,6 +1727,384 @@ class Config {
               "select": {
                 "exist": [
                   "id"
+                ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            },
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/reports/{session_id}/files",
+              "segments": [
+                {
+                  "lit": "reports"
+                },
+                {
+                  "var": "report_id"
+                },
+                {
+                  "lit": "files"
+                }
+              ],
+              "parts": [
+                "reports",
+                "{report_id}",
+                "files"
+              ],
+              "rename": {
+                "param": {
+                  "session_id": "report_id"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "report_id",
+                    "orig": "session_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true,
+                    "example": "297405620317847552"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "report_id"
+                ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "lab_report_session": {
+      "fields": [
+        {
+          "name": "collection_date",
+          "title": "Collection Date",
+          "type": "`$STRING`",
+          "short": "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted."
+        },
+        {
+          "name": "collection_time",
+          "title": "Collection Time",
+          "type": "`$STRING`",
+          "short": "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted."
+        },
+        {
+          "name": "current_status",
+          "title": "Current Status",
+          "type": "`$STRING`",
+          "req": true,
+          "short": "Current status as a clean lowercase string (open enum), e.g."
+        },
+        {
+          "name": "file_count",
+          "title": "File Count",
+          "type": "`$INTEGER`"
+        },
+        {
+          "name": "input_bytes",
+          "title": "Input Bytes",
+          "type": "`$INTEGER`"
+        },
+        {
+          "name": "lab_name",
+          "title": "Lab Name",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "output_bytes",
+          "title": "Output Bytes",
+          "type": "`$INTEGER`"
+        },
+        {
+          "name": "panels",
+          "title": "Panels",
+          "type": "`$ARRAY`",
+          "short": "Report-level panels that results reference by panel_id."
+        },
+        {
+          "name": "patient_age_at_collection",
+          "title": "Patient Age At Collection",
+          "type": "`$INTEGER`",
+          "short": "Patient age in years; omitted if unknown."
+        },
+        {
+          "name": "patient_sex",
+          "title": "Patient Sex",
+          "type": "`$STRING`",
+          "short": "Clean lowercase string (open enum); omitted if unspecified."
+        },
+        {
+          "name": "reference_id",
+          "title": "Reference Id",
+          "type": "`$STRING`",
+          "short": "Your external reference; omitted if not set."
+        },
+        {
+          "name": "report_date",
+          "title": "Report Date",
+          "type": "`$STRING`",
+          "short": "Date printed on the report (YYYY-MM-DD); omitted if not extracted."
+        },
+        {
+          "name": "report_locale",
+          "title": "Report Locale",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "report_notes",
+          "title": "Report Notes",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "report_time",
+          "title": "Report Time",
+          "type": "`$STRING`",
+          "short": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted."
+        },
+        {
+          "name": "report_type",
+          "title": "Report Type",
+          "type": "`$STRING`",
+          "req": true,
+          "short": "What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully)."
+        },
+        {
+          "name": "results",
+          "title": "Results",
+          "type": "`$ARRAY`",
+          "short": "The layered biomarker results."
+        },
+        {
+          "name": "results_count",
+          "title": "Results Count",
+          "type": "`$INTEGER`"
+        },
+        {
+          "name": "session_id",
+          "title": "Session Id",
+          "type": "`$STRING`",
+          "req": true
+        },
+        {
+          "name": "status_history",
+          "title": "Status History",
+          "type": "`$ARRAY`"
+        },
+        {
+          "name": "updated_at",
+          "title": "Updated At",
+          "type": "`$STRING`",
+          "format": "date-time"
+        },
+        {
+          "name": "upload_id",
+          "title": "Upload Id",
+          "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
+          "short": "Durable correlation key for the upload; every resulting session and webhook carries it."
+        },
+        {
+          "name": "uploaded_at",
+          "title": "Uploaded At",
+          "type": "`$STRING`",
+          "format": "date-time"
+        }
+      ],
+      "name": "lab_report_session",
+      "op": {
+        "create": {
+          "input": "data",
+          "name": "create",
+          "points": [
+            {
+              "kind": "http",
+              "method": "POST",
+              "orig": "/reports",
+              "segments": [
+                {
+                  "lit": "reports"
+                }
+              ],
+              "parts": [
+                "reports"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "reference_id",
+                    "orig": "reference_id",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "patient_456",
+                    "field": true
+                  }
+                ]
+              },
+              "select": {},
+              "body": {
+                "fields": [
+                  {
+                    "binary": true,
+                    "name": "file"
+                  }
+                ],
+                "kind": "multipart",
+                "media": "multipart/form-data"
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            }
+          ]
+        },
+        "list": {
+          "input": "data",
+          "name": "list",
+          "points": [
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/reports",
+              "segments": [
+                {
+                  "lit": "reports"
+                }
+              ],
+              "parts": [
+                "reports"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.sessions`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "reference_id",
+                    "orig": "reference_id",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "field": true
+                  },
+                  {
+                    "name": "report_date_from",
+                    "orig": "report_date_from",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "report_date_to",
+                    "orig": "report_date_to",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "report_type",
+                    "orig": "report_type",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "dexa",
+                    "field": true
+                  },
+                  {
+                    "name": "upload_id",
+                    "orig": "upload_id",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "field": true
+                  },
+                  {
+                    "name": "uploaded_at_from",
+                    "orig": "uploaded_at_from",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "uploaded_at_to",
+                    "orig": "uploaded_at_to",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  }
+                ]
+              },
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            }
+          ]
+        },
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/reports/{session_id}",
+              "segments": [
+                {
+                  "lit": "reports"
+                },
+                {
+                  "var": "session_id"
+                }
+              ],
+              "parts": [
+                "reports",
+                "{session_id}"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "session_id",
+                    "orig": "session_id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true,
+                    "example": "297405620317847552"
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "session_id"
                 ]
               },
               "response": {
@@ -1695,25 +2282,48 @@ class Config {
         {
           "name": "athlete_metrics",
           "title": "Athlete Metrics",
-          "type": "`$ANY`"
+          "type": "`$ANY`",
+          "req": true
         },
         {
           "name": "coercion_warnings",
           "title": "Coercion Warnings",
           "type": "`$STRING`",
-          "short": "Set when the template could not be represented exactly on the provider."
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$ANY`"
+            }
+          },
+          "short": "Deprecated; use warnings.",
+          "deprecated": true
+        },
+        {
+          "name": "completed_at",
+          "title": "Completed At",
+          "type": "`$ANY`",
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$ANY`"
+            }
+          },
+          "short": "Time the session was reported complete by the user's device."
         },
         {
           "name": "created_at",
           "title": "Created At",
           "type": "`$ANY`",
-          "short": "Creation time (RFC 3339)"
+          "req": true,
+          "short": "Creation time (RFC 3339)."
         },
         {
           "name": "details",
           "title": "Details",
           "type": "`$ANY`",
-          "short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider."
+          "req": true,
+          "short": "Deprecated.",
+          "deprecated": true
         },
         {
           "name": "id",
@@ -1724,19 +2334,30 @@ class Config {
           "name": "is_external",
           "title": "Is External",
           "type": "`$BOOLEAN`",
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$BOOLEAN`"
+            }
+          },
           "short": "True when the workout was created on the provider side rather than through Terra."
         },
         {
           "name": "last_updated_at",
           "title": "Last Updated At",
           "type": "`$ANY`",
-          "short": "Last update time (RFC 3339)"
+          "req": true,
+          "short": "Last update time (RFC 3339)."
         },
         {
           "name": "planned_date",
           "title": "Planned Date",
           "type": "`$STRING`",
           "op": {
+            "list": {
+              "req": true,
+              "type": "`$STRING`"
+            },
             "update": {
               "req": true,
               "type": "`$STRING`"
@@ -1749,18 +2370,60 @@ class Config {
           "name": "planned_workout_id",
           "title": "Planned Workout Id",
           "type": "`$STRING`",
-          "short": "Terra identifier of the planned workout"
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
+          "short": "Terra identifier of the planned workout."
         },
         {
           "name": "provider_workout_id",
           "title": "Provider Workout Id",
           "type": "`$STRING`",
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "Identifier assigned by the provider, once pushed."
+        },
+        {
+          "name": "warnings",
+          "title": "Warnings",
+          "type": "`$ARRAY`",
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$ARRAY`"
+            }
+          },
+          "short": "Adjustments made when the template could not be represented exactly on the provider."
+        },
+        {
+          "name": "workout",
+          "title": "Workout",
+          "type": "`$ANY`",
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$ANY`"
+            }
+          },
+          "short": "The workout body, as on the list."
         },
         {
           "name": "workout_id",
           "title": "Workout Id",
           "type": "`$STRING`",
+          "op": {
+            "list": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "Identifier of the source template."
         }
       ],
@@ -2035,12 +2698,46 @@ class Config {
       }
     },
     "user": {
-      "fields": [],
+      "fields": [
+        {
+          "name": "max_page",
+          "title": "Max Page",
+          "type": "`$INTEGER`",
+          "short": "Total number of pages available for the requested page size"
+        },
+        {
+          "name": "next",
+          "title": "Next",
+          "type": [
+            "`$ONE`",
+            [
+              "`$INTEGER`",
+              "`$NULL`"
+            ]
+          ],
+          "short": "The next page number, or null if there is no next page"
+        },
+        {
+          "name": "results",
+          "title": "Results",
+          "type": "`$ARRAY`"
+        },
+        {
+          "name": "status",
+          "title": "Status",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "users",
+          "title": "Users",
+          "type": "`$ARRAY`"
+        }
+      ],
       "name": "user",
       "op": {
-        "load": {
+        "list": {
           "input": "data",
-          "name": "load",
+          "name": "list",
           "points": [
             {
               "kind": "http",
@@ -2082,7 +2779,13 @@ class Config {
                 "kind": "json",
                 "media": "application/json"
               }
-            },
+            }
+          ]
+        },
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
             {
               "kind": "http",
               "method": "GET",
@@ -2159,6 +2862,18 @@ class Config {
           "title": "Estimated Duration Seconds",
           "type": "`$ANY`",
           "short": "Estimated total duration in seconds"
+        },
+        {
+          "name": "estimated_intensity_factor",
+          "title": "Estimated Intensity Factor",
+          "type": "`$ANY`",
+          "short": "Planned intensity factor (0-5), where the provider or author supplies one."
+        },
+        {
+          "name": "estimated_tss",
+          "title": "Estimated Tss",
+          "type": "`$ANY`",
+          "short": "Planned training stress score (0-9999), where the provider or author supplies one."
         },
         {
           "name": "id",

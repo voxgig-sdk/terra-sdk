@@ -70,12 +70,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-activity, err := client.Activity(nil).Load(map[string]any{"start_date": "example", "user_id": "example"}, nil)
+integrations, err := client.Integration(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = activity
+_ = integrations
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -139,13 +139,16 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-activity, err := client.Activity(nil).Load(
-    map[string]any{"start_date": "example", "user_id": "example"}, nil,
+integrations, err := client.Integration(nil).List(
+    nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(activity.(sdk.Entity).Data()) // the entity's mock record
+// A []any of entities, one per mock record.
+for _, item := range integrations.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 ### Use a custom fetch function
@@ -234,6 +237,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `LabReport` | `(data map[string]any) TerraEntity` | Create a LabReport entity instance. |
 | `LabReportDelivery` | `(data map[string]any) TerraEntity` | Create a LabReportDelivery entity instance. |
 | `LabReportFile` | `(data map[string]any) TerraEntity` | Create a LabReportFile entity instance. |
+| `LabReportSession` | `(data map[string]any) TerraEntity` | Create a LabReportSession entity instance. |
 | `Menstruation` | `(data map[string]any) TerraEntity` | Create a Menstruation entity instance. |
 | `Nutrition` | `(data map[string]any) TerraEntity` | Create a Nutrition entity instance. |
 | `PlannedWorkout` | `(data map[string]any) TerraEntity` | Create a PlannedWorkout entity instance. |
@@ -302,18 +306,27 @@ API path: `/athlete`
 
 | Field | Description |
 | --- | --- |
+| `"apple_app_url"` | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
 | `"auth_failure_redirect_url"` | URL the user is redirected to upon unsuccessful authentication |
-| `"auth_success_redirect_url"` | URL the user is redirected to upon successful authentication |
+| `"auth_success_redirect_url"` | URL the user is redirected to upon successful authentication. |
 | `"auth_url"` | authentication URL the user must be redirected to in order to link their account |
+| `"bypass_feedback"` | When false, the user stays on the widget's own result screen instead of being redirected immediately |
+| `"connected_uids"` | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
 | `"expires_in"` | a number in seconds depicting how long the url is valid for |
-| `"language"` | Display language of the widget |
+| `"language"` | forces the widget UI language (e.g. |
+| `"multi_auth"` | Keep the user on the widget after each successful connection so they can connect several providers in one session |
 | `"providers"` | Comma separated list of providers to display on the device selection page. |
 | `"reference_id"` | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `"samsung_app_url"` | URL of your own Android app to hand Samsung Health connections to |
+| `"sdk_app"` | Which Terra reference app an SDK authentication link hands the end user to. |
 | `"session_id"` | Session ID for the widget authentication session |
+| `"show_disconnect"` | Show disconnect buttons for providers already connected under reference_id |
 | `"status"` | indicates that the request was successful |
 | `"token"` |  |
 | `"url"` | the widget URL the user must be redirected to in order to link their account |
+| `"use_terra_avengers_app"` | Allow Apple Health connections through the Terra mobile app |
 | `"user_id"` | User ID for the user being created |
+| `"warnings"` | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 Operations: Create, Remove.
 
@@ -363,8 +376,8 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `"collection_date"` | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
-| `"collection_time"` | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `"collection_date"` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `"collection_time"` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `"current_status"` | Current status as a clean lowercase string (open enum), e.g. |
 | `"file_count"` |  |
 | `"id"` |  |
@@ -379,7 +392,7 @@ API path: `/integrations`
 | `"report_locale"` |  |
 | `"report_notes"` |  |
 | `"report_time"` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `"report_type"` | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `"report_type"` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `"results"` | The layered biomarker results. |
 | `"results_count"` |  |
 | `"session_id"` |  |
@@ -419,6 +432,38 @@ Operations: List.
 
 API path: `/lab-reports/{session_id}/files`
 
+#### LabReportSession
+
+| Field | Description |
+| --- | --- |
+| `"collection_date"` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `"collection_time"` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
+| `"current_status"` | Current status as a clean lowercase string (open enum), e.g. |
+| `"file_count"` |  |
+| `"input_bytes"` |  |
+| `"lab_name"` |  |
+| `"output_bytes"` |  |
+| `"panels"` | Report-level panels that results reference by panel_id. |
+| `"patient_age_at_collection"` | Patient age in years; omitted if unknown. |
+| `"patient_sex"` | Clean lowercase string (open enum); omitted if unspecified. |
+| `"reference_id"` | Your external reference; omitted if not set. |
+| `"report_date"` | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
+| `"report_locale"` |  |
+| `"report_notes"` |  |
+| `"report_time"` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `"report_type"` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `"results"` | The layered biomarker results. |
+| `"results_count"` |  |
+| `"session_id"` |  |
+| `"status_history"` |  |
+| `"updated_at"` |  |
+| `"upload_id"` | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `"uploaded_at"` |  |
+
+Operations: Create, List, Load.
+
+API path: `/reports`
+
 #### Menstruation
 
 | Field | Description |
@@ -442,15 +487,18 @@ API path: `/nutrition`
 | Field | Description |
 | --- | --- |
 | `"athlete_metrics"` |  |
-| `"coercion_warnings"` | Set when the template could not be represented exactly on the provider. |
-| `"created_at"` | Creation time (RFC 3339) |
-| `"details"` | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `"coercion_warnings"` | Deprecated; use warnings. |
+| `"completed_at"` | Time the session was reported complete by the user's device. |
+| `"created_at"` | Creation time (RFC 3339). |
+| `"details"` | Deprecated. |
 | `"id"` |  |
 | `"is_external"` | True when the workout was created on the provider side rather than through Terra. |
-| `"last_updated_at"` | Last update time (RFC 3339) |
+| `"last_updated_at"` | Last update time (RFC 3339). |
 | `"planned_date"` | New scheduled date (YYYY-MM-DD) |
-| `"planned_workout_id"` | Terra identifier of the planned workout |
+| `"planned_workout_id"` | Terra identifier of the planned workout. |
 | `"provider_workout_id"` | Identifier assigned by the provider, once pushed. |
+| `"warnings"` | Adjustments made when the template could not be represented exactly on the provider. |
+| `"workout"` | The workout body, as on the list. |
 | `"workout_id"` | Identifier of the source template. |
 
 Operations: List, Load, Update.
@@ -470,8 +518,13 @@ API path: `/sleep`
 
 | Field | Description |
 | --- | --- |
+| `"max_page"` | Total number of pages available for the requested page size |
+| `"next"` | The next page number, or null if there is no next page |
+| `"results"` |  |
+| `"status"` |  |
+| `"users"` |  |
 
-Operations: Load.
+Operations: List, Load.
 
 API path: `/subscriptions`
 
@@ -484,6 +537,8 @@ API path: `/subscriptions`
 | `"estimated_calories"` | Estimated calories burned |
 | `"estimated_distance_meters"` | Estimated total distance in meters |
 | `"estimated_duration_seconds"` | Estimated total duration in seconds |
+| `"estimated_intensity_factor"` | Planned intensity factor (0-5), where the provider or author supplies one. |
+| `"estimated_tss"` | Planned training stress score (0-9999), where the provider or author supplies one. |
 | `"id"` |  |
 | `"name"` | Name of the workout |
 | `"pool_length_meters"` | Pool length in meters, for swim workouts |
@@ -558,18 +613,27 @@ Create an instance: `authentication := client.Authentication(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `apple_app_url` | `string` | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
 | `auth_failure_redirect_url` | `string` | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | `string` | URL the user is redirected to upon successful authentication |
+| `auth_success_redirect_url` | `string` | URL the user is redirected to upon successful authentication. |
 | `auth_url` | `string` | authentication URL the user must be redirected to in order to link their account |
+| `bypass_feedback` | `bool` | When false, the user stays on the widget's own result screen instead of being redirected immediately |
+| `connected_uids` | `[]any` | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
 | `expires_in` | `int` | a number in seconds depicting how long the url is valid for |
-| `language` | `string` | Display language of the widget |
+| `language` | `string` | forces the widget UI language (e.g. |
+| `multi_auth` | `bool` | Keep the user on the widget after each successful connection so they can connect several providers in one session |
 | `providers` | `string` | Comma separated list of providers to display on the device selection page. |
 | `reference_id` | `string` | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `samsung_app_url` | `string` | URL of your own Android app to hand Samsung Health connections to |
+| `sdk_app` | `string` | Which Terra reference app an SDK authentication link hands the end user to. |
 | `session_id` | `string` | Session ID for the widget authentication session |
+| `show_disconnect` | `bool` | Show disconnect buttons for providers already connected under reference_id |
 | `status` | `string` | indicates that the request was successful |
 | `token` | `string` |  |
 | `url` | `string` | the widget URL the user must be redirected to in order to link their account |
+| `use_terra_avengers_app` | `bool` | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | `string` | User ID for the user being created |
+| `warnings` | `[]any` | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 #### Example: Create
 
@@ -703,8 +767,8 @@ Create an instance: `labReport := client.LabReport(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `collection_date` | `string` | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | `string` | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `collection_date` | `string` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `int` |  |
 | `id` | `string` |  |
@@ -719,7 +783,7 @@ Create an instance: `labReport := client.LabReport(nil)`
 | `report_locale` | `string` |  |
 | `report_notes` | `string` |  |
 | `report_time` | `string` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | `string` | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `report_type` | `string` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `results` | `[]any` | The layered biomarker results. |
 | `results_count` | `int` |  |
 | `session_id` | `string` |  |
@@ -833,6 +897,84 @@ for _, item := range labReportFiles.([]any) {
 ```
 
 
+### LabReportSession
+
+Create an instance: `labReportSession := client.LabReportSession(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `collection_date` | `string` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `string` | Current status as a clean lowercase string (open enum), e.g. |
+| `file_count` | `int` |  |
+| `input_bytes` | `int` |  |
+| `lab_name` | `string` |  |
+| `output_bytes` | `int` |  |
+| `panels` | `[]any` | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `int` | Patient age in years; omitted if unknown. |
+| `patient_sex` | `string` | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `string` | Your external reference; omitted if not set. |
+| `report_date` | `string` | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
+| `report_locale` | `string` |  |
+| `report_notes` | `string` |  |
+| `report_time` | `string` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `string` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `[]any` | The layered biomarker results. |
+| `results_count` | `int` |  |
+| `session_id` | `string` |  |
+| `status_history` | `[]any` |  |
+| `updated_at` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `uploaded_at` | `string` |  |
+
+#### Example: Load
+
+```go
+labReportSession, err := client.LabReportSession(nil).Load(map[string]any{"session_id": "session_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(labReportSession.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+#### Example: List
+
+```go
+labReportSessions, err := client.LabReportSession(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+// A []any of entities, one per record.
+for _, item := range labReportSessions.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
+
+#### Example: Create
+
+```go
+result, err := client.LabReportSession(nil).Create(map[string]any{
+    "current_status": "example_current_status",
+    "report_type": "example_report_type",
+    "session_id": "example_session_id",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
+```
+
+
 ### Menstruation
 
 Create an instance: `menstruation := client.Menstruation(nil)`
@@ -892,15 +1034,18 @@ Create an instance: `plannedWorkout := client.PlannedWorkout(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `athlete_metrics` | `any` |  |
-| `coercion_warnings` | `string` | Set when the template could not be represented exactly on the provider. |
-| `created_at` | `any` | Creation time (RFC 3339) |
-| `details` | `any` | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `coercion_warnings` | `string` | Deprecated; use warnings. |
+| `completed_at` | `any` | Time the session was reported complete by the user's device. |
+| `created_at` | `any` | Creation time (RFC 3339). |
+| `details` | `any` | Deprecated. |
 | `id` | `string` |  |
 | `is_external` | `bool` | True when the workout was created on the provider side rather than through Terra. |
-| `last_updated_at` | `any` | Last update time (RFC 3339) |
+| `last_updated_at` | `any` | Last update time (RFC 3339). |
 | `planned_date` | `string` | New scheduled date (YYYY-MM-DD) |
-| `planned_workout_id` | `string` | Terra identifier of the planned workout |
+| `planned_workout_id` | `string` | Terra identifier of the planned workout. |
 | `provider_workout_id` | `string` | Identifier assigned by the provider, once pushed. |
+| `warnings` | `[]any` | Adjustments made when the template could not be represented exactly on the provider. |
+| `workout` | `any` | The workout body, as on the list. |
 | `workout_id` | `string` | Identifier of the source template. |
 
 #### Example: Load
@@ -956,7 +1101,18 @@ Create an instance: `user := client.User(nil)`
 
 | Method | Description |
 | --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `max_page` | `int` | Total number of pages available for the requested page size |
+| `next` | `any` | The next page number, or null if there is no next page |
+| `results` | `[]any` |  |
+| `status` | `string` |  |
+| `users` | `[]any` |  |
 
 #### Example: Load
 
@@ -966,6 +1122,19 @@ if err != nil {
     panic(err)
 }
 fmt.Println(user.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+#### Example: List
+
+```go
+users, err := client.User(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+// A []any of entities, one per record.
+for _, item := range users.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -991,6 +1160,8 @@ Create an instance: `workout := client.Workout(nil)`
 | `estimated_calories` | `any` | Estimated calories burned |
 | `estimated_distance_meters` | `any` | Estimated total distance in meters |
 | `estimated_duration_seconds` | `any` | Estimated total duration in seconds |
+| `estimated_intensity_factor` | `any` | Planned intensity factor (0-5), where the provider or author supplies one. |
+| `estimated_tss` | `any` | Planned training stress score (0-9999), where the provider or author supplies one. |
 | `id` | `string` |  |
 | `name` | `string` | Name of the workout |
 | `pool_length_meters` | `any` | Pool length in meters, for swim workouts |
@@ -1175,7 +1346,7 @@ activated earlier.
 
 ## Open types
 
-3 fields are carried as open values rather than typed structures.
+4 fields are carried as open values rather than typed structures.
 This follows from the API definition, not from a gap in this SDK: the
 definition describes them with untagged unions —
 `oneOf`/`anyOf` branches with no `discriminator` — so it never states which
@@ -1185,8 +1356,9 @@ guarantee.
 
 | Entity | Field | Variants | Nesting |
 | --- | --- | --- | --- |
+| `planned_workout` | `workout` | 19 | 17 levels |
+| `workout` | `step_blocks` | 19 | 13 levels |
 | `workout` | `sport` | 15 | 0 levels |
-| `workout` | `step_blocks` | 11 | 13 levels |
 | `workout` | `environment` | 3 | 2 levels |
 
 These values round-trip unchanged — read them, modify them, send them back. If
@@ -1271,15 +1443,15 @@ like `core.ToMapAny`.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `Load`, the entity
+Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-activity := client.Activity(nil)
-activity.Load(map[string]any{"start_date": "example", "user_id": "example"}, nil)
+integration := client.Integration(nil)
+integration.List(nil, nil)
 
-// activity.Data() now returns the activity data from the last load
-// activity.Match() returns the last match criteria
+// integration.Data() now returns the integration data from the last list
+// integration.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

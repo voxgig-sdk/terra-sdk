@@ -168,6 +168,7 @@ func MakeConfig() map[string]any {
 				"lab_report": map[string]any{},
 				"lab_report_delivery": map[string]any{},
 				"lab_report_file": map[string]any{},
+				"lab_report_session": map[string]any{},
 				"menstruation": map[string]any{},
 				"nutrition": map[string]any{},
 				"planned_workout": map[string]any{},
@@ -318,6 +319,12 @@ func MakeConfig() map[string]any {
 			"authentication": map[string]any{
 				"fields": []any{
 					map[string]any{
+						"name": "apple_app_url",
+						"title": "Apple App Url",
+						"type": "`$STRING`",
+						"short": "URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app",
+					},
+					map[string]any{
 						"name": "auth_failure_redirect_url",
 						"title": "Auth Failure Redirect Url",
 						"type": "`$STRING`",
@@ -327,13 +334,25 @@ func MakeConfig() map[string]any {
 						"name": "auth_success_redirect_url",
 						"title": "Auth Success Redirect Url",
 						"type": "`$STRING`",
-						"short": "URL the user is redirected to upon successful authentication",
+						"short": "URL the user is redirected to upon successful authentication.",
 					},
 					map[string]any{
 						"name": "auth_url",
 						"title": "Auth Url",
 						"type": "`$STRING`",
 						"short": "authentication URL the user must be redirected to in order to link their account",
+					},
+					map[string]any{
+						"name": "bypass_feedback",
+						"title": "Bypass Feedback",
+						"type": "`$BOOLEAN`",
+						"short": "When false, the user stays on the widget's own result screen instead of being redirected immediately",
+					},
+					map[string]any{
+						"name": "connected_uids",
+						"title": "Connected Uids",
+						"type": "`$ARRAY`",
+						"short": "Terra user IDs already connected for this end user; their providers show as connected with a disconnect option",
 					},
 					map[string]any{
 						"name": "expires_in",
@@ -345,7 +364,13 @@ func MakeConfig() map[string]any {
 						"name": "language",
 						"title": "Language",
 						"type": "`$STRING`",
-						"short": "Display language of the widget",
+						"short": "forces the widget UI language (e.g.",
+					},
+					map[string]any{
+						"name": "multi_auth",
+						"title": "Multi Auth",
+						"type": "`$BOOLEAN`",
+						"short": "Keep the user on the widget after each successful connection so they can connect several providers in one session",
 					},
 					map[string]any{
 						"name": "providers",
@@ -360,10 +385,28 @@ func MakeConfig() map[string]any {
 						"short": "Identifier of the end user on your system, such as a user ID or email associated with them",
 					},
 					map[string]any{
+						"name": "samsung_app_url",
+						"title": "Samsung App Url",
+						"type": "`$STRING`",
+						"short": "URL of your own Android app to hand Samsung Health connections to",
+					},
+					map[string]any{
+						"name": "sdk_app",
+						"title": "Sdk App",
+						"type": "`$STRING`",
+						"short": "Which Terra reference app an SDK authentication link hands the end user to.",
+					},
+					map[string]any{
 						"name": "session_id",
 						"title": "Session Id",
 						"type": "`$STRING`",
 						"short": "Session ID for the widget authentication session",
+					},
+					map[string]any{
+						"name": "show_disconnect",
+						"title": "Show Disconnect",
+						"type": "`$BOOLEAN`",
+						"short": "Show disconnect buttons for providers already connected under reference_id",
 					},
 					map[string]any{
 						"name": "status",
@@ -383,10 +426,22 @@ func MakeConfig() map[string]any {
 						"short": "the widget URL the user must be redirected to in order to link their account",
 					},
 					map[string]any{
+						"name": "use_terra_avengers_app",
+						"title": "Use Terra Avengers App",
+						"type": "`$BOOLEAN`",
+						"short": "Allow Apple Health connections through the Terra mobile app",
+					},
+					map[string]any{
 						"name": "user_id",
 						"title": "User Id",
 						"type": "`$STRING`",
 						"short": "User ID for the user being created",
+					},
+					map[string]any{
+						"name": "warnings",
+						"title": "Warnings",
+						"type": "`$ARRAY`",
+						"short": "present when part of the request could not be honoured, such as requested providers that are unknown or not enabled",
 					},
 				},
 				"name": "authentication",
@@ -470,7 +525,18 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"args": map[string]any{},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "reference_id",
+											"orig": "reference_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"example": "user-42",
+											"field": true,
+										},
+									},
+								},
 								"select": map[string]any{},
 								"response": map[string]any{
 									"kind": "json",
@@ -499,6 +565,45 @@ func MakeConfig() map[string]any {
 									"res": "`body`",
 								},
 								"args": map[string]any{},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "POST",
+								"orig": "/auth/tokens",
+								"segments": []any{
+									map[string]any{
+										"lit": "auth",
+									},
+									map[string]any{
+										"lit": "tokens",
+									},
+								},
+								"parts": []any{
+									"auth",
+									"tokens",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "reference_id",
+											"orig": "reference_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"example": "user-42",
+											"field": true,
+										},
+									},
+								},
 								"select": map[string]any{},
 								"response": map[string]any{
 									"kind": "json",
@@ -870,13 +975,13 @@ func MakeConfig() map[string]any {
 						"name": "collection_date",
 						"title": "Collection Date",
 						"type": "`$STRING`",
-						"short": "Specimen collection date (YYYY-MM-DD); omitted if not extracted.",
+						"short": "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.",
 					},
 					map[string]any{
 						"name": "collection_time",
 						"title": "Collection Time",
 						"type": "`$STRING`",
-						"short": "Specimen collection time (HH:MM, 24-hour); omitted if not extracted.",
+						"short": "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.",
 					},
 					map[string]any{
 						"name": "current_status",
@@ -961,7 +1066,7 @@ func MakeConfig() map[string]any {
 						"title": "Report Type",
 						"type": "`$STRING`",
 						"req": true,
-						"short": "Report type as a clean lowercase string (open enum — handle unknown values gracefully).",
+						"short": "What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully).",
 					},
 					map[string]any{
 						"name": "results",
@@ -1110,6 +1215,14 @@ func MakeConfig() map[string]any {
 											"kind": "query",
 										},
 										map[string]any{
+											"name": "report_type",
+											"orig": "report_type",
+											"type": "`$STRING`",
+											"kind": "query",
+											"example": "dexa",
+											"field": true,
+										},
+										map[string]any{
 											"name": "upload_id",
 											"orig": "upload_id",
 											"type": "`$STRING`",
@@ -1209,6 +1322,49 @@ func MakeConfig() map[string]any {
 								},
 								"parts": []any{
 									"lab-reports",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"session_id": "id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "session_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+											"example": "297405620317847552",
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+									},
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "DELETE",
+								"orig": "/reports/{session_id}",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+									map[string]any{
+										"var": "id",
+									},
+								},
+								"parts": []any{
+									"reports",
 									"{id}",
 								},
 								"rename": map[string]any{
@@ -1346,6 +1502,57 @@ func MakeConfig() map[string]any {
 									"media": "application/json",
 								},
 							},
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/reports/{session_id}/deliveries",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+									map[string]any{
+										"var": "report_id",
+									},
+									map[string]any{
+										"lit": "deliveries",
+									},
+								},
+								"parts": []any{
+									"reports",
+									"{report_id}",
+									"deliveries",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"session_id": "report_id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body.deliveries`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "report_id",
+											"orig": "session_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+											"example": "297405620317847552",
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"report_id",
+									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
 						},
 					},
 				},
@@ -1426,6 +1633,384 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"id",
+									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/reports/{session_id}/files",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+									map[string]any{
+										"var": "report_id",
+									},
+									map[string]any{
+										"lit": "files",
+									},
+								},
+								"parts": []any{
+									"reports",
+									"{report_id}",
+									"files",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"session_id": "report_id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "report_id",
+											"orig": "session_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+											"example": "297405620317847552",
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"report_id",
+									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+						},
+					},
+				},
+				"relations": map[string]any{
+					"ancestors": []any{},
+				},
+			},
+			"lab_report_session": map[string]any{
+				"fields": []any{
+					map[string]any{
+						"name": "collection_date",
+						"title": "Collection Date",
+						"type": "`$STRING`",
+						"short": "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.",
+					},
+					map[string]any{
+						"name": "collection_time",
+						"title": "Collection Time",
+						"type": "`$STRING`",
+						"short": "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.",
+					},
+					map[string]any{
+						"name": "current_status",
+						"title": "Current Status",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "Current status as a clean lowercase string (open enum), e.g.",
+					},
+					map[string]any{
+						"name": "file_count",
+						"title": "File Count",
+						"type": "`$INTEGER`",
+					},
+					map[string]any{
+						"name": "input_bytes",
+						"title": "Input Bytes",
+						"type": "`$INTEGER`",
+					},
+					map[string]any{
+						"name": "lab_name",
+						"title": "Lab Name",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "output_bytes",
+						"title": "Output Bytes",
+						"type": "`$INTEGER`",
+					},
+					map[string]any{
+						"name": "panels",
+						"title": "Panels",
+						"type": "`$ARRAY`",
+						"short": "Report-level panels that results reference by panel_id.",
+					},
+					map[string]any{
+						"name": "patient_age_at_collection",
+						"title": "Patient Age At Collection",
+						"type": "`$INTEGER`",
+						"short": "Patient age in years; omitted if unknown.",
+					},
+					map[string]any{
+						"name": "patient_sex",
+						"title": "Patient Sex",
+						"type": "`$STRING`",
+						"short": "Clean lowercase string (open enum); omitted if unspecified.",
+					},
+					map[string]any{
+						"name": "reference_id",
+						"title": "Reference Id",
+						"type": "`$STRING`",
+						"short": "Your external reference; omitted if not set.",
+					},
+					map[string]any{
+						"name": "report_date",
+						"title": "Report Date",
+						"type": "`$STRING`",
+						"short": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
+					},
+					map[string]any{
+						"name": "report_locale",
+						"title": "Report Locale",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "report_notes",
+						"title": "Report Notes",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "report_time",
+						"title": "Report Time",
+						"type": "`$STRING`",
+						"short": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
+					},
+					map[string]any{
+						"name": "report_type",
+						"title": "Report Type",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully).",
+					},
+					map[string]any{
+						"name": "results",
+						"title": "Results",
+						"type": "`$ARRAY`",
+						"short": "The layered biomarker results.",
+					},
+					map[string]any{
+						"name": "results_count",
+						"title": "Results Count",
+						"type": "`$INTEGER`",
+					},
+					map[string]any{
+						"name": "session_id",
+						"title": "Session Id",
+						"type": "`$STRING`",
+						"req": true,
+					},
+					map[string]any{
+						"name": "status_history",
+						"title": "Status History",
+						"type": "`$ARRAY`",
+					},
+					map[string]any{
+						"name": "updated_at",
+						"title": "Updated At",
+						"type": "`$STRING`",
+						"format": "date-time",
+					},
+					map[string]any{
+						"name": "upload_id",
+						"title": "Upload Id",
+						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
+						"short": "Durable correlation key for the upload; every resulting session and webhook carries it.",
+					},
+					map[string]any{
+						"name": "uploaded_at",
+						"title": "Uploaded At",
+						"type": "`$STRING`",
+						"format": "date-time",
+					},
+				},
+				"name": "lab_report_session",
+				"op": map[string]any{
+					"create": map[string]any{
+						"input": "data",
+						"name": "create",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "POST",
+								"orig": "/reports",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+								},
+								"parts": []any{
+									"reports",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "reference_id",
+											"orig": "reference_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"example": "patient_456",
+											"field": true,
+										},
+									},
+								},
+								"select": map[string]any{},
+								"body": map[string]any{
+									"fields": []any{
+										map[string]any{
+											"binary": true,
+											"name": "file",
+										},
+									},
+									"kind": "multipart",
+									"media": "multipart/form-data",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+						},
+					},
+					"list": map[string]any{
+						"input": "data",
+						"name": "list",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/reports",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+								},
+								"parts": []any{
+									"reports",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body.sessions`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "reference_id",
+											"orig": "reference_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"field": true,
+										},
+										map[string]any{
+											"name": "report_date_from",
+											"orig": "report_date_from",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "report_date_to",
+											"orig": "report_date_to",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "report_type",
+											"orig": "report_type",
+											"type": "`$STRING`",
+											"kind": "query",
+											"example": "dexa",
+											"field": true,
+										},
+										map[string]any{
+											"name": "upload_id",
+											"orig": "upload_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"field": true,
+										},
+										map[string]any{
+											"name": "uploaded_at_from",
+											"orig": "uploaded_at_from",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "uploaded_at_to",
+											"orig": "uploaded_at_to",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+									},
+								},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+						},
+					},
+					"load": map[string]any{
+						"input": "data",
+						"name": "load",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/reports/{session_id}",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+									map[string]any{
+										"var": "session_id",
+									},
+								},
+								"parts": []any{
+									"reports",
+									"{session_id}",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "session_id",
+											"orig": "session_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+											"example": "297405620317847552",
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"session_id",
 									},
 								},
 								"response": map[string]any{
@@ -1604,24 +2189,47 @@ func MakeConfig() map[string]any {
 						"name": "athlete_metrics",
 						"title": "Athlete Metrics",
 						"type": "`$ANY`",
+						"req": true,
 					},
 					map[string]any{
 						"name": "coercion_warnings",
 						"title": "Coercion Warnings",
 						"type": "`$STRING`",
-						"short": "Set when the template could not be represented exactly on the provider.",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$ANY`",
+							},
+						},
+						"short": "Deprecated; use warnings.",
+						"deprecated": true,
+					},
+					map[string]any{
+						"name": "completed_at",
+						"title": "Completed At",
+						"type": "`$ANY`",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$ANY`",
+							},
+						},
+						"short": "Time the session was reported complete by the user's device.",
 					},
 					map[string]any{
 						"name": "created_at",
 						"title": "Created At",
 						"type": "`$ANY`",
-						"short": "Creation time (RFC 3339)",
+						"req": true,
+						"short": "Creation time (RFC 3339).",
 					},
 					map[string]any{
 						"name": "details",
 						"title": "Details",
 						"type": "`$ANY`",
-						"short": "Full workout body (title, description, planned metrics, structured steps) fetched live from the provider.",
+						"req": true,
+						"short": "Deprecated.",
+						"deprecated": true,
 					},
 					map[string]any{
 						"name": "id",
@@ -1632,19 +2240,30 @@ func MakeConfig() map[string]any {
 						"name": "is_external",
 						"title": "Is External",
 						"type": "`$BOOLEAN`",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$BOOLEAN`",
+							},
+						},
 						"short": "True when the workout was created on the provider side rather than through Terra.",
 					},
 					map[string]any{
 						"name": "last_updated_at",
 						"title": "Last Updated At",
 						"type": "`$ANY`",
-						"short": "Last update time (RFC 3339)",
+						"req": true,
+						"short": "Last update time (RFC 3339).",
 					},
 					map[string]any{
 						"name": "planned_date",
 						"title": "Planned Date",
 						"type": "`$STRING`",
 						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
 							"update": map[string]any{
 								"req": true,
 								"type": "`$STRING`",
@@ -1657,18 +2276,60 @@ func MakeConfig() map[string]any {
 						"name": "planned_workout_id",
 						"title": "Planned Workout Id",
 						"type": "`$STRING`",
-						"short": "Terra identifier of the planned workout",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
+						"short": "Terra identifier of the planned workout.",
 					},
 					map[string]any{
 						"name": "provider_workout_id",
 						"title": "Provider Workout Id",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "Identifier assigned by the provider, once pushed.",
+					},
+					map[string]any{
+						"name": "warnings",
+						"title": "Warnings",
+						"type": "`$ARRAY`",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$ARRAY`",
+							},
+						},
+						"short": "Adjustments made when the template could not be represented exactly on the provider.",
+					},
+					map[string]any{
+						"name": "workout",
+						"title": "Workout",
+						"type": "`$ANY`",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$ANY`",
+							},
+						},
+						"short": "The workout body, as on the list.",
 					},
 					map[string]any{
 						"name": "workout_id",
 						"title": "Workout Id",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"list": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "Identifier of the source template.",
 					},
 				},
@@ -1943,12 +2604,46 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"user": map[string]any{
-				"fields": []any{},
+				"fields": []any{
+					map[string]any{
+						"name": "max_page",
+						"title": "Max Page",
+						"type": "`$INTEGER`",
+						"short": "Total number of pages available for the requested page size",
+					},
+					map[string]any{
+						"name": "next",
+						"title": "Next",
+						"type": []any{
+							"`$ONE`",
+							[]any{
+								"`$INTEGER`",
+								"`$NULL`",
+							},
+						},
+						"short": "The next page number, or null if there is no next page",
+					},
+					map[string]any{
+						"name": "results",
+						"title": "Results",
+						"type": "`$ARRAY`",
+					},
+					map[string]any{
+						"name": "status",
+						"title": "Status",
+						"type": "`$STRING`",
+					},
+					map[string]any{
+						"name": "users",
+						"title": "Users",
+						"type": "`$ARRAY`",
+					},
+				},
 				"name": "user",
 				"op": map[string]any{
-					"load": map[string]any{
+					"list": map[string]any{
 						"input": "data",
-						"name": "load",
+						"name": "list",
 						"points": []any{
 							map[string]any{
 								"kind": "http",
@@ -1991,6 +2686,12 @@ func MakeConfig() map[string]any {
 									"media": "application/json",
 								},
 							},
+						},
+					},
+					"load": map[string]any{
+						"input": "data",
+						"name": "load",
+						"points": []any{
 							map[string]any{
 								"kind": "http",
 								"method": "GET",
@@ -2067,6 +2768,18 @@ func MakeConfig() map[string]any {
 						"title": "Estimated Duration Seconds",
 						"type": "`$ANY`",
 						"short": "Estimated total duration in seconds",
+					},
+					map[string]any{
+						"name": "estimated_intensity_factor",
+						"title": "Estimated Intensity Factor",
+						"type": "`$ANY`",
+						"short": "Planned intensity factor (0-5), where the provider or author supplies one.",
+					},
+					map[string]any{
+						"name": "estimated_tss",
+						"title": "Estimated Tss",
+						"type": "`$ANY`",
+						"short": "Planned training stress score (0-9999), where the provider or author supplies one.",
 					},
 					map[string]any{
 						"name": "id",

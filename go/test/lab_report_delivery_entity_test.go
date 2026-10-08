@@ -53,7 +53,7 @@ func TestLabReportDeliveryEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{} {
+		for _, _op := range []string{"list"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "lab_report_delivery." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -62,6 +62,15 @@ func TestLabReportDeliveryEntity(t *testing.T) {
 				return
 			}
 		}
+		if setup.live {
+			for _, _liveKey := range []string{"report01"} {
+				if setup.syntheticOnly || setup.idmap[_liveKey] == nil {
+					liveMiss(t, lab_report_deliveryEntityLiveStrict, "Live entity test blocked: needs %s via TERRA_TEST_LAB_REPORT_DELIVERY_ENTID", _liveKey)
+				}
+			}
+		}
+		client := setup.client
+
 		// Bootstrap entity data from existing test data (no create step in flow).
 		labReportDeliveryRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.lab_report_delivery")))
 		var labReportDeliveryRef01Data map[string]any
@@ -71,6 +80,21 @@ func TestLabReportDeliveryEntity(t *testing.T) {
 		// Discard guards against Go's unused-var check when the flow's steps
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = labReportDeliveryRef01Data
+
+		// LIST
+		labReportDeliveryRef01Ent := client.LabReportDelivery(nil)
+		labReportDeliveryRef01Match := map[string]any{
+			"report_id": setup.idmap["report01"],
+		}
+
+		labReportDeliveryRef01ListResult, err := labReportDeliveryRef01Ent.List(labReportDeliveryRef01Match, nil)
+		if err != nil {
+			t.Fatalf("list failed: %v", err)
+		}
+		_, labReportDeliveryRef01ListOk := labReportDeliveryRef01ListResult.([]any)
+		if !labReportDeliveryRef01ListOk {
+			t.Fatalf("expected list result to be an array, got %T", labReportDeliveryRef01ListResult)
+		}
 
 	})
 }
@@ -100,7 +124,7 @@ func lab_report_deliveryBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"lab_report_delivery01", "lab_report_delivery02", "lab_report_delivery03"},
+		[]any{"lab_report_delivery01", "lab_report_delivery02", "lab_report_delivery03", "report01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",

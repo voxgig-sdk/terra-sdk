@@ -2,19 +2,40 @@
   "existing": {
     "user": {
       "USER00": {
+        "max_page": 50,
+        "next": "s33",
+        "results": [],
+        "status": "s35",
+        "users": [],
         "id": "USER00"
       },
       "USER01": {
+        "max_page": 100,
+        "next": "s65",
+        "results": [],
+        "status": "s67",
+        "users": [],
         "id": "USER01"
       },
       "USER02": {
+        "max_page": 150,
+        "next": "s97",
+        "results": [],
+        "status": "s99",
+        "users": [],
         "id": "USER02"
       }
     }
   },
   "new": {
     "user": {
-      "user_ref01": {}
+      "user_ref01": {
+        "max_page": 200,
+        "next": "sc9",
+        "results": [],
+        "status": "scb",
+        "users": []
+      }
     }
   },
   "requests": {

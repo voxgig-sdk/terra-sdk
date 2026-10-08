@@ -4,9 +4,9 @@
 #   guide.aontu
 
 guide: {
-  metrics: count: entity: 16
-  metrics: count: path: 25
-  metrics: count: method: 31
+  metrics: count: entity: 17
+  metrics: count: path: 30
+  metrics: count: method: 38
 
   entity: activity: {
     path: "/activity": {
@@ -31,6 +31,9 @@ guide: {
       op: create: method: *POST
     }
     path: "/auth/generateWidgetSession": {
+      op: create: method: *POST
+    }
+    path: "/auth/tokens": {
       op: create: method: *POST
     }
   }
@@ -75,11 +78,20 @@ guide: {
       op: load: method: *GET
       op: remove: method: *DELETE
     }
+    path: "/reports/{session_id}": {
+      rename: param: "session_id": *"id"
+      op: remove: method: *DELETE
+    }
   }
 
   entity: lab_report_delivery: {
     path: "/lab-reports/{session_id}/deliveries": {
       rename: param: "session_id": *"id"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.deliveries`")|top
+    }
+    path: "/reports/{session_id}/deliveries": {
+      rename: param: "session_id": *"report_id"
       op: list: method: *GET
       op: list: transform: res: *("`body.deliveries`")|top
     }
@@ -89,6 +101,21 @@ guide: {
     path: "/lab-reports/{session_id}/files": {
       rename: param: "session_id": *"id"
       op: list: method: *GET
+    }
+    path: "/reports/{session_id}/files": {
+      rename: param: "session_id": *"report_id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: lab_report_session: {
+    path: "/reports": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.sessions`")|top
+    }
+    path: "/reports/{session_id}": {
+      op: load: method: *GET
     }
   }
 
@@ -123,7 +150,7 @@ guide: {
 
   entity: user: {
     path: "/subscriptions": {
-      op: load: method: *GET
+      op: list: method: *GET
     }
     path: "/userInfo": {
       op: load: method: *GET

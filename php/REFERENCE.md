@@ -82,6 +82,10 @@ Create a new `LabReportDeliveryEntity` instance. Pass `null` for no initial data
 
 Create a new `LabReportFileEntity` instance. Pass `null` for no initial data.
 
+#### `LabReportSession($data = null)`
+
+Create a new `LabReportSessionEntity` instance. Pass `null` for no initial data.
+
 #### `Menstruation($data = null)`
 
 Create a new `MenstruationEntity` instance. Pass `null` for no initial data.
@@ -245,18 +249,27 @@ $authentication = $client->Authentication();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `apple_app_url` | `string` | No | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
 | `auth_failure_redirect_url` | `string` | No | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication |
+| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication. |
 | `auth_url` | `string` | No | authentication URL the user must be redirected to in order to link their account |
+| `bypass_feedback` | `bool` | No | When false, the user stays on the widget's own result screen instead of being redirected immediately |
+| `connected_uids` | `array` | No | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
 | `expires_in` | `int` | No | a number in seconds depicting how long the url is valid for |
-| `language` | `string` | No | Display language of the widget |
+| `language` | `string` | No | forces the widget UI language (e.g. |
+| `multi_auth` | `bool` | No | Keep the user on the widget after each successful connection so they can connect several providers in one session |
 | `providers` | `string` | No | Comma separated list of providers to display on the device selection page. |
 | `reference_id` | `string` | No | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `samsung_app_url` | `string` | No | URL of your own Android app to hand Samsung Health connections to |
+| `sdk_app` | `string` | No | Which Terra reference app an SDK authentication link hands the end user to. |
 | `session_id` | `string` | No | Session ID for the widget authentication session |
+| `show_disconnect` | `bool` | No | Show disconnect buttons for providers already connected under reference_id |
 | `status` | `string` | No | indicates that the request was successful |
 | `token` | `string` | No |  |
 | `url` | `string` | No | the widget URL the user must be redirected to in order to link their account |
+| `use_terra_avengers_app` | `bool` | No | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | `string` | No | User ID for the user being created |
+| `warnings` | `array` | No | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 ### Operations
 
@@ -517,8 +530,8 @@ $lab_report = $client->LabReport();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `collection_date` | `string` | No | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | `string` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `int` | No |  |
 | `id` | `string` | No |  |
@@ -533,7 +546,7 @@ $lab_report = $client->LabReport();
 | `report_locale` | `string` | No |  |
 | `report_notes` | `string` | No |  |
 | `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | `string` | Yes | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `results` | `array` | No | The layered biomarker results. |
 | `results_count` | `int` | No |  |
 | `session_id` | `string` | Yes |  |
@@ -752,6 +765,130 @@ Return the entity name.
 
 ---
 
+## LabReportSessionEntity
+
+```php
+$lab_report_session = $client->LabReportSession();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
+| `file_count` | `int` | No |  |
+| `input_bytes` | `int` | No |  |
+| `lab_name` | `string` | No |  |
+| `output_bytes` | `int` | No |  |
+| `panels` | `array` | No | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `int` | No | Patient age in years; omitted if unknown. |
+| `patient_sex` | `string` | No | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `string` | No | Your external reference; omitted if not set. |
+| `report_date` | `string` | No | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
+| `report_locale` | `string` | No |  |
+| `report_notes` | `string` | No |  |
+| `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `array` | No | The layered biomarker results. |
+| `results_count` | `int` | No |  |
+| `session_id` | `string` | Yes |  |
+| `status_history` | `array` | No |  |
+| `updated_at` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `collection_date` | - | - | - |
+| `collection_time` | - | - | - |
+| `current_status` | - | - | - |
+| `file_count` | - | - | - |
+| `input_bytes` | - | - | - |
+| `lab_name` | - | - | - |
+| `output_bytes` | - | - | - |
+| `panels` | - | - | - |
+| `patient_age_at_collection` | - | - | - |
+| `patient_sex` | - | - | - |
+| `reference_id` | - | - | - |
+| `report_date` | - | - | - |
+| `report_locale` | - | - | - |
+| `report_notes` | - | - | - |
+| `report_time` | - | - | - |
+| `report_type` | - | - | - |
+| `results` | - | - | - |
+| `results_count` | - | - | - |
+| `session_id` | - | - | - |
+| `status_history` | - | - | - |
+| `updated_at` | - | - | - |
+| `upload_id` | - | - | Yes |
+| `uploaded_at` | - | - | - |
+
+### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Returns the created entity and throws on error.
+
+```php
+$result = $client->LabReportSession()->create([
+  "current_status" => null, // string
+  "report_type" => null, // string
+  "session_id" => null, // string
+]);
+```
+
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
+
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
+
+```php
+$results = $client->LabReportSession()->list();
+```
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->LabReportSession()->load(["session_id" => "session_id"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): LabReportSessionEntity`
+
+Create a new `LabReportSessionEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
 ## MenstruationEntity
 
 ```php
@@ -854,16 +991,19 @@ $planned_workout = $client->PlannedWorkout();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `athlete_metrics` | `mixed` | No |  |
-| `coercion_warnings` | `string` | No | Set when the template could not be represented exactly on the provider. |
-| `created_at` | `mixed` | No | Creation time (RFC 3339) |
-| `details` | `mixed` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `athlete_metrics` | `mixed` | Yes |  |
+| `coercion_warnings` | `string` | No | Deprecated; use warnings. |
+| `completed_at` | `mixed` | No | Time the session was reported complete by the user's device. |
+| `created_at` | `mixed` | Yes | Creation time (RFC 3339). |
+| `details` | `mixed` | Yes | Deprecated. |
 | `id` | `string` | No |  |
 | `is_external` | `bool` | No | True when the workout was created on the provider side rather than through Terra. |
-| `last_updated_at` | `mixed` | No | Last update time (RFC 3339) |
+| `last_updated_at` | `mixed` | Yes | Last update time (RFC 3339). |
 | `planned_date` | `string` | No | New scheduled date (YYYY-MM-DD) |
-| `planned_workout_id` | `string` | No | Terra identifier of the planned workout |
+| `planned_workout_id` | `string` | No | Terra identifier of the planned workout. |
 | `provider_workout_id` | `string` | No | Identifier assigned by the provider, once pushed. |
+| `warnings` | `array` | No | Adjustments made when the template could not be represented exactly on the provider. |
+| `workout` | `mixed` | No | The workout body, as on the list. |
 | `workout_id` | `string` | No | Identifier of the source template. |
 
 ### Field Usage by Operation
@@ -871,16 +1011,19 @@ $planned_workout = $client->PlannedWorkout();
 | Field | load | list | update |
 | --- | --- | --- | --- |
 | `athlete_metrics` | - | - | - |
-| `coercion_warnings` | - | - | - |
+| `coercion_warnings` | - | Yes | - |
+| `completed_at` | - | Yes | - |
 | `created_at` | - | - | - |
 | `details` | - | - | - |
 | `id` | - | - | - |
-| `is_external` | - | - | - |
+| `is_external` | - | Yes | - |
 | `last_updated_at` | - | - | - |
-| `planned_date` | - | - | Yes |
-| `planned_workout_id` | - | - | - |
-| `provider_workout_id` | - | - | - |
-| `workout_id` | - | - | - |
+| `planned_date` | - | Yes | Yes |
+| `planned_workout_id` | - | Yes | - |
+| `provider_workout_id` | - | Yes | - |
+| `warnings` | - | Yes | - |
+| `workout` | - | Yes | - |
+| `workout_id` | - | Yes | - |
 
 ### Operations
 
@@ -994,7 +1137,25 @@ Return the entity name.
 $user = $client->User();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `max_page` | `int` | No | Total number of pages available for the requested page size |
+| `next` | `mixed` | No | The next page number, or null if there is no next page |
+| `results` | `array` | No |  |
+| `status` | `string` | No |  |
+| `users` | `array` | No |  |
+
 ### Operations
+
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
+
+```php
+$results = $client->User()->list();
+```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
@@ -1049,6 +1210,8 @@ $workout = $client->Workout();
 | `estimated_calories` | `mixed` | No | Estimated calories burned |
 | `estimated_distance_meters` | `mixed` | No | Estimated total distance in meters |
 | `estimated_duration_seconds` | `mixed` | No | Estimated total duration in seconds |
+| `estimated_intensity_factor` | `mixed` | No | Planned intensity factor (0-5), where the provider or author supplies one. |
+| `estimated_tss` | `mixed` | No | Planned training stress score (0-9999), where the provider or author supplies one. |
 | `id` | `string` | No |  |
 | `name` | `string` | Yes | Name of the workout |
 | `pool_length_meters` | `mixed` | No | Pool length in meters, for swim workouts |

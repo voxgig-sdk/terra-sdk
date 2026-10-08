@@ -137,12 +137,12 @@ failure message (e.g. unknown entity, or an API error).
 ### Entities
 
 Each tool takes as its `entity` argument one of the entities that has its
-operation, of the 16 the SDK has:
+operation, of the 17 the SDK has:
 
 | Tool | Entities |
 |------|----------|
-| `terra_list` | integration, lab_report, lab_report_delivery, lab_report_file, planned_workout, workout |
-| `terra_load` | activity, athlete, body, daily, lab_report, menstruation, nutrition, planned_workout, sleep, user, workout |
+| `terra_list` | integration, lab_report, lab_report_delivery, lab_report_file, lab_report_session, planned_workout, user, workout |
+| `terra_load` | activity, athlete, body, daily, lab_report, lab_report_session, menstruation, nutrition, planned_workout, sleep, user, workout |
 
 JSON schemas are emitted by the SDK from each tool's argument struct's
 `json` / `jsonschema` tags — no schema is hand-written. Each tool's

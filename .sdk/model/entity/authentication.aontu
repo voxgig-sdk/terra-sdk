@@ -5,6 +5,13 @@ main: kit: entity: authentication: {
   alias: field: {}
 
   fields: {
+    apple_app_url: {
+      h: "Apple App Url"
+      n: "apple_app_url"
+      r: false
+      sh: "URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app"
+      t: "`$STRING`"
+    }
     auth_failure_redirect_url: {
       h: "Auth Failure Redirect Url"
       n: "auth_failure_redirect_url"
@@ -16,7 +23,7 @@ main: kit: entity: authentication: {
       h: "Auth Success Redirect Url"
       n: "auth_success_redirect_url"
       r: false
-      sh: "URL the user is redirected to upon successful authentication"
+      sh: "URL the user is redirected to upon successful authentication."
       t: "`$STRING`"
     }
     auth_url: {
@@ -25,6 +32,20 @@ main: kit: entity: authentication: {
       r: false
       sh: "authentication URL the user must be redirected to in order to link their account"
       t: "`$STRING`"
+    }
+    bypass_feedback: {
+      h: "Bypass Feedback"
+      n: "bypass_feedback"
+      r: false
+      sh: "When false, the user stays on the widget's own result screen instead of being redirected immediately"
+      t: "`$BOOLEAN`"
+    }
+    connected_uids: {
+      h: "Connected Uids"
+      n: "connected_uids"
+      r: false
+      sh: "Terra user IDs already connected for this end user; their providers show as connected with a disconnect option"
+      t: "`$ARRAY`"
     }
     expires_in: {
       h: "Expires In"
@@ -37,8 +58,15 @@ main: kit: entity: authentication: {
       h: "Language"
       n: "language"
       r: false
-      sh: "Display language of the widget"
+      sh: "forces the widget UI language (e.g."
       t: "`$STRING`"
+    }
+    multi_auth: {
+      h: "Multi Auth"
+      n: "multi_auth"
+      r: false
+      sh: "Keep the user on the widget after each successful connection so they can connect several providers in one session"
+      t: "`$BOOLEAN`"
     }
     providers: {
       h: "Providers"
@@ -54,12 +82,33 @@ main: kit: entity: authentication: {
       sh: "Identifier of the end user on your system, such as a user ID or email associated with them"
       t: "`$STRING`"
     }
+    samsung_app_url: {
+      h: "Samsung App Url"
+      n: "samsung_app_url"
+      r: false
+      sh: "URL of your own Android app to hand Samsung Health connections to"
+      t: "`$STRING`"
+    }
+    sdk_app: {
+      h: "Sdk App"
+      n: "sdk_app"
+      r: false
+      sh: "Which Terra reference app an SDK authentication link hands the end user to."
+      t: "`$STRING`"
+    }
     session_id: {
       h: "Session Id"
       n: "session_id"
       r: false
       sh: "Session ID for the widget authentication session"
       t: "`$STRING`"
+    }
+    show_disconnect: {
+      h: "Show Disconnect"
+      n: "show_disconnect"
+      r: false
+      sh: "Show disconnect buttons for providers already connected under reference_id"
+      t: "`$BOOLEAN`"
     }
     status: {
       h: "Status"
@@ -81,12 +130,26 @@ main: kit: entity: authentication: {
       sh: "the widget URL the user must be redirected to in order to link their account"
       t: "`$STRING`"
     }
+    use_terra_avengers_app: {
+      h: "Use Terra Avengers App"
+      n: "use_terra_avengers_app"
+      r: false
+      sh: "Allow Apple Health connections through the Terra mobile app"
+      t: "`$BOOLEAN`"
+    }
     user_id: {
       h: "User Id"
       n: "user_id"
       r: false
       sh: "User ID for the user being created"
       t: "`$STRING`"
+    }
+    warnings: {
+      h: "Warnings"
+      n: "warnings"
+      r: false
+      sh: "present when part of the request could not be honoured, such as requested providers that are unknown or not enabled"
+      t: "`$ARRAY`"
     }
   }
 
@@ -101,6 +164,7 @@ main: kit: entity: authentication: {
             "auth_success_redirect_url"
             "language"
             "reference_id"
+            "sdk_app"
           ]
           co: {
             id: "POST /auth/authenticateUser"
@@ -160,6 +224,18 @@ main: kit: entity: authentication: {
             source: "openapi3"
             version: 2
           }
+          g: {
+            query: [
+              {
+                ex: "user-42"
+                k: "query"
+                n: "reference_id"
+                or: "reference_id"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
           m: "POST"
           o: "/auth/generateAuthToken"
           rs: {
@@ -181,11 +257,18 @@ main: kit: entity: authentication: {
         }
         {
           bf: [
+            "apple_app_url"
             "auth_failure_redirect_url"
             "auth_success_redirect_url"
+            "bypass_feedback"
+            "connected_uids"
             "language"
+            "multi_auth"
             "providers"
             "reference_id"
+            "samsung_app_url"
+            "show_disconnect"
+            "use_terra_avengers_app"
           ]
           co: {
             id: "POST /auth/generateWidgetSession"
@@ -204,6 +287,43 @@ main: kit: entity: authentication: {
             }
             {
               lit: "generateWidgetSession"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /auth/tokens"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: "user-42"
+                k: "query"
+                n: "reference_id"
+                or: "reference_id"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/auth/tokens"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "auth"
+            }
+            {
+              lit: "tokens"
             }
           ]
           t: {

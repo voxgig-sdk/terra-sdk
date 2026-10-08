@@ -108,7 +108,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 16 entities.
+below — this SDK exposes 17 entities.
 
 ## Reference
 
@@ -163,9 +163,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 16 entities this SDK exposes (any is valid as `<entity>`):
+The 17 entities this SDK exposes (any is valid as `<entity>`):
 
-activity athlete authentication body bulk_user_info daily integration lab_report lab_report_delivery lab_report_file menstruation nutrition planned_workout sleep user workout
+activity athlete authentication body bulk_user_info daily integration lab_report lab_report_delivery lab_report_file lab_report_session menstruation nutrition planned_workout sleep user workout
 
 ## Explanation
 

@@ -4,10 +4,51 @@ main: kit: entity: user: {
 
   alias: field: {}
 
+  fields: {
+    max_page: {
+      h: "Max Page"
+      n: "max_page"
+      r: false
+      sh: "Total number of pages available for the requested page size"
+      t: "`$INTEGER`"
+    }
+    next: {
+      h: "Next"
+      n: "next"
+      r: false
+      sh: "The next page number, or null if there is no next page"
+      t: [
+        "`$ONE`"
+        [
+          "`$INTEGER`"
+          "`$NULL`"
+        ]
+      ]
+    }
+    results: {
+      h: "Results"
+      n: "results"
+      r: false
+      t: "`$ARRAY`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      t: "`$STRING`"
+    }
+    users: {
+      h: "Users"
+      n: "users"
+      r: false
+      t: "`$ARRAY`"
+    }
+  }
+
   name: "user"
   op: {
-    load: {
-      name: "load"
+    list: {
+      name: "list"
       points: [
         {
           co: {
@@ -51,6 +92,11 @@ main: kit: entity: user: {
             res: "`body`"
           }
         }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
         {
           co: {
             id: "GET /userInfo"
@@ -93,9 +139,6 @@ main: kit: entity: user: {
         }
       ]
     }
-  }
-
-  fields: {
   }
 
 

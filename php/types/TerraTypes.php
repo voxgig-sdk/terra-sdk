@@ -42,36 +42,54 @@ class AthleteLoadMatch
 /** Authentication entity data model. */
 class Authentication
 {
+    public ?string $apple_app_url = null;
     public ?string $auth_failure_redirect_url = null;
     public ?string $auth_success_redirect_url = null;
     public ?string $auth_url = null;
+    public ?bool $bypass_feedback = null;
+    public ?array $connected_uids = null;
     public ?int $expires_in = null;
     public ?string $language = null;
+    public ?bool $multi_auth = null;
     public ?string $providers = null;
     public ?string $reference_id = null;
+    public ?string $samsung_app_url = null;
+    public ?string $sdk_app = null;
     public ?string $session_id = null;
+    public ?bool $show_disconnect = null;
     public ?string $status = null;
     public ?string $token = null;
     public ?string $url = null;
+    public ?bool $use_terra_avengers_app = null;
     public ?string $user_id = null;
+    public ?array $warnings = null;
 }
 
 /** Request payload for Authentication#create. */
 class AuthenticationCreateData
 {
     public string $resource;
+    public ?string $apple_app_url = null;
     public ?string $auth_failure_redirect_url = null;
     public ?string $auth_success_redirect_url = null;
     public ?string $auth_url = null;
+    public ?bool $bypass_feedback = null;
+    public ?array $connected_uids = null;
     public ?int $expires_in = null;
     public ?string $language = null;
+    public ?bool $multi_auth = null;
     public ?string $providers = null;
     public ?string $reference_id = null;
+    public ?string $samsung_app_url = null;
+    public ?string $sdk_app = null;
     public ?string $session_id = null;
+    public ?bool $show_disconnect = null;
     public ?string $status = null;
     public ?string $token = null;
     public ?string $url = null;
+    public ?bool $use_terra_avengers_app = null;
     public ?string $user_id = null;
+    public ?array $warnings = null;
 }
 
 /** Request payload for Authentication#remove. */
@@ -179,6 +197,7 @@ class LabReportListMatch
     public ?string $reference_id = null;
     public ?string $report_date_from = null;
     public ?string $report_date_to = null;
+    public ?string $report_type = null;
     public ?string $upload_id = null;
     public ?string $uploaded_at_from = null;
     public ?string $uploaded_at_to = null;
@@ -250,6 +269,80 @@ class LabReportFileListMatch
     public string $id;
 }
 
+/** LabReportSession entity data model. */
+class LabReportSession
+{
+    public ?string $collection_date = null;
+    public ?string $collection_time = null;
+    public string $current_status;
+    public ?int $file_count = null;
+    public ?int $input_bytes = null;
+    public ?string $lab_name = null;
+    public ?int $output_bytes = null;
+    public ?array $panels = null;
+    public ?int $patient_age_at_collection = null;
+    public ?string $patient_sex = null;
+    public ?string $reference_id = null;
+    public ?string $report_date = null;
+    public ?string $report_locale = null;
+    public ?string $report_notes = null;
+    public ?string $report_time = null;
+    public string $report_type;
+    public ?array $results = null;
+    public ?int $results_count = null;
+    public string $session_id;
+    public ?array $status_history = null;
+    public ?string $updated_at = null;
+    public ?string $upload_id = null;
+    public ?string $uploaded_at = null;
+}
+
+/** Request payload for LabReportSession#load. */
+class LabReportSessionLoadMatch
+{
+    public string $session_id;
+}
+
+/** Request payload for LabReportSession#list. */
+class LabReportSessionListMatch
+{
+    public ?string $reference_id = null;
+    public ?string $report_date_from = null;
+    public ?string $report_date_to = null;
+    public ?string $report_type = null;
+    public ?string $upload_id = null;
+    public ?string $uploaded_at_from = null;
+    public ?string $uploaded_at_to = null;
+}
+
+/** Request payload for LabReportSession#create. */
+class LabReportSessionCreateData
+{
+    public ?string $reference_id = null;
+    public ?string $collection_date = null;
+    public ?string $collection_time = null;
+    public string $current_status;
+    public ?int $file_count = null;
+    public ?int $input_bytes = null;
+    public ?string $lab_name = null;
+    public ?int $output_bytes = null;
+    public ?array $panels = null;
+    public ?int $patient_age_at_collection = null;
+    public ?string $patient_sex = null;
+    public ?string $report_date = null;
+    public ?string $report_locale = null;
+    public ?string $report_notes = null;
+    public ?string $report_time = null;
+    public string $report_type;
+    public ?array $results = null;
+    public ?int $results_count = null;
+    public string $session_id;
+    public ?array $status_history = null;
+    public ?string $updated_at = null;
+    public ?string $upload_id = null;
+    public ?string $uploaded_at = null;
+}
+
 /** Menstruation entity data model. */
 class Menstruation
 {
@@ -283,16 +376,19 @@ class NutritionLoadMatch
 /** PlannedWorkout entity data model. */
 class PlannedWorkout
 {
-    public mixed $athlete_metrics = null;
+    public mixed $athlete_metrics;
     public ?string $coercion_warnings = null;
-    public mixed $created_at = null;
-    public mixed $details = null;
+    public mixed $completed_at = null;
+    public mixed $created_at;
+    public mixed $details;
     public ?string $id = null;
     public ?bool $is_external = null;
-    public mixed $last_updated_at = null;
+    public mixed $last_updated_at;
     public ?string $planned_date = null;
     public ?string $planned_workout_id = null;
     public ?string $provider_workout_id = null;
+    public ?array $warnings = null;
+    public mixed $workout = null;
     public ?string $workout_id = null;
 }
 
@@ -318,6 +414,7 @@ class PlannedWorkoutUpdateData
     public string $user_id;
     public mixed $athlete_metrics = null;
     public ?string $coercion_warnings = null;
+    public mixed $completed_at = null;
     public mixed $created_at = null;
     public mixed $details = null;
     public ?bool $is_external = null;
@@ -325,6 +422,8 @@ class PlannedWorkoutUpdateData
     public ?string $planned_date = null;
     public ?string $planned_workout_id = null;
     public ?string $provider_workout_id = null;
+    public ?array $warnings = null;
+    public mixed $workout = null;
     public ?string $workout_id = null;
 }
 
@@ -346,10 +445,22 @@ class SleepLoadMatch
 /** User entity data model. */
 class User
 {
+    public ?int $max_page = null;
+    public mixed $next = null;
+    public ?array $results = null;
+    public ?string $status = null;
+    public ?array $users = null;
 }
 
 /** Request payload for User#load. */
 class UserLoadMatch
+{
+    public ?string $reference_id = null;
+    public ?string $user_id = null;
+}
+
+/** Request payload for User#list. */
+class UserListMatch
 {
     public ?int $page = null;
     public ?int $per_page = null;
@@ -363,6 +474,8 @@ class Workout
     public mixed $estimated_calories = null;
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
+    public mixed $estimated_intensity_factor = null;
+    public mixed $estimated_tss = null;
     public ?string $id = null;
     public string $name;
     public mixed $pool_length_meters = null;
@@ -386,6 +499,8 @@ class WorkoutListMatch
     public mixed $estimated_calories = null;
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
+    public mixed $estimated_intensity_factor = null;
+    public mixed $estimated_tss = null;
     public ?string $id = null;
     public ?string $name = null;
     public mixed $pool_length_meters = null;
@@ -403,6 +518,8 @@ class WorkoutCreateData
     public mixed $estimated_calories = null;
     public mixed $estimated_distance_meters = null;
     public mixed $estimated_duration_seconds = null;
+    public mixed $estimated_intensity_factor = null;
+    public mixed $estimated_tss = null;
     public ?string $id = null;
     public string $name;
     public mixed $pool_length_meters = null;

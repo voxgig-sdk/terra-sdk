@@ -22,33 +22,51 @@
 ---@field user_id string
 
 ---@class Authentication
+---@field apple_app_url? string
 ---@field auth_failure_redirect_url? string
 ---@field auth_success_redirect_url? string
 ---@field auth_url? string
+---@field bypass_feedback? boolean
+---@field connected_uids? table
 ---@field expires_in? number
 ---@field language? string
+---@field multi_auth? boolean
 ---@field providers? string
 ---@field reference_id? string
+---@field samsung_app_url? string
+---@field sdk_app? string
 ---@field session_id? string
+---@field show_disconnect? boolean
 ---@field status? string
 ---@field token? string
 ---@field url? string
+---@field use_terra_avengers_app? boolean
 ---@field user_id? string
+---@field warnings? table
 
 ---@class AuthenticationCreateData
 ---@field resource string
+---@field apple_app_url? string
 ---@field auth_failure_redirect_url? string
 ---@field auth_success_redirect_url? string
 ---@field auth_url? string
+---@field bypass_feedback? boolean
+---@field connected_uids? table
 ---@field expires_in? number
 ---@field language? string
+---@field multi_auth? boolean
 ---@field providers? string
 ---@field reference_id? string
+---@field samsung_app_url? string
+---@field sdk_app? string
 ---@field session_id? string
+---@field show_disconnect? boolean
 ---@field status? string
 ---@field token? string
 ---@field url? string
+---@field use_terra_avengers_app? boolean
 ---@field user_id? string
+---@field warnings? table
 
 ---@class AuthenticationRemoveMatch
 ---@field user_id string
@@ -120,6 +138,7 @@
 ---@field reference_id? string
 ---@field report_date_from? string
 ---@field report_date_to? string
+---@field report_type? string
 ---@field upload_id? string
 ---@field uploaded_at_from? string
 ---@field uploaded_at_to? string
@@ -172,6 +191,68 @@
 ---@class LabReportFileListMatch
 ---@field id string
 
+---@class LabReportSession
+---@field collection_date? string
+---@field collection_time? string
+---@field current_status string
+---@field file_count? number
+---@field input_bytes? number
+---@field lab_name? string
+---@field output_bytes? number
+---@field panels? table
+---@field patient_age_at_collection? number
+---@field patient_sex? string
+---@field reference_id? string
+---@field report_date? string
+---@field report_locale? string
+---@field report_notes? string
+---@field report_time? string
+---@field report_type string
+---@field results? table
+---@field results_count? number
+---@field session_id string
+---@field status_history? table
+---@field updated_at? string
+---@field upload_id? string
+---@field uploaded_at? string
+
+---@class LabReportSessionLoadMatch
+---@field session_id string
+
+---@class LabReportSessionListMatch
+---@field reference_id? string
+---@field report_date_from? string
+---@field report_date_to? string
+---@field report_type? string
+---@field upload_id? string
+---@field uploaded_at_from? string
+---@field uploaded_at_to? string
+
+---@class LabReportSessionCreateData
+---@field reference_id? string
+---@field collection_date? string
+---@field collection_time? string
+---@field current_status string
+---@field file_count? number
+---@field input_bytes? number
+---@field lab_name? string
+---@field output_bytes? number
+---@field panels? table
+---@field patient_age_at_collection? number
+---@field patient_sex? string
+---@field report_date? string
+---@field report_locale? string
+---@field report_notes? string
+---@field report_time? string
+---@field report_type string
+---@field results? table
+---@field results_count? number
+---@field session_id string
+---@field status_history? table
+---@field updated_at? string
+---@field upload_id? string
+---@field uploaded_at? string
+
 ---@class Menstruation
 
 ---@class MenstruationLoadMatch
@@ -191,16 +272,19 @@
 ---@field with_sample? boolean
 
 ---@class PlannedWorkout
----@field athlete_metrics? any
+---@field athlete_metrics any
 ---@field coercion_warnings? string
----@field created_at? any
----@field details? any
+---@field completed_at? any
+---@field created_at any
+---@field details any
 ---@field id? string
 ---@field is_external? boolean
----@field last_updated_at? any
+---@field last_updated_at any
 ---@field planned_date? string
 ---@field planned_workout_id? string
 ---@field provider_workout_id? string
+---@field warnings? table
+---@field workout? any
 ---@field workout_id? string
 
 ---@class PlannedWorkoutLoadMatch
@@ -217,6 +301,7 @@
 ---@field user_id string
 ---@field athlete_metrics? any
 ---@field coercion_warnings? string
+---@field completed_at? any
 ---@field created_at? any
 ---@field details? any
 ---@field is_external? boolean
@@ -224,6 +309,8 @@
 ---@field planned_date? string
 ---@field planned_workout_id? string
 ---@field provider_workout_id? string
+---@field warnings? table
+---@field workout? any
 ---@field workout_id? string
 
 ---@class Sleep
@@ -236,8 +323,17 @@
 ---@field with_sample? boolean
 
 ---@class User
+---@field max_page? number
+---@field next? number|nil
+---@field results? table
+---@field status? string
+---@field users? table
 
 ---@class UserLoadMatch
+---@field reference_id? string
+---@field user_id? string
+
+---@class UserListMatch
 ---@field page? number
 ---@field per_page? number
 
@@ -247,6 +343,8 @@
 ---@field estimated_calories? any
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
+---@field estimated_intensity_factor? any
+---@field estimated_tss? any
 ---@field id? string
 ---@field name string
 ---@field pool_length_meters? any
@@ -264,6 +362,8 @@
 ---@field estimated_calories? any
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
+---@field estimated_intensity_factor? any
+---@field estimated_tss? any
 ---@field id? string
 ---@field name? string
 ---@field pool_length_meters? any
@@ -278,6 +378,8 @@
 ---@field estimated_calories? any
 ---@field estimated_distance_meters? any
 ---@field estimated_duration_seconds? any
+---@field estimated_intensity_factor? any
+---@field estimated_tss? any
 ---@field id? string
 ---@field name string
 ---@field pool_length_meters? any

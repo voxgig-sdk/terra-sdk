@@ -169,6 +169,18 @@ Create a new `LabReportFile` entity instance.
 
 **Returns:** `LabReportFileEntity` instance.
 
+#### `LabReportSession(data?: object)`
+
+Create a new `LabReportSession` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `LabReportSessionEntity` instance.
+
 #### `Menstruation(data?: object)`
 
 Create a new `Menstruation` entity instance.
@@ -396,18 +408,27 @@ const authentication = client.Authentication()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `apple_app_url` | `string` | No | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
 | `auth_failure_redirect_url` | `string` | No | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication |
+| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication. |
 | `auth_url` | `string` | No | authentication URL the user must be redirected to in order to link their account |
+| `bypass_feedback` | `boolean` | No | When false, the user stays on the widget's own result screen instead of being redirected immediately |
+| `connected_uids` | `Array` | No | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
 | `expires_in` | `number` | No | a number in seconds depicting how long the url is valid for |
-| `language` | `string` | No | Display language of the widget |
+| `language` | `string` | No | forces the widget UI language (e.g. |
+| `multi_auth` | `boolean` | No | Keep the user on the widget after each successful connection so they can connect several providers in one session |
 | `providers` | `string` | No | Comma separated list of providers to display on the device selection page. |
 | `reference_id` | `string` | No | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `samsung_app_url` | `string` | No | URL of your own Android app to hand Samsung Health connections to |
+| `sdk_app` | `string` | No | Which Terra reference app an SDK authentication link hands the end user to. |
 | `session_id` | `string` | No | Session ID for the widget authentication session |
+| `show_disconnect` | `boolean` | No | Show disconnect buttons for providers already connected under reference_id |
 | `status` | `string` | No | indicates that the request was successful |
 | `token` | `string` | No |  |
 | `url` | `string` | No | the widget URL the user must be redirected to in order to link their account |
+| `use_terra_avengers_app` | `boolean` | No | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | `string` | No | User ID for the user being created |
+| `warnings` | `Array` | No | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 ### Operations
 
@@ -658,8 +679,8 @@ const lab_report = client.LabReport()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `collection_date` | `string` | No | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | `string` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `number` | No |  |
 | `id` | `string` | No |  |
@@ -674,7 +695,7 @@ const lab_report = client.LabReport()
 | `report_locale` | `string` | No |  |
 | `report_notes` | `string` | No |  |
 | `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | `string` | Yes | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `results` | `Array` | No | The layered biomarker results. |
 | `results_count` | `number` | No |  |
 | `session_id` | `string` | Yes |  |
@@ -887,6 +908,128 @@ Return a copy of the entity options.
 
 ---
 
+## LabReportSessionEntity
+
+```ts
+const lab_report_session = client.LabReportSession()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
+| `file_count` | `number` | No |  |
+| `input_bytes` | `number` | No |  |
+| `lab_name` | `string` | No |  |
+| `output_bytes` | `number` | No |  |
+| `panels` | `Array` | No | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `number` | No | Patient age in years; omitted if unknown. |
+| `patient_sex` | `string` | No | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `string` | No | Your external reference; omitted if not set. |
+| `report_date` | `string` | No | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
+| `report_locale` | `string` | No |  |
+| `report_notes` | `string` | No |  |
+| `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `Array` | No | The layered biomarker results. |
+| `results_count` | `number` | No |  |
+| `session_id` | `string` | Yes |  |
+| `status_history` | `Array` | No |  |
+| `updated_at` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `collection_date` | - | - | - |
+| `collection_time` | - | - | - |
+| `current_status` | - | - | - |
+| `file_count` | - | - | - |
+| `input_bytes` | - | - | - |
+| `lab_name` | - | - | - |
+| `output_bytes` | - | - | - |
+| `panels` | - | - | - |
+| `patient_age_at_collection` | - | - | - |
+| `patient_sex` | - | - | - |
+| `reference_id` | - | - | - |
+| `report_date` | - | - | - |
+| `report_locale` | - | - | - |
+| `report_notes` | - | - | - |
+| `report_time` | - | - | - |
+| `report_type` | - | - | - |
+| `results` | - | - | - |
+| `results_count` | - | - | - |
+| `session_id` | - | - | - |
+| `status_history` | - | - | - |
+| `updated_at` | - | - | - |
+| `upload_id` | - | - | Yes |
+| `uploaded_at` | - | - | - |
+
+### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data. Resolves to the created entity.
+
+```ts
+const result = await client.LabReportSession().create({
+  current_status: 'example_current_status',
+  report_type: 'example_report_type',
+  session_id: 'example_session_id',
+})
+```
+
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.LabReportSession().list()
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.LabReportSession().load({ session_id: 'session_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `LabReportSessionEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `TerraSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
 ## MenstruationEntity
 
 ```ts
@@ -985,16 +1128,19 @@ const planned_workout = client.PlannedWorkout()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `athlete_metrics` | `*` | No |  |
-| `coercion_warnings` | `string` | No | Set when the template could not be represented exactly on the provider. |
-| `created_at` | `*` | No | Creation time (RFC 3339) |
-| `details` | `*` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `athlete_metrics` | `*` | Yes |  |
+| `coercion_warnings` | `string` | No | Deprecated; use warnings. |
+| `completed_at` | `*` | No | Time the session was reported complete by the user's device. |
+| `created_at` | `*` | Yes | Creation time (RFC 3339). |
+| `details` | `*` | Yes | Deprecated. |
 | `id` | `string` | No |  |
 | `is_external` | `boolean` | No | True when the workout was created on the provider side rather than through Terra. |
-| `last_updated_at` | `*` | No | Last update time (RFC 3339) |
+| `last_updated_at` | `*` | Yes | Last update time (RFC 3339). |
 | `planned_date` | `string` | No | New scheduled date (YYYY-MM-DD) |
-| `planned_workout_id` | `string` | No | Terra identifier of the planned workout |
+| `planned_workout_id` | `string` | No | Terra identifier of the planned workout. |
 | `provider_workout_id` | `string` | No | Identifier assigned by the provider, once pushed. |
+| `warnings` | `Array` | No | Adjustments made when the template could not be represented exactly on the provider. |
+| `workout` | `*` | No | The workout body, as on the list. |
 | `workout_id` | `string` | No | Identifier of the source template. |
 
 ### Field Usage by Operation
@@ -1002,16 +1148,19 @@ const planned_workout = client.PlannedWorkout()
 | Field | load | list | update |
 | --- | --- | --- | --- |
 | `athlete_metrics` | - | - | - |
-| `coercion_warnings` | - | - | - |
+| `coercion_warnings` | - | Yes | - |
+| `completed_at` | - | Yes | - |
 | `created_at` | - | - | - |
 | `details` | - | - | - |
 | `id` | - | - | - |
-| `is_external` | - | - | - |
+| `is_external` | - | Yes | - |
 | `last_updated_at` | - | - | - |
-| `planned_date` | - | - | Yes |
-| `planned_workout_id` | - | - | - |
-| `provider_workout_id` | - | - | - |
-| `workout_id` | - | - | - |
+| `planned_date` | - | Yes | Yes |
+| `planned_workout_id` | - | Yes | - |
+| `provider_workout_id` | - | Yes | - |
+| `warnings` | - | Yes | - |
+| `workout` | - | Yes | - |
+| `workout_id` | - | Yes | - |
 
 ### Operations
 
@@ -1121,7 +1270,25 @@ Return a copy of the entity options.
 const user = client.User()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `max_page` | `number` | No | Total number of pages available for the requested page size |
+| `next` | `number|null` | No | The next page number, or null if there is no next page |
+| `results` | `Array` | No |  |
+| `status` | `string` | No |  |
+| `users` | `Array` | No |  |
+
 ### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.User().list()
+```
 
 #### `load(match: object, ctrl?: object)`
 
@@ -1174,6 +1341,8 @@ const workout = client.Workout()
 | `estimated_calories` | `*` | No | Estimated calories burned |
 | `estimated_distance_meters` | `*` | No | Estimated total distance in meters |
 | `estimated_duration_seconds` | `*` | No | Estimated total duration in seconds |
+| `estimated_intensity_factor` | `*` | No | Planned intensity factor (0-5), where the provider or author supplies one. |
+| `estimated_tss` | `*` | No | Planned training stress score (0-9999), where the provider or author supplies one. |
 | `id` | `string` | No |  |
 | `name` | `string` | Yes | Name of the workout |
 | `pool_length_meters` | `*` | No | Pool length in meters, for swim workouts |

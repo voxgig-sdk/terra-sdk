@@ -31,7 +31,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (16): `Activity`, `Athlete`, `Authentication`, `Body`, `BulkUserInfo`, `Daily`, `Integration`, `LabReport`, `LabReportDelivery`, `LabReportFile`, `Menstruation`, `Nutrition`, `PlannedWorkout`, `Sleep`, `User`, `Workout`.
+**Entities** (17): `Activity`, `Athlete`, `Authentication`, `Body`, `BulkUserInfo`, `Daily`, `Integration`, `LabReport`, `LabReportDelivery`, `LabReportFile`, `LabReportSession`, `Menstruation`, `Nutrition`, `PlannedWorkout`, `Sleep`, `User`, `Workout`.
 
 ## Generating and updating the SDK
 

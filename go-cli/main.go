@@ -20,7 +20,7 @@ import (
 const prompt = "terra"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "activity athlete authentication body bulk_user_info daily integration lab_report lab_report_delivery lab_report_file menstruation nutrition planned_workout sleep user workout"
+const entitiesHelp = "activity athlete authentication body bulk_user_info daily integration lab_report lab_report_delivery lab_report_file lab_report_session menstruation nutrition planned_workout sleep user workout"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

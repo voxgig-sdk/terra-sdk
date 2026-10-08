@@ -412,6 +412,10 @@ const PLAN: any[] = [
           "active_durations_data": {},
           "calories_data": {},
           "data_enrichment": {},
+          "trends": {
+            "window_days": 1,
+            "window_end": "x"
+          },
           "device_data": {},
           "distance_data": {},
           "heart_rate_data": {},
@@ -548,6 +552,7 @@ const PLAN: any[] = [
       "reference_id": "v1",
       "report_date_from": "v1",
       "report_date_to": "v1",
+      "report_type": "dexa",
       "upload_id": "v1",
       "uploaded_at_from": "v1",
       "uploaded_at_to": "v1"
@@ -559,6 +564,7 @@ const PLAN: any[] = [
     ],
     "query": [
       "reference_id",
+      "report_type",
       "upload_id",
       "report_date_from",
       "report_date_to",
@@ -577,6 +583,10 @@ const PLAN: any[] = [
       {
         "name": "report_date_to",
         "wire": "report_date_to"
+      },
+      {
+        "name": "report_type",
+        "wire": "report_type"
       },
       {
         "name": "upload_id",
@@ -599,7 +609,7 @@ const PLAN: any[] = [
           "session_id": "x",
           "upload_id": "x",
           "reference_id": "x",
-          "report_type": "x",
+          "report_type": "lab",
           "current_status": "x",
           "uploaded_at": "2026-01-01T00:00:00Z",
           "updated_at": "2026-01-01T00:00:00Z",
@@ -632,14 +642,18 @@ const PLAN: any[] = [
                 "flag": "x",
                 "method": "x",
                 "notes": "x",
-                "reference_text": "x"
+                "reference_text": "x",
+                "region_name": "x",
+                "collection_date": "x",
+                "collection_time": "x"
               },
               "biomarker": {
                 "display_name": "x",
                 "loinc_code": "x",
                 "panel_id": 1,
                 "panel_key": "x",
-                "specimen": "x"
+                "specimen": "x",
+                "region": "head"
               },
               "measurement": {
                 "type": "x",
@@ -701,7 +715,7 @@ const PLAN: any[] = [
       "session_id": "x",
       "upload_id": "x",
       "reference_id": "x",
-      "report_type": "x",
+      "report_type": "lab",
       "current_status": "x",
       "uploaded_at": "2026-01-01T00:00:00Z",
       "updated_at": "2026-01-01T00:00:00Z",
@@ -734,7 +748,10 @@ const PLAN: any[] = [
             "flag": "x",
             "method": "x",
             "notes": "x",
-            "reference_text": "x"
+            "reference_text": "x",
+            "region_name": "x",
+            "collection_date": "x",
+            "collection_time": "x"
           },
           "biomarker": {
             "key": "x",
@@ -742,7 +759,8 @@ const PLAN: any[] = [
             "loinc_code": "x",
             "panel_id": 1,
             "panel_key": "x",
-            "specimen": "x"
+            "specimen": "x",
+            "region": "head"
           },
           "measurement": {
             "type": "x",
@@ -774,6 +792,7 @@ const PLAN: any[] = [
               "lower": 1,
               "upper": 1,
               "type": "x",
+              "label": "x",
               "context": {
                 "sex": "x",
                 "age_lower": 1,
@@ -801,11 +820,11 @@ const PLAN: any[] = [
     "idField": "id"
   },
   {
-    "entity": "lab_report",
-    "accessor": "LabReport",
-    "op": "remove",
-    "method": "DELETE",
-    "path": "/lab-reports/{session_id}",
+    "entity": "lab_report_delivery",
+    "accessor": "LabReportDelivery",
+    "op": "list",
+    "method": "GET",
+    "path": "/lab-reports/{session_id}/deliveries",
     "args": [
       {
         "name": "id",
@@ -816,11 +835,24 @@ const PLAN: any[] = [
     "select": {},
     "headers": [],
     "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [],
     "queryArgs": [],
     "auth": null,
-    "status": 204,
-    "sample": null,
+    "status": 200,
+    "sample": {
+      "deliveries": [
+        {
+          "destination_id": "x",
+          "destination_type": "x",
+          "status": "x",
+          "attempt_count": 1,
+          "last_error": "x"
+        }
+      ]
+    },
     "idField": "id"
   },
   {
@@ -828,10 +860,10 @@ const PLAN: any[] = [
     "accessor": "LabReportDelivery",
     "op": "list",
     "method": "GET",
-    "path": "/lab-reports/{session_id}/deliveries",
+    "path": "/reports/{session_id}/deliveries",
     "args": [
       {
-        "name": "id",
+        "name": "report_id",
         "wire": "session_id",
         "value": "297405620317847552"
       }
@@ -894,6 +926,349 @@ const PLAN: any[] = [
         "presigned_url": "x"
       },
       "expires_at": "2026-01-01T00:00:00Z"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "lab_report_file",
+    "accessor": "LabReportFile",
+    "op": "list",
+    "method": "GET",
+    "path": "/reports/{session_id}/files",
+    "args": [
+      {
+        "name": "report_id",
+        "wire": "session_id",
+        "value": "297405620317847552"
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "files": [
+        {
+          "filename": "x",
+          "presigned_url": "x"
+        }
+      ],
+      "thumbnail": {
+        "filename": "x",
+        "presigned_url": "x"
+      },
+      "expires_at": "2026-01-01T00:00:00Z"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "lab_report_session",
+    "accessor": "LabReportSession",
+    "op": "create",
+    "method": "POST",
+    "path": "/reports",
+    "args": [],
+    "select": {
+      "reference_id": "patient_456"
+    },
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "reference_id"
+    ],
+    "queryArgs": [],
+    "auth": null,
+    "status": 202,
+    "sample": {
+      "upload_id": "x",
+      "current_status": "x"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "lab_report_session",
+    "accessor": "LabReportSession",
+    "op": "list",
+    "method": "GET",
+    "path": "/reports",
+    "args": [],
+    "select": {
+      "reference_id": "v1",
+      "report_date_from": "v1",
+      "report_date_to": "v1",
+      "report_type": "dexa",
+      "upload_id": "v1",
+      "uploaded_at_from": "v1",
+      "uploaded_at_to": "v1"
+    },
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "reference_id",
+      "report_type",
+      "upload_id",
+      "report_date_from",
+      "report_date_to",
+      "uploaded_at_from",
+      "uploaded_at_to"
+    ],
+    "queryArgs": [
+      {
+        "name": "reference_id",
+        "wire": "reference_id"
+      },
+      {
+        "name": "report_date_from",
+        "wire": "report_date_from"
+      },
+      {
+        "name": "report_date_to",
+        "wire": "report_date_to"
+      },
+      {
+        "name": "report_type",
+        "wire": "report_type"
+      },
+      {
+        "name": "upload_id",
+        "wire": "upload_id"
+      },
+      {
+        "name": "uploaded_at_from",
+        "wire": "uploaded_at_from"
+      },
+      {
+        "name": "uploaded_at_to",
+        "wire": "uploaded_at_to"
+      }
+    ],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "sessions": [
+        {
+          "session_id": "x",
+          "upload_id": "x",
+          "reference_id": "x",
+          "report_type": "lab",
+          "current_status": "x",
+          "uploaded_at": "2026-01-01T00:00:00Z",
+          "updated_at": "2026-01-01T00:00:00Z",
+          "report_date": "x",
+          "report_time": "x",
+          "collection_date": "x",
+          "collection_time": "x",
+          "report_locale": "x",
+          "lab_name": "x",
+          "patient_age_at_collection": 1,
+          "patient_sex": "x",
+          "input_bytes": 1,
+          "results_count": 1,
+          "output_bytes": 1,
+          "file_count": 1,
+          "status_history": [
+            {
+              "status": "x",
+              "timestamp": "2026-01-01T00:00:00Z",
+              "note": "x"
+            }
+          ],
+          "results": [
+            {
+              "source": {
+                "name": "x",
+                "panel": "x",
+                "value": "x",
+                "units": "x",
+                "flag": "x",
+                "method": "x",
+                "notes": "x",
+                "reference_text": "x",
+                "region_name": "x",
+                "collection_date": "x",
+                "collection_time": "x"
+              },
+              "biomarker": {
+                "display_name": "x",
+                "loinc_code": "x",
+                "panel_id": 1,
+                "panel_key": "x",
+                "specimen": "x",
+                "region": "head"
+              },
+              "measurement": {
+                "type": "x",
+                "numeric": 1,
+                "bounded": {},
+                "qualitative": {},
+                "text": "x",
+                "absent_reason": "x",
+                "units": "x",
+                "ucum_code": "x"
+              },
+              "interpretation": {
+                "flag_raw": "x",
+                "source": "x",
+                "applied_range": {}
+              },
+              "reference_ranges": [
+                {}
+              ]
+            }
+          ],
+          "panels": [
+            {
+              "id": 1,
+              "name": "x",
+              "key": "x"
+            }
+          ],
+          "report_notes": "x"
+        }
+      ]
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "lab_report_session",
+    "accessor": "LabReportSession",
+    "op": "load",
+    "method": "GET",
+    "path": "/reports/{session_id}",
+    "args": [
+      {
+        "name": "session_id",
+        "wire": "session_id",
+        "value": "297405620317847552"
+      }
+    ],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "session_id": "x",
+      "upload_id": "x",
+      "reference_id": "x",
+      "report_type": "lab",
+      "current_status": "x",
+      "uploaded_at": "2026-01-01T00:00:00Z",
+      "updated_at": "2026-01-01T00:00:00Z",
+      "report_date": "x",
+      "report_time": "x",
+      "collection_date": "x",
+      "collection_time": "x",
+      "report_locale": "x",
+      "lab_name": "x",
+      "patient_age_at_collection": 1,
+      "patient_sex": "x",
+      "input_bytes": 1,
+      "results_count": 1,
+      "output_bytes": 1,
+      "file_count": 1,
+      "status_history": [
+        {
+          "status": "x",
+          "timestamp": "2026-01-01T00:00:00Z",
+          "note": "x"
+        }
+      ],
+      "results": [
+        {
+          "source": {
+            "name": "x",
+            "panel": "x",
+            "value": "x",
+            "units": "x",
+            "flag": "x",
+            "method": "x",
+            "notes": "x",
+            "reference_text": "x",
+            "region_name": "x",
+            "collection_date": "x",
+            "collection_time": "x"
+          },
+          "biomarker": {
+            "key": "x",
+            "display_name": "x",
+            "loinc_code": "x",
+            "panel_id": 1,
+            "panel_key": "x",
+            "specimen": "x",
+            "region": "head"
+          },
+          "measurement": {
+            "type": "x",
+            "numeric": 1,
+            "bounded": {
+              "operator": "x",
+              "value": 1
+            },
+            "qualitative": {
+              "text": "x",
+              "code": "x"
+            },
+            "text": "x",
+            "absent_reason": "x",
+            "units": "x",
+            "ucum_code": "x"
+          },
+          "interpretation": {
+            "flag": "x",
+            "flag_raw": "x",
+            "source": "x",
+            "applied_range": {
+              "lower": 1,
+              "upper": 1
+            }
+          },
+          "reference_ranges": [
+            {
+              "lower": 1,
+              "upper": 1,
+              "type": "x",
+              "label": "x",
+              "context": {
+                "sex": "x",
+                "age_lower": 1,
+                "age_upper": 1,
+                "pregnancy_status": "x",
+                "gestational_week_lower": 1,
+                "gestational_week_upper": 1,
+                "cycle_phase": "x",
+                "reference_population": "x",
+                "modifiers": []
+              }
+            }
+          ]
+        }
+      ],
+      "panels": [
+        {
+          "id": 1,
+          "name": "x",
+          "key": "x"
+        }
+      ],
+      "report_notes": "x"
     },
     "idField": "id"
   },
@@ -1096,15 +1471,41 @@ const PLAN: any[] = [
         "planned_date": "x",
         "provider_workout_id": "x",
         "coercion_warnings": "x",
+        "warnings": [
+          {
+            "path": "x",
+            "message": "x"
+          }
+        ],
         "created_at": "x",
         "last_updated_at": "x",
         "is_external": true,
+        "completed_at": "x",
         "athlete_metrics": {
           "threshold_heart_rate": 1,
           "max_heart_rate": 1,
           "threshold_speed": 1,
           "ftp": 1,
           "pool_length_meters": 1
+        },
+        "workout": {
+          "name": "x",
+          "description": "x",
+          "environment": "x",
+          "pool_length_meters": 1,
+          "step_blocks": [
+            {
+              "completion_condition": {},
+              "steps": []
+            }
+          ],
+          "estimated_duration_seconds": 1,
+          "estimated_distance_meters": 1,
+          "estimated_calories": 1,
+          "estimated_tss": 1,
+          "estimated_intensity_factor": 1,
+          "workout_id": "x",
+          "sport": "x"
         },
         "details": {
           "metadata": {},
@@ -1154,7 +1555,35 @@ const PLAN: any[] = [
       "is_external": true,
       "workout_id": "x",
       "provider_workout_id": "x",
-      "coercion_warnings": "x"
+      "coercion_warnings": "x",
+      "completed_at": "2026-01-01T00:00:00Z",
+      "warnings": [
+        {
+          "path": "x",
+          "message": "x"
+        }
+      ],
+      "workout": {
+        "name": "x",
+        "description": "x",
+        "environment": "x",
+        "pool_length_meters": 1,
+        "step_blocks": [
+          {
+            "completion_condition": {},
+            "steps": [
+              {}
+            ]
+          }
+        ],
+        "estimated_duration_seconds": 1,
+        "estimated_distance_meters": 1,
+        "estimated_calories": 1,
+        "estimated_tss": 1,
+        "estimated_intensity_factor": 1,
+        "workout_id": "x",
+        "sport": "x"
+      }
     },
     "idField": "id"
   },
@@ -1191,7 +1620,35 @@ const PLAN: any[] = [
       "is_external": true,
       "workout_id": "x",
       "provider_workout_id": "x",
-      "coercion_warnings": "x"
+      "coercion_warnings": "x",
+      "completed_at": "2026-01-01T00:00:00Z",
+      "warnings": [
+        {
+          "path": "x",
+          "message": "x"
+        }
+      ],
+      "workout": {
+        "name": "x",
+        "description": "x",
+        "environment": "x",
+        "pool_length_meters": 1,
+        "step_blocks": [
+          {
+            "completion_condition": {},
+            "steps": [
+              {}
+            ]
+          }
+        ],
+        "estimated_duration_seconds": 1,
+        "estimated_distance_meters": 1,
+        "estimated_calories": 1,
+        "estimated_tss": 1,
+        "estimated_intensity_factor": 1,
+        "workout_id": "x",
+        "sport": "x"
+      }
     },
     "idField": "id"
   },
@@ -1258,6 +1715,10 @@ const PLAN: any[] = [
       "data": [
         {
           "data_enrichment": {},
+          "trends": {
+            "window_days": 1,
+            "window_end": "x"
+          },
           "device_data": {},
           "heart_rate_data": {},
           "metadata": {
@@ -1276,6 +1737,116 @@ const PLAN: any[] = [
         }
       ],
       "type": "x"
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "user",
+    "accessor": "User",
+    "op": "list",
+    "method": "GET",
+    "path": "/subscriptions",
+    "args": [],
+    "select": {
+      "page": 0,
+      "per_page": 500
+    },
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "page",
+      "per_page"
+    ],
+    "queryArgs": [
+      {
+        "name": "page",
+        "wire": "page"
+      },
+      {
+        "name": "per_page",
+        "wire": "per_page"
+      }
+    ],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "status": "success",
+      "users": [
+        {
+          "user_id": "x",
+          "provider": "x",
+          "created_at": "x",
+          "last_webhook_update": "x",
+          "scopes": "x",
+          "reference_id": "x",
+          "active": true
+        }
+      ],
+      "next": 1,
+      "max_page": 1,
+      "results": [
+        {
+          "user_id": "x",
+          "provider": "x",
+          "created_at": "x",
+          "last_webhook_update": "x",
+          "scopes": "x",
+          "reference_id": "x",
+          "active": true
+        }
+      ]
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "user",
+    "accessor": "User",
+    "op": "load",
+    "method": "GET",
+    "path": "/userInfo",
+    "args": [],
+    "select": {
+      "reference_id": "v1",
+      "user_id": "v1"
+    },
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [
+      "user_id",
+      "reference_id"
+    ],
+    "queryArgs": [
+      {
+        "name": "reference_id",
+        "wire": "reference_id"
+      },
+      {
+        "name": "user_id",
+        "wire": "user_id"
+      }
+    ],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "user": {
+        "user_id": "x",
+        "provider": "x",
+        "created_at": "x",
+        "last_webhook_update": "x",
+        "scopes": "x",
+        "reference_id": "x",
+        "active": true,
+        "last_polled_at": "2024-01-20T11:00:00Z",
+        "most_recent_data_at": "2024-01-19T23:00:00Z"
+      },
+      "status": "success",
+      "is_authenticated": true
     },
     "idField": "id"
   },
@@ -1311,7 +1882,13 @@ const PLAN: any[] = [
       "status": "success",
       "planned_workout_id": "2048",
       "provider_workout_id": "x",
-      "coercion_warnings": "x"
+      "coercion_warnings": "x",
+      "warnings": [
+        {
+          "path": "x",
+          "message": "x"
+        }
+      ]
     },
     "idField": "id"
   },
@@ -1359,7 +1936,6 @@ const PLAN: any[] = [
       {
         "name": "x",
         "description": "x",
-        "sport": "x",
         "environment": "x",
         "pool_length_meters": 1,
         "step_blocks": [
@@ -1380,7 +1956,10 @@ const PLAN: any[] = [
         "estimated_duration_seconds": 1,
         "estimated_distance_meters": 1,
         "estimated_calories": 1,
-        "workout_id": "x"
+        "estimated_tss": 1,
+        "estimated_intensity_factor": 1,
+        "workout_id": "x",
+        "sport": "x"
       }
     ],
     "idField": "id"
@@ -1411,7 +1990,6 @@ const PLAN: any[] = [
     "sample": {
       "name": "x",
       "description": "x",
-      "sport": "x",
       "environment": "x",
       "pool_length_meters": 1,
       "step_blocks": [
@@ -1438,7 +2016,10 @@ const PLAN: any[] = [
       "estimated_duration_seconds": 1,
       "estimated_distance_meters": 1,
       "estimated_calories": 1,
-      "workout_id": "x"
+      "estimated_tss": 1,
+      "estimated_intensity_factor": 1,
+      "workout_id": "x",
+      "sport": "x"
     },
     "idField": "id"
   },

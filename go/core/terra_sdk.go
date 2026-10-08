@@ -452,6 +452,14 @@ func (sdk *TerraSDK) LabReportFile(data map[string]any) TerraEntity {
 }
 
 
+// LabReportSession returns a LabReportSession entity bound to this client.
+// Idiomatic usage: client.LabReportSession(nil).List(nil, nil) or
+// client.LabReportSession(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *TerraSDK) LabReportSession(data map[string]any) TerraEntity {
+	return NewLabReportSessionEntityFunc(sdk, data)
+}
+
+
 // Menstruation returns a Menstruation entity bound to this client.
 // Idiomatic usage: client.Menstruation(nil).List(nil, nil) or
 // client.Menstruation(nil).Load(map[string]any{"id": ...}, nil).

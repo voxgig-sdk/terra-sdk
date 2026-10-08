@@ -7,7 +7,8 @@
         "destination_type": "s3e",
         "id": "LAB_REPORT_DELIVERY00",
         "last_error": "s40",
-        "status": "s41"
+        "status": "s41",
+        "report_id": "REPORT01"
       },
       "LAB_REPORT_DELIVERY01": {
         "attempt_count": 120,
@@ -15,7 +16,8 @@
         "destination_type": "s7a",
         "id": "LAB_REPORT_DELIVERY01",
         "last_error": "s7c",
-        "status": "s7d"
+        "status": "s7d",
+        "report_id": "REPORT01"
       },
       "LAB_REPORT_DELIVERY02": {
         "attempt_count": 180,
@@ -23,7 +25,8 @@
         "destination_type": "sb6",
         "id": "LAB_REPORT_DELIVERY02",
         "last_error": "sb8",
-        "status": "sb9"
+        "status": "sb9",
+        "report_id": "REPORT01"
       }
     }
   },
@@ -40,6 +43,11 @@
   },
   "requests": {
     "GET /lab-reports/{session_id}/deliveries": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /reports/{session_id}/deliveries": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

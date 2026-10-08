@@ -10,6 +10,7 @@
 @"./lab_report.aontu"
 @"./lab_report_delivery.aontu"
 @"./lab_report_file.aontu"
+@"./lab_report_session.aontu"
 @"./menstruation.aontu"
 @"./nutrition.aontu"
 @"./planned_workout.aontu"

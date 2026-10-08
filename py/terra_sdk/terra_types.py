@@ -44,18 +44,27 @@ class AthleteLoadMatch(AthleteLoadMatchRequired, total=False):
 
 
 class Authentication(TypedDict, total=False):
+    apple_app_url: str
     auth_failure_redirect_url: str
     auth_success_redirect_url: str
     auth_url: str
+    bypass_feedback: bool
+    connected_uids: list
     expires_in: int
     language: str
+    multi_auth: bool
     providers: str
     reference_id: str
+    samsung_app_url: str
+    sdk_app: str
     session_id: str
+    show_disconnect: bool
     status: str
     token: str
     url: str
+    use_terra_avengers_app: bool
     user_id: str
+    warnings: list
 
 
 class AuthenticationCreateDataRequired(TypedDict):
@@ -63,18 +72,27 @@ class AuthenticationCreateDataRequired(TypedDict):
 
 
 class AuthenticationCreateData(AuthenticationCreateDataRequired, total=False):
+    apple_app_url: str
     auth_failure_redirect_url: str
     auth_success_redirect_url: str
     auth_url: str
+    bypass_feedback: bool
+    connected_uids: list
     expires_in: int
     language: str
+    multi_auth: bool
     providers: str
     reference_id: str
+    samsung_app_url: str
+    sdk_app: str
     session_id: str
+    show_disconnect: bool
     status: str
     token: str
     url: str
+    use_terra_avengers_app: bool
     user_id: str
+    warnings: list
 
 
 class AuthenticationRemoveMatch(TypedDict):
@@ -169,6 +187,7 @@ class LabReportListMatch(TypedDict, total=False):
     reference_id: str
     report_date_from: str
     report_date_to: str
+    report_type: str
     upload_id: str
     uploaded_at_from: str
     uploaded_at_to: str
@@ -237,6 +256,78 @@ class LabReportFileListMatch(TypedDict):
     id: str
 
 
+class LabReportSessionRequired(TypedDict):
+    current_status: str
+    report_type: str
+    session_id: str
+
+
+class LabReportSession(LabReportSessionRequired, total=False):
+    collection_date: str
+    collection_time: str
+    file_count: int
+    input_bytes: int
+    lab_name: str
+    output_bytes: int
+    panels: list
+    patient_age_at_collection: int
+    patient_sex: str
+    reference_id: str
+    report_date: str
+    report_locale: str
+    report_notes: str
+    report_time: str
+    results: list
+    results_count: int
+    status_history: list
+    updated_at: str
+    upload_id: str
+    uploaded_at: str
+
+
+class LabReportSessionLoadMatch(TypedDict):
+    session_id: str
+
+
+class LabReportSessionListMatch(TypedDict, total=False):
+    reference_id: str
+    report_date_from: str
+    report_date_to: str
+    report_type: str
+    upload_id: str
+    uploaded_at_from: str
+    uploaded_at_to: str
+
+
+class LabReportSessionCreateDataRequired(TypedDict):
+    current_status: str
+    report_type: str
+    session_id: str
+
+
+class LabReportSessionCreateData(LabReportSessionCreateDataRequired, total=False):
+    reference_id: str
+    collection_date: str
+    collection_time: str
+    file_count: int
+    input_bytes: int
+    lab_name: str
+    output_bytes: int
+    panels: list
+    patient_age_at_collection: int
+    patient_sex: str
+    report_date: str
+    report_locale: str
+    report_notes: str
+    report_time: str
+    results: list
+    results_count: int
+    status_history: list
+    updated_at: str
+    upload_id: str
+    uploaded_at: str
+
+
 class Menstruation(TypedDict):
     pass
 
@@ -267,17 +358,23 @@ class NutritionLoadMatch(NutritionLoadMatchRequired, total=False):
     with_sample: bool
 
 
-class PlannedWorkout(TypedDict, total=False):
+class PlannedWorkoutRequired(TypedDict):
     athlete_metrics: Any
-    coercion_warnings: str
     created_at: Any
     details: Any
+    last_updated_at: Any
+
+
+class PlannedWorkout(PlannedWorkoutRequired, total=False):
+    coercion_warnings: str
+    completed_at: Any
     id: str
     is_external: bool
-    last_updated_at: Any
     planned_date: str
     planned_workout_id: str
     provider_workout_id: str
+    warnings: list
+    workout: Any
     workout_id: str
 
 
@@ -303,6 +400,7 @@ class PlannedWorkoutUpdateDataRequired(TypedDict):
 class PlannedWorkoutUpdateData(PlannedWorkoutUpdateDataRequired, total=False):
     athlete_metrics: Any
     coercion_warnings: str
+    completed_at: Any
     created_at: Any
     details: Any
     is_external: bool
@@ -310,6 +408,8 @@ class PlannedWorkoutUpdateData(PlannedWorkoutUpdateDataRequired, total=False):
     planned_date: str
     planned_workout_id: str
     provider_workout_id: str
+    warnings: list
+    workout: Any
     workout_id: str
 
 
@@ -328,11 +428,20 @@ class SleepLoadMatch(SleepLoadMatchRequired, total=False):
     with_sample: bool
 
 
-class User(TypedDict):
-    pass
+class User(TypedDict, total=False):
+    max_page: int
+    next: int | None
+    results: list
+    status: str
+    users: list
 
 
 class UserLoadMatch(TypedDict, total=False):
+    reference_id: str
+    user_id: str
+
+
+class UserListMatch(TypedDict, total=False):
     page: int
     per_page: int
 
@@ -349,6 +458,8 @@ class Workout(WorkoutRequired, total=False):
     estimated_calories: Any
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
+    estimated_intensity_factor: Any
+    estimated_tss: Any
     id: str
     pool_length_meters: Any
     status: str
@@ -365,6 +476,8 @@ class WorkoutListMatch(TypedDict, total=False):
     estimated_calories: Any
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
+    estimated_intensity_factor: Any
+    estimated_tss: Any
     id: str
     name: str
     pool_length_meters: Any
@@ -386,6 +499,8 @@ class WorkoutCreateData(WorkoutCreateDataRequired, total=False):
     estimated_calories: Any
     estimated_distance_meters: Any
     estimated_duration_seconds: Any
+    estimated_intensity_factor: Any
+    estimated_tss: Any
     id: str
     pool_length_meters: Any
     status: str

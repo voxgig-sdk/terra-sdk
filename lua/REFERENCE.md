@@ -81,6 +81,10 @@ Create a new `LabReportDelivery` entity instance. Pass `nil` for no initial data
 
 Create a new `LabReportFile` entity instance. Pass `nil` for no initial data.
 
+#### `LabReportSession(data)`
+
+Create a new `LabReportSession` entity instance. Pass `nil` for no initial data.
+
 #### `Menstruation(data)`
 
 Create a new `Menstruation` entity instance. Pass `nil` for no initial data.
@@ -243,18 +247,27 @@ local authentication = client:Authentication(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `apple_app_url` | `string` | No | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
 | `auth_failure_redirect_url` | `string` | No | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication |
+| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication. |
 | `auth_url` | `string` | No | authentication URL the user must be redirected to in order to link their account |
+| `bypass_feedback` | `boolean` | No | When false, the user stays on the widget's own result screen instead of being redirected immediately |
+| `connected_uids` | `table` | No | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
 | `expires_in` | `number` | No | a number in seconds depicting how long the url is valid for |
-| `language` | `string` | No | Display language of the widget |
+| `language` | `string` | No | forces the widget UI language (e.g. |
+| `multi_auth` | `boolean` | No | Keep the user on the widget after each successful connection so they can connect several providers in one session |
 | `providers` | `string` | No | Comma separated list of providers to display on the device selection page. |
 | `reference_id` | `string` | No | Identifier of the end user on your system, such as a user ID or email associated with them |
+| `samsung_app_url` | `string` | No | URL of your own Android app to hand Samsung Health connections to |
+| `sdk_app` | `string` | No | Which Terra reference app an SDK authentication link hands the end user to. |
 | `session_id` | `string` | No | Session ID for the widget authentication session |
+| `show_disconnect` | `boolean` | No | Show disconnect buttons for providers already connected under reference_id |
 | `status` | `string` | No | indicates that the request was successful |
 | `token` | `string` | No |  |
 | `url` | `string` | No | the widget URL the user must be redirected to in order to link their account |
+| `use_terra_avengers_app` | `boolean` | No | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | `string` | No | User ID for the user being created |
+| `warnings` | `table` | No | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 ### Operations
 
@@ -515,8 +528,8 @@ local lab_report = client:LabReport(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `collection_date` | `string` | No | Specimen collection date (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | `string` | No | Specimen collection time (HH:MM, 24-hour); omitted if not extracted. |
+| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
 | `file_count` | `number` | No |  |
 | `id` | `string` | No |  |
@@ -531,7 +544,7 @@ local lab_report = client:LabReport(nil)
 | `report_locale` | `string` | No |  |
 | `report_notes` | `string` | No |  |
 | `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | `string` | Yes | Report type as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `results` | `table` | No | The layered biomarker results. |
 | `results_count` | `number` | No |  |
 | `session_id` | `string` | Yes |  |
@@ -750,6 +763,130 @@ Return the entity name.
 
 ---
 
+## LabReportSessionEntity
+
+```lua
+local lab_report_session = client:LabReportSession(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
+| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
+| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
+| `file_count` | `number` | No |  |
+| `input_bytes` | `number` | No |  |
+| `lab_name` | `string` | No |  |
+| `output_bytes` | `number` | No |  |
+| `panels` | `table` | No | Report-level panels that results reference by panel_id. |
+| `patient_age_at_collection` | `number` | No | Patient age in years; omitted if unknown. |
+| `patient_sex` | `string` | No | Clean lowercase string (open enum); omitted if unspecified. |
+| `reference_id` | `string` | No | Your external reference; omitted if not set. |
+| `report_date` | `string` | No | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
+| `report_locale` | `string` | No |  |
+| `report_notes` | `string` | No |  |
+| `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
+| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `results` | `table` | No | The layered biomarker results. |
+| `results_count` | `number` | No |  |
+| `session_id` | `string` | Yes |  |
+| `status_history` | `table` | No |  |
+| `updated_at` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `collection_date` | - | - | - |
+| `collection_time` | - | - | - |
+| `current_status` | - | - | - |
+| `file_count` | - | - | - |
+| `input_bytes` | - | - | - |
+| `lab_name` | - | - | - |
+| `output_bytes` | - | - | - |
+| `panels` | - | - | - |
+| `patient_age_at_collection` | - | - | - |
+| `patient_sex` | - | - | - |
+| `reference_id` | - | - | - |
+| `report_date` | - | - | - |
+| `report_locale` | - | - | - |
+| `report_notes` | - | - | - |
+| `report_time` | - | - | - |
+| `report_type` | - | - | - |
+| `results` | - | - | - |
+| `results_count` | - | - | - |
+| `session_id` | - | - | - |
+| `status_history` | - | - | - |
+| `updated_at` | - | - | - |
+| `upload_id` | - | - | Yes |
+| `uploaded_at` | - | - | - |
+
+### Operations
+
+#### `create(reqdata, ctrl) -> any, err`
+
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:LabReportSession():create({
+  current_status = --[[ string ]],
+  report_type = --[[ string ]],
+  session_id = --[[ string ]],
+})
+```
+
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
+
+#### `list(reqmatch, ctrl) -> any, err`
+
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
+
+```lua
+local results, err = client:LabReportSession():list()
+```
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:LabReportSession():load({ session_id = "session_id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `LabReportSessionEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
 ## MenstruationEntity
 
 ```lua
@@ -852,16 +989,19 @@ local planned_workout = client:PlannedWorkout(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `athlete_metrics` | `any` | No |  |
-| `coercion_warnings` | `string` | No | Set when the template could not be represented exactly on the provider. |
-| `created_at` | `any` | No | Creation time (RFC 3339) |
-| `details` | `any` | No | Full workout body (title, description, planned metrics, structured steps) fetched live from the provider. |
+| `athlete_metrics` | `any` | Yes |  |
+| `coercion_warnings` | `string` | No | Deprecated; use warnings. |
+| `completed_at` | `any` | No | Time the session was reported complete by the user's device. |
+| `created_at` | `any` | Yes | Creation time (RFC 3339). |
+| `details` | `any` | Yes | Deprecated. |
 | `id` | `string` | No |  |
 | `is_external` | `boolean` | No | True when the workout was created on the provider side rather than through Terra. |
-| `last_updated_at` | `any` | No | Last update time (RFC 3339) |
+| `last_updated_at` | `any` | Yes | Last update time (RFC 3339). |
 | `planned_date` | `string` | No | New scheduled date (YYYY-MM-DD) |
-| `planned_workout_id` | `string` | No | Terra identifier of the planned workout |
+| `planned_workout_id` | `string` | No | Terra identifier of the planned workout. |
 | `provider_workout_id` | `string` | No | Identifier assigned by the provider, once pushed. |
+| `warnings` | `table` | No | Adjustments made when the template could not be represented exactly on the provider. |
+| `workout` | `any` | No | The workout body, as on the list. |
 | `workout_id` | `string` | No | Identifier of the source template. |
 
 ### Field Usage by Operation
@@ -869,16 +1009,19 @@ local planned_workout = client:PlannedWorkout(nil)
 | Field | load | list | update |
 | --- | --- | --- | --- |
 | `athlete_metrics` | - | - | - |
-| `coercion_warnings` | - | - | - |
+| `coercion_warnings` | - | Yes | - |
+| `completed_at` | - | Yes | - |
 | `created_at` | - | - | - |
 | `details` | - | - | - |
 | `id` | - | - | - |
-| `is_external` | - | - | - |
+| `is_external` | - | Yes | - |
 | `last_updated_at` | - | - | - |
-| `planned_date` | - | - | Yes |
-| `planned_workout_id` | - | - | - |
-| `provider_workout_id` | - | - | - |
-| `workout_id` | - | - | - |
+| `planned_date` | - | Yes | Yes |
+| `planned_workout_id` | - | Yes | - |
+| `provider_workout_id` | - | Yes | - |
+| `warnings` | - | Yes | - |
+| `workout` | - | Yes | - |
+| `workout_id` | - | Yes | - |
 
 ### Operations
 
@@ -992,7 +1135,25 @@ Return the entity name.
 local user = client:User(nil)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `max_page` | `number` | No | Total number of pages available for the requested page size |
+| `next` | `number|nil` | No | The next page number, or null if there is no next page |
+| `results` | `table` | No |  |
+| `status` | `string` | No |  |
+| `users` | `table` | No |  |
+
 ### Operations
+
+#### `list(reqmatch, ctrl) -> any, err`
+
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
+
+```lua
+local results, err = client:User():list()
+```
 
 #### `load(reqmatch, ctrl) -> any, err`
 
@@ -1047,6 +1208,8 @@ local workout = client:Workout(nil)
 | `estimated_calories` | `any` | No | Estimated calories burned |
 | `estimated_distance_meters` | `any` | No | Estimated total distance in meters |
 | `estimated_duration_seconds` | `any` | No | Estimated total duration in seconds |
+| `estimated_intensity_factor` | `any` | No | Planned intensity factor (0-5), where the provider or author supplies one. |
+| `estimated_tss` | `any` | No | Planned training stress score (0-9999), where the provider or author supplies one. |
 | `id` | `string` | No |  |
 | `name` | `string` | Yes | Name of the workout |
 | `pool_length_meters` | `any` | No | Pool length in meters, for swim workouts |

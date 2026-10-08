@@ -37,11 +37,18 @@ describe("LabReportDeliveryEntity", function()
     local setup = lab_report_delivery_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({}) do
+    for _, _op in ipairs({"list"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "lab_report_delivery." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
         return
+      end
+    end
+    if setup.live then
+      for _, _live_key in ipairs({"report01"}) do
+        if setup.synthetic_only or setup.idmap[_live_key] == nil then
+          runner.live_miss(pending, LIVE_STRICT, "Live entity test blocked: needs " .. _live_key .. " via TERRA_TEST_LAB_REPORT_DELIVERY_ENTID")
+        end
       end
     end
     local client = setup.client
@@ -53,6 +60,16 @@ describe("LabReportDeliveryEntity", function()
     if #lab_report_delivery_ref01_data_raw > 0 then
       lab_report_delivery_ref01_data = helpers.to_map(lab_report_delivery_ref01_data_raw[1][2])
     end
+
+    -- LIST
+    local lab_report_delivery_ref01_ent = client:LabReportDelivery(nil)
+    local lab_report_delivery_ref01_match = {
+      ["report_id"] = setup.idmap["report01"],
+    }
+
+    local lab_report_delivery_ref01_list_result, err = lab_report_delivery_ref01_ent:list(lab_report_delivery_ref01_match, nil)
+    assert.is_nil(err)
+    assert.is_table(lab_report_delivery_ref01_list_result)
 
   end)
 end)
@@ -77,7 +94,7 @@ function lab_report_delivery_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "lab_report_delivery01", "lab_report_delivery02", "lab_report_delivery03" },
+    { "lab_report_delivery01", "lab_report_delivery02", "lab_report_delivery03", "report01" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

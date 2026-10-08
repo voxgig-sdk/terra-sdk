@@ -84,6 +84,9 @@ func init() {
 	core.NewLabReportFileEntityFunc = func(client *core.TerraSDK, entopts map[string]any) core.TerraEntity {
 		return entity.NewLabReportFileEntity(client, entopts)
 	}
+	core.NewLabReportSessionEntityFunc = func(client *core.TerraSDK, entopts map[string]any) core.TerraEntity {
+		return entity.NewLabReportSessionEntity(client, entopts)
+	}
 	core.NewMenstruationEntityFunc = func(client *core.TerraSDK, entopts map[string]any) core.TerraEntity {
 		return entity.NewMenstruationEntity(client, entopts)
 	}

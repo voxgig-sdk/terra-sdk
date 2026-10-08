@@ -40,6 +40,8 @@ var NewLabReportDeliveryEntityFunc func(client *TerraSDK, entopts map[string]any
 
 var NewLabReportFileEntityFunc func(client *TerraSDK, entopts map[string]any) TerraEntity
 
+var NewLabReportSessionEntityFunc func(client *TerraSDK, entopts map[string]any) TerraEntity
+
 var NewMenstruationEntityFunc func(client *TerraSDK, entopts map[string]any) TerraEntity
 
 var NewNutritionEntityFunc func(client *TerraSDK, entopts map[string]any) TerraEntity
