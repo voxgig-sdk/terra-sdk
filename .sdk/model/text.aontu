@@ -1,0 +1,8 @@
+# README wording — YOURS. The scaffold creates this file once and never
+# overwrites it. A slot set here words the generated README files and the
+# documentation over the same slot of main.kit.info.
+
+# The spec's info.title is "TerraAPI", one word.
+main: kit: text: {
+  title: 'Terra API'
+}

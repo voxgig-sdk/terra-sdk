@@ -4,8 +4,8 @@
 
 | | |
 |---|---|
-| Source | https://github.com/tryterra/openapi/blob/372ff254/dist/core/v2-bundled.yaml (commit 372ff254, 2026-10-08) |
-| Fetched | 2026-10-08 |
-| Size | 433488 bytes |
-| sha256 | `ae498cf963bcd06031dfda0d2933f0dacb26d7fce56488b8aff5f4de32e1ea5e` |
-| Version | 2026.10.08.1 — 30 paths, 38 operations |
+| Source | https://github.com/tryterra/openapi/blob/29287df1/dist/core/v2-bundled.yaml (commit 29287df1, 2026-10-22) |
+| Fetched | 2026-10-22 |
+| Size | 448575 bytes |
+| sha256 | `44db8a0789fba83786569cc79154c0b6a6eff700ebdfa72b1bc72bd411f50e20` |
+| Version | 2026.10.21.1 — 32 paths, 40 operations |

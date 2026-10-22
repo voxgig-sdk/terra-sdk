@@ -4,7 +4,6 @@
 @"./go.aontu"
 @"./go-cli.aontu"
 @"./go-mcp.aontu"
-@"./js.aontu"
 @"./lua.aontu"
 @"./php.aontu"
 @"./py.aontu"

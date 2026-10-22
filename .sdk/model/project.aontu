@@ -22,6 +22,39 @@
 # A published package name that does not follow the derivation:
 #
 #   main: kit: target: ts: publish: registry: package: '@scope/name'
+# outreach1 standard (2026-10-22): the Brontie build. std8 targets, the standard
+# features (including secrets) and a branded GitHub Pages documentation site.
+main: kit: doc: edition: 'github-pages': active: true
+
+# GitHub Pages is enabled for this repository, so generated documentation may
+# link the site. Without this the README advertises no address, which is what
+# an unpublished repository should do.
+main: kit: doc: edition: 'github-pages': published: true
+
+# Brand palette, taken from tryterra.co's own stylesheet: #008aff blue is the
+# primary, #ff3058 pink-red the accent (docgen uses the accent only for tints
+# and gradients, never for text), #f7f8f9 the page background and #1e293a slate
+# the text. Dark mode uses the site's near-black #0a0a0a. auto, so the dark
+# values are actually used.
+main: kit: doc: style: mode: 'auto'
+
+main: kit: doc: style: color: {
+  primary: '#008aff'
+  accent: '#ff3058'
+  background: '#f7f8f9'
+  text: '#1e293a'
+  darkBackground: '#0a0a0a'
+  darkText: '#f7f8f9'
+}
+
+# Published package names, declared so a change in the generator's naming
+# rule cannot rename a released package. rb is added by this regeneration and
+# is not yet a defined target, so pinning it now would fail the model build;
+# pin it on the next pass.
+main: kit: target: ts: publish: registry: package: '@voxgig-sdk/terra-sdk'
+main: kit: target: py: publish: registry: package: 'voxgig-sdk-terra-sdk'
+main: kit: target: lua: publish: registry: package: 'voxgig-sdk-terra-sdk'
+main: kit: target: php: publish: registry: package: 'voxgig-sdk/terra-sdk'
 # --- cedar: release version (written by cedar-regen.sh, do not hand-edit)
 # Per target, because sdkgen keys the version per target; identical across
 # them because cedar tags a repo at one version.
