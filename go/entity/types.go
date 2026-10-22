@@ -22,7 +22,7 @@ type ActivityLoadMatch struct {
 	StartDate any `json:"start_date"`
 	ToWebhook *bool `json:"to_webhook,omitempty"`
 	UserId string `json:"user_id"`
-	WithSample *bool `json:"with_sample,omitempty"`
+	WithSamples *bool `json:"with_samples,omitempty"`
 }
 
 // Athlete is the typed data model for the athlete entity.
@@ -69,7 +69,7 @@ type BodyLoadMatch struct {
 	StartDate any `json:"start_date"`
 	ToWebhook *bool `json:"to_webhook,omitempty"`
 	UserId string `json:"user_id"`
-	WithSample *bool `json:"with_sample,omitempty"`
+	WithSamples *bool `json:"with_samples,omitempty"`
 }
 
 // BulkUserInfo is the typed data model for the bulk_user_info entity.
@@ -91,7 +91,7 @@ type DailyLoadMatch struct {
 	StartDate any `json:"start_date"`
 	ToWebhook *bool `json:"to_webhook,omitempty"`
 	UserId string `json:"user_id"`
-	WithSample *bool `json:"with_sample,omitempty"`
+	WithSamples *bool `json:"with_samples,omitempty"`
 }
 
 // Integration is the typed data model for the integration entity.
@@ -202,7 +202,7 @@ type MenstruationLoadMatch struct {
 	StartDate any `json:"start_date"`
 	ToWebhook *bool `json:"to_webhook,omitempty"`
 	UserId string `json:"user_id"`
-	WithSample *bool `json:"with_sample,omitempty"`
+	WithSamples *bool `json:"with_samples,omitempty"`
 }
 
 // Nutrition is the typed data model for the nutrition entity.
@@ -215,7 +215,7 @@ type NutritionLoadMatch struct {
 	StartDate any `json:"start_date"`
 	ToWebhook *bool `json:"to_webhook,omitempty"`
 	UserId string `json:"user_id"`
-	WithSample *bool `json:"with_sample,omitempty"`
+	WithSamples *bool `json:"with_samples,omitempty"`
 }
 
 // PlannedWorkout is the typed data model for the planned_workout entity.
@@ -252,7 +252,7 @@ type SleepLoadMatch struct {
 	StartDate any `json:"start_date"`
 	ToWebhook *bool `json:"to_webhook,omitempty"`
 	UserId string `json:"user_id"`
-	WithSample *bool `json:"with_sample,omitempty"`
+	WithSamples *bool `json:"with_samples,omitempty"`
 }
 
 // User is the typed data model for the user entity.

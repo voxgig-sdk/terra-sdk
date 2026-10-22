@@ -13,7 +13,7 @@ export interface ActivityLoadMatch {
   start_date: any
   to_webhook?: boolean
   user_id: string
-  with_sample?: boolean
+  with_samples?: boolean
 }
 
 export interface Athlete {
@@ -69,7 +69,7 @@ export interface BodyLoadMatch {
   start_date: any
   to_webhook?: boolean
   user_id: string
-  with_sample?: boolean
+  with_samples?: boolean
 }
 
 export interface BulkUserInfo {
@@ -88,7 +88,7 @@ export interface DailyLoadMatch {
   start_date: any
   to_webhook?: boolean
   user_id: string
-  with_sample?: boolean
+  with_samples?: boolean
 }
 
 export interface Integration {
@@ -255,7 +255,7 @@ export interface MenstruationLoadMatch {
   start_date: any
   to_webhook?: boolean
   user_id: string
-  with_sample?: boolean
+  with_samples?: boolean
 }
 
 export interface Nutrition {
@@ -266,7 +266,7 @@ export interface NutritionLoadMatch {
   start_date: any
   to_webhook?: boolean
   user_id: string
-  with_sample?: boolean
+  with_samples?: boolean
 }
 
 export interface PlannedWorkout {
@@ -311,7 +311,7 @@ export interface SleepLoadMatch {
   start_date: any
   to_webhook?: boolean
   user_id: string
-  with_sample?: boolean
+  with_samples?: boolean
 }
 
 export interface User {

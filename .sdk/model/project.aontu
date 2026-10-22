@@ -55,6 +55,14 @@ main: kit: target: ts: publish: registry: package: '@voxgig-sdk/terra-sdk'
 main: kit: target: py: publish: registry: package: 'voxgig-sdk-terra-sdk'
 main: kit: target: lua: publish: registry: package: 'voxgig-sdk-terra-sdk'
 main: kit: target: php: publish: registry: package: 'voxgig-sdk/terra-sdk'
+# Wire names are never singularised. apidef depluralises names it derives,
+# and with_samples (a query parameter) came out as with_sample, which Terra
+# ignores without an error. Kept here, not in config.aontu, which the regen
+# rewrites: that is how the 2026-08 override was lost.
+main: custom: plurals: {
+  with_samples: 'with_samples'
+}
+
 # --- cedar: release version (written by cedar-regen.sh, do not hand-edit)
 # Per target, because sdkgen keys the version per target; identical across
 # them because cedar tags a repo at one version.

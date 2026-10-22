@@ -26,14 +26,14 @@ end
 # @!attribute [rw] user_id
 #   @return [String]
 #
-# @!attribute [rw] with_sample
+# @!attribute [rw] with_samples
 #   @return [Boolean, nil]
 ActivityLoadMatch = Struct.new(
   :end_date,
   :start_date,
   :to_webhook,
   :user_id,
-  :with_sample,
+  :with_samples,
   keyword_init: true
 )
 
@@ -175,14 +175,14 @@ end
 # @!attribute [rw] user_id
 #   @return [String]
 #
-# @!attribute [rw] with_sample
+# @!attribute [rw] with_samples
 #   @return [Boolean, nil]
 BodyLoadMatch = Struct.new(
   :end_date,
   :start_date,
   :to_webhook,
   :user_id,
-  :with_sample,
+  :with_samples,
   keyword_init: true
 )
 
@@ -222,14 +222,14 @@ end
 # @!attribute [rw] user_id
 #   @return [String]
 #
-# @!attribute [rw] with_sample
+# @!attribute [rw] with_samples
 #   @return [Boolean, nil]
 DailyLoadMatch = Struct.new(
   :end_date,
   :start_date,
   :to_webhook,
   :user_id,
-  :with_sample,
+  :with_samples,
   keyword_init: true
 )
 
@@ -664,14 +664,14 @@ end
 # @!attribute [rw] user_id
 #   @return [String]
 #
-# @!attribute [rw] with_sample
+# @!attribute [rw] with_samples
 #   @return [Boolean, nil]
 MenstruationLoadMatch = Struct.new(
   :end_date,
   :start_date,
   :to_webhook,
   :user_id,
-  :with_sample,
+  :with_samples,
   keyword_init: true
 )
 
@@ -693,14 +693,14 @@ end
 # @!attribute [rw] user_id
 #   @return [String]
 #
-# @!attribute [rw] with_sample
+# @!attribute [rw] with_samples
 #   @return [Boolean, nil]
 NutritionLoadMatch = Struct.new(
   :end_date,
   :start_date,
   :to_webhook,
   :user_id,
-  :with_sample,
+  :with_samples,
   keyword_init: true
 )
 
@@ -830,14 +830,14 @@ end
 # @!attribute [rw] user_id
 #   @return [String]
 #
-# @!attribute [rw] with_sample
+# @!attribute [rw] with_samples
 #   @return [Boolean, nil]
 SleepLoadMatch = Struct.new(
   :end_date,
   :start_date,
   :to_webhook,
   :user_id,
-  :with_sample,
+  :with_samples,
   keyword_init: true
 )
 

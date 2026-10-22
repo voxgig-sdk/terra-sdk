@@ -3,6 +3,9 @@
 # documentation over the same slot of main.kit.info.
 
 # The spec's info.title is "TerraAPI", one word.
+# Terra authenticates every request with two headers. sdkgen models one
+# credential, so the second travels in the headers option.
 main: kit: text: {
   title: 'Terra API'
+  about_md: "**Credentials.** Terra authenticates every request with two headers: your API key (`x-api-key`) and your developer ID (`dev-id`). Pass the key as the `apikey` option and the developer ID through `headers`:\n\n```ts\nconst client = new TerraSDK({\n  apikey: process.env.TERRA_APIKEY,\n  headers: { 'dev-id': process.env.TERRA_DEV_ID },\n})\n```"
 }

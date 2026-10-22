@@ -277,7 +277,7 @@ class TerraConfig
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'with_sample',
+                        'name' => 'with_samples',
                         'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
@@ -698,7 +698,7 @@ class TerraConfig
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'with_sample',
+                        'name' => 'with_samples',
                         'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
@@ -827,7 +827,7 @@ class TerraConfig
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'with_sample',
+                        'name' => 'with_samples',
                         'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
@@ -2189,7 +2189,7 @@ class TerraConfig
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'with_sample',
+                        'name' => 'with_samples',
                         'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
@@ -2268,7 +2268,7 @@ class TerraConfig
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'with_sample',
+                        'name' => 'with_samples',
                         'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',
@@ -2688,7 +2688,7 @@ class TerraConfig
                         'reqd' => true,
                       ],
                       [
-                        'name' => 'with_sample',
+                        'name' => 'with_samples',
                         'orig' => 'with_samples',
                         'type' => '`$BOOLEAN`',
                         'kind' => 'query',

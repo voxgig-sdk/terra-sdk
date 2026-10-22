@@ -18,6 +18,17 @@ Full documentation for this SDK: [https://voxgig-sdk.github.io/terra-sdk/](https
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
+## About Terra API
+
+**Credentials.** Terra authenticates every request with two headers: your API key (`x-api-key`) and your developer ID (`dev-id`). Pass the key as the `apikey` option and the developer ID through `headers`:
+
+```ts
+const client = new TerraSDK({
+  apikey: process.env.TERRA_APIKEY,
+  headers: { 'dev-id': process.env.TERRA_DEV_ID },
+})
+```
+
 ## Entities, not endpoints
 
 This SDK exposes the API as **17 semantic entities** that you

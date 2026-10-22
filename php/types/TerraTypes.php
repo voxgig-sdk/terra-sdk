@@ -24,7 +24,7 @@ class ActivityLoadMatch
     public mixed $start_date;
     public ?bool $to_webhook = null;
     public string $user_id;
-    public ?bool $with_sample = null;
+    public ?bool $with_samples = null;
 }
 
 /** Athlete entity data model. */
@@ -88,7 +88,7 @@ class BodyLoadMatch
     public mixed $start_date;
     public ?bool $to_webhook = null;
     public string $user_id;
-    public ?bool $with_sample = null;
+    public ?bool $with_samples = null;
 }
 
 /** BulkUserInfo entity data model. */
@@ -115,7 +115,7 @@ class DailyLoadMatch
     public mixed $start_date;
     public ?bool $to_webhook = null;
     public string $user_id;
-    public ?bool $with_sample = null;
+    public ?bool $with_samples = null;
 }
 
 /** Integration entity data model. */
@@ -282,7 +282,7 @@ class MenstruationLoadMatch
     public mixed $start_date;
     public ?bool $to_webhook = null;
     public string $user_id;
-    public ?bool $with_sample = null;
+    public ?bool $with_samples = null;
 }
 
 /** Nutrition entity data model. */
@@ -297,7 +297,7 @@ class NutritionLoadMatch
     public mixed $start_date;
     public ?bool $to_webhook = null;
     public string $user_id;
-    public ?bool $with_sample = null;
+    public ?bool $with_samples = null;
 }
 
 /** PlannedWorkout entity data model. */
@@ -354,7 +354,7 @@ class SleepLoadMatch
     public mixed $start_date;
     public ?bool $to_webhook = null;
     public string $user_id;
-    public ?bool $with_sample = null;
+    public ?bool $with_samples = null;
 }
 
 /** User entity data model. */

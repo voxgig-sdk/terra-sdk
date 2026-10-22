@@ -47,7 +47,7 @@ main: kit: entity: activity: {
               }
               {
                 k: "query"
-                n: "with_sample"
+                n: "with_samples"
                 or: "with_samples"
                 r: false
                 t: "`$BOOLEAN`"

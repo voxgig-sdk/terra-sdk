@@ -251,7 +251,7 @@ local function make_config()
                       ["reqd"] = true,
                     },
                     {
-                      ["name"] = "with_sample",
+                      ["name"] = "with_samples",
                       ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
@@ -672,7 +672,7 @@ local function make_config()
                       ["reqd"] = true,
                     },
                     {
-                      ["name"] = "with_sample",
+                      ["name"] = "with_samples",
                       ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
@@ -801,7 +801,7 @@ local function make_config()
                       ["reqd"] = true,
                     },
                     {
-                      ["name"] = "with_sample",
+                      ["name"] = "with_samples",
                       ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
@@ -2163,7 +2163,7 @@ local function make_config()
                       ["reqd"] = true,
                     },
                     {
-                      ["name"] = "with_sample",
+                      ["name"] = "with_samples",
                       ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
@@ -2242,7 +2242,7 @@ local function make_config()
                       ["reqd"] = true,
                     },
                     {
-                      ["name"] = "with_sample",
+                      ["name"] = "with_samples",
                       ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
@@ -2662,7 +2662,7 @@ local function make_config()
                       ["reqd"] = true,
                     },
                     {
-                      ["name"] = "with_sample",
+                      ["name"] = "with_samples",
                       ["orig"] = "with_samples",
                       ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",

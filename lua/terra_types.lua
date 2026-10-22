@@ -13,7 +13,7 @@
 ---@field start_date any
 ---@field to_webhook? boolean
 ---@field user_id string
----@field with_sample? boolean
+---@field with_samples? boolean
 
 ---@class Athlete
 
@@ -56,7 +56,7 @@
 ---@field start_date any
 ---@field to_webhook? boolean
 ---@field user_id string
----@field with_sample? boolean
+---@field with_samples? boolean
 
 ---@class BulkUserInfo
 ---@field bulk_user_infos? table
@@ -71,7 +71,7 @@
 ---@field start_date any
 ---@field to_webhook? boolean
 ---@field user_id string
----@field with_sample? boolean
+---@field with_samples? boolean
 
 ---@class Integration
 ---@field providers? table
@@ -193,7 +193,7 @@
 ---@field start_date any
 ---@field to_webhook? boolean
 ---@field user_id string
----@field with_sample? boolean
+---@field with_samples? boolean
 
 ---@class Nutrition
 
@@ -202,7 +202,7 @@
 ---@field start_date any
 ---@field to_webhook? boolean
 ---@field user_id string
----@field with_sample? boolean
+---@field with_samples? boolean
 
 ---@class PlannedWorkout
 ---@field athlete_metrics any
@@ -241,7 +241,7 @@
 ---@field start_date any
 ---@field to_webhook? boolean
 ---@field user_id string
----@field with_sample? boolean
+---@field with_samples? boolean
 
 ---@class User
 ---@field max_page? number

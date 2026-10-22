@@ -28,7 +28,7 @@ class ActivityLoadMatchRequired(TypedDict):
 class ActivityLoadMatch(ActivityLoadMatchRequired, total=False):
     end_date: Any
     to_webhook: bool
-    with_sample: bool
+    with_samples: bool
 
 
 class Athlete(TypedDict):
@@ -89,7 +89,7 @@ class BodyLoadMatchRequired(TypedDict):
 class BodyLoadMatch(BodyLoadMatchRequired, total=False):
     end_date: Any
     to_webhook: bool
-    with_sample: bool
+    with_samples: bool
 
 
 class BulkUserInfo(TypedDict, total=False):
@@ -112,7 +112,7 @@ class DailyLoadMatchRequired(TypedDict):
 class DailyLoadMatch(DailyLoadMatchRequired, total=False):
     end_date: Any
     to_webhook: bool
-    with_sample: bool
+    with_samples: bool
 
 
 class Integration(TypedDict, total=False):
@@ -271,7 +271,7 @@ class MenstruationLoadMatchRequired(TypedDict):
 class MenstruationLoadMatch(MenstruationLoadMatchRequired, total=False):
     end_date: Any
     to_webhook: bool
-    with_sample: bool
+    with_samples: bool
 
 
 class Nutrition(TypedDict):
@@ -286,7 +286,7 @@ class NutritionLoadMatchRequired(TypedDict):
 class NutritionLoadMatch(NutritionLoadMatchRequired, total=False):
     end_date: Any
     to_webhook: bool
-    with_sample: bool
+    with_samples: bool
 
 
 class PlannedWorkoutRequired(TypedDict):
@@ -344,7 +344,7 @@ class SleepLoadMatchRequired(TypedDict):
 class SleepLoadMatch(SleepLoadMatchRequired, total=False):
     end_date: Any
     to_webhook: bool
-    with_sample: bool
+    with_samples: bool
 
 
 class User(TypedDict, total=False):

@@ -255,7 +255,7 @@ func MakeConfig() map[string]any {
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "with_sample",
+											"name": "with_samples",
 											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
@@ -676,7 +676,7 @@ func MakeConfig() map[string]any {
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "with_sample",
+											"name": "with_samples",
 											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
@@ -805,7 +805,7 @@ func MakeConfig() map[string]any {
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "with_sample",
+											"name": "with_samples",
 											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
@@ -2167,7 +2167,7 @@ func MakeConfig() map[string]any {
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "with_sample",
+											"name": "with_samples",
 											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
@@ -2246,7 +2246,7 @@ func MakeConfig() map[string]any {
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "with_sample",
+											"name": "with_samples",
 											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
@@ -2666,7 +2666,7 @@ func MakeConfig() map[string]any {
 											"reqd": true,
 										},
 										map[string]any{
-											"name": "with_sample",
+											"name": "with_samples",
 											"orig": "with_samples",
 											"type": "`$BOOLEAN`",
 											"kind": "query",

@@ -1,14 +1,10 @@
 {
-  "NAME": "TERRA",
-  "Name": "Terra",
   "def": "v2-bundled.yaml",
   "main": {
-    "api": {
-      "entity": {},
-      "guide": {}
-    },
     "custom": {
-      "plurals": {}
+      "plurals": {
+        "with_samples": "with_samples"
+      }
     },
     "def": {
       "desc": ""
@@ -179,7 +175,7 @@
                       {
                         "a": true,
                         "k": "query",
-                        "n": "with_sample",
+                        "n": "with_samples",
                         "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
@@ -684,7 +680,7 @@
                       {
                         "a": true,
                         "k": "query",
-                        "n": "with_sample",
+                        "n": "with_samples",
                         "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
@@ -840,7 +836,7 @@
                       {
                         "a": true,
                         "k": "query",
-                        "n": "with_sample",
+                        "n": "with_samples",
                         "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
@@ -2421,7 +2417,7 @@
                       {
                         "a": true,
                         "k": "query",
-                        "n": "with_sample",
+                        "n": "with_samples",
                         "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
@@ -2515,7 +2511,7 @@
                       {
                         "a": true,
                         "k": "query",
-                        "n": "with_sample",
+                        "n": "with_samples",
                         "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
@@ -3002,7 +2998,7 @@
                       {
                         "a": true,
                         "k": "query",
-                        "n": "with_sample",
+                        "n": "with_samples",
                         "or": "with_samples",
                         "r": false,
                         "t": "`$BOOLEAN`"
@@ -6866,7 +6862,7 @@
         }
       },
       "text": {
-        "about_md": "",
+        "about_md": "**Credentials.** Terra authenticates every request with two headers: your API key (`x-api-key`) and your developer ID (`dev-id`). Pass the key as the `apikey` option and the developer ID through `headers`:\n\n```ts\nconst client = new TerraSDK({\n  apikey: process.env.TERRA_APIKEY,\n  headers: { 'dev-id': process.env.TERRA_DEV_ID },\n})\n```",
         "docs_url": "",
         "entity_desc": {},
         "homepage": "",
@@ -6879,8 +6875,5 @@
     }
   },
   "name": "terra",
-  "name-": "terra",
-  "name_": "terra",
-  "name__orig": "terra",
   "origin": "voxgig-sdk"
 }
