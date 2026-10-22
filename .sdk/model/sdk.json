@@ -6868,7 +6868,7 @@
         }
       },
       "text": {
-        "about_md": "**Credentials.** Terra authenticates every request with two headers: your API key (`x-api-key`) and your developer ID (`dev-id`). Pass the key as the `apikey` option and the developer ID through `headers`:\n\n```ts\nconst client = new TerraSDK({\n  apikey: process.env.TERRA_APIKEY,\n  headers: { 'dev-id': process.env.TERRA_DEV_ID },\n})\n```",
+        "about_md": "**Credentials.** Terra authenticates every request with two headers: your API key\n(`x-api-key`) and your developer ID (`dev-id`). Pass the key as the `apikey` option and\nthe developer ID through `headers`:\n\n```ts\nconst client = new TerraSDK({\n  apikey: process.env.TERRA_APIKEY,\n  headers: { 'dev-id': process.env.TERRA_DEV_ID },\n})\n```",
         "docs_url": "",
         "entity_desc": {},
         "homepage": "",

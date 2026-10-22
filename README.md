@@ -20,7 +20,9 @@ Full documentation for this SDK: [https://voxgig-sdk.github.io/terra-sdk/](https
 
 ## About Terra API
 
-**Credentials.** Terra authenticates every request with two headers: your API key (`x-api-key`) and your developer ID (`dev-id`). Pass the key as the `apikey` option and the developer ID through `headers`:
+**Credentials.** Terra authenticates every request with two headers: your API key
+(`x-api-key`) and your developer ID (`dev-id`). Pass the key as the `apikey` option and
+the developer ID through `headers`:
 
 ```ts
 const client = new TerraSDK({
