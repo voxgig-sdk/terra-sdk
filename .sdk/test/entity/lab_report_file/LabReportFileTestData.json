@@ -2,21 +2,24 @@
   "existing": {
     "lab_report_file": {
       "LAB_REPORT_FILE00": {
-        "filename": "s1e",
+        "content_type": "s28",
+        "filename": "s29",
         "id": "LAB_REPORT_FILE00",
-        "presigned_url": "s20",
+        "presigned_url": "s2b",
         "report_id": "REPORT01"
       },
       "LAB_REPORT_FILE01": {
-        "filename": "s3c",
+        "content_type": "s50",
+        "filename": "s51",
         "id": "LAB_REPORT_FILE01",
-        "presigned_url": "s3e",
+        "presigned_url": "s53",
         "report_id": "REPORT01"
       },
       "LAB_REPORT_FILE02": {
-        "filename": "s5a",
+        "content_type": "s78",
+        "filename": "s79",
         "id": "LAB_REPORT_FILE02",
-        "presigned_url": "s5c",
+        "presigned_url": "s7b",
         "report_id": "REPORT01"
       }
     }
@@ -24,8 +27,9 @@
   "new": {
     "lab_report_file": {
       "lab_report_file_ref01": {
-        "filename": "s78",
-        "presigned_url": "s7a"
+        "content_type": "sa0",
+        "filename": "sa1",
+        "presigned_url": "sa3"
       }
     }
   },

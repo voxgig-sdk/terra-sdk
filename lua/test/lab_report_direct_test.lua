@@ -21,43 +21,6 @@ local function live_ok(result, err)
 end
 
 describe("LabReportDirect", function()
-  it("should direct-list-lab_report", function()
-    local setup = lab_report_direct_setup({
-      { id = "direct01" },
-      { id = "direct02" },
-    })
-    local _should_skip, _reason = runner.is_control_skipped("direct", "direct-list-lab_report", setup.live and "live" or "unit")
-    if _should_skip then
-      pending(_reason or "skipped via sdk-test-control.json")
-      return
-    end
-    local client = setup.client
-
-    local params = {}
-
-    local result, err = client:direct({
-      path = "lab-reports",
-      method = "GET",
-      params = params,
-    })
-    if setup.live then
-      if not live_ok(result, err) then
-        runner.live_miss(pending, LIVE_STRICT, "Live list failed: " .. runner.live_describe(result, err))
-      end
-      if runner.live_list(result["data"]) == nil then
-        runner.live_miss(pending, LIVE_STRICT, "Live list returned no list: " .. runner.live_describe(result, err))
-      end
-      assert.is_table(runner.live_list(result["data"]))
-    else
-      assert.is_nil(err)
-      assert.is_true(result["ok"])
-      assert.are.equal(200, helpers.to_int(result["status"]))
-      assert.is_table(result["data"])
-      assert.are.equal(2, #result["data"])
-      assert.are.equal(1, #setup.calls)
-    end
-  end)
-
   it("should direct-load-lab_report", function()
     local setup = lab_report_direct_setup({ id = "direct01" })
     local _should_skip, _reason = runner.is_control_skipped("direct", "direct-load-lab_report", setup.live and "live" or "unit")

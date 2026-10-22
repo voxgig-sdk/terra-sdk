@@ -22,51 +22,29 @@
 ---@field user_id string
 
 ---@class Authentication
----@field apple_app_url? string
 ---@field auth_failure_redirect_url? string
 ---@field auth_success_redirect_url? string
 ---@field auth_url? string
----@field bypass_feedback? boolean
----@field connected_uids? table
 ---@field expires_in? number
 ---@field language? string
----@field multi_auth? boolean
----@field providers? string
 ---@field reference_id? string
----@field samsung_app_url? string
 ---@field sdk_app? string
----@field session_id? string
----@field show_disconnect? boolean
 ---@field status? string
 ---@field token? string
----@field url? string
----@field use_terra_avengers_app? boolean
 ---@field user_id? string
----@field warnings? table
 
 ---@class AuthenticationCreateData
 ---@field resource string
----@field apple_app_url? string
 ---@field auth_failure_redirect_url? string
 ---@field auth_success_redirect_url? string
 ---@field auth_url? string
----@field bypass_feedback? boolean
----@field connected_uids? table
 ---@field expires_in? number
 ---@field language? string
----@field multi_auth? boolean
----@field providers? string
 ---@field reference_id? string
----@field samsung_app_url? string
 ---@field sdk_app? string
----@field session_id? string
----@field show_disconnect? boolean
 ---@field status? string
 ---@field token? string
----@field url? string
----@field use_terra_avengers_app? boolean
 ---@field user_id? string
----@field warnings? table
 
 ---@class AuthenticationRemoveMatch
 ---@field user_id string
@@ -106,35 +84,14 @@
 ---@field status? string
 
 ---@class LabReport
----@field collection_date? string
----@field collection_time? string
 ---@field current_status string
----@field file_count? number
+---@field file string
 ---@field id? string
----@field input_bytes? number
----@field lab_name? string
----@field output_bytes? number
----@field panels? table
----@field patient_age_at_collection? number
----@field patient_sex? string
----@field reference_id? string
----@field report_date? string
----@field report_locale? string
----@field report_notes? string
----@field report_time? string
----@field report_type string
----@field results? table
----@field results_count? number
----@field session_id string
----@field status_history? table
----@field updated_at? string
----@field upload_id? string
----@field uploaded_at? string
+---@field upload_id string
 
 ---@class LabReportLoadMatch
----@field id string
-
----@class LabReportListMatch
+---@field cursor? string
+---@field limit? number
 ---@field reference_id? string
 ---@field report_date_from? string
 ---@field report_date_to? string
@@ -145,29 +102,10 @@
 
 ---@class LabReportCreateData
 ---@field reference_id? string
----@field collection_date? string
----@field collection_time? string
 ---@field current_status string
----@field file_count? number
+---@field file string
 ---@field id? string
----@field input_bytes? number
----@field lab_name? string
----@field output_bytes? number
----@field panels? table
----@field patient_age_at_collection? number
----@field patient_sex? string
----@field report_date? string
----@field report_locale? string
----@field report_notes? string
----@field report_time? string
----@field report_type string
----@field results? table
----@field results_count? number
----@field session_id string
----@field status_history? table
----@field updated_at? string
----@field upload_id? string
----@field uploaded_at? string
+---@field upload_id string
 
 ---@class LabReportRemoveMatch
 ---@field id string
@@ -184,6 +122,7 @@
 ---@field id string
 
 ---@class LabReportFile
+---@field content_type? string
 ---@field filename? string
 ---@field id? string
 ---@field presigned_url string
@@ -195,6 +134,7 @@
 ---@field collection_date? string
 ---@field collection_time? string
 ---@field current_status string
+---@field error table
 ---@field file_count? number
 ---@field input_bytes? number
 ---@field lab_name? string
@@ -219,20 +159,13 @@
 ---@class LabReportSessionLoadMatch
 ---@field session_id string
 
----@class LabReportSessionListMatch
----@field reference_id? string
----@field report_date_from? string
----@field report_date_to? string
----@field report_type? string
----@field upload_id? string
----@field uploaded_at_from? string
----@field uploaded_at_to? string
-
 ---@class LabReportSessionCreateData
----@field reference_id? string
+---@field session_id string
+---@field legacy_format? boolean
 ---@field collection_date? string
 ---@field collection_time? string
 ---@field current_status string
+---@field error table
 ---@field file_count? number
 ---@field input_bytes? number
 ---@field lab_name? string
@@ -240,6 +173,7 @@
 ---@field panels? table
 ---@field patient_age_at_collection? number
 ---@field patient_sex? string
+---@field reference_id? string
 ---@field report_date? string
 ---@field report_locale? string
 ---@field report_notes? string
@@ -247,7 +181,6 @@
 ---@field report_type string
 ---@field results? table
 ---@field results_count? number
----@field session_id string
 ---@field status_history? table
 ---@field updated_at? string
 ---@field upload_id? string
@@ -299,19 +232,7 @@
 ---@class PlannedWorkoutUpdateData
 ---@field id number
 ---@field user_id string
----@field athlete_metrics? any
----@field coercion_warnings? string
----@field completed_at? any
----@field created_at? any
----@field details? any
----@field is_external? boolean
----@field last_updated_at? any
 ---@field planned_date? string
----@field planned_workout_id? string
----@field provider_workout_id? string
----@field warnings? table
----@field workout? any
----@field workout_id? string
 
 ---@class Sleep
 
@@ -380,11 +301,9 @@
 ---@field estimated_duration_seconds? any
 ---@field estimated_intensity_factor? any
 ---@field estimated_tss? any
----@field id? string
 ---@field name string
 ---@field pool_length_meters? any
 ---@field sport any
----@field status? string
 ---@field step_blocks table
 ---@field workout_id? string
 

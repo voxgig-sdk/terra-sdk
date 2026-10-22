@@ -1,18 +1,62 @@
 {
   "files": [
-    "SUMMARY.md"
+    "SUMMARY.md",
+    "docs/api/activity.html",
+    "docs/api/athlete.html",
+    "docs/api/authentication.html",
+    "docs/api/body.html",
+    "docs/api/bulk_user_info.html",
+    "docs/api/daily.html",
+    "docs/api/index.html",
+    "docs/api/integration.html",
+    "docs/api/lab_report.html",
+    "docs/api/lab_report_delivery.html",
+    "docs/api/lab_report_file.html",
+    "docs/api/lab_report_session.html",
+    "docs/api/menstruation.html",
+    "docs/api/nutrition.html",
+    "docs/api/planned_workout.html",
+    "docs/api/sleep.html",
+    "docs/api/user.html",
+    "docs/api/workout.html",
+    "docs/features/debug.html",
+    "docs/features/idempotency.html",
+    "docs/features/metrics.html",
+    "docs/features/paging.html",
+    "docs/features/ratelimit.html",
+    "docs/features/retry.html",
+    "docs/features/secrets.html",
+    "docs/features/test.html",
+    "docs/features/timeout.html",
+    "docs/guides/authentication.html",
+    "docs/guides/concepts.html",
+    "docs/guides/errors.html",
+    "docs/guides/first-call.html",
+    "docs/index.html",
+    "docs/sdks/go.html",
+    "docs/sdks/lua.html",
+    "docs/sdks/php.html",
+    "docs/sdks/py.html",
+    "docs/sdks/rb.html",
+    "docs/sdks/ts.html",
+    "docs/tools/go-cli.html",
+    "docs/tools/go-mcp.html"
   ],
   "config": ".sdk/doc/qa/vale.ini",
   "routes": {},
   "quoted": {
     "SUMMARY.md": [
       "200",
-      "A list of lab report sessions.",
+      "> The Terra API (v2 surface, served at `access.tryterra.co`/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code `entitlement_required`; disabled environments return `environment_disabled`. Unavailable current authorization returns HTTP 503 with code `authorization_unavailable`. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller&#39;s own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.\n>\n> **Lab reports versioning.** The report endpoints (`/reports`, and the deprecated `/lab-reports`) are versioned by date. Send `X-Terra-Version: &lt;date&gt;` to choose the version a request is served in: the newest version on or before that date. Without the header a request gets the environment&#39;s pinned version. An environment without a pin is pinned to the latest version on its first request; change the pin through the admin API (`PUT /api/v3/admin/environments/&#123;dev_id&#125;/lab-reports/api-version`). Every authenticated response carries `X-Terra-Version` stating the version it was served in, and every `lab_report` webhook delivery carries the environment&#39;s version. A malformed or future date returns 400 with code `invalid_api_version`. Versions are `2026-10-21` (latest: the report list is paginated) and `2026-03-24` (the list returns up to 500 reports in `sessions`). This document describes the latest version.",
+      "A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.",
+      "An uploaded file&#39;s content type. Present on files only.",
       "Creation time (RFC 3339). Null for external workouts.",
+      "Current status as a clean lowercase string (open enum, handle unknown values gracefully). In flight: processing, processed, standardizing, standardized, sending, and `retry_scheduled` (waiting to retry after a temporary model-provider error; the report is still being worked on). Terminal: sent, `partially_sent` (delivered to some destinations), `delivery_failed` (processed and results available, but no destination accepted the delivery), failed (see error), cancelled, deleted.",
       "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.",
       "Deprecated. The provider body of an external workout in its pre-template shape; use `workout`. Null on Terra-created workouts. Removed in the next major SDK release.",
       "Deprecated: the stored JSON text of the adjustments made when the template was pushed to the provider; use `warnings`. Null when there were none or the workout was created on the provider side.",
       "Description of the workout",
+      "Durable correlation key for the upload; every resulting session and webhook carries it.",
       "Estimated calories burned",
       "Estimated total distance in meters",
       "Estimated total duration in seconds",
@@ -21,7 +65,7 @@
       "List of integration providers with their details",
       "List of user IDs to get information for",
       "Most recent delivery error; omitted when delivered.",
-      "Patient age in years; omitted if unknown.",
+      "One page of sessions, newest first (`LabReportListPage`). An environment served API version 2026-03-24 gets `LabReportListResponse` instead: up to 500 sessions in `sessions`, with `limit` and `cursor` ignored.",
       "Per-destination delivery outcomes",
       "Planned intensity factor (0-5), where the provider or author supplies one. Forwarded to TrainingPeaks, which ignores it when any step target is not RPE and derives it from the structure instead.",
       "Planned workout created and pushed (or queued for SDK delivery)",
@@ -31,6 +75,7 @@
       "Providers available through Terra&#39;s mobile SDKs rather than cloud connections",
       "Report-level panels that results reference by `panel_id`. Omitted if the report has no panel grouping.",
       "Report-local ordinal; matches LabReportBiomarker.`panel_id`.",
+      "Reprocessing accepted.",
       "Retry count, 0 on the first attempt, incremented per retry.",
       "Returned upon a successful request",
       "Returned upon successful data request",
@@ -45,7 +90,6 @@
       "Successful response containing a list of integrations",
       "Template and all planned instances deleted",
       "Template stored",
-      "The Terra API (v2 surface, served at access.tryterra.co/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code `entitlement_required`; disabled environments return `environment_disabled`. Unavailable current authorization returns HTTP 503 with code `authorization_unavailable`. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller&#39;s own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.",
       "The destination&#39;s type (for example webhook, s3).",
       "The lab report session",
       "The lab report session.",
@@ -56,16 +100,174 @@
       "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.",
       "Time the session was reported complete by the user&#39;s device (RFC 3339, whole seconds, UTC). Null until a device reports it.",
       "Total number of pages available for the requested page size",
-      "URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app",
-      "URL the user is redirected to upon successful authentication.",
-      "URL the user is redirected to upon unsuccessful authentication",
       "Updated planned workout",
       "Upload accepted for processing.",
-      "When false, the user stays on the widget&#39;s own result screen instead of being redirected immediately",
+      "User ID for the user being created",
+      "Which Terra reference app an SDK authentication link hands the end user to.",
+      "Why the report failed: the same object the `lab_report`.failed webhook carries. Present only while `current_status` is failed.",
       "Your API key for authentication",
       "Your developer ID for authentication and tracking",
+      "a number in seconds depicting how long the url is valid for",
       "authentication URL the user must be redirected to in order to link their account",
+      "indicates that the request was successful",
       "pending, delivered, or failed."
+    ],
+    "docs/api/activity.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon successful data request",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/athlete.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon successful data request",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/authentication.html": [
+      "200",
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned for Terra accounts created after the widget relaunch (2026-09-03), this endpoint is deprecated for them. Create widget sessions with POST https://access.tryterra.co/api/widget/session instead. The response carries Deprecation and Link (rel=&quot;deprecation&quot;) headers",
+      "Returned when authentication link could be successfully generated",
+      "Returned when user is successfully deauthenticated and data is deleted",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/body.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon successful data request",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/bulk_user_info.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon successful request"
+    ],
+    "docs/api/daily.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon successful data request",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/index.html": [
+      "The Terra API (v2 surface, served at `access.tryterra.co`/api/v2)."
+    ],
+    "docs/api/integration.html": [
+      "Returns list of all available integrations on the API",
+      "Successful response containing a list of integrations"
+    ],
+    "docs/api/lab_report.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "Current product authorization or the environment&#39;s API version pin is unavailable (code `authorization_unavailable`), or paging is briefly unavailable while a deploy rolls out (code `service_unavailable`). Retry",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "One page of sessions, newest first (`LabReportListPage`). An environment served API version 2026-03-24 gets `LabReportListResponse` instead: up to 500 sessions in `sessions`, with `limit` and `cursor` ignored",
+      "Reprocessing accepted",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing",
+      "The lab report session",
+      "The session cannot be reprocessed: it is still being processed, was cancelled, or has used its 3 re-runs (problem code `reprocess_limit_reached`). A deleted session is 404",
+      "The session was deleted",
+      "The upload was refused. `code` says why: `validation_failed` (no `file` part, an empty file, a part without a filename, or a malformed form), `unsupported_file_type` (a file is not a PDF or a supported image; `detail` names the type its contents show), or `too_many_files` (more than 20 files)",
+      "Upload accepted for processing",
+      "`code: payload_too_large`: a file is over 20 MB, the upload is over 50 MB in total, or its PDFs are over 22.5 MB together, more than can be read as one report"
+    ],
+    "docs/api/lab_report_delivery.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Per-destination delivery outcomes",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/lab_report_file.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "Input files and thumbnail with presigned URLs",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/lab_report_session.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Reprocessing accepted",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing",
+      "The lab report session",
+      "The session cannot be reprocessed: it is still being processed, was cancelled, or has used its 3 re-runs (problem code `reprocess_limit_reached`). A deleted session is 404"
+    ],
+    "docs/api/menstruation.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon successful data request",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/nutrition.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon successful data request",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/planned_workout.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Planned workouts for the connection",
+      "The Planned Workouts add-on is not enabled for this account",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing",
+      "The planned workout",
+      "Updated planned workout"
+    ],
+    "docs/api/sleep.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon successful data request",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing"
+    ],
+    "docs/api/user.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Returned upon a successful request",
+      "Returned when the provided resources are found"
+    ],
+    "docs/api/workout.html": [
+      "A referenced resource does not exist on Terra&#39;s end",
+      "Authentication credentials are missing or invalid",
+      "Current product authorization is unavailable; retry after the service recovers",
+      "One or more parameters is malformed. The `detail` field describes the specific problem",
+      "Planned workout created and pushed (or queued for SDK delivery)",
+      "Planned workout deleted",
+      "Provider-side deletion could not be performed; retry later",
+      "Some provider-side deletions failed; the template is retained. Retry to complete the cascade.",
+      "Stored templates, each including its `workout_id`",
+      "Template and all planned instances deleted",
+      "Template stored",
+      "The Planned Workouts add-on is not enabled for this account",
+      "The credential is not authorized, the environment is disabled, or the required product entitlement is missing",
+      "The provider rejected the workout push; retry later",
+      "The stored template"
+    ],
+    "docs/index.html": [
+      "> The Terra API (v2 surface, served at `access.tryterra.co`/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code `entitlement_required`; disabled environments return `environment_disabled`. Unavailable current authorization returns HTTP 503 with code `authorization_unavailable`. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller&#39;s own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.\n>\n> **Lab reports versioning.** The report endpoints (`/reports`, and the deprecated `/lab-reports`) are versioned by date. Send `X-Terra-Version: &lt;date&gt;` to choose the version a request is served in: the newest version on or before that date. Without the header a request gets the environment&#39;s pinned version. An environment without a pin is pinned to the latest version on its first request; change the pin through the admin API (`PUT /api/v3/admin/environments/&#123;dev_id&#125;/lab-reports/api-version`). Every authenticated response carries `X-Terra-Version` stating the version it was served in, and every `lab_report` webhook delivery carries the environment&#39;s version. A malformed or future date returns 400 with code `invalid_api_version`. Versions are `2026-10-21` (latest: the report list is paginated) and `2026-03-24` (the list returns up to 500 reports in `sessions`). This document describes the latest version."
     ]
   }
 }

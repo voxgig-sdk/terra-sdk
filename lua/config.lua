@@ -119,6 +119,29 @@ local function make_config()
         ["strict"] = false,
         ["transport"] = "wrap",
       },
+      ["secrets"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["cache"] = true,
+          ["exchange"] = {
+            ["active"] = false,
+            ["method"] = "POST",
+            ["path"] = "auth/token",
+            ["refresh"] = "",
+            ["request"] = "refresh_token",
+            ["response"] = "access_token",
+            ["retries"] = 1,
+            ["statuses"] = {
+              401,
+            },
+          },
+          ["name"] = "apikey",
+          ["providers"] = {},
+        },
+        ["optspec"] = {},
+        ["strict"] = false,
+        ["transport"] = "wrap",
+      },
       ["test"] = {
         ["options"] = {
           ["active"] = false,
@@ -315,22 +338,14 @@ local function make_config()
       ["authentication"] = {
         ["fields"] = {
           {
-            ["name"] = "apple_app_url",
-            ["title"] = "Apple App Url",
-            ["type"] = "`$STRING`",
-            ["short"] = "URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app",
-          },
-          {
             ["name"] = "auth_failure_redirect_url",
             ["title"] = "Auth Failure Redirect Url",
             ["type"] = "`$STRING`",
-            ["short"] = "URL the user is redirected to upon unsuccessful authentication",
           },
           {
             ["name"] = "auth_success_redirect_url",
             ["title"] = "Auth Success Redirect Url",
             ["type"] = "`$STRING`",
-            ["short"] = "URL the user is redirected to upon successful authentication.",
           },
           {
             ["name"] = "auth_url",
@@ -339,70 +354,25 @@ local function make_config()
             ["short"] = "authentication URL the user must be redirected to in order to link their account",
           },
           {
-            ["name"] = "bypass_feedback",
-            ["title"] = "Bypass Feedback",
-            ["type"] = "`$BOOLEAN`",
-            ["short"] = "When false, the user stays on the widget's own result screen instead of being redirected immediately",
-          },
-          {
-            ["name"] = "connected_uids",
-            ["title"] = "Connected Uids",
-            ["type"] = "`$ARRAY`",
-            ["short"] = "Terra user IDs already connected for this end user; their providers show as connected with a disconnect option",
-          },
-          {
             ["name"] = "expires_in",
             ["title"] = "Expires In",
             ["type"] = "`$INTEGER`",
-            ["short"] = "a number in seconds depicting how long the url is valid for",
           },
           {
             ["name"] = "language",
             ["title"] = "Language",
             ["type"] = "`$STRING`",
-            ["short"] = "forces the widget UI language (e.g.",
-          },
-          {
-            ["name"] = "multi_auth",
-            ["title"] = "Multi Auth",
-            ["type"] = "`$BOOLEAN`",
-            ["short"] = "Keep the user on the widget after each successful connection so they can connect several providers in one session",
-          },
-          {
-            ["name"] = "providers",
-            ["title"] = "Providers",
-            ["type"] = "`$STRING`",
-            ["short"] = "Comma separated list of providers to display on the device selection page.",
           },
           {
             ["name"] = "reference_id",
             ["title"] = "Reference Id",
             ["type"] = "`$STRING`",
-            ["short"] = "Identifier of the end user on your system, such as a user ID or email associated with them",
-          },
-          {
-            ["name"] = "samsung_app_url",
-            ["title"] = "Samsung App Url",
-            ["type"] = "`$STRING`",
-            ["short"] = "URL of your own Android app to hand Samsung Health connections to",
           },
           {
             ["name"] = "sdk_app",
             ["title"] = "Sdk App",
             ["type"] = "`$STRING`",
             ["short"] = "Which Terra reference app an SDK authentication link hands the end user to.",
-          },
-          {
-            ["name"] = "session_id",
-            ["title"] = "Session Id",
-            ["type"] = "`$STRING`",
-            ["short"] = "Session ID for the widget authentication session",
-          },
-          {
-            ["name"] = "show_disconnect",
-            ["title"] = "Show Disconnect",
-            ["type"] = "`$BOOLEAN`",
-            ["short"] = "Show disconnect buttons for providers already connected under reference_id",
           },
           {
             ["name"] = "status",
@@ -416,28 +386,10 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
-            ["name"] = "url",
-            ["title"] = "Url",
-            ["type"] = "`$STRING`",
-            ["short"] = "the widget URL the user must be redirected to in order to link their account",
-          },
-          {
-            ["name"] = "use_terra_avengers_app",
-            ["title"] = "Use Terra Avengers App",
-            ["type"] = "`$BOOLEAN`",
-            ["short"] = "Allow Apple Health connections through the Terra mobile app",
-          },
-          {
             ["name"] = "user_id",
             ["title"] = "User Id",
             ["type"] = "`$STRING`",
             ["short"] = "User ID for the user being created",
-          },
-          {
-            ["name"] = "warnings",
-            ["title"] = "Warnings",
-            ["type"] = "`$ARRAY`",
-            ["short"] = "present when part of the request could not be honoured, such as requested providers that are unknown or not enabled",
           },
         },
         ["name"] = "authentication",
@@ -533,7 +485,9 @@ local function make_config()
                     },
                   },
                 },
-                ["select"] = {},
+                ["select"] = {
+                  ["$action"] = "generate_auth_token",
+                },
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -561,7 +515,9 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {},
-                ["select"] = {},
+                ["select"] = {
+                  ["$action"] = "widget_session",
+                },
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -968,28 +924,19 @@ local function make_config()
       ["lab_report"] = {
         ["fields"] = {
           {
-            ["name"] = "collection_date",
-            ["title"] = "Collection Date",
-            ["type"] = "`$STRING`",
-            ["short"] = "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.",
-          },
-          {
-            ["name"] = "collection_time",
-            ["title"] = "Collection Time",
-            ["type"] = "`$STRING`",
-            ["short"] = "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.",
-          },
-          {
             ["name"] = "current_status",
             ["title"] = "Current Status",
             ["type"] = "`$STRING`",
             ["req"] = true,
-            ["short"] = "Current status as a clean lowercase string (open enum), e.g.",
+            ["short"] = "Processing status as a clean lowercase string.",
           },
           {
-            ["name"] = "file_count",
-            ["title"] = "File Count",
-            ["type"] = "`$INTEGER`",
+            ["name"] = "file",
+            ["title"] = "File",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.",
+            ["format"] = "binary",
           },
           {
             ["name"] = "id",
@@ -997,118 +944,11 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
-            ["name"] = "input_bytes",
-            ["title"] = "Input Bytes",
-            ["type"] = "`$INTEGER`",
-          },
-          {
-            ["name"] = "lab_name",
-            ["title"] = "Lab Name",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "output_bytes",
-            ["title"] = "Output Bytes",
-            ["type"] = "`$INTEGER`",
-          },
-          {
-            ["name"] = "panels",
-            ["title"] = "Panels",
-            ["type"] = "`$ARRAY`",
-            ["short"] = "Report-level panels that results reference by panel_id.",
-          },
-          {
-            ["name"] = "patient_age_at_collection",
-            ["title"] = "Patient Age At Collection",
-            ["type"] = "`$INTEGER`",
-            ["short"] = "Patient age in years; omitted if unknown.",
-          },
-          {
-            ["name"] = "patient_sex",
-            ["title"] = "Patient Sex",
-            ["type"] = "`$STRING`",
-            ["short"] = "Clean lowercase string (open enum); omitted if unspecified.",
-          },
-          {
-            ["name"] = "reference_id",
-            ["title"] = "Reference Id",
-            ["type"] = "`$STRING`",
-            ["short"] = "Your external reference; omitted if not set.",
-          },
-          {
-            ["name"] = "report_date",
-            ["title"] = "Report Date",
-            ["type"] = "`$STRING`",
-            ["short"] = "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
-          },
-          {
-            ["name"] = "report_locale",
-            ["title"] = "Report Locale",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "report_notes",
-            ["title"] = "Report Notes",
-            ["type"] = "`$STRING`",
-          },
-          {
-            ["name"] = "report_time",
-            ["title"] = "Report Time",
-            ["type"] = "`$STRING`",
-            ["short"] = "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
-          },
-          {
-            ["name"] = "report_type",
-            ["title"] = "Report Type",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully).",
-          },
-          {
-            ["name"] = "results",
-            ["title"] = "Results",
-            ["type"] = "`$ARRAY`",
-            ["short"] = "The layered biomarker results.",
-          },
-          {
-            ["name"] = "results_count",
-            ["title"] = "Results Count",
-            ["type"] = "`$INTEGER`",
-          },
-          {
-            ["name"] = "session_id",
-            ["title"] = "Session Id",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "status_history",
-            ["title"] = "Status History",
-            ["type"] = "`$ARRAY`",
-          },
-          {
-            ["name"] = "updated_at",
-            ["title"] = "Updated At",
-            ["type"] = "`$STRING`",
-            ["format"] = "date-time",
-          },
-          {
             ["name"] = "upload_id",
             ["title"] = "Upload Id",
             ["type"] = "`$STRING`",
-            ["op"] = {
-              ["create"] = {
-                ["req"] = true,
-                ["type"] = "`$STRING`",
-              },
-            },
+            ["req"] = true,
             ["short"] = "Durable correlation key for the upload; every resulting session and webhook carries it.",
-          },
-          {
-            ["name"] = "uploaded_at",
-            ["title"] = "Uploaded At",
-            ["type"] = "`$STRING`",
-            ["format"] = "date-time",
           },
         },
         ["id"] = {
@@ -1121,6 +961,74 @@ local function make_config()
             ["input"] = "data",
             ["name"] = "create",
             ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "POST",
+                ["orig"] = "/lab-reports/{session_id}/reprocess",
+                ["segments"] = {
+                  {
+                    ["lit"] = "lab-reports",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
+                  {
+                    ["lit"] = "reprocess",
+                  },
+                },
+                ["parts"] = {
+                  "lab-reports",
+                  "{id}",
+                  "reprocess",
+                },
+                ["rename"] = {
+                  ["param"] = {
+                    ["session_id"] = "id",
+                  },
+                },
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "session_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                      ["example"] = "297405620317847552",
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "legacy_format",
+                      ["orig"] = "legacy_format",
+                      ["type"] = "`$BOOLEAN`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["$action"] = "reprocess",
+                  ["exist"] = {
+                    "id",
+                  },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
+              },
               {
                 ["kind"] = "http",
                 ["method"] = "POST",
@@ -1139,6 +1047,14 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["query"] = {
                     {
                       ["name"] = "reference_id",
@@ -1146,11 +1062,12 @@ local function make_config()
                       ["type"] = "`$STRING`",
                       ["kind"] = "query",
                       ["example"] = "patient_456",
-                      ["field"] = true,
                     },
                   },
                 },
-                ["select"] = {},
+                ["select"] = {
+                  ["$action"] = "legacy",
+                },
                 ["body"] = {
                   ["fields"] = {
                     {
@@ -1166,80 +1083,53 @@ local function make_config()
                   ["media"] = "application/json",
                 },
               },
-            },
-          },
-          ["list"] = {
-            ["input"] = "data",
-            ["name"] = "list",
-            ["points"] = {
               {
                 ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/lab-reports",
+                ["method"] = "POST",
+                ["orig"] = "/reports",
                 ["segments"] = {
                   {
-                    ["lit"] = "lab-reports",
+                    ["lit"] = "reports",
                   },
                 },
                 ["parts"] = {
-                  "lab-reports",
+                  "reports",
                 },
                 ["rename"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body.sessions`",
+                  ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["query"] = {
                     {
                       ["name"] = "reference_id",
                       ["orig"] = "reference_id",
                       ["type"] = "`$STRING`",
                       ["kind"] = "query",
-                      ["field"] = true,
-                    },
-                    {
-                      ["name"] = "report_date_from",
-                      ["orig"] = "report_date_from",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "report_date_to",
-                      ["orig"] = "report_date_to",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "report_type",
-                      ["orig"] = "report_type",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["example"] = "dexa",
-                      ["field"] = true,
-                    },
-                    {
-                      ["name"] = "upload_id",
-                      ["orig"] = "upload_id",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["field"] = true,
-                    },
-                    {
-                      ["name"] = "uploaded_at_from",
-                      ["orig"] = "uploaded_at_from",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "uploaded_at_to",
-                      ["orig"] = "uploaded_at_to",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
+                      ["example"] = "patient_456",
                     },
                   },
                 },
                 ["select"] = {},
+                ["body"] = {
+                  ["fields"] = {
+                    {
+                      ["binary"] = true,
+                      ["name"] = "file",
+                    },
+                  },
+                  ["kind"] = "multipart",
+                  ["media"] = "multipart/form-data",
+                },
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -1277,6 +1167,14 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
                       ["name"] = "id",
@@ -1289,10 +1187,197 @@ local function make_config()
                   },
                 },
                 ["select"] = {
+                  ["$action"] = "legacy",
                   ["exist"] = {
                     "id",
                   },
                 },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
+              },
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/lab-reports",
+                ["segments"] = {
+                  {
+                    ["lit"] = "lab-reports",
+                  },
+                },
+                ["parts"] = {
+                  "lab-reports",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "cursor",
+                      ["orig"] = "cursor",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 50,
+                    },
+                    {
+                      ["name"] = "reference_id",
+                      ["orig"] = "reference_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "report_date_from",
+                      ["orig"] = "report_date_from",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "report_date_to",
+                      ["orig"] = "report_date_to",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "report_type",
+                      ["orig"] = "report_type",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["example"] = "dexa",
+                    },
+                    {
+                      ["name"] = "upload_id",
+                      ["orig"] = "upload_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["field"] = true,
+                    },
+                    {
+                      ["name"] = "uploaded_at_from",
+                      ["orig"] = "uploaded_at_from",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "uploaded_at_to",
+                      ["orig"] = "uploaded_at_to",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["$action"] = "legacy",
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
+              },
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/reports",
+                ["segments"] = {
+                  {
+                    ["lit"] = "reports",
+                  },
+                },
+                ["parts"] = {
+                  "reports",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "cursor",
+                      ["orig"] = "cursor",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "limit",
+                      ["orig"] = "limit",
+                      ["type"] = "`$INTEGER`",
+                      ["kind"] = "query",
+                      ["example"] = 50,
+                    },
+                    {
+                      ["name"] = "reference_id",
+                      ["orig"] = "reference_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "report_date_from",
+                      ["orig"] = "report_date_from",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "report_date_to",
+                      ["orig"] = "report_date_to",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "report_type",
+                      ["orig"] = "report_type",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["example"] = "dexa",
+                    },
+                    {
+                      ["name"] = "upload_id",
+                      ["orig"] = "upload_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["field"] = true,
+                    },
+                    {
+                      ["name"] = "uploaded_at_from",
+                      ["orig"] = "uploaded_at_from",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                    {
+                      ["name"] = "uploaded_at_to",
+                      ["orig"] = "uploaded_at_to",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
+                ["select"] = {},
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -1330,6 +1415,14 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
                       ["name"] = "id",
@@ -1342,6 +1435,7 @@ local function make_config()
                   },
                 },
                 ["select"] = {
+                  ["$action"] = "legacy",
                   ["exist"] = {
                     "id",
                   },
@@ -1373,6 +1467,14 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
                       ["name"] = "id",
@@ -1477,6 +1579,14 @@ local function make_config()
                   ["res"] = "`body.deliveries`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
                       ["name"] = "id",
@@ -1528,6 +1638,14 @@ local function make_config()
                   ["res"] = "`body.deliveries`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
                       ["name"] = "report_id",
@@ -1558,6 +1676,12 @@ local function make_config()
       },
       ["lab_report_file"] = {
         ["fields"] = {
+          {
+            ["name"] = "content_type",
+            ["title"] = "Content Type",
+            ["type"] = "`$STRING`",
+            ["short"] = "An uploaded file's content type.",
+          },
           {
             ["name"] = "filename",
             ["title"] = "Filename",
@@ -1615,6 +1739,14 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
                       ["name"] = "id",
@@ -1666,6 +1798,14 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
                       ["name"] = "report_id",
@@ -1713,7 +1853,14 @@ local function make_config()
             ["title"] = "Current Status",
             ["type"] = "`$STRING`",
             ["req"] = true,
-            ["short"] = "Current status as a clean lowercase string (open enum), e.g.",
+            ["short"] = "Current status as a clean lowercase string (open enum — handle unknown values gracefully).",
+          },
+          {
+            ["name"] = "error",
+            ["title"] = "Error",
+            ["type"] = "`$OBJECT`",
+            ["req"] = true,
+            ["short"] = "Why the report failed: the same object the lab_report.failed webhook carries.",
           },
           {
             ["name"] = "file_count",
@@ -1820,13 +1967,6 @@ local function make_config()
             ["name"] = "upload_id",
             ["title"] = "Upload Id",
             ["type"] = "`$STRING`",
-            ["op"] = {
-              ["create"] = {
-                ["req"] = true,
-                ["type"] = "`$STRING`",
-              },
-            },
-            ["short"] = "Durable correlation key for the upload; every resulting session and webhook carries it.",
           },
           {
             ["name"] = "uploaded_at",
@@ -1844,14 +1984,22 @@ local function make_config()
               {
                 ["kind"] = "http",
                 ["method"] = "POST",
-                ["orig"] = "/reports",
+                ["orig"] = "/reports/{session_id}/reprocess",
                 ["segments"] = {
                   {
                     ["lit"] = "reports",
                   },
+                  {
+                    ["var"] = "session_id",
+                  },
+                  {
+                    ["lit"] = "reprocess",
+                  },
                 },
                 ["parts"] = {
                   "reports",
+                  "{session_id}",
+                  "reprocess",
                 },
                 ["rename"] = {},
                 ["transform"] = {
@@ -1859,107 +2007,39 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "session_id",
+                      ["orig"] = "session_id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                      ["example"] = "297405620317847552",
+                    },
+                  },
                   ["query"] = {
                     {
-                      ["name"] = "reference_id",
-                      ["orig"] = "reference_id",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["example"] = "patient_456",
-                      ["field"] = true,
-                    },
-                  },
-                },
-                ["select"] = {},
-                ["body"] = {
-                  ["fields"] = {
-                    {
-                      ["binary"] = true,
-                      ["name"] = "file",
-                    },
-                  },
-                  ["kind"] = "multipart",
-                  ["media"] = "multipart/form-data",
-                },
-                ["response"] = {
-                  ["kind"] = "json",
-                  ["media"] = "application/json",
-                },
-              },
-            },
-          },
-          ["list"] = {
-            ["input"] = "data",
-            ["name"] = "list",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/reports",
-                ["segments"] = {
-                  {
-                    ["lit"] = "reports",
-                  },
-                },
-                ["parts"] = {
-                  "reports",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.sessions`",
-                },
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["name"] = "reference_id",
-                      ["orig"] = "reference_id",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["field"] = true,
-                    },
-                    {
-                      ["name"] = "report_date_from",
-                      ["orig"] = "report_date_from",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "report_date_to",
-                      ["orig"] = "report_date_to",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "report_type",
-                      ["orig"] = "report_type",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["example"] = "dexa",
-                      ["field"] = true,
-                    },
-                    {
-                      ["name"] = "upload_id",
-                      ["orig"] = "upload_id",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["field"] = true,
-                    },
-                    {
-                      ["name"] = "uploaded_at_from",
-                      ["orig"] = "uploaded_at_from",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "uploaded_at_to",
-                      ["orig"] = "uploaded_at_to",
-                      ["type"] = "`$STRING`",
+                      ["name"] = "legacy_format",
+                      ["orig"] = "legacy_format",
+                      ["type"] = "`$BOOLEAN`",
                       ["kind"] = "query",
                     },
                   },
                 },
-                ["select"] = {},
+                ["select"] = {
+                  ["$action"] = "reprocess",
+                  ["exist"] = {
+                    "session_id",
+                  },
+                },
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -1993,6 +2073,14 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "x_terra_version",
+                      ["orig"] = "X-Terra-Version",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                    },
+                  },
                   ["params"] = {
                     {
                       ["name"] = "session_id",

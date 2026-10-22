@@ -5,8 +5,8 @@
 
 guide: {
   metrics: count: entity: 17
-  metrics: count: path: 30
-  metrics: count: method: 38
+  metrics: count: path: 32
+  metrics: count: method: 40
 
   entity: activity: {
     path: "/activity": {
@@ -70,13 +70,21 @@ guide: {
   entity: lab_report: {
     path: "/lab-reports": {
       op: create: method: *POST
-      op: list: method: *GET
-      op: list: transform: res: *("`body.sessions`")|top
+      op: load: method: *GET
     }
     path: "/lab-reports/{session_id}": {
       rename: param: "session_id": *"id"
       op: load: method: *GET
       op: remove: method: *DELETE
+    }
+    path: "/lab-reports/{session_id}/reprocess": {
+      action: "reprocess": {}
+      rename: param: "session_id": *"id"
+      op: create: method: *POST
+    }
+    path: "/reports": {
+      op: create: method: *POST
+      op: load: method: *GET
     }
     path: "/reports/{session_id}": {
       rename: param: "session_id": *"id"
@@ -109,13 +117,12 @@ guide: {
   }
 
   entity: lab_report_session: {
-    path: "/reports": {
-      op: create: method: *POST
-      op: list: method: *GET
-      op: list: transform: res: *("`body.sessions`")|top
-    }
     path: "/reports/{session_id}": {
       op: load: method: *GET
+    }
+    path: "/reports/{session_id}/reprocess": {
+      action: "reprocess": {}
+      op: create: method: *POST
     }
   }
 

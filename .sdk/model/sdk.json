@@ -1,15 +1,6 @@
 {
-  "NAME": "TERRA",
-  "Name": "Terra",
   "def": "v2-bundled.yaml",
   "main": {
-    "api": {
-      "entity": {},
-      "guide": {}
-    },
-    "custom": {
-      "plurals": {}
-    },
     "def": {
       "desc": ""
     },
@@ -53,7 +44,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": false,
+            "active": true,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -68,7 +59,7 @@
               "path": "docs"
             },
             "package": "@voxgig/docgen",
-            "published": false,
+            "published": true,
             "site": {
               "active": true
             },
@@ -104,19 +95,19 @@
         },
         "style": {
           "color": {
-            "accent": "#00c6d8",
-            "background": "#f5f5f9",
-            "darkBackground": "#0f1117",
-            "darkText": "#e6edf3",
-            "primary": "#e70042",
-            "text": "#0a0a0a"
+            "accent": "#ff3058",
+            "background": "#f7f8f9",
+            "darkBackground": "#0a0a0a",
+            "darkText": "#f7f8f9",
+            "primary": "#008aff",
+            "text": "#1e293a"
           },
           "font": "Nunito, system-ui, sans-serif",
           "fontFile": "",
           "headingFont": "Nunito, system-ui, sans-serif",
           "headingFontFile": "",
           "logo": "",
-          "mode": "light",
+          "mode": "auto",
           "mono": "ui-monospace, monospace",
           "monoFile": ""
         },
@@ -292,20 +283,11 @@
             "field": {}
           },
           "fields": {
-            "apple_app_url": {
-              "a": true,
-              "h": "Apple App Url",
-              "n": "apple_app_url",
-              "r": false,
-              "sh": "URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app",
-              "t": "`$STRING`"
-            },
             "auth_failure_redirect_url": {
               "a": true,
               "h": "Auth Failure Redirect Url",
               "n": "auth_failure_redirect_url",
               "r": false,
-              "sh": "URL the user is redirected to upon unsuccessful authentication",
               "t": "`$STRING`"
             },
             "auth_success_redirect_url": {
@@ -313,7 +295,6 @@
               "h": "Auth Success Redirect Url",
               "n": "auth_success_redirect_url",
               "r": false,
-              "sh": "URL the user is redirected to upon successful authentication.",
               "t": "`$STRING`"
             },
             "auth_url": {
@@ -324,28 +305,11 @@
               "sh": "authentication URL the user must be redirected to in order to link their account",
               "t": "`$STRING`"
             },
-            "bypass_feedback": {
-              "a": true,
-              "h": "Bypass Feedback",
-              "n": "bypass_feedback",
-              "r": false,
-              "sh": "When false, the user stays on the widget's own result screen instead of being redirected immediately",
-              "t": "`$BOOLEAN`"
-            },
-            "connected_uids": {
-              "a": true,
-              "h": "Connected Uids",
-              "n": "connected_uids",
-              "r": false,
-              "sh": "Terra user IDs already connected for this end user; their providers show as connected with a disconnect option",
-              "t": "`$ARRAY`"
-            },
             "expires_in": {
               "a": true,
               "h": "Expires In",
               "n": "expires_in",
               "r": false,
-              "sh": "a number in seconds depicting how long the url is valid for",
               "t": "`$INTEGER`"
             },
             "language": {
@@ -353,23 +317,6 @@
               "h": "Language",
               "n": "language",
               "r": false,
-              "sh": "forces the widget UI language (e.g.",
-              "t": "`$STRING`"
-            },
-            "multi_auth": {
-              "a": true,
-              "h": "Multi Auth",
-              "n": "multi_auth",
-              "r": false,
-              "sh": "Keep the user on the widget after each successful connection so they can connect several providers in one session",
-              "t": "`$BOOLEAN`"
-            },
-            "providers": {
-              "a": true,
-              "h": "Providers",
-              "n": "providers",
-              "r": false,
-              "sh": "Comma separated list of providers to display on the device selection page.",
               "t": "`$STRING`"
             },
             "reference_id": {
@@ -377,15 +324,6 @@
               "h": "Reference Id",
               "n": "reference_id",
               "r": false,
-              "sh": "Identifier of the end user on your system, such as a user ID or email associated with them",
-              "t": "`$STRING`"
-            },
-            "samsung_app_url": {
-              "a": true,
-              "h": "Samsung App Url",
-              "n": "samsung_app_url",
-              "r": false,
-              "sh": "URL of your own Android app to hand Samsung Health connections to",
               "t": "`$STRING`"
             },
             "sdk_app": {
@@ -395,22 +333,6 @@
               "r": false,
               "sh": "Which Terra reference app an SDK authentication link hands the end user to.",
               "t": "`$STRING`"
-            },
-            "session_id": {
-              "a": true,
-              "h": "Session Id",
-              "n": "session_id",
-              "r": false,
-              "sh": "Session ID for the widget authentication session",
-              "t": "`$STRING`"
-            },
-            "show_disconnect": {
-              "a": true,
-              "h": "Show Disconnect",
-              "n": "show_disconnect",
-              "r": false,
-              "sh": "Show disconnect buttons for providers already connected under reference_id",
-              "t": "`$BOOLEAN`"
             },
             "status": {
               "a": true,
@@ -427,22 +349,6 @@
               "r": false,
               "t": "`$STRING`"
             },
-            "url": {
-              "a": true,
-              "h": "Url",
-              "n": "url",
-              "r": false,
-              "sh": "the widget URL the user must be redirected to in order to link their account",
-              "t": "`$STRING`"
-            },
-            "use_terra_avengers_app": {
-              "a": true,
-              "h": "Use Terra Avengers App",
-              "n": "use_terra_avengers_app",
-              "r": false,
-              "sh": "Allow Apple Health connections through the Terra mobile app",
-              "t": "`$BOOLEAN`"
-            },
             "user_id": {
               "a": true,
               "h": "User Id",
@@ -450,14 +356,6 @@
               "r": false,
               "sh": "User ID for the user being created",
               "t": "`$STRING`"
-            },
-            "warnings": {
-              "a": true,
-              "h": "Warnings",
-              "n": "warnings",
-              "r": false,
-              "sh": "present when part of the request could not be honoured, such as requested providers that are unknown or not enabled",
-              "t": "`$ARRAY`"
             }
           },
           "name": "authentication",
@@ -554,7 +452,9 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/auth/generateAuthToken",
-                  "q": {},
+                  "q": {
+                    "$action": "generate_auth_token"
+                  },
                   "r": {},
                   "rs": {
                     "kind": "json",
@@ -598,7 +498,9 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/auth/generateWidgetSession",
-                  "q": {},
+                  "q": {
+                    "$action": "widget_session"
+                  },
                   "r": {},
                   "rs": {
                     "kind": "json",
@@ -1085,36 +987,22 @@
             "field": {}
           },
           "fields": {
-            "collection_date": {
-              "a": true,
-              "h": "Collection Date",
-              "n": "collection_date",
-              "r": false,
-              "sh": "Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.",
-              "t": "`$STRING`"
-            },
-            "collection_time": {
-              "a": true,
-              "h": "Collection Time",
-              "n": "collection_time",
-              "r": false,
-              "sh": "Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.",
-              "t": "`$STRING`"
-            },
             "current_status": {
               "a": true,
               "h": "Current Status",
               "n": "current_status",
               "r": true,
-              "sh": "Current status as a clean lowercase string (open enum), e.g.",
+              "sh": "Processing status as a clean lowercase string.",
               "t": "`$STRING`"
             },
-            "file_count": {
+            "file": {
               "a": true,
-              "h": "File Count",
-              "n": "file_count",
-              "r": false,
-              "t": "`$INTEGER`"
+              "fo": "binary",
+              "h": "File",
+              "n": "file",
+              "r": true,
+              "sh": "A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.",
+              "t": "`$STRING`"
             },
             "id": {
               "a": true,
@@ -1123,154 +1011,12 @@
               "r": false,
               "t": "`$STRING`"
             },
-            "input_bytes": {
-              "a": true,
-              "h": "Input Bytes",
-              "n": "input_bytes",
-              "r": false,
-              "t": "`$INTEGER`"
-            },
-            "lab_name": {
-              "a": true,
-              "h": "Lab Name",
-              "n": "lab_name",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "output_bytes": {
-              "a": true,
-              "h": "Output Bytes",
-              "n": "output_bytes",
-              "r": false,
-              "t": "`$INTEGER`"
-            },
-            "panels": {
-              "a": true,
-              "h": "Panels",
-              "n": "panels",
-              "r": false,
-              "sh": "Report-level panels that results reference by panel_id.",
-              "t": "`$ARRAY`"
-            },
-            "patient_age_at_collection": {
-              "a": true,
-              "h": "Patient Age At Collection",
-              "n": "patient_age_at_collection",
-              "r": false,
-              "sh": "Patient age in years; omitted if unknown.",
-              "t": "`$INTEGER`"
-            },
-            "patient_sex": {
-              "a": true,
-              "h": "Patient Sex",
-              "n": "patient_sex",
-              "r": false,
-              "sh": "Clean lowercase string (open enum); omitted if unspecified.",
-              "t": "`$STRING`"
-            },
-            "reference_id": {
-              "a": true,
-              "h": "Reference Id",
-              "n": "reference_id",
-              "r": false,
-              "sh": "Your external reference; omitted if not set.",
-              "t": "`$STRING`"
-            },
-            "report_date": {
-              "a": true,
-              "h": "Report Date",
-              "n": "report_date",
-              "r": false,
-              "sh": "Date printed on the report (YYYY-MM-DD); omitted if not extracted.",
-              "t": "`$STRING`"
-            },
-            "report_locale": {
-              "a": true,
-              "h": "Report Locale",
-              "n": "report_locale",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "report_notes": {
-              "a": true,
-              "h": "Report Notes",
-              "n": "report_notes",
-              "r": false,
-              "t": "`$STRING`"
-            },
-            "report_time": {
-              "a": true,
-              "h": "Report Time",
-              "n": "report_time",
-              "r": false,
-              "sh": "Time printed on the report (HH:MM, 24-hour); omitted if not extracted.",
-              "t": "`$STRING`"
-            },
-            "report_type": {
-              "a": true,
-              "h": "Report Type",
-              "n": "report_type",
-              "r": true,
-              "sh": "What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully).",
-              "t": "`$STRING`"
-            },
-            "results": {
-              "a": true,
-              "h": "Results",
-              "n": "results",
-              "r": false,
-              "sh": "The layered biomarker results.",
-              "t": "`$ARRAY`"
-            },
-            "results_count": {
-              "a": true,
-              "h": "Results Count",
-              "n": "results_count",
-              "r": false,
-              "t": "`$INTEGER`"
-            },
-            "session_id": {
-              "a": true,
-              "h": "Session Id",
-              "n": "session_id",
-              "r": true,
-              "t": "`$STRING`"
-            },
-            "status_history": {
-              "a": true,
-              "h": "Status History",
-              "n": "status_history",
-              "r": false,
-              "t": "`$ARRAY`"
-            },
-            "updated_at": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Updated At",
-              "n": "updated_at",
-              "r": false,
-              "t": "`$STRING`"
-            },
             "upload_id": {
               "a": true,
               "h": "Upload Id",
               "n": "upload_id",
-              "op": {
-                "create": {
-                  "req": true,
-                  "type": "`$STRING`"
-                }
-              },
-              "r": false,
+              "r": true,
               "sh": "Durable correlation key for the upload; every resulting session and webhook carries it.",
-              "t": "`$STRING`"
-            },
-            "uploaded_at": {
-              "a": true,
-              "fo": "date-time",
-              "h": "Uploaded At",
-              "n": "uploaded_at",
-              "r": false,
               "t": "`$STRING`"
             }
           },
@@ -1287,11 +1033,95 @@
                 {
                   "a": true,
                   "co": {
+                    "id": "POST /lab-reports/{session_id}/reprocess",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": "297405620317847552",
+                        "k": "param",
+                        "n": "id",
+                        "or": "session_id",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "legacy_format",
+                        "or": "legacy_format",
+                        "r": false,
+                        "t": "`$BOOLEAN`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/lab-reports/{session_id}/reprocess",
+                  "q": {
+                    "$action": "reprocess",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "session_id": "id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "lab-reports"
+                    },
+                    {
+                      "var": "id"
+                    },
+                    {
+                      "lit": "reprocess"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
                     "id": "POST /lab-reports",
                     "source": "openapi3",
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "a": true,
@@ -1307,7 +1137,9 @@
                   "k": "http",
                   "m": "POST",
                   "o": "/lab-reports",
-                  "q": {},
+                  "q": {
+                    "$action": "legacy"
+                  },
                   "r": {},
                   "rb": {
                     "fields": [
@@ -1332,13 +1164,133 @@
                     "req": "`reqdata`",
                     "res": "`body`"
                   }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "POST /reports",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": "patient_456",
+                        "k": "query",
+                        "n": "reference_id",
+                        "or": "reference_id",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/reports",
+                  "q": {},
+                  "r": {},
+                  "rb": {
+                    "fields": [
+                      {
+                        "binary": true,
+                        "name": "file"
+                      }
+                    ],
+                    "kind": "multipart",
+                    "media": "multipart/form-data"
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "reports"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
                 }
               ]
             },
-            "list": {
+            "load": {
               "input": "data",
-              "name": "list",
+              "name": "load",
               "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /lab-reports/{session_id}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": "297405620317847552",
+                        "k": "param",
+                        "n": "id",
+                        "or": "session_id",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/lab-reports/{session_id}",
+                  "q": {
+                    "$action": "legacy",
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "r": {
+                    "param": {
+                      "session_id": "id"
+                    }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "lab-reports"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
                 {
                   "a": true,
                   "co": {
@@ -1347,7 +1299,34 @@
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "cursor",
+                        "or": "cursor",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 50,
+                        "k": "query",
+                        "n": "limit",
+                        "or": "limit",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
                       {
                         "a": true,
                         "k": "query",
@@ -1410,7 +1389,9 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/lab-reports",
-                  "q": {},
+                  "q": {
+                    "$action": "legacy"
+                  },
                   "r": {},
                   "rs": {
                     "kind": "json",
@@ -1423,58 +1404,116 @@
                   ],
                   "t": {
                     "req": "`reqdata`",
-                    "res": "`body.sessions`"
+                    "res": "`body`"
                   }
-                }
-              ]
-            },
-            "load": {
-              "input": "data",
-              "name": "load",
-              "points": [
+                },
                 {
                   "a": true,
                   "co": {
-                    "id": "GET /lab-reports/{session_id}",
+                    "id": "GET /reports",
                     "source": "openapi3",
                     "version": 2
                   },
                   "g": {
-                    "params": [
+                    "header": [
                       {
                         "a": true,
-                        "ex": "297405620317847552",
-                        "k": "param",
-                        "n": "id",
-                        "or": "session_id",
-                        "r": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "cursor",
+                        "or": "cursor",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 50,
+                        "k": "query",
+                        "n": "limit",
+                        "or": "limit",
+                        "r": false,
+                        "t": "`$INTEGER`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "reference_id",
+                        "or": "reference_id",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "report_date_from",
+                        "or": "report_date_from",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "report_date_to",
+                        "or": "report_date_to",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "ex": "dexa",
+                        "k": "query",
+                        "n": "report_type",
+                        "or": "report_type",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "upload_id",
+                        "or": "upload_id",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "uploaded_at_from",
+                        "or": "uploaded_at_from",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "uploaded_at_to",
+                        "or": "uploaded_at_to",
+                        "r": false,
                         "t": "`$STRING`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "GET",
-                  "o": "/lab-reports/{session_id}",
-                  "q": {
-                    "exist": [
-                      "id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "session_id": "id"
-                    }
-                  },
+                  "o": "/reports",
+                  "q": {},
+                  "r": {},
                   "rs": {
                     "kind": "json",
                     "media": "application/json"
                   },
                   "s": [
                     {
-                      "lit": "lab-reports"
-                    },
-                    {
-                      "var": "id"
+                      "lit": "reports"
                     }
                   ],
                   "t": {
@@ -1496,6 +1535,16 @@
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "params": [
                       {
                         "a": true,
@@ -1512,6 +1561,7 @@
                   "m": "DELETE",
                   "o": "/lab-reports/{session_id}",
                   "q": {
+                    "$action": "legacy",
                     "exist": [
                       "id"
                     ]
@@ -1542,6 +1592,16 @@
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "params": [
                       {
                         "a": true,
@@ -1658,6 +1718,16 @@
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "params": [
                       {
                         "a": true,
@@ -1711,6 +1781,16 @@
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "params": [
                       {
                         "a": true,
@@ -1769,6 +1849,14 @@
             "field": {}
           },
           "fields": {
+            "content_type": {
+              "a": true,
+              "h": "Content Type",
+              "n": "content_type",
+              "r": false,
+              "sh": "An uploaded file's content type.",
+              "t": "`$STRING`"
+            },
             "filename": {
               "a": true,
               "h": "Filename",
@@ -1809,6 +1897,16 @@
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "params": [
                       {
                         "a": true,
@@ -1862,6 +1960,16 @@
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "params": [
                       {
                         "a": true,
@@ -1941,8 +2049,16 @@
               "h": "Current Status",
               "n": "current_status",
               "r": true,
-              "sh": "Current status as a clean lowercase string (open enum), e.g.",
+              "sh": "Current status as a clean lowercase string (open enum — handle unknown values gracefully).",
               "t": "`$STRING`"
+            },
+            "error": {
+              "a": true,
+              "h": "Error",
+              "n": "error",
+              "r": true,
+              "sh": "Why the report failed: the same object the lab_report.failed webhook carries.",
+              "t": "`$OBJECT`"
             },
             "file_count": {
               "a": true,
@@ -2083,14 +2199,7 @@
               "a": true,
               "h": "Upload Id",
               "n": "upload_id",
-              "op": {
-                "create": {
-                  "req": true,
-                  "type": "`$STRING`"
-                }
-              },
               "r": false,
-              "sh": "Durable correlation key for the upload; every resulting session and webhook carries it.",
               "t": "`$STRING`"
             },
             "uploaded_at": {
@@ -2111,38 +2220,53 @@
                 {
                   "a": true,
                   "co": {
-                    "id": "POST /reports",
+                    "id": "POST /reports/{session_id}/reprocess",
                     "source": "openapi3",
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "a": true,
+                        "ex": "297405620317847552",
+                        "k": "param",
+                        "n": "session_id",
+                        "or": "session_id",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "query": [
                       {
                         "a": true,
-                        "ex": "patient_456",
                         "k": "query",
-                        "n": "reference_id",
-                        "or": "reference_id",
+                        "n": "legacy_format",
+                        "or": "legacy_format",
                         "r": false,
-                        "t": "`$STRING`"
+                        "t": "`$BOOLEAN`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "POST",
-                  "o": "/reports",
-                  "q": {},
-                  "r": {},
-                  "rb": {
-                    "fields": [
-                      {
-                        "binary": true,
-                        "name": "file"
-                      }
-                    ],
-                    "kind": "multipart",
-                    "media": "multipart/form-data"
+                  "o": "/reports/{session_id}/reprocess",
+                  "q": {
+                    "$action": "reprocess",
+                    "exist": [
+                      "session_id"
+                    ]
                   },
+                  "r": {},
                   "rs": {
                     "kind": "json",
                     "media": "application/json"
@@ -2150,104 +2274,17 @@
                   "s": [
                     {
                       "lit": "reports"
+                    },
+                    {
+                      "var": "session_id"
+                    },
+                    {
+                      "lit": "reprocess"
                     }
                   ],
                   "t": {
                     "req": "`reqdata`",
                     "res": "`body`"
-                  }
-                }
-              ]
-            },
-            "list": {
-              "input": "data",
-              "name": "list",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /reports",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "reference_id",
-                        "or": "reference_id",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "report_date_from",
-                        "or": "report_date_from",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "report_date_to",
-                        "or": "report_date_to",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "ex": "dexa",
-                        "k": "query",
-                        "n": "report_type",
-                        "or": "report_type",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "upload_id",
-                        "or": "upload_id",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "uploaded_at_from",
-                        "or": "uploaded_at_from",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "uploaded_at_to",
-                        "or": "uploaded_at_to",
-                        "r": false,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/reports",
-                  "q": {},
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json"
-                  },
-                  "s": [
-                    {
-                      "lit": "reports"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.sessions`"
                   }
                 }
               ]
@@ -2264,6 +2301,16 @@
                     "version": 2
                   },
                   "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "x_terra_version",
+                        "or": "X-Terra-Version",
+                        "r": false,
+                        "t": "`$STRING`"
+                      }
+                    ],
                     "params": [
                       {
                         "a": true,
@@ -3702,9 +3749,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -3712,6 +3756,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -3809,9 +3856,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -3819,6 +3863,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -3916,9 +3963,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -3926,6 +3970,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -4018,9 +4065,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -4028,6 +4072,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -4116,9 +4163,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -4126,6 +4170,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -4225,7 +4272,991 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
+            "lua": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            }
+          },
+          "title": "Retry",
+          "transport": "wrap",
+          "version": "0.0.1"
+        },
+        "secrets": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "config": {
+            "options": {
+              "active": false,
+              "cache": true,
+              "exchange": {
+                "active": false,
+                "method": "POST",
+                "path": "auth/token",
+                "refresh": "",
+                "request": "refresh_token",
+                "response": "access_token",
+                "retries": 1,
+                "statuses": [
+                  401
+                ]
+              },
+              "name": "apikey",
+              "providers": []
+            },
+            "optspec": {},
+            "strict": false
+          },
+          "deps": {
+            "rust": {
+              "rustls": {
+                "active": true,
+                "default": false,
+                "features": [
+                  "std",
+                  "ring",
+                  "tls12"
+                ],
+                "kind": "prod",
+                "version": "0.23"
+              },
+              "webpki-roots": {
+                "active": true,
+                "kind": "prod",
+                "version": "0.26"
+              }
+            }
+          },
+          "description": "Secret access: resolve the API credential through a provider chain, and exchange a refresh token for short-lived access tokens",
+          "hook": {
+            "GetData": {
+              "active": false,
+              "await": false
+            },
+            "GetMatch": {
+              "active": false,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": false,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": false,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PreRequest": {
+              "active": false,
+              "await": false
+            },
+            "PreResponse": {
+              "active": false,
+              "await": false
+            },
+            "PreResult": {
+              "active": false,
+              "await": false
+            },
+            "PreSpec": {
+              "active": true,
+              "await": true
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": false,
+              "await": false
+            }
+          },
+          "name": "secrets",
+          "needs": {
+            "sekreto": true
+          },
+          "origname": "",
+          "package": "@voxgig/sdkgen",
+          "plugin": {
+            "aws": {
+              "active": false,
+              "def": {
+                "c": {
+                  "sek_plugin_awsparams": "feature/secrets/plugins/aws.c",
+                  "sek_plugin_awssecrets": "feature/secrets/plugins/aws.c"
+                },
+                "clojure": {
+                  "voxgig.sekreto.plugins.aws/awsparams": "feature/secrets/voxgig/sekreto/plugins/aws.clj",
+                  "voxgig.sekreto.plugins.aws/awssecrets": "feature/secrets/voxgig/sekreto/plugins/aws.clj"
+                },
+                "cpp": {
+                  "awsparams": "feature/secrets/plugins/Aws.cpp",
+                  "awssecrets": "feature/secrets/plugins/Aws.cpp"
+                },
+                "csharp": {
+                  "AwsPlugins.Params": "feature/secrets/plugins/Aws.cs",
+                  "AwsPlugins.Secrets": "feature/secrets/plugins/Aws.cs"
+                },
+                "dart": {
+                  "awsparams": "lib/feature/secrets/sekreto/plugins/aws.dart",
+                  "awssecrets": "lib/feature/secrets/sekreto/plugins/aws.dart"
+                },
+                "elixir": {
+                  "Sekreto.Plugins.Aws.awsparams": "lib/projectname/feature/secrets/sekreto/plugins/aws.ex",
+                  "Sekreto.Plugins.Aws.awssecrets": "lib/projectname/feature/secrets/sekreto/plugins/aws.ex"
+                },
+                "go": {
+                  "aws.Params": "feature/secrets/plugins/aws/aws.go",
+                  "aws.Secrets": "feature/secrets/plugins/aws/aws.go"
+                },
+                "java": {
+                  "Aws.PARAMS": "feature/secrets/sekreto/plugins/Aws.java",
+                  "Aws.SECRETS": "feature/secrets/sekreto/plugins/Aws.java"
+                },
+                "js": {
+                  "awsparams": "src/feature/secrets/sekreto/plugins/aws.js",
+                  "awssecrets": "src/feature/secrets/sekreto/plugins/aws.js"
+                },
+                "kotlin": {
+                  "awsparams": "feature/secrets/sekreto/plugins/Aws.kt",
+                  "awssecrets": "feature/secrets/sekreto/plugins/Aws.kt"
+                },
+                "lean": {
+                  "Sekreto.awsparams": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Aws.lean",
+                  "Sekreto.awssecrets": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Aws.lean"
+                },
+                "lua": {
+                  "awsparams": "feature/secrets/sekreto/plugins/aws.lua",
+                  "awssecrets": "feature/secrets/sekreto/plugins/aws.lua"
+                },
+                "ocaml": {
+                  "Aws.paramsplugin": "feature/secrets/plugins/aws.ml",
+                  "Aws.secretsplugin": "feature/secrets/plugins/aws.ml"
+                },
+                "perl": {
+                  "awsparams": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Aws.pm",
+                  "awssecrets": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Aws.pm"
+                },
+                "php": {
+                  "awsparams": "feature/secrets/sekreto/plugins/aws.php",
+                  "awssecrets": "feature/secrets/sekreto/plugins/aws.php"
+                },
+                "py": {
+                  "awsparams": "pkg/feature/secrets/voxgig_sekreto/plugins/aws.py",
+                  "awssecrets": "pkg/feature/secrets/voxgig_sekreto/plugins/aws.py"
+                },
+                "rb": {
+                  "VoxgigSekreto::Plugins::AWSPARAMS": "feature/secrets/voxgig_sekreto/plugins/aws.rb",
+                  "VoxgigSekreto::Plugins::AWSSECRETS": "feature/secrets/voxgig_sekreto/plugins/aws.rb"
+                },
+                "rust": {
+                  "aws::params": "feature/secrets/plugins/aws.rs",
+                  "aws::secrets": "feature/secrets/plugins/aws.rs"
+                },
+                "scala": {
+                  "com.voxgig.sekreto.plugins.awsparams": "feature/secrets/sekreto/plugins/Aws.scala",
+                  "com.voxgig.sekreto.plugins.awssecrets": "feature/secrets/sekreto/plugins/Aws.scala"
+                },
+                "swift": {
+                  "awsparams": "Sources/ProjectNameSDK/feature/secrets/plugins/Aws.swift",
+                  "awssecrets": "Sources/ProjectNameSDK/feature/secrets/plugins/Aws.swift"
+                },
+                "ts": {
+                  "awsparams": "src/feature/secrets/sekreto/plugins/aws.ts",
+                  "awssecrets": "src/feature/secrets/sekreto/plugins/aws.ts"
+                },
+                "zig": {
+                  "awsparams": "feature/secrets/plugins/aws.zig",
+                  "awssecrets": "feature/secrets/plugins/aws.zig"
+                }
+              },
+              "deps": {},
+              "name": "aws",
+              "needs": {
+                "crypto": true,
+                "fetch": true
+              },
+              "path": [
+                "src/feature/secrets/sekreto/plugins/aws.ts",
+                "src/feature/secrets/sekreto/plugins/sigv4.ts",
+                "feature/secrets/plugins/aws/aws.go",
+                "feature/secrets/plugins/aws/sigv4.go",
+                "feature/secrets/plugins/aws.rs",
+                "feature/secrets/plugins/aws/sigv4.rs",
+                "feature/secrets/plugins/aws/crypto.rs",
+                "feature/secrets/voxgig_sekreto/plugins/aws.py",
+                "feature/secrets/voxgig_sekreto/plugins/sigv4.py",
+                "src/feature/secrets/sekreto/plugins/aws.js",
+                "src/feature/secrets/sekreto/plugins/sigv4.js",
+                "feature/secrets/voxgig_sekreto/plugins/aws.rb",
+                "feature/secrets/voxgig_sekreto/plugins/sigv4.rb",
+                "feature/secrets/sekreto/plugins/aws.php",
+                "feature/secrets/sekreto/plugins/sigv4.php",
+                "feature/secrets/plugins/Aws.cs",
+                "feature/secrets/plugins/Sigv4.cs",
+                "feature/secrets/sekreto/plugins/Aws.java",
+                "feature/secrets/sekreto/plugins/Aws.scala",
+                "feature/secrets/sekreto/plugins/Aws.kt",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Aws.pm",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Sigv4.pm",
+                "lib/feature/secrets/sekreto/plugins/aws.dart",
+                "lib/feature/secrets/sekreto/plugins/sigv4.dart",
+                "lib/feature/secrets/sekreto/plugins/crypto.dart",
+                "feature/secrets/voxgig/sekreto/plugins/aws.clj",
+                "feature/secrets/voxgig/sekreto/plugins/sigv4.clj",
+                "feature/secrets/sekreto/plugins/aws.ex",
+                "feature/secrets/sekreto/plugins/sigv4.ex",
+                "feature/secrets/plugins/Aws.swift",
+                "feature/secrets/plugins/Sigv4.swift",
+                "feature/secrets/plugins/Crypto.swift",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Aws.lean",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Sigv4.lean",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Crypto.lean",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Clock.lean",
+                "feature/secrets/plugins/aws.c",
+                "feature/secrets/plugins/sigv4.c",
+                "feature/secrets/plugins/sha256.c",
+                "feature/secrets/sekreto/plugins/aws.lua",
+                "feature/secrets/sekreto/plugins/sigv4.lua",
+                "feature/secrets/plugins/aws.zig",
+                "feature/secrets/plugins/sigv4.zig",
+                "feature/secrets/plugins/aws.ml",
+                "feature/secrets/plugins/Aws.cpp",
+                "feature/secrets/plugins/Aws.hpp",
+                "feature/secrets/plugins/Sigv4.cpp",
+                "feature/secrets/plugins/Sigv4.hpp"
+              ],
+              "stub": {},
+              "title": "AWS Secrets Manager and Parameter Store (SigV4 signing)"
+            },
+            "cloud": {
+              "active": false,
+              "def": {
+                "c": {
+                  "sek_plugin_azuresecrets": "feature/secrets/plugins/azuresecrets.c",
+                  "sek_plugin_gcpsecrets": "feature/secrets/plugins/gcpsecrets.c"
+                },
+                "clojure": {
+                  "voxgig.sekreto.plugins.azuresecrets/azuresecrets": "feature/secrets/voxgig/sekreto/plugins/azuresecrets.clj",
+                  "voxgig.sekreto.plugins.gcpsecrets/gcpsecrets": "feature/secrets/voxgig/sekreto/plugins/gcpsecrets.clj"
+                },
+                "cpp": {
+                  "azuresecrets": "feature/secrets/plugins/Azuresecrets.cpp",
+                  "gcpsecrets": "feature/secrets/plugins/Gcpsecrets.cpp"
+                },
+                "csharp": {
+                  "AzureSecrets.Plugin": "feature/secrets/plugins/AzureSecrets.cs",
+                  "GcpSecrets.Plugin": "feature/secrets/plugins/GcpSecrets.cs"
+                },
+                "dart": {
+                  "azuresecrets": "lib/feature/secrets/sekreto/plugins/azuresecrets.dart",
+                  "gcpsecrets": "lib/feature/secrets/sekreto/plugins/gcpsecrets.dart"
+                },
+                "elixir": {
+                  "Sekreto.Plugins.Azuresecrets.azuresecrets": "lib/projectname/feature/secrets/sekreto/plugins/azuresecrets.ex",
+                  "Sekreto.Plugins.Gcpsecrets.gcpsecrets": "lib/projectname/feature/secrets/sekreto/plugins/gcpsecrets.ex"
+                },
+                "go": {
+                  "azuresecrets.Plugin": "feature/secrets/plugins/azuresecrets/azuresecrets.go",
+                  "gcpsecrets.Plugin": "feature/secrets/plugins/gcpsecrets/gcpsecrets.go"
+                },
+                "java": {
+                  "Azuresecrets.PLUGIN": "feature/secrets/sekreto/plugins/Azuresecrets.java",
+                  "Gcpsecrets.PLUGIN": "feature/secrets/sekreto/plugins/Gcpsecrets.java"
+                },
+                "js": {
+                  "azuresecrets": "src/feature/secrets/sekreto/plugins/azuresecrets.js",
+                  "gcpsecrets": "src/feature/secrets/sekreto/plugins/gcpsecrets.js"
+                },
+                "kotlin": {
+                  "azuresecrets": "feature/secrets/sekreto/plugins/Azuresecrets.kt",
+                  "gcpsecrets": "feature/secrets/sekreto/plugins/Gcpsecrets.kt"
+                },
+                "lean": {
+                  "Sekreto.azuresecrets": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Azuresecrets.lean",
+                  "Sekreto.gcpsecrets": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Gcpsecrets.lean"
+                },
+                "lua": {
+                  "azuresecrets": "feature/secrets/sekreto/plugins/azuresecrets.lua",
+                  "gcpsecrets": "feature/secrets/sekreto/plugins/gcpsecrets.lua"
+                },
+                "ocaml": {
+                  "Azuresecrets.plugin": "feature/secrets/plugins/azuresecrets.ml",
+                  "Gcpsecrets.plugin": "feature/secrets/plugins/gcpsecrets.ml"
+                },
+                "perl": {
+                  "azuresecrets": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Azuresecrets.pm",
+                  "gcpsecrets": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Gcpsecrets.pm"
+                },
+                "php": {
+                  "azuresecrets": "feature/secrets/sekreto/plugins/azuresecrets.php",
+                  "gcpsecrets": "feature/secrets/sekreto/plugins/gcpsecrets.php"
+                },
+                "py": {
+                  "azuresecrets": "pkg/feature/secrets/voxgig_sekreto/plugins/azuresecrets.py",
+                  "gcpsecrets": "pkg/feature/secrets/voxgig_sekreto/plugins/gcpsecrets.py"
+                },
+                "rb": {
+                  "VoxgigSekreto::Plugins::AZURESECRETS": "feature/secrets/voxgig_sekreto/plugins/azuresecrets.rb",
+                  "VoxgigSekreto::Plugins::GCPSECRETS": "feature/secrets/voxgig_sekreto/plugins/gcpsecrets.rb"
+                },
+                "rust": {
+                  "azuresecrets::plugin": "feature/secrets/plugins/azuresecrets.rs",
+                  "gcpsecrets::plugin": "feature/secrets/plugins/gcpsecrets.rs"
+                },
+                "scala": {
+                  "com.voxgig.sekreto.plugins.azuresecrets": "feature/secrets/sekreto/plugins/Azuresecrets.scala",
+                  "com.voxgig.sekreto.plugins.gcpsecrets": "feature/secrets/sekreto/plugins/Gcpsecrets.scala"
+                },
+                "swift": {
+                  "azuresecrets": "Sources/ProjectNameSDK/feature/secrets/plugins/Azuresecrets.swift",
+                  "gcpsecrets": "Sources/ProjectNameSDK/feature/secrets/plugins/Gcpsecrets.swift"
+                },
+                "ts": {
+                  "azuresecrets": "src/feature/secrets/sekreto/plugins/azuresecrets.ts",
+                  "gcpsecrets": "src/feature/secrets/sekreto/plugins/gcpsecrets.ts"
+                },
+                "zig": {
+                  "azuresecrets": "feature/secrets/plugins/azuresecrets.zig",
+                  "gcpsecrets": "feature/secrets/plugins/gcpsecrets.zig"
+                }
+              },
+              "deps": {},
+              "name": "cloud",
+              "needs": {
+                "fetch": true
+              },
+              "path": [
+                "src/feature/secrets/sekreto/plugins/gcpsecrets.ts",
+                "src/feature/secrets/sekreto/plugins/azuresecrets.ts",
+                "feature/secrets/plugins/gcpsecrets/gcpsecrets.go",
+                "feature/secrets/plugins/azuresecrets/azuresecrets.go",
+                "feature/secrets/plugins/gcpsecrets.rs",
+                "feature/secrets/plugins/azuresecrets.rs",
+                "feature/secrets/voxgig_sekreto/plugins/gcpsecrets.py",
+                "feature/secrets/voxgig_sekreto/plugins/azuresecrets.py",
+                "src/feature/secrets/sekreto/plugins/gcpsecrets.js",
+                "src/feature/secrets/sekreto/plugins/azuresecrets.js",
+                "feature/secrets/voxgig_sekreto/plugins/gcpsecrets.rb",
+                "feature/secrets/voxgig_sekreto/plugins/azuresecrets.rb",
+                "feature/secrets/sekreto/plugins/gcpsecrets.php",
+                "feature/secrets/sekreto/plugins/azuresecrets.php",
+                "feature/secrets/plugins/GcpSecrets.cs",
+                "feature/secrets/plugins/AzureSecrets.cs",
+                "feature/secrets/sekreto/plugins/Gcpsecrets.java",
+                "feature/secrets/sekreto/plugins/Azuresecrets.java",
+                "feature/secrets/sekreto/plugins/Gcpsecrets.scala",
+                "feature/secrets/sekreto/plugins/Azuresecrets.scala",
+                "feature/secrets/sekreto/plugins/Gcpsecrets.kt",
+                "feature/secrets/sekreto/plugins/Azuresecrets.kt",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Gcpsecrets.pm",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Azuresecrets.pm",
+                "lib/feature/secrets/sekreto/plugins/gcpsecrets.dart",
+                "lib/feature/secrets/sekreto/plugins/azuresecrets.dart",
+                "feature/secrets/sekreto/plugins/gcpsecrets.ex",
+                "feature/secrets/sekreto/plugins/azuresecrets.ex",
+                "feature/secrets/voxgig/sekreto/plugins/gcpsecrets.clj",
+                "feature/secrets/voxgig/sekreto/plugins/azuresecrets.clj",
+                "feature/secrets/plugins/Gcpsecrets.swift",
+                "feature/secrets/plugins/Azuresecrets.swift",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Gcpsecrets.lean",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Azuresecrets.lean",
+                "feature/secrets/plugins/gcpsecrets.c",
+                "feature/secrets/plugins/azuresecrets.c",
+                "feature/secrets/sekreto/plugins/gcpsecrets.lua",
+                "feature/secrets/sekreto/plugins/azuresecrets.lua",
+                "feature/secrets/plugins/gcpsecrets.zig",
+                "feature/secrets/plugins/azuresecrets.zig",
+                "feature/secrets/plugins/gcpsecrets.ml",
+                "feature/secrets/plugins/azuresecrets.ml",
+                "feature/secrets/plugins/Gcpsecrets.cpp",
+                "feature/secrets/plugins/Gcpsecrets.hpp",
+                "feature/secrets/plugins/Azuresecrets.cpp",
+                "feature/secrets/plugins/Azuresecrets.hpp"
+              ],
+              "stub": {},
+              "title": "GCP Secret Manager and Azure Key Vault"
+            },
+            "minivault": {
+              "active": false,
+              "def": {
+                "c": {
+                  "sek_plugin_minivault": "feature/secrets/plugins/minivault.c"
+                },
+                "clojure": {
+                  "voxgig.sekreto.plugins.minivault/minivault": "feature/secrets/voxgig/sekreto/plugins/minivault.clj"
+                },
+                "cpp": {
+                  "minivault": "feature/secrets/plugins/Minivault.cpp"
+                },
+                "csharp": {
+                  "MiniVault.Plugin": "feature/secrets/plugins/MiniVault.cs"
+                },
+                "elixir": {
+                  "Sekreto.Plugins.Minivault.minivault": "lib/projectname/feature/secrets/sekreto/plugins/minivault.ex"
+                },
+                "go": {
+                  "minivault.Plugin": "feature/secrets/plugins/minivault/minivault.go"
+                },
+                "java": {
+                  "Minivault.PLUGIN": "feature/secrets/sekreto/plugins/Minivault.java"
+                },
+                "js": {
+                  "minivault": "src/feature/secrets/sekreto/plugins/minivault.js"
+                },
+                "kotlin": {
+                  "minivault": "feature/secrets/sekreto/plugins/Minivault.kt"
+                },
+                "lua": {
+                  "minivault": "feature/secrets/sekreto/plugins/minivault.lua"
+                },
+                "ocaml": {
+                  "Minivault.plugin": "feature/secrets/plugins/minivault.ml"
+                },
+                "perl": {
+                  "minivault": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Minivault.pm"
+                },
+                "php": {
+                  "minivault": "feature/secrets/sekreto/plugins/minivault.php"
+                },
+                "py": {
+                  "minivault": "pkg/feature/secrets/voxgig_sekreto/plugins/minivault.py"
+                },
+                "rb": {
+                  "VoxgigSekreto::Plugins::MINIVAULT": "feature/secrets/voxgig_sekreto/plugins/minivault.rb"
+                },
+                "rust": {
+                  "minivault::minivault": "feature/secrets/plugins/minivault.rs"
+                },
+                "scala": {
+                  "com.voxgig.sekreto.plugins.minivault": "feature/secrets/sekreto/plugins/Minivault.scala"
+                },
+                "ts": {
+                  "minivault": "src/feature/secrets/sekreto/plugins/minivault.ts"
+                },
+                "zig": {
+                  "minivault": "feature/secrets/plugins/minivault.zig"
+                }
+              },
+              "deps": {
+                "rust": {
+                  "ring": {
+                    "active": true,
+                    "version": "0.17"
+                  }
+                }
+              },
+              "name": "minivault",
+              "needs": {
+                "crypto": true,
+                "fs": true
+              },
+              "path": [
+                "src/feature/secrets/sekreto/plugins/minivault.ts",
+                "src/feature/secrets/sekreto/plugins/minivault.js",
+                "pkg/feature/secrets/voxgig_sekreto/plugins/minivault.py",
+                "feature/secrets/voxgig_sekreto/plugins/minivault.rb",
+                "feature/secrets/sekreto/plugins/minivault.php",
+                "feature/secrets/plugins/minivault/minivault.go",
+                "feature/secrets/plugins/minivault/format.go",
+                "feature/secrets/plugins/minivault.rs",
+                "feature/secrets/plugins/minivault/format.rs",
+                "feature/secrets/plugins/MiniVault.cs",
+                "feature/secrets/sekreto/plugins/Minivault.java",
+                "feature/secrets/sekreto/plugins/Minivault.scala",
+                "feature/secrets/sekreto/plugins/Minivault.kt",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Minivault.pm",
+                "feature/secrets/plugins/minivault.c",
+                "feature/secrets/plugins/Minivault.cpp",
+                "feature/secrets/plugins/Minivault.hpp",
+                "feature/secrets/voxgig/sekreto/plugins/minivault.clj",
+                "lib/projectname/feature/secrets/sekreto/plugins/minivault.ex",
+                "feature/secrets/sekreto/plugins/minivault.lua",
+                "feature/secrets/native/sekretovault.c",
+                "feature/secrets/plugins/minivault.ml",
+                "feature/secrets/plugins/minivault_stubs.c",
+                "feature/secrets/plugins/minivault.zig"
+              ],
+              "stub": {
+                "lua": [
+                  "feature/secrets/native/sekretovault.c"
+                ],
+                "ocaml": [
+                  "feature/secrets/plugins/minivault_stubs.c"
+                ]
+              },
+              "title": "The local encrypted vault (AES-256-GCM, one file)"
+            },
+            "saas": {
+              "active": false,
+              "def": {
+                "c": {
+                  "sek_plugin_doppler": "feature/secrets/plugins/doppler.c",
+                  "sek_plugin_infisical": "feature/secrets/plugins/infisical.c",
+                  "sek_plugin_onepassword": "feature/secrets/plugins/onepassword.c"
+                },
+                "clojure": {
+                  "voxgig.sekreto.plugins.doppler/doppler": "feature/secrets/voxgig/sekreto/plugins/doppler.clj",
+                  "voxgig.sekreto.plugins.infisical/infisical": "feature/secrets/voxgig/sekreto/plugins/infisical.clj",
+                  "voxgig.sekreto.plugins.onepassword/onepassword": "feature/secrets/voxgig/sekreto/plugins/onepassword.clj"
+                },
+                "cpp": {
+                  "doppler": "feature/secrets/plugins/Doppler.cpp",
+                  "infisical": "feature/secrets/plugins/Infisical.cpp",
+                  "onepassword": "feature/secrets/plugins/Onepassword.cpp"
+                },
+                "csharp": {
+                  "Doppler.Plugin": "feature/secrets/plugins/Doppler.cs",
+                  "Infisical.Plugin": "feature/secrets/plugins/Infisical.cs",
+                  "OnePassword.Plugin": "feature/secrets/plugins/OnePassword.cs"
+                },
+                "dart": {
+                  "doppler": "lib/feature/secrets/sekreto/plugins/doppler.dart",
+                  "infisical": "lib/feature/secrets/sekreto/plugins/infisical.dart",
+                  "onepassword": "lib/feature/secrets/sekreto/plugins/onepassword.dart"
+                },
+                "elixir": {
+                  "Sekreto.Plugins.Doppler.doppler": "lib/projectname/feature/secrets/sekreto/plugins/doppler.ex",
+                  "Sekreto.Plugins.Infisical.infisical": "lib/projectname/feature/secrets/sekreto/plugins/infisical.ex",
+                  "Sekreto.Plugins.Onepassword.onepassword": "lib/projectname/feature/secrets/sekreto/plugins/onepassword.ex"
+                },
+                "go": {
+                  "doppler.Plugin": "feature/secrets/plugins/doppler/doppler.go",
+                  "infisical.Plugin": "feature/secrets/plugins/infisical/infisical.go",
+                  "onepassword.Plugin": "feature/secrets/plugins/onepassword/onepassword.go"
+                },
+                "java": {
+                  "Doppler.PLUGIN": "feature/secrets/sekreto/plugins/Doppler.java",
+                  "Infisical.PLUGIN": "feature/secrets/sekreto/plugins/Infisical.java",
+                  "Onepassword.PLUGIN": "feature/secrets/sekreto/plugins/Onepassword.java"
+                },
+                "js": {
+                  "doppler": "src/feature/secrets/sekreto/plugins/doppler.js",
+                  "infisical": "src/feature/secrets/sekreto/plugins/infisical.js",
+                  "onepassword": "src/feature/secrets/sekreto/plugins/onepassword.js"
+                },
+                "kotlin": {
+                  "doppler": "feature/secrets/sekreto/plugins/Doppler.kt",
+                  "infisical": "feature/secrets/sekreto/plugins/Infisical.kt",
+                  "onepassword": "feature/secrets/sekreto/plugins/Onepassword.kt"
+                },
+                "lean": {
+                  "Sekreto.doppler": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Doppler.lean",
+                  "Sekreto.infisical": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Infisical.lean",
+                  "Sekreto.onepassword": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Onepassword.lean"
+                },
+                "lua": {
+                  "doppler": "feature/secrets/sekreto/plugins/doppler.lua",
+                  "infisical": "feature/secrets/sekreto/plugins/infisical.lua",
+                  "onepassword": "feature/secrets/sekreto/plugins/onepassword.lua"
+                },
+                "ocaml": {
+                  "Doppler.plugin": "feature/secrets/plugins/doppler.ml",
+                  "Infisical.plugin": "feature/secrets/plugins/infisical.ml",
+                  "Onepassword.plugin": "feature/secrets/plugins/onepassword.ml"
+                },
+                "perl": {
+                  "doppler": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Doppler.pm",
+                  "infisical": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Infisical.pm",
+                  "onepassword": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Onepassword.pm"
+                },
+                "php": {
+                  "doppler": "feature/secrets/sekreto/plugins/doppler.php",
+                  "infisical": "feature/secrets/sekreto/plugins/infisical.php",
+                  "onepassword": "feature/secrets/sekreto/plugins/onepassword.php"
+                },
+                "py": {
+                  "doppler": "pkg/feature/secrets/voxgig_sekreto/plugins/doppler.py",
+                  "infisical": "pkg/feature/secrets/voxgig_sekreto/plugins/infisical.py",
+                  "onepassword": "pkg/feature/secrets/voxgig_sekreto/plugins/onepassword.py"
+                },
+                "rb": {
+                  "VoxgigSekreto::Plugins::DOPPLER": "feature/secrets/voxgig_sekreto/plugins/doppler.rb",
+                  "VoxgigSekreto::Plugins::INFISICAL": "feature/secrets/voxgig_sekreto/plugins/infisical.rb",
+                  "VoxgigSekreto::Plugins::ONEPASSWORD": "feature/secrets/voxgig_sekreto/plugins/onepassword.rb"
+                },
+                "rust": {
+                  "doppler::plugin": "feature/secrets/plugins/doppler.rs",
+                  "infisical::plugin": "feature/secrets/plugins/infisical.rs",
+                  "onepassword::plugin": "feature/secrets/plugins/onepassword.rs"
+                },
+                "scala": {
+                  "com.voxgig.sekreto.plugins.doppler": "feature/secrets/sekreto/plugins/Doppler.scala",
+                  "com.voxgig.sekreto.plugins.infisical": "feature/secrets/sekreto/plugins/Infisical.scala",
+                  "com.voxgig.sekreto.plugins.onepassword": "feature/secrets/sekreto/plugins/Onepassword.scala"
+                },
+                "swift": {
+                  "doppler": "Sources/ProjectNameSDK/feature/secrets/plugins/Doppler.swift",
+                  "infisical": "Sources/ProjectNameSDK/feature/secrets/plugins/Infisical.swift",
+                  "onepassword": "Sources/ProjectNameSDK/feature/secrets/plugins/Onepassword.swift"
+                },
+                "ts": {
+                  "doppler": "src/feature/secrets/sekreto/plugins/doppler.ts",
+                  "infisical": "src/feature/secrets/sekreto/plugins/infisical.ts",
+                  "onepassword": "src/feature/secrets/sekreto/plugins/onepassword.ts"
+                },
+                "zig": {
+                  "doppler": "feature/secrets/plugins/doppler.zig",
+                  "infisical": "feature/secrets/plugins/infisical.zig",
+                  "onepassword": "feature/secrets/plugins/onepassword.zig"
+                }
+              },
+              "deps": {},
+              "name": "saas",
+              "needs": {
+                "fetch": true
+              },
+              "path": [
+                "src/feature/secrets/sekreto/plugins/onepassword.ts",
+                "src/feature/secrets/sekreto/plugins/doppler.ts",
+                "src/feature/secrets/sekreto/plugins/infisical.ts",
+                "feature/secrets/plugins/onepassword/onepassword.go",
+                "feature/secrets/plugins/doppler/doppler.go",
+                "feature/secrets/plugins/infisical/infisical.go",
+                "feature/secrets/plugins/onepassword.rs",
+                "feature/secrets/plugins/doppler.rs",
+                "feature/secrets/plugins/infisical.rs",
+                "feature/secrets/voxgig_sekreto/plugins/onepassword.py",
+                "feature/secrets/voxgig_sekreto/plugins/doppler.py",
+                "feature/secrets/voxgig_sekreto/plugins/infisical.py",
+                "src/feature/secrets/sekreto/plugins/onepassword.js",
+                "src/feature/secrets/sekreto/plugins/doppler.js",
+                "src/feature/secrets/sekreto/plugins/infisical.js",
+                "feature/secrets/voxgig_sekreto/plugins/onepassword.rb",
+                "feature/secrets/voxgig_sekreto/plugins/doppler.rb",
+                "feature/secrets/voxgig_sekreto/plugins/infisical.rb",
+                "feature/secrets/sekreto/plugins/onepassword.php",
+                "feature/secrets/sekreto/plugins/doppler.php",
+                "feature/secrets/sekreto/plugins/infisical.php",
+                "feature/secrets/plugins/OnePassword.cs",
+                "feature/secrets/plugins/Doppler.cs",
+                "feature/secrets/plugins/Infisical.cs",
+                "feature/secrets/sekreto/plugins/Onepassword.java",
+                "feature/secrets/sekreto/plugins/Doppler.java",
+                "feature/secrets/sekreto/plugins/Infisical.java",
+                "feature/secrets/sekreto/plugins/Onepassword.scala",
+                "feature/secrets/sekreto/plugins/Doppler.scala",
+                "feature/secrets/sekreto/plugins/Infisical.scala",
+                "feature/secrets/sekreto/plugins/Onepassword.kt",
+                "feature/secrets/sekreto/plugins/Doppler.kt",
+                "feature/secrets/sekreto/plugins/Infisical.kt",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Onepassword.pm",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Doppler.pm",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Infisical.pm",
+                "lib/feature/secrets/sekreto/plugins/onepassword.dart",
+                "lib/feature/secrets/sekreto/plugins/doppler.dart",
+                "lib/feature/secrets/sekreto/plugins/infisical.dart",
+                "feature/secrets/voxgig/sekreto/plugins/onepassword.clj",
+                "feature/secrets/voxgig/sekreto/plugins/doppler.clj",
+                "feature/secrets/voxgig/sekreto/plugins/infisical.clj",
+                "feature/secrets/sekreto/plugins/onepassword.ex",
+                "feature/secrets/sekreto/plugins/doppler.ex",
+                "feature/secrets/sekreto/plugins/infisical.ex",
+                "feature/secrets/plugins/Onepassword.swift",
+                "feature/secrets/plugins/Doppler.swift",
+                "feature/secrets/plugins/Infisical.swift",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Onepassword.lean",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Doppler.lean",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Infisical.lean",
+                "feature/secrets/plugins/onepassword.c",
+                "feature/secrets/plugins/doppler.c",
+                "feature/secrets/plugins/infisical.c",
+                "feature/secrets/sekreto/plugins/onepassword.lua",
+                "feature/secrets/sekreto/plugins/doppler.lua",
+                "feature/secrets/sekreto/plugins/infisical.lua",
+                "feature/secrets/plugins/onepassword.zig",
+                "feature/secrets/plugins/doppler.zig",
+                "feature/secrets/plugins/infisical.zig",
+                "feature/secrets/plugins/onepassword.ml",
+                "feature/secrets/plugins/doppler.ml",
+                "feature/secrets/plugins/infisical.ml",
+                "feature/secrets/plugins/Onepassword.cpp",
+                "feature/secrets/plugins/Onepassword.hpp",
+                "feature/secrets/plugins/Doppler.cpp",
+                "feature/secrets/plugins/Doppler.hpp",
+                "feature/secrets/plugins/Infisical.cpp",
+                "feature/secrets/plugins/Infisical.hpp"
+              ],
+              "stub": {},
+              "title": "1Password, Doppler and Infisical"
+            },
+            "secretspec": {
+              "active": false,
+              "def": {
+                "c": {
+                  "sek_plugin_secretspec": "feature/secrets/plugins/secretspec.c"
+                },
+                "clojure": {
+                  "voxgig.sekreto.plugins.secretspec/secretspec": "feature/secrets/voxgig/sekreto/plugins/secretspec.clj"
+                },
+                "cpp": {
+                  "secretspec": "feature/secrets/plugins/Secretspec.cpp"
+                },
+                "csharp": {
+                  "SecretSpec.Plugin": "feature/secrets/plugins/SecretSpec.cs"
+                },
+                "dart": {
+                  "secretspec": "lib/feature/secrets/sekreto/plugins/secretspec.dart"
+                },
+                "elixir": {
+                  "Sekreto.Plugins.Secretspec.secretspec": "lib/projectname/feature/secrets/sekreto/plugins/secretspec.ex"
+                },
+                "go": {
+                  "secretspec.Plugin": "feature/secrets/plugins/secretspec/secretspec.go"
+                },
+                "java": {
+                  "Secretspec.PLUGIN": "feature/secrets/sekreto/plugins/Secretspec.java"
+                },
+                "js": {
+                  "secretspec": "src/feature/secrets/sekreto/plugins/secretspec.js"
+                },
+                "kotlin": {
+                  "secretspec": "feature/secrets/sekreto/plugins/Secretspec.kt"
+                },
+                "lean": {
+                  "Sekreto.secretspec": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Secretspec.lean"
+                },
+                "lua": {
+                  "secretspec": "feature/secrets/sekreto/plugins/secretspec.lua"
+                },
+                "ocaml": {
+                  "Secretspec.plugin": "feature/secrets/plugins/secretspec.ml"
+                },
+                "perl": {
+                  "secretspec": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Secretspec.pm"
+                },
+                "php": {
+                  "secretspec": "feature/secrets/sekreto/plugins/secretspec.php"
+                },
+                "py": {
+                  "secretspec": "pkg/feature/secrets/voxgig_sekreto/plugins/secretspec.py"
+                },
+                "rb": {
+                  "VoxgigSekreto::Plugins::SECRETSPEC": "feature/secrets/voxgig_sekreto/plugins/secretspec.rb"
+                },
+                "rust": {
+                  "secretspec::plugin": "feature/secrets/plugins/secretspec.rs"
+                },
+                "scala": {
+                  "com.voxgig.sekreto.plugins.secretspec": "feature/secrets/sekreto/plugins/Secretspec.scala"
+                },
+                "swift": {
+                  "secretspec": "Sources/ProjectNameSDK/feature/secrets/plugins/Secretspec.swift"
+                },
+                "ts": {
+                  "secretspec": "src/feature/secrets/sekreto/plugins/secretspec.ts"
+                },
+                "zig": {
+                  "secretspec": "feature/secrets/plugins/secretspec.zig"
+                }
+              },
+              "deps": {},
+              "name": "secretspec",
+              "needs": {
+                "fs": true
+              },
+              "path": [
+                "src/feature/secrets/sekreto/plugins/secretspec.ts",
+                "feature/secrets/plugins/secretspec/secretspec.go",
+                "feature/secrets/plugins/secretspec.rs",
+                "feature/secrets/voxgig_sekreto/plugins/secretspec.py",
+                "src/feature/secrets/sekreto/plugins/secretspec.js",
+                "feature/secrets/voxgig_sekreto/plugins/secretspec.rb",
+                "feature/secrets/sekreto/plugins/secretspec.php",
+                "feature/secrets/plugins/SecretSpec.cs",
+                "feature/secrets/sekreto/plugins/Secretspec.java",
+                "feature/secrets/sekreto/plugins/Secretspec.scala",
+                "feature/secrets/sekreto/plugins/Secretspec.kt",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Secretspec.pm",
+                "lib/feature/secrets/sekreto/plugins/secretspec.dart",
+                "feature/secrets/voxgig/sekreto/plugins/secretspec.clj",
+                "feature/secrets/sekreto/plugins/secretspec.ex",
+                "feature/secrets/plugins/Secretspec.swift",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Secretspec.lean",
+                "feature/secrets/plugins/secretspec.c",
+                "feature/secrets/sekreto/plugins/secretspec.lua",
+                "feature/secrets/plugins/secretspec.zig",
+                "feature/secrets/plugins/secretspec.ml",
+                "feature/secrets/plugins/Secretspec.cpp",
+                "feature/secrets/plugins/Secretspec.hpp"
+              ],
+              "stub": {},
+              "title": "secretspec CLI bridge (child process)"
+            },
+            "vault": {
+              "active": false,
+              "def": {
+                "c": {
+                  "sek_plugin_boru": "feature/secrets/plugins/boru.c",
+                  "sek_plugin_hashicorp": "feature/secrets/plugins/hashicorp.c"
+                },
+                "clojure": {
+                  "voxgig.sekreto.plugins.boru/boru": "feature/secrets/voxgig/sekreto/plugins/boru.clj",
+                  "voxgig.sekreto.plugins.hashicorp/hashicorp": "feature/secrets/voxgig/sekreto/plugins/hashicorp.clj"
+                },
+                "cpp": {
+                  "boru": "feature/secrets/plugins/Boru.cpp",
+                  "hashicorp": "feature/secrets/plugins/Hashicorp.cpp"
+                },
+                "csharp": {
+                  "Boru.Plugin": "feature/secrets/plugins/Boru.cs",
+                  "Hashicorp.Plugin": "feature/secrets/plugins/Hashicorp.cs"
+                },
+                "dart": {
+                  "boru": "lib/feature/secrets/sekreto/plugins/boru.dart",
+                  "hashicorp": "lib/feature/secrets/sekreto/plugins/hashicorp.dart"
+                },
+                "elixir": {
+                  "Sekreto.Plugins.Boru.boru": "lib/projectname/feature/secrets/sekreto/plugins/boru.ex",
+                  "Sekreto.Plugins.Hashicorp.hashicorp": "lib/projectname/feature/secrets/sekreto/plugins/hashicorp.ex"
+                },
+                "go": {
+                  "boru.Plugin": "feature/secrets/plugins/boru/boru.go",
+                  "hashicorp.Plugin": "feature/secrets/plugins/hashicorp/hashicorp.go"
+                },
+                "java": {
+                  "Boru.PLUGIN": "feature/secrets/sekreto/plugins/Boru.java",
+                  "Hashicorp.PLUGIN": "feature/secrets/sekreto/plugins/Hashicorp.java"
+                },
+                "js": {
+                  "boru": "src/feature/secrets/sekreto/plugins/boru.js",
+                  "hashicorp": "src/feature/secrets/sekreto/plugins/hashicorp.js"
+                },
+                "kotlin": {
+                  "boru": "feature/secrets/sekreto/plugins/Boru.kt",
+                  "hashicorp": "feature/secrets/sekreto/plugins/Hashicorp.kt"
+                },
+                "lean": {
+                  "Sekreto.boru": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Boru.lean",
+                  "Sekreto.hashicorp": "src/feature/secrets/sekreto/plugins/SekretoPlugins/Hashicorp.lean"
+                },
+                "lua": {
+                  "boru": "feature/secrets/sekreto/plugins/boru.lua",
+                  "hashicorp": "feature/secrets/sekreto/plugins/hashicorp.lua"
+                },
+                "ocaml": {
+                  "Boru.plugin": "feature/secrets/plugins/boru.ml",
+                  "Hashicorp.plugin": "feature/secrets/plugins/hashicorp.ml"
+                },
+                "perl": {
+                  "boru": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Boru.pm",
+                  "hashicorp": "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Hashicorp.pm"
+                },
+                "php": {
+                  "boru": "feature/secrets/sekreto/plugins/boru.php",
+                  "hashicorp": "feature/secrets/sekreto/plugins/hashicorp.php"
+                },
+                "py": {
+                  "boru": "pkg/feature/secrets/voxgig_sekreto/plugins/boru.py",
+                  "hashicorp": "pkg/feature/secrets/voxgig_sekreto/plugins/hashicorp.py"
+                },
+                "rb": {
+                  "VoxgigSekreto::Plugins::BORU": "feature/secrets/voxgig_sekreto/plugins/boru.rb",
+                  "VoxgigSekreto::Plugins::HASHICORP": "feature/secrets/voxgig_sekreto/plugins/hashicorp.rb"
+                },
+                "rust": {
+                  "boru::plugin": "feature/secrets/plugins/boru.rs",
+                  "hashicorp::plugin": "feature/secrets/plugins/hashicorp.rs"
+                },
+                "scala": {
+                  "com.voxgig.sekreto.plugins.boru": "feature/secrets/sekreto/plugins/Boru.scala",
+                  "com.voxgig.sekreto.plugins.hashicorp": "feature/secrets/sekreto/plugins/Hashicorp.scala"
+                },
+                "swift": {
+                  "boru": "Sources/ProjectNameSDK/feature/secrets/plugins/Boru.swift",
+                  "hashicorp": "Sources/ProjectNameSDK/feature/secrets/plugins/Hashicorp.swift"
+                },
+                "ts": {
+                  "boru": "src/feature/secrets/sekreto/plugins/boru.ts",
+                  "hashicorp": "src/feature/secrets/sekreto/plugins/hashicorp.ts"
+                },
+                "zig": {
+                  "boru": "feature/secrets/plugins/boru.zig",
+                  "hashicorp": "feature/secrets/plugins/hashicorp.zig"
+                }
+              },
+              "deps": {},
+              "name": "vault",
+              "needs": {
+                "fetch": true,
+                "fs": true
+              },
+              "path": [
+                "src/feature/secrets/sekreto/plugins/hashicorp.ts",
+                "src/feature/secrets/sekreto/plugins/boru.ts",
+                "feature/secrets/plugins/hashicorp/hashicorp.go",
+                "feature/secrets/plugins/boru/boru.go",
+                "feature/secrets/plugins/hashicorp.rs",
+                "feature/secrets/plugins/boru.rs",
+                "feature/secrets/voxgig_sekreto/plugins/hashicorp.py",
+                "feature/secrets/voxgig_sekreto/plugins/boru.py",
+                "src/feature/secrets/sekreto/plugins/hashicorp.js",
+                "src/feature/secrets/sekreto/plugins/boru.js",
+                "feature/secrets/voxgig_sekreto/plugins/hashicorp.rb",
+                "feature/secrets/voxgig_sekreto/plugins/boru.rb",
+                "feature/secrets/sekreto/plugins/hashicorp.php",
+                "feature/secrets/sekreto/plugins/boru.php",
+                "feature/secrets/plugins/Hashicorp.cs",
+                "feature/secrets/plugins/Boru.cs",
+                "feature/secrets/sekreto/plugins/Hashicorp.java",
+                "feature/secrets/sekreto/plugins/Boru.java",
+                "feature/secrets/sekreto/plugins/Hashicorp.scala",
+                "feature/secrets/sekreto/plugins/Boru.scala",
+                "feature/secrets/sekreto/plugins/Hashicorp.kt",
+                "feature/secrets/sekreto/plugins/Boru.kt",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Hashicorp.pm",
+                "feature/secrets/plugins/Voxgig/Sekreto/Plugins/Boru.pm",
+                "lib/feature/secrets/sekreto/plugins/hashicorp.dart",
+                "lib/feature/secrets/sekreto/plugins/boru.dart",
+                "feature/secrets/sekreto/plugins/hashicorp.ex",
+                "feature/secrets/sekreto/plugins/boru.ex",
+                "feature/secrets/voxgig/sekreto/plugins/hashicorp.clj",
+                "feature/secrets/voxgig/sekreto/plugins/boru.clj",
+                "feature/secrets/plugins/Hashicorp.swift",
+                "feature/secrets/plugins/Boru.swift",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Hashicorp.lean",
+                "src/feature/secrets/sekreto/plugins/SekretoPlugins/Boru.lean",
+                "feature/secrets/plugins/hashicorp.c",
+                "feature/secrets/plugins/boru.c",
+                "feature/secrets/sekreto/plugins/hashicorp.lua",
+                "feature/secrets/sekreto/plugins/boru.lua",
+                "feature/secrets/plugins/hashicorp.zig",
+                "feature/secrets/plugins/boru.zig",
+                "feature/secrets/plugins/hashicorp.ml",
+                "feature/secrets/plugins/boru.ml",
+                "feature/secrets/plugins/Hashicorp.cpp",
+                "feature/secrets/plugins/Hashicorp.hpp",
+                "feature/secrets/plugins/Boru.cpp",
+                "feature/secrets/plugins/Boru.hpp"
+              ],
+              "stub": {},
+              "title": "HashiCorp Vault and boru"
+            }
+          },
+          "spec": {
+            "authexchange": "exchange"
+          },
+          "target": {
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
               "deps": {}
             },
             "lua": {
@@ -4237,13 +5268,16 @@
             "py": {
               "deps": {}
             },
+            "rb": {
+              "deps": {}
+            },
             "ts": {
               "deps": {}
             }
           },
-          "title": "Retry",
+          "title": "Secrets",
           "transport": "wrap",
-          "version": "0.0.1"
+          "version": "0.1.0"
         },
         "test": {
           "active": true,
@@ -4329,9 +5363,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -4339,6 +5370,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -4427,9 +5461,6 @@
             "go-mcp": {
               "deps": {}
             },
-            "js": {
-              "deps": {}
-            },
             "lua": {
               "deps": {}
             },
@@ -4437,6 +5468,9 @@
               "deps": {}
             },
             "py": {
+              "deps": {}
+            },
+            "rb": {
               "deps": {}
             },
             "ts": {
@@ -4727,30 +5761,12 @@
             {
               "a": true,
               "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "lab_report_ref01"
-                  }
-                }
-              ]
-            },
-            {
-              "a": true,
-              "d": {},
               "i": {
                 "ref": "lab_report_ref01",
                 "srcdatavar": "lab_report_ref01_data",
                 "suffix": "_dt0"
               },
-              "m": {
-                "id": "lab_report01"
-              },
+              "m": {},
               "o": "load",
               "s": [],
               "v": [
@@ -4775,24 +5791,6 @@
               "o": "remove",
               "s": [],
               "v": []
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "suffix": "_rt0"
-              },
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemNotExists",
-                  "def": {
-                    "ref": "lab_report_ref01"
-                  }
-                }
-              ]
             }
           ]
         },
@@ -4810,26 +5808,12 @@
               "i": {
                 "ref": "lab_report_session_ref01"
               },
-              "m": {},
+              "m": {
+                "session_id": "session01"
+              },
               "o": "create",
               "s": [],
               "v": []
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "lab_report_session_ref01"
-                  }
-                }
-              ]
             },
             {
               "a": true,
@@ -5158,7 +6142,7 @@
           "name": "Terra API",
           "url": "https://tryterra.co/"
         },
-        "description": "The Terra API (v2 surface, served at access.tryterra.co/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code entitlement_required; disabled environments return environment_disabled. Unavailable current authorization returns HTTP 503 with code authorization_unavailable. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller's own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.\n",
+        "description": "The Terra API (v2 surface, served at access.tryterra.co/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code entitlement_required; disabled environments return environment_disabled. Unavailable current authorization returns HTTP 503 with code authorization_unavailable. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller's own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.\n\n**Lab reports versioning.** The report endpoints (`/reports`, and the deprecated `/lab-reports`) are versioned by date. Send `X-Terra-Version: <date>` to choose the version a request is served in: the newest version on or before that date. Without the header a request gets the environment's pinned version. An environment without a pin is pinned to the latest version on its first request; change the pin through the admin API (`PUT /api/v3/admin/environments/{dev_id}/lab-reports/api-version`). Every authenticated response carries `X-Terra-Version` stating the version it was served in, and every `lab_report` webhook delivery carries the environment's version. A malformed or future date returns 400 with code `invalid_api_version`. Versions are `2026-10-21` (latest: the report list is paginated) and `2026-03-24` (the list returns up to 500 reports in `sessions`). This document describes the latest version.\n",
         "license": {
           "name": "Apache-2.0",
           "url": "https://github.com/tryterra/openapi/blob/master/LICENSE"
@@ -5196,7 +6180,7 @@
         "summary": "The Terra API (v2 surface, served at access.tryterra.co/api/v2).",
         "termsOfService": "https://tryterra.co/terms-of-service",
         "title": "TerraAPI",
-        "version": "2026.10.08.1",
+        "version": "2026.10.21.1",
         "website": "https://access.tryterra.co"
       },
       "option": {},
@@ -5496,78 +6480,6 @@
             "write": false
           }
         },
-        "js": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
-          "comment": {
-            "line": "//"
-          },
-          "deps": {
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
-            }
-          },
-          "ext": "js",
-          "feature": {
-            "fullset": [],
-            "trim": true
-          },
-          "module": {
-            "goversion": "",
-            "name": "terra",
-            "package": "",
-            "path": ""
-          },
-          "name": "js",
-          "origname": "",
-          "output": {
-            "adopt": false,
-            "create": true,
-            "path": "",
-            "repo": "",
-            "root": false,
-            "sdkrel": ""
-          },
-          "package": "@voxgig/sdkgen",
-          "provides": {
-            "schema": true,
-            "sekreto": true
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "npm",
-              "package": "",
-              "state": "pending",
-              "url": "https://registry.npmjs.org",
-              "vault": {
-                "alias": "npm",
-                "env": "",
-                "recipe": "npm"
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.1.1"
-          },
-          "superseded": [
-            "test/runner.js"
-          ],
-          "title": "JavaScript"
-        },
         "lua": {
           "active": true,
           "author": {
@@ -5615,7 +6527,7 @@
             "registry": {
               "active": false,
               "name": "luarocks",
-              "package": "",
+              "package": "voxgig-sdk-terra-sdk",
               "state": "pending",
               "url": "https://luarocks.org",
               "vault": {
@@ -5682,7 +6594,7 @@
             "registry": {
               "active": false,
               "name": "packagist",
-              "package": "",
+              "package": "voxgig-sdk/terra-sdk",
               "state": "pending",
               "url": "https://packagist.org",
               "vault": {
@@ -5755,7 +6667,7 @@
             "registry": {
               "active": false,
               "name": "pypi",
-              "package": "",
+              "package": "voxgig-sdk-terra-sdk",
               "state": "pending",
               "url": "https://pypi.org",
               "vault": {
@@ -5780,6 +6692,79 @@
             "test/struct_runner.py"
           ],
           "title": "Python"
+        },
+        "rb": {
+          "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "comment": {
+            "line": "#"
+          },
+          "deps": {
+            "json": {
+              "active": true,
+              "kind": "prod",
+              "version": "*"
+            }
+          },
+          "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
+          "module": {
+            "goversion": "",
+            "name": "terra",
+            "package": "",
+            "path": ""
+          },
+          "name": "rb",
+          "origname": "",
+          "output": {
+            "adopt": false,
+            "create": true,
+            "path": "",
+            "repo": "",
+            "root": false,
+            "sdkrel": ""
+          },
+          "package": "@voxgig/sdkgen",
+          "provides": {
+            "schema": true,
+            "sekreto": true
+          },
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "rubygems",
+              "package": "",
+              "state": "pending",
+              "url": "https://rubygems.org",
+              "vault": {
+                "alias": "gem",
+                "env": "",
+                "recipe": "gem"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            },
+            "version": "0.1.1"
+          },
+          "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
+          "title": "Ruby"
         },
         "ts": {
           "active": true,
@@ -5833,7 +6818,7 @@
             "registry": {
               "active": false,
               "name": "npm",
-              "package": "",
+              "package": "@voxgig-sdk/terra-sdk",
               "state": "pending",
               "url": "https://registry.npmjs.org",
               "vault": {
@@ -5879,14 +6864,11 @@
         "meta_source": "",
         "summary": "",
         "tagline": "",
-        "title": "",
+        "title": "Terra API",
         "website": ""
       }
     }
   },
   "name": "terra",
-  "name-": "terra",
-  "name_": "terra",
-  "name__orig": "terra",
   "origin": "voxgig-sdk"
 }

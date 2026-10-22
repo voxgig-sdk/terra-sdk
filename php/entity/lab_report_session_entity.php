@@ -14,7 +14,7 @@ class LabReportSessionEntity
     private $_client;
     private $_utility;
     private array $_entopts;
-    private array $_data;
+    private mixed $_data;
     private array $_match;
     private $_entctx;
     private bool $_deleted = false;
@@ -98,8 +98,9 @@ class LabReportSessionEntity
      */
     public function data_set($args): void
     {
-        if ($args) {
-            $this->_data = TerraHelpers::to_map(Struct::clone($args)) ?? [];
+        if ($args !== null) {
+            $data = Struct::clone($args);
+            $this->_data = $data instanceof \stdClass ? (array)$data : $data;
             ($this->_utility->feature_hook)($this->_entctx, "SetData");
         }
     }
@@ -230,7 +231,9 @@ class LabReportSessionEntity
         } catch (\Throwable $err) {
             // What a hook throws here must not escape the cleaning below.
             try {
-                ($utility->feature_hook)($ctx, "PreUnexpected");
+                if (!$ctx->unexpected_fired) {
+                    ($utility->feature_hook)($ctx, "PreUnexpected");
+                }
             } catch (\Throwable $hookerr) {
                 $err = $hookerr;
             }
@@ -322,36 +325,6 @@ class LabReportSessionEntity
 
 
     
-    /**
-     * List LabReportSession items matching the given filter.
-     *
-     * @param LabReportSessionListMatch|array|null $reqmatch Match filter (any subset
-     *   of LabReportSession fields) as an assoc-array; LabReportSessionListMatch names the shape.
-     * @param mixed $ctrl Optional per-call control overrides.
-     * @return LabReportSessionEntity[] The LabReportSession entities, one per record, each read
-     *   with data_get(); throws TerraError on failure (item-5 convention).
-     */
-    public function list(?array $reqmatch = null, $ctrl = null): mixed
-    {
-        $utility = $this->_utility;
-        $ctx = ($utility->make_context)([
-            "opname" => "list",
-            "ctrl" => $ctrl,
-            "match" => $this->_match,
-            "data" => $this->_data,
-            "reqmatch" => $reqmatch,
-        ], $this->_entctx);
-
-        return $this->_run_op($ctx, function () use ($ctx) {
-            if ($ctx->result) {
-                if ($ctx->result->resmatch) {
-                    $this->_match = $ctx->result->resmatch;
-                }
-            }
-        });
-    }
-
-
 
     
     /**
@@ -400,7 +373,10 @@ class LabReportSessionEntity
         } catch (\Throwable $err) {
             // What a hook throws here must not escape the cleaning below.
             try {
-                ($utility->feature_hook)($ctx, "PreUnexpected");            } catch (\Throwable $hookerr) {
+                // Once per operation: make_error fires it for its own error.
+                if (!$ctx->unexpected_fired) {
+                    ($utility->feature_hook)($ctx, "PreUnexpected");                }
+            } catch (\Throwable $hookerr) {
                 $err = $hookerr;
             }
             $err = $this->_unexpected($ctx, $err);

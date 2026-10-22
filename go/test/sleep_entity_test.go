@@ -63,6 +63,7 @@ func TestSleepEntity(t *testing.T) {
 			}
 		}
 		client := setup.client
+		_ = client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		sleepRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.sleep")))

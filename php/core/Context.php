@@ -34,6 +34,9 @@ class TerraContext implements \JsonSerializable
     public ?TerraResult $result;
     public ?TerraResponse $response;
     public TerraOperation $op;
+    // Set by make_error as it fires PreUnexpected, which fires once per
+    // operation.
+    public bool $unexpected_fired = false;
 
     public function __construct(array $ctxmap = [], ?self $basectx = null)
     {

@@ -14,7 +14,7 @@ type LabReportSessionEntity struct {
 	client  *core.TerraSDK
 	utility *core.Utility
 	entopts map[string]any
-	data    map[string]any
+	data    any
 	match   map[string]any
 	entctx  *core.Context
 	deleted bool
@@ -64,8 +64,12 @@ func (e *LabReportSessionEntity) GoString() string {
 }
 
 func (e *LabReportSessionEntity) MarshalJSON() ([]byte, error) {
+	data, ok := e.data.(map[string]any)
+	if !ok {
+		return json.Marshal(e.data)
+	}
 	out := map[string]any{}
-	for k, v := range e.data {
+	for k, v := range data {
 		out[k] = v
 	}
 	out["voxgig$entity"] = "LabReportSession"
@@ -93,10 +97,7 @@ func (e *LabReportSessionEntity) Make() core.Entity {
 
 func (e *LabReportSessionEntity) Data(args ...any) any {
 	if len(args) > 0 && args[0] != nil {
-		e.data = core.ToMapAny(vs.Clone(args[0]))
-		if e.data == nil {
-			e.data = map[string]any{}
-		}
+		e.data = vs.Clone(args[0])
 		e.utility.FeatureHook(e.entctx, "SetData")
 	}
 
@@ -310,9 +311,9 @@ func (e *LabReportSessionEntity) Load(reqmatch map[string]any, ctrl map[string]a
 				e.match = ctx.Result.Resmatch
 			}
 			if ctx.Result.Resdata != nil {
-				e.data = core.ToMapAny(vs.Clone(ctx.Result.Resdata))
-				if e.data == nil {
-					e.data = map[string]any{}
+				e.data = map[string]any{}
+				if data := core.ToMapAny(vs.Clone(ctx.Result.Resdata)); data != nil {
+					e.data = data
 				}
 			}
 		}
@@ -332,37 +333,9 @@ func (e *LabReportSessionEntity) LoadTyped(reqmatch LabReportSessionLoadMatch, c
 
 
 
-
-func (e *LabReportSessionEntity) List(reqmatch map[string]any, ctrl map[string]any) (any, error) {
-	utility := e.utility
-	ctx := utility.MakeContext(map[string]any{
-		"opname":   "list",
-		"ctrl":     ctrl,
-		"match":    e.match,
-		"data":     e.data,
-		"reqmatch": reqmatch,
-	}, e.entctx)
-
-	return e.runOp(ctx, func() {
-		if ctx.Result != nil {
-			if ctx.Result.Resmatch != nil {
-				e.match = ctx.Result.Resmatch
-			}
-		}
-	})
+func (e *LabReportSessionEntity) List(_ map[string]any, _ map[string]any) (any, error) {
+	return core.UnsupportedOp("list", e.name)
 }
-
-// ListTyped is the statically-typed variant of List: it takes an
-// LabReportSessionListMatch and returns []LabReportSession. It delegates to the untyped
-// List (identical runtime) and converts at the typed boundary.
-func (e *LabReportSessionEntity) ListTyped(reqmatch LabReportSessionListMatch, ctrl map[string]any) ([]LabReportSession, error) {
-	res, err := e.List(asMap(reqmatch), ctrl)
-	if err != nil {
-		return nil, err
-	}
-	return typedSliceFrom[LabReportSession](res), nil
-}
-
 
 
 
@@ -379,9 +352,9 @@ func (e *LabReportSessionEntity) Create(reqdata map[string]any, ctrl map[string]
 	return e.runOp(ctx, func() {
 		if ctx.Result != nil {
 			if ctx.Result.Resdata != nil {
-				e.data = core.ToMapAny(vs.Clone(ctx.Result.Resdata))
-				if e.data == nil {
-					e.data = map[string]any{}
+				e.data = map[string]any{}
+				if data := core.ToMapAny(vs.Clone(ctx.Result.Resdata)); data != nil {
+					e.data = data
 				}
 			}
 		}

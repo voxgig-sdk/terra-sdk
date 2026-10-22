@@ -9,7 +9,7 @@ The API is exposed as capitalised, semantic **Entities** — e.g.
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
-> Also generated from this model: `go`, `go-cli`, `go-mcp`, `js`, `lua`, `php`, `py` — see
+> Also generated from this model: `go`, `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb` — see
 > the [top-level README](../README.md).
 
 
@@ -338,27 +338,16 @@ API path: `/athlete`
 
 | Field | Description |
 | --- | --- |
-| `apple_app_url` | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
-| `auth_failure_redirect_url` | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | URL the user is redirected to upon successful authentication. |
+| `auth_failure_redirect_url` |  |
+| `auth_success_redirect_url` |  |
 | `auth_url` | authentication URL the user must be redirected to in order to link their account |
-| `bypass_feedback` | When false, the user stays on the widget's own result screen instead of being redirected immediately |
-| `connected_uids` | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
-| `expires_in` | a number in seconds depicting how long the url is valid for |
-| `language` | forces the widget UI language (e.g. |
-| `multi_auth` | Keep the user on the widget after each successful connection so they can connect several providers in one session |
-| `providers` | Comma separated list of providers to display on the device selection page. |
-| `reference_id` | Identifier of the end user on your system, such as a user ID or email associated with them |
-| `samsung_app_url` | URL of your own Android app to hand Samsung Health connections to |
+| `expires_in` |  |
+| `language` |  |
+| `reference_id` |  |
 | `sdk_app` | Which Terra reference app an SDK authentication link hands the end user to. |
-| `session_id` | Session ID for the widget authentication session |
-| `show_disconnect` | Show disconnect buttons for providers already connected under reference_id |
 | `status` | indicates that the request was successful |
 | `token` |  |
-| `url` | the widget URL the user must be redirected to in order to link their account |
-| `use_terra_avengers_app` | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | User ID for the user being created |
-| `warnings` | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 Operations: create, remove.
 
@@ -408,34 +397,14 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `collection_date` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
-| `current_status` | Current status as a clean lowercase string (open enum), e.g. |
-| `file_count` |  |
+| `current_status` | Processing status as a clean lowercase string. |
+| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` |  |
-| `input_bytes` |  |
-| `lab_name` |  |
-| `output_bytes` |  |
-| `panels` | Report-level panels that results reference by panel_id. |
-| `patient_age_at_collection` | Patient age in years; omitted if unknown. |
-| `patient_sex` | Clean lowercase string (open enum); omitted if unspecified. |
-| `reference_id` | Your external reference; omitted if not set. |
-| `report_date` | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
-| `report_locale` |  |
-| `report_notes` |  |
-| `report_time` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
-| `results` | The layered biomarker results. |
-| `results_count` |  |
-| `session_id` |  |
-| `status_history` |  |
-| `updated_at` |  |
 | `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
-| `uploaded_at` |  |
 
-Operations: create, list, load, remove.
+Operations: create, load, remove.
 
-API path: `/lab-reports`
+API path: `/lab-reports/{session_id}/reprocess`
 
 #### LabReportDelivery
 
@@ -456,6 +425,7 @@ API path: `/lab-reports/{session_id}/deliveries`
 
 | Field | Description |
 | --- | --- |
+| `content_type` | An uploaded file's content type. |
 | `filename` |  |
 | `id` |  |
 | `presigned_url` |  |
@@ -470,7 +440,8 @@ API path: `/lab-reports/{session_id}/files`
 | --- | --- |
 | `collection_date` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
 | `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
-| `current_status` | Current status as a clean lowercase string (open enum), e.g. |
+| `current_status` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `error` | Why the report failed: the same object the lab_report.failed webhook carries. |
 | `file_count` |  |
 | `input_bytes` |  |
 | `lab_name` |  |
@@ -489,12 +460,12 @@ API path: `/lab-reports/{session_id}/files`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `upload_id` |  |
 | `uploaded_at` |  |
 
-Operations: create, list, load.
+Operations: create, load.
 
-API path: `/reports`
+API path: `/reports/{session_id}/reprocess`
 
 #### Menstruation
 
@@ -637,27 +608,16 @@ Create an instance: `const authentication = client.Authentication()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `apple_app_url` | `string` | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
-| `auth_failure_redirect_url` | `string` | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | `string` | URL the user is redirected to upon successful authentication. |
+| `auth_failure_redirect_url` | `string` |  |
+| `auth_success_redirect_url` | `string` |  |
 | `auth_url` | `string` | authentication URL the user must be redirected to in order to link their account |
-| `bypass_feedback` | `boolean` | When false, the user stays on the widget's own result screen instead of being redirected immediately |
-| `connected_uids` | `any[]` | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
-| `expires_in` | `number` | a number in seconds depicting how long the url is valid for |
-| `language` | `string` | forces the widget UI language (e.g. |
-| `multi_auth` | `boolean` | Keep the user on the widget after each successful connection so they can connect several providers in one session |
-| `providers` | `string` | Comma separated list of providers to display on the device selection page. |
-| `reference_id` | `string` | Identifier of the end user on your system, such as a user ID or email associated with them |
-| `samsung_app_url` | `string` | URL of your own Android app to hand Samsung Health connections to |
+| `expires_in` | `number` |  |
+| `language` | `string` |  |
+| `reference_id` | `string` |  |
 | `sdk_app` | `string` | Which Terra reference app an SDK authentication link hands the end user to. |
-| `session_id` | `string` | Session ID for the widget authentication session |
-| `show_disconnect` | `boolean` | Show disconnect buttons for providers already connected under reference_id |
 | `status` | `string` | indicates that the request was successful |
 | `token` | `string` |  |
-| `url` | `string` | the widget URL the user must be redirected to in order to link their account |
-| `use_terra_avengers_app` | `boolean` | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | `string` | User ID for the user being created |
-| `warnings` | `any[]` | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
 
 #### Example: Create
 
@@ -760,7 +720,6 @@ Create an instance: `const lab_report = client.LabReport()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 | `remove(match)` | Remove the matching entity. |
 
@@ -768,41 +727,15 @@ Create an instance: `const lab_report = client.LabReport()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `collection_date` | `string` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | `string` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
-| `current_status` | `string` | Current status as a clean lowercase string (open enum), e.g. |
-| `file_count` | `number` |  |
+| `current_status` | `string` | Processing status as a clean lowercase string. |
+| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` |  |
-| `input_bytes` | `number` |  |
-| `lab_name` | `string` |  |
-| `output_bytes` | `number` |  |
-| `panels` | `any[]` | Report-level panels that results reference by panel_id. |
-| `patient_age_at_collection` | `number` | Patient age in years; omitted if unknown. |
-| `patient_sex` | `string` | Clean lowercase string (open enum); omitted if unspecified. |
-| `reference_id` | `string` | Your external reference; omitted if not set. |
-| `report_date` | `string` | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
-| `report_locale` | `string` |  |
-| `report_notes` | `string` |  |
-| `report_time` | `string` | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | `string` | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
-| `results` | `any[]` | The layered biomarker results. |
-| `results_count` | `number` |  |
-| `session_id` | `string` |  |
-| `status_history` | `any[]` |  |
-| `updated_at` | `string` |  |
 | `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
-| `uploaded_at` | `string` |  |
 
 #### Example: Load
 
 ```ts
-const lab_report = await client.LabReport().load({ id: 'lab_report_id' })
-```
-
-#### Example: List
-
-```ts
-const lab_reports = await client.LabReport().list()
+const lab_report = await client.LabReport().load()
 ```
 
 #### Example: Create
@@ -810,8 +743,8 @@ const lab_reports = await client.LabReport().list()
 ```ts
 const lab_report = await client.LabReport().create({
   current_status: 'example_current_status',
-  report_type: 'example_report_type',
-  session_id: 'example_session_id',
+  file: 'example_file',
+  upload_id: 'example_upload_id',
 })
 ```
 
@@ -858,6 +791,7 @@ Create an instance: `const lab_report_file = client.LabReportFile()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `content_type` | `string` | An uploaded file's content type. |
 | `filename` | `string` |  |
 | `id` | `string` |  |
 | `presigned_url` | `string` |  |
@@ -878,7 +812,6 @@ Create an instance: `const lab_report_session = client.LabReportSession()`
 | Method | Description |
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
-| `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
@@ -887,7 +820,8 @@ Create an instance: `const lab_report_session = client.LabReportSession()`
 | --- | --- | --- |
 | `collection_date` | `string` | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
 | `collection_time` | `string` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
-| `current_status` | `string` | Current status as a clean lowercase string (open enum), e.g. |
+| `current_status` | `string` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `error` | `Record<string, any>` | Why the report failed: the same object the lab_report.failed webhook carries. |
 | `file_count` | `number` |  |
 | `input_bytes` | `number` |  |
 | `lab_name` | `string` |  |
@@ -906,7 +840,7 @@ Create an instance: `const lab_report_session = client.LabReportSession()`
 | `session_id` | `string` |  |
 | `status_history` | `any[]` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `upload_id` | `string` |  |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load
@@ -915,19 +849,14 @@ Create an instance: `const lab_report_session = client.LabReportSession()`
 const lab_report_session = await client.LabReportSession().load({ session_id: 'session_id' })
 ```
 
-#### Example: List
-
-```ts
-const lab_report_sessions = await client.LabReportSession().list()
-```
-
 #### Example: Create
 
 ```ts
 const lab_report_session = await client.LabReportSession().create({
-  current_status: 'example_current_status',
-  report_type: 'example_report_type',
   session_id: 'example_session_id',
+  current_status: 'example_current_status',
+  error: {},
+  report_type: 'example_report_type',
 })
 ```
 
@@ -1117,7 +1046,7 @@ const workout = await client.Workout().create({
 
 ## Features
 
-This SDK ships 8 optional features. Each is **inactive until you
+This SDK ships 9 optional features. Each is **inactive until you
 switch it on**, so an SDK you have not configured behaves exactly as if none of
 them existed — no retries, no cache, no logging, no measurable overhead.
 
@@ -1132,10 +1061,11 @@ above:
 | [`paging`](#paging) | Paging |
 | [`ratelimit`](#ratelimit) | Rate limiting |
 | [`retry`](#retry) | Retry |
+| [`secrets`](#secrets) | Secrets |
 | [`test`](#test) | Test transport |
 | [`timeout`](#timeout) | Timeout |
 
-> **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
+> **Order matters for `ratelimit`, `retry`, `secrets`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
 > activate them in IS the nesting order. Activating them as an ordered list
 > rather than a map is what fixes that order.
@@ -1223,6 +1153,24 @@ Retry.
 Set `feature.retry.active` to enable it, then override any of the options above.
 
 `retry` wraps the transport, so its position among the other
+transport features decides what it sees. A feature activated later wraps one
+activated earlier.
+
+### secrets
+
+Secrets.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `cache` | `true` |
+| `exchange` | `{active: false, method: 'POST', path: 'auth/token', refresh: '', request: 'refresh_token', response: 'access_token', retries: 1, statuses: [401]}` |
+| `name` | `'apikey'` |
+| `providers` | `[]` |
+
+Set `feature.secrets.active` to enable it, then override any of the options above.
+
+`secrets` wraps the transport, so its position among the other
 transport features decides what it sees. A feature activated later wraps one
 activated earlier.
 
@@ -1317,6 +1265,7 @@ The SDK ships with built-in features:
 - **PagingFeature**: Paging
 - **RatelimitFeature**: Rate limiting
 - **RetryFeature**: Retry
+- **SecretsFeature**: Secrets
 - **TestFeature**: Test transport
 - **TimeoutFeature**: Timeout
 

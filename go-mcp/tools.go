@@ -13,7 +13,7 @@ import (
 
 // ListArgs is what an agent sends to terra_list.
 type ListArgs struct {
-	Entity string         `json:"entity" jsonschema:"one of: integration | lab_report | lab_report_delivery | lab_report_file | lab_report_session | planned_workout | user | workout"`
+	Entity string         `json:"entity" jsonschema:"one of: integration | lab_report_delivery | lab_report_file | planned_workout | user | workout"`
 	Query  map[string]any `json:"query,omitempty" jsonschema:"optional filter map; omit it for the first page"`
 }
 
@@ -28,7 +28,7 @@ func registerTools(server *mcp.Server, client *sdk.TerraSDK) {
 		Name:        "terra_list",
 		Description: "List records from Terra. Args: entity, query (optional filter map; omit it for the first page). Returns the first page of records as JSON.",
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true},
-		InputSchema: entitySchema[ListArgs]("integration", "lab_report", "lab_report_delivery", "lab_report_file", "lab_report_session", "planned_workout", "user", "workout"),
+		InputSchema: entitySchema[ListArgs]("integration", "lab_report_delivery", "lab_report_file", "planned_workout", "user", "workout"),
 	}, func(ctx context.Context, req *mcp.CallToolRequest, args ListArgs) (*mcp.CallToolResult, any, error) {
 		return runOp(ctx, client, "list", args.Entity, args.Query)
 	})

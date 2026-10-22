@@ -34,6 +34,7 @@ import { allowed } from './utility/PrepareMethodUtility'
 
 
 import { BaseFeature } from './feature/base/BaseFeature'
+import * as sekreto from './feature/secrets/sekreto'
 
 
 
@@ -53,7 +54,8 @@ class TerraSDK {
   _utility = new Utility()
   _features: Feature[]
   _rootctx: Context
-  
+  _secrets?: any
+
 
   constructor(options?: any) {
 
@@ -133,6 +135,10 @@ class TerraSDK {
   }
 
   
+secrets() {
+  return this._secrets && this._secrets.sekreto()
+}
+
 
 
   async prepare(fetchargs?: any) {
@@ -185,6 +191,15 @@ class TerraSDK {
     }
 
     
+if (null != this._secrets) {
+  try {
+    await this._secrets.resolve()
+  }
+  catch (err: any) {
+    return err instanceof Error ? err : new Error(String(err))
+  }
+}
+
 
     const authResult = prepareAuth(ctx)
     if (authResult instanceof Error) {
@@ -537,7 +552,8 @@ const SDK = TerraSDK
 export {
   stdutil,
   config,
-  
+  sekreto,
+
 
   BaseFeature,
   TerraEntityBase,

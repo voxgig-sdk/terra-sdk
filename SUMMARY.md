@@ -1,30 +1,32 @@
-# TerraAPI
+# Terra API
 
-The Terra API (v2 surface, served at access.tryterra.co/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code `entitlement_required`; disabled environments return `environment_disabled`. Unavailable current authorization returns HTTP 503 with code `authorization_unavailable`. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller&#39;s own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.
+> The Terra API (v2 surface, served at `access.tryterra.co`/api/v2). Protected product operations require a current product entitlement in addition to valid credentials and token scopes. Missing access returns HTTP 403 with code `entitlement_required`; disabled environments return `environment_disabled`. Unavailable current authorization returns HTTP 503 with code `authorization_unavailable`. Billing, configuration and recovery remain available under their existing permissions. Completed Health Scores stay with the caller&#39;s own authorized data. Pass recipients require their own Health Scores entitlement; otherwise enrichment fields retain null values. New score computation requires Health Scores access. Retained lab reports remain readable through the report endpoints with valid credentials and ownership, without a current Lab Reports entitlement. New uploads and reprocessing require it.
+>
+> **Lab reports versioning.** The report endpoints (`/reports`, and the deprecated `/lab-reports`) are versioned by date. Send `X-Terra-Version: &lt;date&gt;` to choose the version a request is served in: the newest version on or before that date. Without the header a request gets the environment&#39;s pinned version. An environment without a pin is pinned to the latest version on its first request; change the pin through the admin API (`PUT /api/v3/admin/environments/&#123;dev_id&#125;/lab-reports/api-version`). Every authenticated response carries `X-Terra-Version` stating the version it was served in, and every `lab_report` webhook delivery carries the environment&#39;s version. A malformed or future date returns 400 with code `invalid_api_version`. Versions are `2026-10-21` (latest: the report list is paginated) and `2026-03-24` (the list returns up to 500 reports in `sessions`). This document describes the latest version.
 
 ## Start here
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 17 entities and 38 HTTP routes. There are 6 SDK targets and 2 companion tools.
+The selected API surface contains 17 entities and 40 HTTP routes. There are 6 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
 ## What the API provides
 
-### Activity
+### [Activity](docs/api/activity.html)
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### Athlete
+### [Athlete](docs/api/athlete.html)
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### Authentication
+### [Authentication](docs/api/authentication.html)
 
 Results: Returned when authentication link could be successfully generated; 200; Returned when user is successfully deauthenticated and data is deleted.
 
@@ -32,19 +34,19 @@ SDK operations: `create`, `remove`.
 
 Key fields to recognise:
 
-- `apple_app_url`: URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app
-- `auth_failure_redirect_url`: URL the user is redirected to upon unsuccessful authentication
-- `auth_success_redirect_url`: URL the user is redirected to upon successful authentication.
 - `auth_url`: authentication URL the user must be redirected to in order to link their account
-- `bypass_feedback`: When false, the user stays on the widget&#39;s own result screen instead of being redirected immediately
+- `expires_in`: a number in seconds depicting how long the url is valid for
+- `sdk_app`: Which Terra reference app an SDK authentication link hands the end user to.
+- `status`: indicates that the request was successful
+- `user_id`: User ID for the user being created
 
-### Body
+### [Body](docs/api/body.html)
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### BulkUserInfo
+### [BulkUserInfo](docs/api/bulk_user_info.html)
 
 Results: Returned upon successful request.
 
@@ -54,13 +56,13 @@ Key fields to recognise:
 
 - `bulk_user_infos`: List of user IDs to get information for
 
-### Daily
+### [Daily](docs/api/daily.html)
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### Integration
+### [Integration](docs/api/integration.html)
 
 Results: Returns list of all available integrations on the API; Successful response containing a list of integrations.
 
@@ -72,21 +74,20 @@ Key fields to recognise:
 - `sdk_providers`: Providers available through Terra&#39;s mobile SDKs rather than cloud connections
 - `status`: Status of the API response
 
-### LabReport
+### [LabReport](docs/api/lab_report.html)
 
-Results: Upload accepted for processing.; A list of lab report sessions.; The lab report session.; The session was deleted.
+Results: Reprocessing accepted.; Upload accepted for processing.; The lab report session.; One page of sessions, newest first (`LabReportListPage`). An environment served API version 2026-03-24 gets `LabReportListResponse` instead: up to 500 sessions in `sessions`, with `limit` and `cursor` ignored.; The session was deleted.
 
-SDK operations: `create`, `list`, `load`, `remove`.
+SDK operations: `create`, `load`, `remove`.
 
 Key fields to recognise:
 
-- `collection_date`: Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.
-- `collection_time`: Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.
 - `current_status`: Processing status as a clean lowercase string.
+- `file`: A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.
 - `id`: Report-local ordinal; matches LabReportBiomarker.`panel_id`.
-- `panels`: Report-level panels that results reference by `panel_id`. Omitted if the report has no panel grouping.
+- `upload_id`: Durable correlation key for the upload; every resulting session and webhook carries it.
 
-### LabReportDelivery
+### [LabReportDelivery](docs/api/lab_report_delivery.html)
 
 Results: Per-destination delivery outcomes.
 
@@ -99,39 +100,43 @@ Key fields to recognise:
 - `last_error`: Most recent delivery error; omitted when delivered.
 - `status`: pending, delivered, or failed.
 
-### LabReportFile
+### [LabReportFile](docs/api/lab_report_file.html)
 
 Results: Input files and thumbnail with presigned URLs.
 
 SDK operations: `list`.
 
-### LabReportSession
+Key fields to recognise:
 
-Results: Upload accepted for processing.; A list of lab report sessions.; The lab report session.
+- `content_type`: An uploaded file&#39;s content type. Present on files only.
 
-SDK operations: `create`, `list`, `load`.
+### [LabReportSession](docs/api/lab_report_session.html)
+
+Results: Reprocessing accepted.; The lab report session.
+
+SDK operations: `create`, `load`.
 
 Key fields to recognise:
 
 - `collection_date`: Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.
 - `collection_time`: Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.
-- `current_status`: Processing status as a clean lowercase string.
+- `current_status`: Current status as a clean lowercase string (open enum, handle unknown values gracefully). In flight: processing, processed, standardizing, standardized, sending, and `retry_scheduled` (waiting to retry after a temporary model-provider error; the report is still being worked on). Terminal: sent, `partially_sent` (delivered to some destinations), `delivery_failed` (processed and results available, but no destination accepted the delivery), failed (see error), cancelled, deleted.
+- `error`: Why the report failed: the same object the `lab_report`.failed webhook carries. Present only while `current_status` is failed.
 - `panels`: Report-level panels that results reference by `panel_id`. Omitted if the report has no panel grouping.
-- `patient_age_at_collection`: Patient age in years; omitted if unknown.
 
-### Menstruation
-
-Results: Returned upon successful data request.
-
-SDK operations: `load`.
-
-### Nutrition
+### [Menstruation](docs/api/menstruation.html)
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### PlannedWorkout
+### [Nutrition](docs/api/nutrition.html)
+
+Results: Returned upon successful data request.
+
+SDK operations: `load`.
+
+### [PlannedWorkout](docs/api/planned_workout.html)
 
 Results: Planned workouts for the connection; The planned workout; Updated planned workout.
 
@@ -145,13 +150,13 @@ Key fields to recognise:
 - `details`: Deprecated. The provider body of an external workout in its pre-template shape; use `workout`. Null on Terra-created workouts. Removed in the next major SDK release.
 - `id`: Identifier of the workout on the provider&#39;s side
 
-### Sleep
+### [Sleep](docs/api/sleep.html)
 
 Results: Returned upon successful data request.
 
 SDK operations: `load`.
 
-### User
+### [User](docs/api/user.html)
 
 Results: Returned upon a successful request; Returned when the provided resources are found.
 
@@ -162,7 +167,7 @@ Key fields to recognise:
 - `max_page`: Total number of pages available for the requested page size
 - `next`: The next page number, or null if there is no next page
 
-### Workout
+### [Workout](docs/api/workout.html)
 
 Results: Planned workout created and pushed (or queued for SDK delivery); Template stored; Stored templates, each including its `workout_id`; The stored template; Planned workout deleted; Template and all planned instances deleted; Some provider-side deletions failed; the template is retained. Retry to complete the cascade.
 
@@ -182,44 +187,46 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 
 | Entity | SDK operation | HTTP route | Authentication |
 | --- | --- | --- | --- |
-| Activity | `load` | `GET /activity` | Required |
-| Athlete | `load` | `GET /athlete` | Required |
-| Authentication | `create` | `POST /auth/authenticateUser` | Required |
-| Authentication | `create` | `POST /auth/generateAuthToken` | Required |
-| Authentication | `create` | `POST /auth/generateWidgetSession` | Required |
-| Authentication | `create` | `POST /auth/tokens` | Required |
-| Authentication | `remove` | `DELETE /auth/deauthenticateUser` | Required |
-| Body | `load` | `GET /body` | Required |
-| BulkUserInfo | `create` | `POST /bulkUserInfo` | Required |
-| Daily | `load` | `GET /daily` | Required |
-| Integration | `list` | `GET /integrations` | Not required |
-| Integration | `list` | `GET /integrations/detailed` | Not required |
-| LabReport | `create` | `POST /lab-reports` | Required |
-| LabReport | `list` | `GET /lab-reports` | Required |
-| LabReport | `load` | `GET /lab-reports/{session_id}` | Required |
-| LabReport | `remove` | `DELETE /lab-reports/{session_id}` | Required |
-| LabReport | `remove` | `DELETE /reports/{session_id}` | Required |
-| LabReportDelivery | `list` | `GET /lab-reports/{session_id}/deliveries` | Required |
-| LabReportDelivery | `list` | `GET /reports/{session_id}/deliveries` | Required |
-| LabReportFile | `list` | `GET /lab-reports/{session_id}/files` | Required |
-| LabReportFile | `list` | `GET /reports/{session_id}/files` | Required |
-| LabReportSession | `create` | `POST /reports` | Required |
-| LabReportSession | `list` | `GET /reports` | Required |
-| LabReportSession | `load` | `GET /reports/{session_id}` | Required |
-| Menstruation | `load` | `GET /menstruation` | Required |
-| Nutrition | `load` | `GET /nutrition` | Required |
-| PlannedWorkout | `list` | `GET /plannedWorkouts` | Required |
-| PlannedWorkout | `load` | `GET /plannedWorkouts/{planned_workout_id}` | Required |
-| PlannedWorkout | `update` | `PATCH /plannedWorkouts/{planned_workout_id}` | Required |
-| Sleep | `load` | `GET /sleep` | Required |
-| User | `list` | `GET /subscriptions` | Required |
-| User | `load` | `GET /userInfo` | Required |
-| Workout | `create` | `POST /workouts/{workout_id}/plan` | Required |
-| Workout | `create` | `POST /workouts` | Required |
-| Workout | `list` | `GET /workouts` | Required |
-| Workout | `load` | `GET /workouts/{workout_id}` | Required |
-| Workout | `remove` | `DELETE /plannedWorkouts/{planned_workout_id}` | Required |
-| Workout | `remove` | `DELETE /workouts/{workout_id}` | Required |
+| [Activity](docs/api/activity.html) | `load` | `GET /activity` | Required |
+| [Athlete](docs/api/athlete.html) | `load` | `GET /athlete` | Required |
+| [Authentication](docs/api/authentication.html) | `create` | `POST /auth/authenticateUser` | Required |
+| [Authentication](docs/api/authentication.html) | `create` | `POST /auth/generateAuthToken` | Required |
+| [Authentication](docs/api/authentication.html) | `create` | `POST /auth/generateWidgetSession` | Required |
+| [Authentication](docs/api/authentication.html) | `create` | `POST /auth/tokens` | Required |
+| [Authentication](docs/api/authentication.html) | `remove` | `DELETE /auth/deauthenticateUser` | Required |
+| [Body](docs/api/body.html) | `load` | `GET /body` | Required |
+| [BulkUserInfo](docs/api/bulk_user_info.html) | `create` | `POST /bulkUserInfo` | Required |
+| [Daily](docs/api/daily.html) | `load` | `GET /daily` | Required |
+| [Integration](docs/api/integration.html) | `list` | `GET /integrations` | Not required |
+| [Integration](docs/api/integration.html) | `list` | `GET /integrations/detailed` | Not required |
+| [LabReport](docs/api/lab_report.html) | `create` | `POST /lab-reports/{session_id}/reprocess` | Required |
+| [LabReport](docs/api/lab_report.html) | `create` | `POST /lab-reports` | Required |
+| [LabReport](docs/api/lab_report.html) | `create` | `POST /reports` | Required |
+| [LabReport](docs/api/lab_report.html) | `load` | `GET /lab-reports/{session_id}` | Required |
+| [LabReport](docs/api/lab_report.html) | `load` | `GET /lab-reports` | Required |
+| [LabReport](docs/api/lab_report.html) | `load` | `GET /reports` | Required |
+| [LabReport](docs/api/lab_report.html) | `remove` | `DELETE /lab-reports/{session_id}` | Required |
+| [LabReport](docs/api/lab_report.html) | `remove` | `DELETE /reports/{session_id}` | Required |
+| [LabReportDelivery](docs/api/lab_report_delivery.html) | `list` | `GET /lab-reports/{session_id}/deliveries` | Required |
+| [LabReportDelivery](docs/api/lab_report_delivery.html) | `list` | `GET /reports/{session_id}/deliveries` | Required |
+| [LabReportFile](docs/api/lab_report_file.html) | `list` | `GET /lab-reports/{session_id}/files` | Required |
+| [LabReportFile](docs/api/lab_report_file.html) | `list` | `GET /reports/{session_id}/files` | Required |
+| [LabReportSession](docs/api/lab_report_session.html) | `create` | `POST /reports/{session_id}/reprocess` | Required |
+| [LabReportSession](docs/api/lab_report_session.html) | `load` | `GET /reports/{session_id}` | Required |
+| [Menstruation](docs/api/menstruation.html) | `load` | `GET /menstruation` | Required |
+| [Nutrition](docs/api/nutrition.html) | `load` | `GET /nutrition` | Required |
+| [PlannedWorkout](docs/api/planned_workout.html) | `list` | `GET /plannedWorkouts` | Required |
+| [PlannedWorkout](docs/api/planned_workout.html) | `load` | `GET /plannedWorkouts/{planned_workout_id}` | Required |
+| [PlannedWorkout](docs/api/planned_workout.html) | `update` | `PATCH /plannedWorkouts/{planned_workout_id}` | Required |
+| [Sleep](docs/api/sleep.html) | `load` | `GET /sleep` | Required |
+| [User](docs/api/user.html) | `list` | `GET /subscriptions` | Required |
+| [User](docs/api/user.html) | `load` | `GET /userInfo` | Required |
+| [Workout](docs/api/workout.html) | `create` | `POST /workouts/{workout_id}/plan` | Required |
+| [Workout](docs/api/workout.html) | `create` | `POST /workouts` | Required |
+| [Workout](docs/api/workout.html) | `list` | `GET /workouts` | Required |
+| [Workout](docs/api/workout.html) | `load` | `GET /workouts/{workout_id}` | Required |
+| [Workout](docs/api/workout.html) | `remove` | `DELETE /plannedWorkouts/{planned_workout_id}` | Required |
+| [Workout](docs/api/workout.html) | `remove` | `DELETE /workouts/{workout_id}` | Required |
 
 ## Connect to the API
 
@@ -245,7 +252,7 @@ A read request without required parameters or authentication is `GET /integratio
 curl --fail-with-body --silent --show-error 'https://access.tryterra.co/api/v2/integrations'
 ```
 
-Inspect the response using the Integration reference. This checks the public route; authenticated operations need their own credentials and request data.
+Inspect the response using the [Integration](docs/api/integration.html) reference. This checks the public route; authenticated operations need their own credentials and request data.
 
 For an SDK call, install or build the chosen client, create a client instance with its documented configuration, and call the required entity operation. Language references describe the argument shape, asynchronous behaviour, and returned values.
 
@@ -255,12 +262,12 @@ Choose the language already used by your application or service. The clients rep
 
 | Client | Repository directory | Distribution |
 | --- | --- | --- |
-| Golang | `go/` | Build from source |
-| JavaScript | `js/` | Build from source |
-| Lua | `lua/` | Build from source |
-| PHP | `php/` | Build from source |
-| Python | `py/` | Build from source |
-| TypeScript | `ts/` | Build from source |
+| [Golang](docs/sdks/go.html) | `go/` | Build from source |
+| [Lua](docs/sdks/lua.html) | `lua/` | Build from source |
+| [PHP](docs/sdks/php.html) | `php/` | Build from source |
+| [Python](docs/sdks/py.html) | `py/` | Build from source |
+| [Ruby](docs/sdks/rb.html) | `rb/` | Build from source |
+| [TypeScript](docs/sdks/ts.html) | `ts/` | Build from source |
 
 Build-from-source entries are not marked as published in the project model. Follow the build instructions in that target’s README, then consume the resulting package using your language’s local dependency mechanism. Published entries give the installation command recorded for that client.
 
@@ -268,41 +275,42 @@ Build-from-source entries are not marked as published in the project model. Foll
 
 These targets provide another way to use the API. Their available commands or tools can cover a smaller set of operations than the client libraries.
 
-### Go CLI
+### [Go CLI](docs/tools/go-cli.html)
 
 Use the command-line interface for shell-based tasks and scripts.
 
 Repository directory: `go-cli/`. Not published. Build from the go-cli directory.
 
 
-### Go MCP server
+### [Go MCP server](docs/tools/go-mcp.html)
 
 Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `terra_list`: List records for an entity. Supported entities: `integration`, `lab_report`, `lab_report_delivery`, `lab_report_file`, `lab_report_session`, `planned_workout`, `user`, `workout`.
+- `terra_list`: List records for an entity. Supported entities: `integration`, `lab_report_delivery`, `lab_report_file`, `planned_workout`, `user`, `workout`.
 - `terra_load`: Load one record for an entity. Supported entities: `activity`, `athlete`, `body`, `daily`, `lab_report`, `lab_report_session`, `menstruation`, `nutrition`, `planned_workout`, `sleep`, `user`, `workout`.
 
 ## Operational features
 
 Features supply behaviour around API calls, such as request handling, diagnostics, or local testing. Inclusion in this project does not mean a feature is enabled at runtime. Check the selected SDK’s supported features and configuration defaults, then enable the behaviour your application needs.
 
-- `debug`: Request/response capture ring buffer for debugging
-- `idempotency`: Idempotency keys for safe retries of mutating operations
-- `metrics`: Statistics capture: per-operation counters and latency
-- `paging`: Pagination signals for list operations
-- `ratelimit`: Client-side rate limiting via a token bucket
-- `retry`: Automatic retry of transient failures with exponential backoff
-- `test`: In-memory mock transport for testing without a live server
-- `timeout`: Per-request timeout with transport abort
+- [`debug`](docs/features/debug.html): Request/response capture ring buffer for debugging
+- [`idempotency`](docs/features/idempotency.html): Idempotency keys for safe retries of mutating operations
+- [`metrics`](docs/features/metrics.html): Statistics capture: per-operation counters and latency
+- [`paging`](docs/features/paging.html): Pagination signals for list operations
+- [`ratelimit`](docs/features/ratelimit.html): Client-side rate limiting via a token bucket
+- [`retry`](docs/features/retry.html): Automatic retry of transient failures with exponential backoff
+- [`secrets`](docs/features/secrets.html): Secret access: resolve the API credential through a provider chain, and exchange a refresh token for short-lived access tokens
+- [`test`](docs/features/test.html): In-memory mock transport for testing without a live server
+- [`timeout`](docs/features/timeout.html): Per-request timeout with transport abort
 
 Start with the default client configuration. Add request limits and diagnostics as needed, test error paths, and review retry behaviour before using operations that change data. A retry can repeat an operation unless the API provides a suitable guarantee.
 
 ## Continue with the documentation
 
-- Follow the first-call guide for the setup sequence.
-- Read the authentication guide before using protected routes.
-- Use the API reference for request schemas, response formats, and status codes.
+- Follow the [first-call guide](docs/guides/first-call.html) for the setup sequence.
+- Read the [authentication guide](docs/guides/authentication.html) before using protected routes.
+- Use the [API reference](docs/api/index.html) for request schemas, response formats, and status codes.
 - Check the chosen SDK or companion tool reference for its configuration and supported operations.
 

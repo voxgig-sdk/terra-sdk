@@ -7,7 +7,6 @@ from terra_sdk.core import helpers
 from terra_sdk.terra_types import (
     LabReportSession,
     LabReportSessionLoadMatch,
-    LabReportSessionListMatch,
     LabReportSessionCreateData,
 )
 
@@ -60,7 +59,7 @@ class LabReportSessionEntity:
 
     def data_set(self, args=None):
         if args is not None:
-            self._data = helpers.to_map(vs.clone(args)) or {}
+            self._data = vs.clone(args)
             self._utility.feature_hook(self._entctx, "SetData")
 
     def data_get(self) -> LabReportSession:
@@ -156,7 +155,8 @@ class LabReportSessionEntity:
         except Exception as err:
             # What a hook raises here must not escape the cleaning below.
             try:
-                utility.feature_hook(ctx, "PreUnexpected")
+                if not ctx.unexpected_fired:
+                    utility.feature_hook(ctx, "PreUnexpected")
             except Exception as hookerr:
                 err = hookerr
             if self._unexpected(ctx, err) is not None:
@@ -228,28 +228,6 @@ class LabReportSessionEntity:
 
 
     
-    def list(self, reqmatch=None, ctrl=None) -> list[LabReportSessionEntity]:
-        utility = self._utility
-        # reqmatch is optional: an omitted match lists all records. Treat None
-        # as an empty match so client.LabReportSession().list() works with no args.
-        if reqmatch is None:
-            reqmatch = {}
-        ctx = utility.make_context({
-            "opname": "list",
-            "ctrl": ctrl,
-            "match": self._match,
-            "data": self._data,
-            "reqmatch": reqmatch,
-        }, self._entctx)
-
-        def post_done():
-            if ctx.result is not None:
-                if ctx.result.resmatch is not None:
-                    self._match = ctx.result.resmatch
-
-        return self._run_op(ctx, post_done)
-
-
 
     
     def create(self, reqdata: LabReportSessionCreateData, ctrl=None) -> LabReportSessionEntity:
@@ -342,7 +320,9 @@ class LabReportSessionEntity:
         except Exception as err:
             # What a hook raises here must not escape the cleaning below.
             try:
-                utility.feature_hook(ctx, "PreUnexpected")
+                # Once per operation: make_error fires it for its own error.
+                if not ctx.unexpected_fired:
+                    utility.feature_hook(ctx, "PreUnexpected")
             except Exception as hookerr:
                 err = hookerr
             if self._unexpected(ctx, err) is None:

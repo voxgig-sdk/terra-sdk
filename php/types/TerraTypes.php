@@ -42,54 +42,32 @@ class AthleteLoadMatch
 /** Authentication entity data model. */
 class Authentication
 {
-    public ?string $apple_app_url = null;
     public ?string $auth_failure_redirect_url = null;
     public ?string $auth_success_redirect_url = null;
     public ?string $auth_url = null;
-    public ?bool $bypass_feedback = null;
-    public ?array $connected_uids = null;
     public ?int $expires_in = null;
     public ?string $language = null;
-    public ?bool $multi_auth = null;
-    public ?string $providers = null;
     public ?string $reference_id = null;
-    public ?string $samsung_app_url = null;
     public ?string $sdk_app = null;
-    public ?string $session_id = null;
-    public ?bool $show_disconnect = null;
     public ?string $status = null;
     public ?string $token = null;
-    public ?string $url = null;
-    public ?bool $use_terra_avengers_app = null;
     public ?string $user_id = null;
-    public ?array $warnings = null;
 }
 
 /** Request payload for Authentication#create. */
 class AuthenticationCreateData
 {
     public string $resource;
-    public ?string $apple_app_url = null;
     public ?string $auth_failure_redirect_url = null;
     public ?string $auth_success_redirect_url = null;
     public ?string $auth_url = null;
-    public ?bool $bypass_feedback = null;
-    public ?array $connected_uids = null;
     public ?int $expires_in = null;
     public ?string $language = null;
-    public ?bool $multi_auth = null;
-    public ?string $providers = null;
     public ?string $reference_id = null;
-    public ?string $samsung_app_url = null;
     public ?string $sdk_app = null;
-    public ?string $session_id = null;
-    public ?bool $show_disconnect = null;
     public ?string $status = null;
     public ?string $token = null;
-    public ?string $url = null;
-    public ?bool $use_terra_avengers_app = null;
     public ?string $user_id = null;
-    public ?array $warnings = null;
 }
 
 /** Request payload for Authentication#remove. */
@@ -159,41 +137,17 @@ class IntegrationListMatch
 /** LabReport entity data model. */
 class LabReport
 {
-    public ?string $collection_date = null;
-    public ?string $collection_time = null;
     public string $current_status;
-    public ?int $file_count = null;
+    public string $file;
     public ?string $id = null;
-    public ?int $input_bytes = null;
-    public ?string $lab_name = null;
-    public ?int $output_bytes = null;
-    public ?array $panels = null;
-    public ?int $patient_age_at_collection = null;
-    public ?string $patient_sex = null;
-    public ?string $reference_id = null;
-    public ?string $report_date = null;
-    public ?string $report_locale = null;
-    public ?string $report_notes = null;
-    public ?string $report_time = null;
-    public string $report_type;
-    public ?array $results = null;
-    public ?int $results_count = null;
-    public string $session_id;
-    public ?array $status_history = null;
-    public ?string $updated_at = null;
-    public ?string $upload_id = null;
-    public ?string $uploaded_at = null;
+    public string $upload_id;
 }
 
 /** Request payload for LabReport#load. */
 class LabReportLoadMatch
 {
-    public string $id;
-}
-
-/** Request payload for LabReport#list. */
-class LabReportListMatch
-{
+    public ?string $cursor = null;
+    public ?int $limit = null;
     public ?string $reference_id = null;
     public ?string $report_date_from = null;
     public ?string $report_date_to = null;
@@ -207,29 +161,10 @@ class LabReportListMatch
 class LabReportCreateData
 {
     public ?string $reference_id = null;
-    public ?string $collection_date = null;
-    public ?string $collection_time = null;
     public string $current_status;
-    public ?int $file_count = null;
+    public string $file;
     public ?string $id = null;
-    public ?int $input_bytes = null;
-    public ?string $lab_name = null;
-    public ?int $output_bytes = null;
-    public ?array $panels = null;
-    public ?int $patient_age_at_collection = null;
-    public ?string $patient_sex = null;
-    public ?string $report_date = null;
-    public ?string $report_locale = null;
-    public ?string $report_notes = null;
-    public ?string $report_time = null;
-    public string $report_type;
-    public ?array $results = null;
-    public ?int $results_count = null;
-    public string $session_id;
-    public ?array $status_history = null;
-    public ?string $updated_at = null;
-    public ?string $upload_id = null;
-    public ?string $uploaded_at = null;
+    public string $upload_id;
 }
 
 /** Request payload for LabReport#remove. */
@@ -258,6 +193,7 @@ class LabReportDeliveryListMatch
 /** LabReportFile entity data model. */
 class LabReportFile
 {
+    public ?string $content_type = null;
     public ?string $filename = null;
     public ?string $id = null;
     public string $presigned_url;
@@ -275,6 +211,7 @@ class LabReportSession
     public ?string $collection_date = null;
     public ?string $collection_time = null;
     public string $current_status;
+    public array $error;
     public ?int $file_count = null;
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
@@ -303,25 +240,15 @@ class LabReportSessionLoadMatch
     public string $session_id;
 }
 
-/** Request payload for LabReportSession#list. */
-class LabReportSessionListMatch
-{
-    public ?string $reference_id = null;
-    public ?string $report_date_from = null;
-    public ?string $report_date_to = null;
-    public ?string $report_type = null;
-    public ?string $upload_id = null;
-    public ?string $uploaded_at_from = null;
-    public ?string $uploaded_at_to = null;
-}
-
 /** Request payload for LabReportSession#create. */
 class LabReportSessionCreateData
 {
-    public ?string $reference_id = null;
+    public string $session_id;
+    public ?bool $legacy_format = null;
     public ?string $collection_date = null;
     public ?string $collection_time = null;
     public string $current_status;
+    public array $error;
     public ?int $file_count = null;
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
@@ -329,6 +256,7 @@ class LabReportSessionCreateData
     public ?array $panels = null;
     public ?int $patient_age_at_collection = null;
     public ?string $patient_sex = null;
+    public ?string $reference_id = null;
     public ?string $report_date = null;
     public ?string $report_locale = null;
     public ?string $report_notes = null;
@@ -336,7 +264,6 @@ class LabReportSessionCreateData
     public string $report_type;
     public ?array $results = null;
     public ?int $results_count = null;
-    public string $session_id;
     public ?array $status_history = null;
     public ?string $updated_at = null;
     public ?string $upload_id = null;
@@ -412,19 +339,7 @@ class PlannedWorkoutUpdateData
 {
     public int $id;
     public string $user_id;
-    public mixed $athlete_metrics = null;
-    public ?string $coercion_warnings = null;
-    public mixed $completed_at = null;
-    public mixed $created_at = null;
-    public mixed $details = null;
-    public ?bool $is_external = null;
-    public mixed $last_updated_at = null;
     public ?string $planned_date = null;
-    public ?string $planned_workout_id = null;
-    public ?string $provider_workout_id = null;
-    public ?array $warnings = null;
-    public mixed $workout = null;
-    public ?string $workout_id = null;
 }
 
 /** Sleep entity data model. */
@@ -520,11 +435,9 @@ class WorkoutCreateData
     public mixed $estimated_duration_seconds = null;
     public mixed $estimated_intensity_factor = null;
     public mixed $estimated_tss = null;
-    public ?string $id = null;
     public string $name;
     public mixed $pool_length_meters = null;
     public mixed $sport;
-    public ?string $status = null;
     public array $step_blocks;
     public ?string $workout_id = null;
 }

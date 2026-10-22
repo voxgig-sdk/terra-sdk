@@ -64,6 +64,15 @@ main: kit: entity: lab_report_delivery: {
             version: 2
           }
           g: {
+            header: [
+              {
+                k: "header"
+                n: "x_terra_version"
+                or: "X-Terra-Version"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
             params: [
               {
                 ex: "297405620317847552"
@@ -114,6 +123,15 @@ main: kit: entity: lab_report_delivery: {
             version: 2
           }
           g: {
+            header: [
+              {
+                k: "header"
+                n: "x_terra_version"
+                or: "X-Terra-Version"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
             params: [
               {
                 ex: "297405620317847552"

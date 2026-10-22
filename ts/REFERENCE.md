@@ -408,27 +408,37 @@ const authentication = client.Authentication()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `apple_app_url` | `string` | No | URL of your own iOS app to hand Apple Health connections to, instead of the Terra mobile app |
-| `auth_failure_redirect_url` | `string` | No | URL the user is redirected to upon unsuccessful authentication |
-| `auth_success_redirect_url` | `string` | No | URL the user is redirected to upon successful authentication. |
+| `auth_failure_redirect_url` | `string` | No |  |
+| `auth_success_redirect_url` | `string` | No |  |
 | `auth_url` | `string` | No | authentication URL the user must be redirected to in order to link their account |
-| `bypass_feedback` | `boolean` | No | When false, the user stays on the widget's own result screen instead of being redirected immediately |
-| `connected_uids` | `any[]` | No | Terra user IDs already connected for this end user; their providers show as connected with a disconnect option |
-| `expires_in` | `number` | No | a number in seconds depicting how long the url is valid for |
-| `language` | `string` | No | forces the widget UI language (e.g. |
-| `multi_auth` | `boolean` | No | Keep the user on the widget after each successful connection so they can connect several providers in one session |
-| `providers` | `string` | No | Comma separated list of providers to display on the device selection page. |
-| `reference_id` | `string` | No | Identifier of the end user on your system, such as a user ID or email associated with them |
-| `samsung_app_url` | `string` | No | URL of your own Android app to hand Samsung Health connections to |
+| `expires_in` | `number` | No |  |
+| `language` | `string` | No |  |
+| `reference_id` | `string` | No |  |
 | `sdk_app` | `string` | No | Which Terra reference app an SDK authentication link hands the end user to. |
-| `session_id` | `string` | No | Session ID for the widget authentication session |
-| `show_disconnect` | `boolean` | No | Show disconnect buttons for providers already connected under reference_id |
 | `status` | `string` | No | indicates that the request was successful |
 | `token` | `string` | No |  |
-| `url` | `string` | No | the widget URL the user must be redirected to in order to link their account |
-| `use_terra_avengers_app` | `boolean` | No | Allow Apple Health connections through the Terra mobile app |
 | `user_id` | `string` | No | User ID for the user being created |
-| `warnings` | `any[]` | No | present when part of the request could not be honoured, such as requested providers that are unknown or not enabled |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `generate_auth_token` | `/auth/generateAuthToken` | `client.Authentication().create({ $action: 'generate_auth_token', ... })` |
+| `widget_session` | `/auth/generateWidgetSession` | `client.Authentication().create({ $action: 'widget_session', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Authentication record — check the API definition for its shape.
+
+```ts
+const result = await client.Authentication().create({
+  $action: 'generate_auth_token',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -699,59 +709,34 @@ const lab_report = client.LabReport()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
-| `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
-| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
-| `file_count` | `number` | No |  |
+| `current_status` | `string` | Yes | Processing status as a clean lowercase string. |
+| `file` | `string` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` | No |  |
-| `input_bytes` | `number` | No |  |
-| `lab_name` | `string` | No |  |
-| `output_bytes` | `number` | No |  |
-| `panels` | `any[]` | No | Report-level panels that results reference by panel_id. |
-| `patient_age_at_collection` | `number` | No | Patient age in years; omitted if unknown. |
-| `patient_sex` | `string` | No | Clean lowercase string (open enum); omitted if unspecified. |
-| `reference_id` | `string` | No | Your external reference; omitted if not set. |
-| `report_date` | `string` | No | Date printed on the report (YYYY-MM-DD); omitted if not extracted. |
-| `report_locale` | `string` | No |  |
-| `report_notes` | `string` | No |  |
-| `report_time` | `string` | No | Time printed on the report (HH:MM, 24-hour); omitted if not extracted. |
-| `report_type` | `string` | Yes | What kind of report this is, as a clean lowercase string (open enum — handle unknown values gracefully). |
-| `results` | `any[]` | No | The layered biomarker results. |
-| `results_count` | `number` | No |  |
-| `session_id` | `string` | Yes |  |
-| `status_history` | `any[]` | No |  |
-| `updated_at` | `string` | No |  |
-| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
-| `uploaded_at` | `string` | No |  |
+| `upload_id` | `string` | Yes | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
-### Field Usage by Operation
+### Actions
 
-| Field | load | list | create | remove |
-| --- | --- | --- | --- | --- |
-| `collection_date` | - | - | - | - |
-| `collection_time` | - | - | - | - |
-| `current_status` | - | - | - | - |
-| `file_count` | - | - | - | - |
-| `id` | - | - | - | - |
-| `input_bytes` | - | - | - | - |
-| `lab_name` | - | - | - | - |
-| `output_bytes` | - | - | - | - |
-| `panels` | - | - | - | - |
-| `patient_age_at_collection` | - | - | - | - |
-| `patient_sex` | - | - | - | - |
-| `reference_id` | - | - | - | - |
-| `report_date` | - | - | - | - |
-| `report_locale` | - | - | - | - |
-| `report_notes` | - | - | - | - |
-| `report_time` | - | - | - | - |
-| `report_type` | - | - | - | - |
-| `results` | - | - | - | - |
-| `results_count` | - | - | - | - |
-| `session_id` | - | - | - | - |
-| `status_history` | - | - | - | - |
-| `updated_at` | - | - | - | - |
-| `upload_id` | - | - | Yes | - |
-| `uploaded_at` | - | - | - | - |
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `legacy` | `/lab-reports` | `client.LabReport().create({ $action: 'legacy', ... })` |
+| `reprocess` | `/lab-reports/{session_id}/reprocess` | `client.LabReport().create({ $action: 'reprocess', ... })` |
+| `legacy` | `/lab-reports/{session_id}` | `client.LabReport().load({ $action: 'legacy', ... })` |
+| `legacy` | `/lab-reports` | `client.LabReport().load({ $action: 'legacy', ... })` |
+| `legacy` | `/lab-reports/{session_id}` | `client.LabReport().remove({ $action: 'legacy', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+LabReport record — check the API definition for its shape.
+
+```ts
+const result = await client.LabReport().create({
+  $action: 'legacy',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -762,27 +747,19 @@ Create a new entity with the given data. Resolves to the created entity.
 ```ts
 const result = await client.LabReport().create({
   current_status: 'example_current_status',
-  report_type: 'example_report_type',
-  session_id: 'example_session_id',
+  file: 'example_file',
+  upload_id: 'example_upload_id',
 })
 ```
 
 Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Resolves to an array of entities, one per record.
-
-```ts
-const results = await client.LabReport().list()
-```
 
 #### `load(match: object, ctrl?: object)`
 
 Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
-const result = await client.LabReport().load({ id: 'lab_report_id' })
+const result = await client.LabReport().load()
 ```
 
 #### `remove(match: object, ctrl?: object)`
@@ -790,7 +767,7 @@ const result = await client.LabReport().load({ id: 'lab_report_id' })
 Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
-const result = await client.LabReport().remove({ id: 'lab_report_id' })
+const result = await client.LabReport().remove({ id: 'id' })
 ```
 
 ### Common Methods
@@ -886,6 +863,7 @@ const lab_report_file = client.LabReportFile()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `content_type` | `string` | No | An uploaded file's content type. |
 | `filename` | `string` | No |  |
 | `id` | `string` | No |  |
 | `presigned_url` | `string` | Yes |  |
@@ -940,7 +918,8 @@ const lab_report_session = client.LabReportSession()
 | --- | --- | --- | --- |
 | `collection_date` | `string` | No | Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted. |
 | `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
-| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum), e.g. |
+| `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
+| `error` | `Record<string, any>` | Yes | Why the report failed: the same object the lab_report.failed webhook carries. |
 | `file_count` | `number` | No |  |
 | `input_bytes` | `number` | No |  |
 | `lab_name` | `string` | No |  |
@@ -959,36 +938,28 @@ const lab_report_session = client.LabReportSession()
 | `session_id` | `string` | Yes |  |
 | `status_history` | `any[]` | No |  |
 | `updated_at` | `string` | No |  |
-| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
+| `upload_id` | `string` | No |  |
 | `uploaded_at` | `string` | No |  |
 
-### Field Usage by Operation
+### Actions
 
-| Field | load | list | create |
-| --- | --- | --- | --- |
-| `collection_date` | - | - | - |
-| `collection_time` | - | - | - |
-| `current_status` | - | - | - |
-| `file_count` | - | - | - |
-| `input_bytes` | - | - | - |
-| `lab_name` | - | - | - |
-| `output_bytes` | - | - | - |
-| `panels` | - | - | - |
-| `patient_age_at_collection` | - | - | - |
-| `patient_sex` | - | - | - |
-| `reference_id` | - | - | - |
-| `report_date` | - | - | - |
-| `report_locale` | - | - | - |
-| `report_notes` | - | - | - |
-| `report_time` | - | - | - |
-| `report_type` | - | - | - |
-| `results` | - | - | - |
-| `results_count` | - | - | - |
-| `session_id` | - | - | - |
-| `status_history` | - | - | - |
-| `updated_at` | - | - | - |
-| `upload_id` | - | - | Yes |
-| `uploaded_at` | - | - | - |
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `reprocess` | `/reports/{session_id}/reprocess` | `client.LabReportSession().create({ $action: 'reprocess', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+LabReportSession record — check the API definition for its shape.
+
+```ts
+const result = await client.LabReportSession().create({
+  $action: 'reprocess',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
 
@@ -998,20 +969,11 @@ Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.LabReportSession().create({
-  current_status: 'example_current_status',
-  report_type: 'example_report_type',
   session_id: 'example_session_id',
+  current_status: 'example_current_status',
+  error: {},
+  report_type: 'example_report_type',
 })
-```
-
-Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Resolves to an array of entities, one per record.
-
-```ts
-const results = await client.LabReportSession().list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -1467,6 +1429,7 @@ Return a copy of the entity options.
 | `paging` | 0.0.1 | Paging |
 | `ratelimit` | 0.0.1 | Rate limiting |
 | `retry` | 0.0.1 | Retry |
+| `secrets` | 0.1.0 | Secrets |
 | `test` | 0.0.1 | Test transport |
 | `timeout` | 0.0.1 | Timeout |
 
@@ -1482,6 +1445,7 @@ const client = new TerraSDK({
     paging: { active: true },
     ratelimit: { active: true },
     retry: { active: true },
+    secrets: { active: true },
     test: { active: true },
     timeout: { active: true },
   }
@@ -1500,7 +1464,7 @@ transport, and the order you list them in is the order they nest.
 
 #### Ordering
 
-`ratelimit`, `retry`, `timeout` wrap the transport. Each
+`ratelimit`, `retry`, `secrets`, `timeout` wrap the transport. Each
 wraps whatever is already installed, so **activation order is nesting order**:
 a feature activated later sits OUTSIDE one activated earlier, and sees the call
 first.
@@ -1694,6 +1658,31 @@ another when you do not.
 **Usage**
 
 Set `feature.retry.active` to true in the client options, and override any option above in the same entry. Every option keeps
+its default unless you name it.
+
+**Considerations**
+
+- Wraps the transport: its place in the activation order decides what it
+  sees. See [Ordering](#ordering) above.
+- Inactive by default: leaving it out costs nothing at runtime.
+
+#### `secrets`
+
+Secrets.
+
+**Configuration**
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `cache` | `true` |
+| `exchange` | `{active: false, method: 'POST', path: 'auth/token', refresh: '', request: 'refresh_token', response: 'access_token', retries: 1, statuses: [401]}` |
+| `name` | `'apikey'` |
+| `providers` | `[]` |
+
+**Usage**
+
+Set `feature.secrets.active` to true in the client options, and override any option above in the same entry. Every option keeps
 its default unless you name it.
 
 **Considerations**

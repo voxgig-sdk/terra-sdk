@@ -44,27 +44,16 @@ class AthleteLoadMatch(AthleteLoadMatchRequired, total=False):
 
 
 class Authentication(TypedDict, total=False):
-    apple_app_url: str
     auth_failure_redirect_url: str
     auth_success_redirect_url: str
     auth_url: str
-    bypass_feedback: bool
-    connected_uids: list
     expires_in: int
     language: str
-    multi_auth: bool
-    providers: str
     reference_id: str
-    samsung_app_url: str
     sdk_app: str
-    session_id: str
-    show_disconnect: bool
     status: str
     token: str
-    url: str
-    use_terra_avengers_app: bool
     user_id: str
-    warnings: list
 
 
 class AuthenticationCreateDataRequired(TypedDict):
@@ -72,27 +61,16 @@ class AuthenticationCreateDataRequired(TypedDict):
 
 
 class AuthenticationCreateData(AuthenticationCreateDataRequired, total=False):
-    apple_app_url: str
     auth_failure_redirect_url: str
     auth_success_redirect_url: str
     auth_url: str
-    bypass_feedback: bool
-    connected_uids: list
     expires_in: int
     language: str
-    multi_auth: bool
-    providers: str
     reference_id: str
-    samsung_app_url: str
     sdk_app: str
-    session_id: str
-    show_disconnect: bool
     status: str
     token: str
-    url: str
-    use_terra_avengers_app: bool
     user_id: str
-    warnings: list
 
 
 class AuthenticationRemoveMatch(TypedDict):
@@ -151,39 +129,17 @@ class IntegrationListMatch(TypedDict, total=False):
 
 class LabReportRequired(TypedDict):
     current_status: str
-    report_type: str
-    session_id: str
+    file: str
+    upload_id: str
 
 
 class LabReport(LabReportRequired, total=False):
-    collection_date: str
-    collection_time: str
-    file_count: int
-    id: str
-    input_bytes: int
-    lab_name: str
-    output_bytes: int
-    panels: list
-    patient_age_at_collection: int
-    patient_sex: str
-    reference_id: str
-    report_date: str
-    report_locale: str
-    report_notes: str
-    report_time: str
-    results: list
-    results_count: int
-    status_history: list
-    updated_at: str
-    upload_id: str
-    uploaded_at: str
-
-
-class LabReportLoadMatch(TypedDict):
     id: str
 
 
-class LabReportListMatch(TypedDict, total=False):
+class LabReportLoadMatch(TypedDict, total=False):
+    cursor: str
+    limit: int
     reference_id: str
     report_date_from: str
     report_date_to: str
@@ -195,32 +151,13 @@ class LabReportListMatch(TypedDict, total=False):
 
 class LabReportCreateDataRequired(TypedDict):
     current_status: str
-    report_type: str
-    session_id: str
+    file: str
+    upload_id: str
 
 
 class LabReportCreateData(LabReportCreateDataRequired, total=False):
     reference_id: str
-    collection_date: str
-    collection_time: str
-    file_count: int
     id: str
-    input_bytes: int
-    lab_name: str
-    output_bytes: int
-    panels: list
-    patient_age_at_collection: int
-    patient_sex: str
-    report_date: str
-    report_locale: str
-    report_notes: str
-    report_time: str
-    results: list
-    results_count: int
-    status_history: list
-    updated_at: str
-    upload_id: str
-    uploaded_at: str
 
 
 class LabReportRemoveMatch(TypedDict):
@@ -248,6 +185,7 @@ class LabReportFileRequired(TypedDict):
 
 
 class LabReportFile(LabReportFileRequired, total=False):
+    content_type: str
     filename: str
     id: str
 
@@ -258,6 +196,7 @@ class LabReportFileListMatch(TypedDict):
 
 class LabReportSessionRequired(TypedDict):
     current_status: str
+    error: dict
     report_type: str
     session_id: str
 
@@ -289,24 +228,15 @@ class LabReportSessionLoadMatch(TypedDict):
     session_id: str
 
 
-class LabReportSessionListMatch(TypedDict, total=False):
-    reference_id: str
-    report_date_from: str
-    report_date_to: str
-    report_type: str
-    upload_id: str
-    uploaded_at_from: str
-    uploaded_at_to: str
-
-
 class LabReportSessionCreateDataRequired(TypedDict):
-    current_status: str
-    report_type: str
     session_id: str
+    current_status: str
+    error: dict
+    report_type: str
 
 
 class LabReportSessionCreateData(LabReportSessionCreateDataRequired, total=False):
-    reference_id: str
+    legacy_format: bool
     collection_date: str
     collection_time: str
     file_count: int
@@ -316,6 +246,7 @@ class LabReportSessionCreateData(LabReportSessionCreateDataRequired, total=False
     panels: list
     patient_age_at_collection: int
     patient_sex: str
+    reference_id: str
     report_date: str
     report_locale: str
     report_notes: str
@@ -398,19 +329,7 @@ class PlannedWorkoutUpdateDataRequired(TypedDict):
 
 
 class PlannedWorkoutUpdateData(PlannedWorkoutUpdateDataRequired, total=False):
-    athlete_metrics: Any
-    coercion_warnings: str
-    completed_at: Any
-    created_at: Any
-    details: Any
-    is_external: bool
-    last_updated_at: Any
     planned_date: str
-    planned_workout_id: str
-    provider_workout_id: str
-    warnings: list
-    workout: Any
-    workout_id: str
 
 
 class Sleep(TypedDict):
@@ -501,9 +420,7 @@ class WorkoutCreateData(WorkoutCreateDataRequired, total=False):
     estimated_duration_seconds: Any
     estimated_intensity_factor: Any
     estimated_tss: Any
-    id: str
     pool_length_meters: Any
-    status: str
     workout_id: str
 
 

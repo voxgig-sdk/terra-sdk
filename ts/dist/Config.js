@@ -7,6 +7,7 @@ const MetricsFeature_1 = require("./feature/metrics/MetricsFeature");
 const PagingFeature_1 = require("./feature/paging/PagingFeature");
 const RatelimitFeature_1 = require("./feature/ratelimit/RatelimitFeature");
 const RetryFeature_1 = require("./feature/retry/RetryFeature");
+const SecretsFeature_1 = require("./feature/secrets/SecretsFeature");
 const TestFeature_1 = require("./feature/test/TestFeature");
 const TimeoutFeature_1 = require("./feature/timeout/TimeoutFeature");
 const FEATURE_CLASS = {
@@ -16,6 +17,7 @@ const FEATURE_CLASS = {
     paging: PagingFeature_1.PagingFeature,
     ratelimit: RatelimitFeature_1.RatelimitFeature,
     retry: RetryFeature_1.RetryFeature,
+    secrets: SecretsFeature_1.SecretsFeature,
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
 };
@@ -144,6 +146,29 @@ class Config {
                 "jitter": "`$BOOLEAN`",
                 "sleep": "`$FUNCTION`"
             },
+            "strict": false,
+            "transport": "wrap"
+        },
+        secrets: {
+            "options": {
+                "active": false,
+                "cache": true,
+                "exchange": {
+                    "active": false,
+                    "method": "POST",
+                    "path": "auth/token",
+                    "refresh": "",
+                    "request": "refresh_token",
+                    "response": "access_token",
+                    "retries": 1,
+                    "statuses": [
+                        401
+                    ]
+                },
+                "name": "apikey",
+                "providers": []
+            },
+            "optspec": {},
             "strict": false,
             "transport": "wrap"
         },
@@ -1012,7 +1037,22 @@ class Config {
                     "title": "Current Status",
                     "type": "`$STRING`",
                     "req": true,
-                    "short": "Current status as a clean lowercase string (open enum), e.g."
+                    "short": "Current status as a clean lowercase string (open enum — handle unknown values gracefully)."
+                },
+                {
+                    "name": "error",
+                    "title": "Error",
+                    "type": "`$OBJECT`",
+                    "req": true,
+                    "short": "Why the report failed: the same object the lab_report.failed webhook carries."
+                },
+                {
+                    "name": "file",
+                    "title": "File",
+                    "type": "`$STRING`",
+                    "req": true,
+                    "short": "A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.",
+                    "format": "binary"
                 },
                 {
                     "name": "file_count",
@@ -1152,6 +1192,74 @@ class Config {
                         {
                             "kind": "http",
                             "method": "POST",
+                            "orig": "/lab-reports/{session_id}/reprocess",
+                            "segments": [
+                                {
+                                    "lit": "lab-reports"
+                                },
+                                {
+                                    "var": "id"
+                                },
+                                {
+                                    "lit": "reprocess"
+                                }
+                            ],
+                            "parts": [
+                                "lab-reports",
+                                "{id}",
+                                "reprocess"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "session_id": "id"
+                                }
+                            },
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "session_id",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "297405620317847552"
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "legacy_format",
+                                        "orig": "legacy_format",
+                                        "type": "`$BOOLEAN`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "$action": "reprocess",
+                                "exist": [
+                                    "id"
+                                ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
+                        },
+                        {
+                            "kind": "http",
+                            "method": "POST",
                             "orig": "/lab-reports",
                             "segments": [
                                 {
@@ -1167,6 +1275,67 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "reference_id",
+                                        "orig": "reference_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "example": "patient_456",
+                                        "field": true
+                                    }
+                                ]
+                            },
+                            "select": {},
+                            "body": {
+                                "fields": [
+                                    {
+                                        "binary": true,
+                                        "name": "file"
+                                    }
+                                ],
+                                "kind": "multipart",
+                                "media": "multipart/form-data"
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
+                        },
+                        {
+                            "kind": "http",
+                            "method": "POST",
+                            "orig": "/reports",
+                            "segments": [
+                                {
+                                    "lit": "reports"
+                                }
+                            ],
+                            "parts": [
+                                "reports"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "query": [
                                     {
                                         "name": "reference_id",
@@ -1196,10 +1365,65 @@ class Config {
                         }
                     ]
                 },
-                "list": {
+                "load": {
                     "input": "data",
-                    "name": "list",
+                    "name": "load",
                     "points": [
+                        {
+                            "kind": "http",
+                            "method": "GET",
+                            "orig": "/lab-reports/{session_id}",
+                            "segments": [
+                                {
+                                    "lit": "lab-reports"
+                                },
+                                {
+                                    "var": "id"
+                                }
+                            ],
+                            "parts": [
+                                "lab-reports",
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "session_id": "id"
+                                }
+                            },
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "session_id",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "297405620317847552"
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "id"
+                                ]
+                            },
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
+                        },
                         {
                             "kind": "http",
                             "method": "GET",
@@ -1215,10 +1439,125 @@ class Config {
                             "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
-                                "res": "`body.sessions`"
+                                "res": "`body`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "query": [
+                                    {
+                                        "name": "cursor",
+                                        "orig": "cursor",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "limit",
+                                        "orig": "limit",
+                                        "type": "`$INTEGER`",
+                                        "kind": "query",
+                                        "example": 50
+                                    },
+                                    {
+                                        "name": "reference_id",
+                                        "orig": "reference_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "field": true
+                                    },
+                                    {
+                                        "name": "report_date_from",
+                                        "orig": "report_date_from",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "report_date_to",
+                                        "orig": "report_date_to",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "report_type",
+                                        "orig": "report_type",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "example": "dexa",
+                                        "field": true
+                                    },
+                                    {
+                                        "name": "upload_id",
+                                        "orig": "upload_id",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "field": true
+                                    },
+                                    {
+                                        "name": "uploaded_at_from",
+                                        "orig": "uploaded_at_from",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "uploaded_at_to",
+                                        "orig": "uploaded_at_to",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    }
+                                ]
+                            },
+                            "select": {},
+                            "response": {
+                                "kind": "json",
+                                "media": "application/json"
+                            }
+                        },
+                        {
+                            "kind": "http",
+                            "method": "GET",
+                            "orig": "/reports",
+                            "segments": [
+                                {
+                                    "lit": "reports"
+                                }
+                            ],
+                            "parts": [
+                                "reports"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body`"
+                            },
+                            "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "cursor",
+                                        "orig": "cursor",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "limit",
+                                        "orig": "limit",
+                                        "type": "`$INTEGER`",
+                                        "kind": "query",
+                                        "example": 50
+                                    },
                                     {
                                         "name": "reference_id",
                                         "orig": "reference_id",
@@ -1275,59 +1614,6 @@ class Config {
                         }
                     ]
                 },
-                "load": {
-                    "input": "data",
-                    "name": "load",
-                    "points": [
-                        {
-                            "kind": "http",
-                            "method": "GET",
-                            "orig": "/lab-reports/{session_id}",
-                            "segments": [
-                                {
-                                    "lit": "lab-reports"
-                                },
-                                {
-                                    "var": "id"
-                                }
-                            ],
-                            "parts": [
-                                "lab-reports",
-                                "{id}"
-                            ],
-                            "rename": {
-                                "param": {
-                                    "session_id": "id"
-                                }
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body`"
-                            },
-                            "args": {
-                                "params": [
-                                    {
-                                        "name": "id",
-                                        "orig": "session_id",
-                                        "type": "`$STRING`",
-                                        "kind": "param",
-                                        "reqd": true,
-                                        "example": "297405620317847552"
-                                    }
-                                ]
-                            },
-                            "select": {
-                                "exist": [
-                                    "id"
-                                ]
-                            },
-                            "response": {
-                                "kind": "json",
-                                "media": "application/json"
-                            }
-                        }
-                    ]
-                },
                 "remove": {
                     "input": "data",
                     "name": "remove",
@@ -1358,6 +1644,14 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "params": [
                                     {
                                         "name": "id",
@@ -1401,6 +1695,14 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "params": [
                                     {
                                         "name": "id",
@@ -1505,6 +1807,14 @@ class Config {
                                 "res": "`body.deliveries`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "params": [
                                     {
                                         "name": "id",
@@ -1556,6 +1866,14 @@ class Config {
                                 "res": "`body.deliveries`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "params": [
                                     {
                                         "name": "report_id",
@@ -1586,6 +1904,12 @@ class Config {
         },
         "lab_report_file": {
             "fields": [
+                {
+                    "name": "content_type",
+                    "title": "Content Type",
+                    "type": "`$STRING`",
+                    "short": "An uploaded file's content type."
+                },
                 {
                     "name": "filename",
                     "title": "Filename",
@@ -1643,6 +1967,14 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "params": [
                                     {
                                         "name": "id",
@@ -1694,6 +2026,14 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "params": [
                                     {
                                         "name": "report_id",
@@ -1741,7 +2081,14 @@ class Config {
                     "title": "Current Status",
                     "type": "`$STRING`",
                     "req": true,
-                    "short": "Current status as a clean lowercase string (open enum), e.g."
+                    "short": "Current status as a clean lowercase string (open enum — handle unknown values gracefully)."
+                },
+                {
+                    "name": "error",
+                    "title": "Error",
+                    "type": "`$OBJECT`",
+                    "req": true,
+                    "short": "Why the report failed: the same object the lab_report.failed webhook carries."
                 },
                 {
                     "name": "file_count",
@@ -1847,14 +2194,7 @@ class Config {
                 {
                     "name": "upload_id",
                     "title": "Upload Id",
-                    "type": "`$STRING`",
-                    "op": {
-                        "create": {
-                            "req": true,
-                            "type": "`$STRING`"
-                        }
-                    },
-                    "short": "Durable correlation key for the upload; every resulting session and webhook carries it."
+                    "type": "`$STRING`"
                 },
                 {
                     "name": "uploaded_at",
@@ -1872,14 +2212,22 @@ class Config {
                         {
                             "kind": "http",
                             "method": "POST",
-                            "orig": "/reports",
+                            "orig": "/reports/{session_id}/reprocess",
                             "segments": [
                                 {
                                     "lit": "reports"
+                                },
+                                {
+                                    "var": "session_id"
+                                },
+                                {
+                                    "lit": "reprocess"
                                 }
                             ],
                             "parts": [
-                                "reports"
+                                "reports",
+                                "{session_id}",
+                                "reprocess"
                             ],
                             "rename": {},
                             "transform": {
@@ -1887,107 +2235,39 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
-                                "query": [
+                                "header": [
                                     {
-                                        "name": "reference_id",
-                                        "orig": "reference_id",
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
                                         "type": "`$STRING`",
-                                        "kind": "query",
-                                        "example": "patient_456",
-                                        "field": true
-                                    }
-                                ]
-                            },
-                            "select": {},
-                            "body": {
-                                "fields": [
-                                    {
-                                        "binary": true,
-                                        "name": "file"
+                                        "kind": "header"
                                     }
                                 ],
-                                "kind": "multipart",
-                                "media": "multipart/form-data"
-                            },
-                            "response": {
-                                "kind": "json",
-                                "media": "application/json"
-                            }
-                        }
-                    ]
-                },
-                "list": {
-                    "input": "data",
-                    "name": "list",
-                    "points": [
-                        {
-                            "kind": "http",
-                            "method": "GET",
-                            "orig": "/reports",
-                            "segments": [
-                                {
-                                    "lit": "reports"
-                                }
-                            ],
-                            "parts": [
-                                "reports"
-                            ],
-                            "rename": {},
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body.sessions`"
-                            },
-                            "args": {
+                                "params": [
+                                    {
+                                        "name": "session_id",
+                                        "orig": "session_id",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "297405620317847552"
+                                    }
+                                ],
                                 "query": [
                                     {
-                                        "name": "reference_id",
-                                        "orig": "reference_id",
-                                        "type": "`$STRING`",
-                                        "kind": "query",
-                                        "field": true
-                                    },
-                                    {
-                                        "name": "report_date_from",
-                                        "orig": "report_date_from",
-                                        "type": "`$STRING`",
-                                        "kind": "query"
-                                    },
-                                    {
-                                        "name": "report_date_to",
-                                        "orig": "report_date_to",
-                                        "type": "`$STRING`",
-                                        "kind": "query"
-                                    },
-                                    {
-                                        "name": "report_type",
-                                        "orig": "report_type",
-                                        "type": "`$STRING`",
-                                        "kind": "query",
-                                        "example": "dexa",
-                                        "field": true
-                                    },
-                                    {
-                                        "name": "upload_id",
-                                        "orig": "upload_id",
-                                        "type": "`$STRING`",
-                                        "kind": "query",
-                                        "field": true
-                                    },
-                                    {
-                                        "name": "uploaded_at_from",
-                                        "orig": "uploaded_at_from",
-                                        "type": "`$STRING`",
-                                        "kind": "query"
-                                    },
-                                    {
-                                        "name": "uploaded_at_to",
-                                        "orig": "uploaded_at_to",
-                                        "type": "`$STRING`",
+                                        "name": "legacy_format",
+                                        "orig": "legacy_format",
+                                        "type": "`$BOOLEAN`",
                                         "kind": "query"
                                     }
                                 ]
                             },
-                            "select": {},
+                            "select": {
+                                "$action": "reprocess",
+                                "exist": [
+                                    "session_id"
+                                ]
+                            },
                             "response": {
                                 "kind": "json",
                                 "media": "application/json"
@@ -2021,6 +2301,14 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
+                                "header": [
+                                    {
+                                        "name": "x_terra_version",
+                                        "orig": "X-Terra-Version",
+                                        "type": "`$STRING`",
+                                        "kind": "header"
+                                    }
+                                ],
                                 "params": [
                                     {
                                         "name": "session_id",

@@ -70,6 +70,7 @@ func TestLabReportFileEntity(t *testing.T) {
 			}
 		}
 		client := setup.client
+		_ = client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		labReportFileRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.lab_report_file")))

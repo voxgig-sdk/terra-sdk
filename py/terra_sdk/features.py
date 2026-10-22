@@ -7,6 +7,7 @@ from terra_sdk.feature.metrics_feature import TerraMetricsFeature
 from terra_sdk.feature.paging_feature import TerraPagingFeature
 from terra_sdk.feature.ratelimit_feature import TerraRatelimitFeature
 from terra_sdk.feature.retry_feature import TerraRetryFeature
+from terra_sdk.feature.secrets_feature import TerraSecretsFeature
 from terra_sdk.feature.test_feature import TerraTestFeature
 from terra_sdk.feature.timeout_feature import TerraTimeoutFeature
 
@@ -19,6 +20,7 @@ _FEATURES = {
     "paging": lambda: TerraPagingFeature(),
     "ratelimit": lambda: TerraRatelimitFeature(),
     "retry": lambda: TerraRetryFeature(),
+    "secrets": lambda: TerraSecretsFeature(),
     "test": lambda: TerraTestFeature(),
     "timeout": lambda: TerraTimeoutFeature(),
 }

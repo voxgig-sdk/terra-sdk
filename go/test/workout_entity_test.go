@@ -200,6 +200,7 @@ func TestWorkoutEntity(t *testing.T) {
 			}
 		}
 		client := setup.client
+		_ = client
 
 		// CREATE
 		workoutRef01Ent := client.Workout(nil)

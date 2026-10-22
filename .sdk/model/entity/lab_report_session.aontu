@@ -23,8 +23,15 @@ main: kit: entity: lab_report_session: {
       h: "Current Status"
       n: "current_status"
       r: true
-      sh: "Current status as a clean lowercase string (open enum), e.g."
+      sh: "Current status as a clean lowercase string (open enum — handle unknown values gracefully)."
       t: "`$STRING`"
+    }
+    error: {
+      h: "Error"
+      n: "error"
+      r: true
+      sh: "Why the report failed: the same object the lab_report.failed webhook carries."
+      t: "`$OBJECT`"
     }
     file_count: {
       h: "File Count"
@@ -146,14 +153,7 @@ main: kit: entity: lab_report_session: {
     upload_id: {
       h: "Upload Id"
       n: "upload_id"
-      op: {
-        create: {
-          req: true
-          type: "`$STRING`"
-        }
-      }
       r: false
-      sh: "Durable correlation key for the upload; every resulting session and webhook carries it."
       t: "`$STRING`"
     }
     uploaded_at: {
@@ -172,33 +172,47 @@ main: kit: entity: lab_report_session: {
       points: [
         {
           co: {
-            id: "POST /reports"
+            id: "POST /reports/{session_id}/reprocess"
             source: "openapi3"
             version: 2
           }
           g: {
-            query: [
+            header: [
               {
-                ex: "patient_456"
-                k: "query"
-                n: "reference_id"
-                or: "reference_id"
+                k: "header"
+                n: "x_terra_version"
+                or: "X-Terra-Version"
                 r: false
                 t: "`$STRING`"
               }
             ]
-          }
-          m: "POST"
-          o: "/reports"
-          rb: {
-            fields: [
+            params: [
               {
-                binary: true
-                name: "file"
+                ex: "297405620317847552"
+                k: "param"
+                n: "session_id"
+                or: "session_id"
+                r: true
+                t: "`$STRING`"
               }
             ]
-            kind: "multipart"
-            media: "multipart/form-data"
+            query: [
+              {
+                k: "query"
+                n: "legacy_format"
+                or: "legacy_format"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/reports/{session_id}/reprocess"
+          q: {
+            "$action": "reprocess"
+            exist: [
+              "session_id"
+            ]
           }
           rs: {
             kind: "json"
@@ -207,92 +221,17 @@ main: kit: entity: lab_report_session: {
           s: [
             {
               lit: "reports"
+            }
+            {
+              var: "session_id"
+            }
+            {
+              lit: "reprocess"
             }
           ]
           t: {
             req: "`reqdata`"
             res: "`body`"
-          }
-        }
-      ]
-    }
-    list: {
-      name: "list"
-      points: [
-        {
-          co: {
-            id: "GET /reports"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            query: [
-              {
-                k: "query"
-                n: "reference_id"
-                or: "reference_id"
-                r: false
-                t: "`$STRING`"
-              }
-              {
-                k: "query"
-                n: "report_date_from"
-                or: "report_date_from"
-                r: false
-                t: "`$STRING`"
-              }
-              {
-                k: "query"
-                n: "report_date_to"
-                or: "report_date_to"
-                r: false
-                t: "`$STRING`"
-              }
-              {
-                ex: "dexa"
-                k: "query"
-                n: "report_type"
-                or: "report_type"
-                r: false
-                t: "`$STRING`"
-              }
-              {
-                k: "query"
-                n: "upload_id"
-                or: "upload_id"
-                r: false
-                t: "`$STRING`"
-              }
-              {
-                k: "query"
-                n: "uploaded_at_from"
-                or: "uploaded_at_from"
-                r: false
-                t: "`$STRING`"
-              }
-              {
-                k: "query"
-                n: "uploaded_at_to"
-                or: "uploaded_at_to"
-                r: false
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "GET"
-          o: "/reports"
-          rs: {
-            kind: "json"
-            media: "application/json"
-          }
-          s: [
-            {
-              lit: "reports"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body.sessions`"
           }
         }
       ]
@@ -307,6 +246,15 @@ main: kit: entity: lab_report_session: {
             version: 2
           }
           g: {
+            header: [
+              {
+                k: "header"
+                n: "x_terra_version"
+                or: "X-Terra-Version"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
             params: [
               {
                 ex: "297405620317847552"

@@ -14,6 +14,32 @@
 
 {
   point: "warning"
+  note: "Points POST /lab-reports and POST /reports on entity=lab_report op=create have the same selector (exist: none), so only POST /lab-reports is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "lab_report"
+  op: "create"
+  points: [
+    "POST /lab-reports"
+    "POST /reports"
+  ]
+
+}
+
+
+{
+  point: "warning"
+  note: "Points GET /lab-reports and GET /reports on entity=lab_report op=load have the same selector (exist: none), so only GET /lab-reports is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "lab_report"
+  op: "load"
+  points: [
+    "GET /lab-reports"
+    "GET /reports"
+  ]
+
+}
+
+
+{
+  point: "warning"
   note: "Points DELETE /lab-reports/{session_id} and DELETE /reports/{session_id} on entity=lab_report op=remove have the same selector (exist: id), so only DELETE /lab-reports/{session_id} is ever chosen. An action or another entity in guide.aontu tells them apart."
   entity: "lab_report"
   op: "remove"

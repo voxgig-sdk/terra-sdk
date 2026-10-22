@@ -10,6 +10,5 @@ if [[ ! -f "$trust" ]]; then
 fi
 exec node "$trust" \
   --repository 'voxgig-sdk/terra-sdk' \
-  --publish '@voxgig-sdk/terra-sdk-js=publish-js.yml' \
   --publish '@voxgig-sdk/terra-sdk=publish-ts.yml' \
   "$@"

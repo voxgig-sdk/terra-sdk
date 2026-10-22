@@ -11,19 +11,11 @@ main: kit: flow: BasicLabReportSessionFlow:
         ref: "lab_report_session_ref01"
       }
 
-      o: "create"
-    }
+      m: {
+        session_id: "session01"
+      }
 
-    {
-      o: "list",
-      v: [
-        {
-          apply: "ItemExists",
-          def: {
-            ref: "lab_report_session_ref01"
-          }
-        }
-      ]
+      o: "create"
     }
 
     {

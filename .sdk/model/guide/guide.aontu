@@ -6,3 +6,12 @@
 
 
 
+
+# Terra keeps deprecated aliases beside their replacements, and the alias
+# shares the replacement's selector, so the base guide picks whichever comes
+# first: the deprecated one. Naming each deprecated (or second) path as an
+# action leaves the current endpoint as the plain op and keeps all of them.
+guide: entity: authentication: path: "/auth/generateAuthToken": action: generate_auth_token: {}
+guide: entity: authentication: path: "/auth/generateWidgetSession": action: widget_session: {}
+guide: entity: lab_report: path: "/lab-reports": action: legacy: {}
+guide: entity: lab_report: path: "/lab-reports/{session_id}": action: legacy: {}

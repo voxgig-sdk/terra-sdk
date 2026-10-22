@@ -2,116 +2,51 @@
   "existing": {
     "lab_report": {
       "LAB_REPORT00": {
-        "collection_date": "sf0",
-        "collection_time": "sf1",
-        "current_status": "sf2",
-        "file_count": 243,
+        "current_status": "s28",
+        "file": "s29",
         "id": "LAB_REPORT00",
-        "input_bytes": 245,
-        "lab_name": "sf6",
-        "output_bytes": 247,
-        "panels": [],
-        "patient_age_at_collection": 249,
-        "patient_sex": "sfa",
-        "reference_id": "REFERENCE01",
-        "report_date": "sfc",
-        "report_locale": "sfd",
-        "report_notes": "sfe",
-        "report_time": "sff",
-        "report_type": "s100",
-        "results": [],
-        "results_count": 258,
-        "session_id": "SESSION01",
-        "status_history": [],
-        "updated_at": "s105",
-        "upload_id": "UPLOAD01",
-        "uploaded_at": "s107"
+        "upload_id": "UPLOAD01"
       },
       "LAB_REPORT01": {
-        "collection_date": "s1e0",
-        "collection_time": "s1e1",
-        "current_status": "s1e2",
-        "file_count": 483,
+        "current_status": "s50",
+        "file": "s51",
         "id": "LAB_REPORT01",
-        "input_bytes": 485,
-        "lab_name": "s1e6",
-        "output_bytes": 487,
-        "panels": [],
-        "patient_age_at_collection": 489,
-        "patient_sex": "s1ea",
-        "reference_id": "REFERENCE01",
-        "report_date": "s1ec",
-        "report_locale": "s1ed",
-        "report_notes": "s1ee",
-        "report_time": "s1ef",
-        "report_type": "s1f0",
-        "results": [],
-        "results_count": 498,
-        "session_id": "SESSION01",
-        "status_history": [],
-        "updated_at": "s1f5",
-        "upload_id": "UPLOAD01",
-        "uploaded_at": "s1f7"
+        "upload_id": "UPLOAD01"
       },
       "LAB_REPORT02": {
-        "collection_date": "s2d0",
-        "collection_time": "s2d1",
-        "current_status": "s2d2",
-        "file_count": 723,
+        "current_status": "s78",
+        "file": "s79",
         "id": "LAB_REPORT02",
-        "input_bytes": 725,
-        "lab_name": "s2d6",
-        "output_bytes": 727,
-        "panels": [],
-        "patient_age_at_collection": 729,
-        "patient_sex": "s2da",
-        "reference_id": "REFERENCE01",
-        "report_date": "s2dc",
-        "report_locale": "s2dd",
-        "report_notes": "s2de",
-        "report_time": "s2df",
-        "report_type": "s2e0",
-        "results": [],
-        "results_count": 738,
-        "session_id": "SESSION01",
-        "status_history": [],
-        "updated_at": "s2e5",
-        "upload_id": "UPLOAD01",
-        "uploaded_at": "s2e7"
+        "upload_id": "UPLOAD01"
       }
     }
   },
   "new": {
     "lab_report": {
       "lab_report_ref01": {
-        "collection_date": "s3c0",
-        "collection_time": "s3c1",
-        "current_status": "s3c2",
-        "file_count": 963,
-        "input_bytes": 965,
-        "lab_name": "s3c6",
-        "output_bytes": 967,
-        "panels": [],
-        "patient_age_at_collection": 969,
-        "patient_sex": "s3ca",
-        "reference_id": "REFERENCE01",
-        "report_date": "s3cc",
-        "report_locale": "s3cd",
-        "report_notes": "s3ce",
-        "report_time": "s3cf",
-        "report_type": "s3d0",
-        "results": [],
-        "results_count": 978,
-        "session_id": "SESSION01",
-        "status_history": [],
-        "updated_at": "s3d5",
-        "upload_id": "UPLOAD01",
-        "uploaded_at": "s3d7"
+        "current_status": "sa0",
+        "file": "sa1",
+        "upload_id": "UPLOAD01"
       }
     }
   },
   "requests": {
+    "POST /lab-reports/{session_id}/reprocess": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "POST /lab-reports": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "POST /reports": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /lab-reports/{session_id}": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
@@ -121,7 +56,7 @@
       "version": 2,
       "source": "openapi3"
     },
-    "GET /lab-reports/{session_id}": {
+    "GET /reports": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

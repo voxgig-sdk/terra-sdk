@@ -5,6 +5,13 @@ main: kit: entity: lab_report_file: {
   alias: field: {}
 
   fields: {
+    content_type: {
+      h: "Content Type"
+      n: "content_type"
+      r: false
+      sh: "An uploaded file's content type."
+      t: "`$STRING`"
+    }
     filename: {
       h: "Filename"
       n: "filename"
@@ -42,6 +49,15 @@ main: kit: entity: lab_report_file: {
             version: 2
           }
           g: {
+            header: [
+              {
+                k: "header"
+                n: "x_terra_version"
+                or: "X-Terra-Version"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
             params: [
               {
                 ex: "297405620317847552"
@@ -92,6 +108,15 @@ main: kit: entity: lab_report_file: {
             version: 2
           }
           g: {
+            header: [
+              {
+                k: "header"
+                n: "x_terra_version"
+                or: "X-Terra-Version"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
             params: [
               {
                 ex: "297405620317847552"

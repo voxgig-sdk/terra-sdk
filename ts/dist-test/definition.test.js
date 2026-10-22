@@ -519,172 +519,38 @@ const PLAN = [
         "accessor": "LabReport",
         "op": "create",
         "method": "POST",
-        "path": "/lab-reports",
-        "args": [],
+        "path": "/lab-reports/{session_id}/reprocess",
+        "action": "reprocess",
+        "args": [
+            {
+                "name": "id",
+                "wire": "session_id",
+                "value": "297405620317847552"
+            }
+        ],
         "select": {
-            "reference_id": "patient_456"
+            "legacy_format": "v1"
         },
-        "headers": [],
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
         "cookies": [],
         "responseMedia": [
             "application/json"
         ],
         "query": [
-            "reference_id"
+            "legacy_format"
         ],
         "queryArgs": [],
         "auth": null,
         "status": 202,
         "sample": {
-            "upload_id": "x",
+            "session_id": "x",
             "current_status": "x"
-        },
-        "idField": "id"
-    },
-    {
-        "entity": "lab_report",
-        "accessor": "LabReport",
-        "op": "list",
-        "method": "GET",
-        "path": "/lab-reports",
-        "args": [],
-        "select": {
-            "reference_id": "v1",
-            "report_date_from": "v1",
-            "report_date_to": "v1",
-            "report_type": "dexa",
-            "upload_id": "v1",
-            "uploaded_at_from": "v1",
-            "uploaded_at_to": "v1"
-        },
-        "headers": [],
-        "cookies": [],
-        "responseMedia": [
-            "application/json"
-        ],
-        "query": [
-            "reference_id",
-            "report_type",
-            "upload_id",
-            "report_date_from",
-            "report_date_to",
-            "uploaded_at_from",
-            "uploaded_at_to"
-        ],
-        "queryArgs": [
-            {
-                "name": "reference_id",
-                "wire": "reference_id"
-            },
-            {
-                "name": "report_date_from",
-                "wire": "report_date_from"
-            },
-            {
-                "name": "report_date_to",
-                "wire": "report_date_to"
-            },
-            {
-                "name": "report_type",
-                "wire": "report_type"
-            },
-            {
-                "name": "upload_id",
-                "wire": "upload_id"
-            },
-            {
-                "name": "uploaded_at_from",
-                "wire": "uploaded_at_from"
-            },
-            {
-                "name": "uploaded_at_to",
-                "wire": "uploaded_at_to"
-            }
-        ],
-        "auth": null,
-        "status": 200,
-        "sample": {
-            "sessions": [
-                {
-                    "session_id": "x",
-                    "upload_id": "x",
-                    "reference_id": "x",
-                    "report_type": "lab",
-                    "current_status": "x",
-                    "uploaded_at": "2026-01-01T00:00:00Z",
-                    "updated_at": "2026-01-01T00:00:00Z",
-                    "report_date": "x",
-                    "report_time": "x",
-                    "collection_date": "x",
-                    "collection_time": "x",
-                    "report_locale": "x",
-                    "lab_name": "x",
-                    "patient_age_at_collection": 1,
-                    "patient_sex": "x",
-                    "input_bytes": 1,
-                    "results_count": 1,
-                    "output_bytes": 1,
-                    "file_count": 1,
-                    "status_history": [
-                        {
-                            "status": "x",
-                            "timestamp": "2026-01-01T00:00:00Z",
-                            "note": "x"
-                        }
-                    ],
-                    "results": [
-                        {
-                            "source": {
-                                "name": "x",
-                                "panel": "x",
-                                "value": "x",
-                                "units": "x",
-                                "flag": "x",
-                                "method": "x",
-                                "notes": "x",
-                                "reference_text": "x",
-                                "region_name": "x",
-                                "collection_date": "x",
-                                "collection_time": "x"
-                            },
-                            "biomarker": {
-                                "display_name": "x",
-                                "loinc_code": "x",
-                                "panel_id": 1,
-                                "panel_key": "x",
-                                "specimen": "x",
-                                "region": "head"
-                            },
-                            "measurement": {
-                                "type": "x",
-                                "numeric": 1,
-                                "bounded": {},
-                                "qualitative": {},
-                                "text": "x",
-                                "absent_reason": "x",
-                                "units": "x",
-                                "ucum_code": "x"
-                            },
-                            "interpretation": {
-                                "flag_raw": "x",
-                                "source": "x",
-                                "applied_range": {}
-                            },
-                            "reference_ranges": [
-                                {}
-                            ]
-                        }
-                    ],
-                    "panels": [
-                        {
-                            "id": 1,
-                            "name": "x",
-                            "key": "x"
-                        }
-                    ],
-                    "report_notes": "x"
-                }
-            ]
         },
         "idField": "id"
     },
@@ -702,7 +568,13 @@ const PLAN = [
             }
         ],
         "select": {},
-        "headers": [],
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
         "cookies": [],
         "responseMedia": [
             "application/json"
@@ -815,7 +687,13 @@ const PLAN = [
                     "key": "x"
                 }
             ],
-            "report_notes": "x"
+            "report_notes": "x",
+            "error": {
+                "code": "x",
+                "message": "x",
+                "retriable": true,
+                "document_class": "x"
+            }
         },
         "idField": "id"
     },
@@ -833,7 +711,13 @@ const PLAN = [
             }
         ],
         "select": {},
-        "headers": [],
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
         "cookies": [],
         "responseMedia": [
             "application/json"
@@ -869,7 +753,13 @@ const PLAN = [
             }
         ],
         "select": {},
-        "headers": [],
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
         "cookies": [],
         "responseMedia": [
             "application/json"
@@ -905,7 +795,13 @@ const PLAN = [
             }
         ],
         "select": {},
-        "headers": [],
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
         "cookies": [],
         "responseMedia": [
             "application/json"
@@ -918,12 +814,14 @@ const PLAN = [
             "files": [
                 {
                     "filename": "x",
-                    "presigned_url": "x"
+                    "presigned_url": "x",
+                    "content_type": "x"
                 }
             ],
             "thumbnail": {
                 "filename": "x",
-                "presigned_url": "x"
+                "presigned_url": "x",
+                "content_type": "x"
             },
             "expires_at": "2026-01-01T00:00:00Z"
         },
@@ -943,7 +841,13 @@ const PLAN = [
             }
         ],
         "select": {},
-        "headers": [],
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
         "cookies": [],
         "responseMedia": [
             "application/json"
@@ -956,12 +860,14 @@ const PLAN = [
             "files": [
                 {
                     "filename": "x",
-                    "presigned_url": "x"
+                    "presigned_url": "x",
+                    "content_type": "x"
                 }
             ],
             "thumbnail": {
                 "filename": "x",
-                "presigned_url": "x"
+                "presigned_url": "x",
+                "content_type": "x"
             },
             "expires_at": "2026-01-01T00:00:00Z"
         },
@@ -972,172 +878,38 @@ const PLAN = [
         "accessor": "LabReportSession",
         "op": "create",
         "method": "POST",
-        "path": "/reports",
-        "args": [],
+        "path": "/reports/{session_id}/reprocess",
+        "action": "reprocess",
+        "args": [
+            {
+                "name": "session_id",
+                "wire": "session_id",
+                "value": "297405620317847552"
+            }
+        ],
         "select": {
-            "reference_id": "patient_456"
+            "legacy_format": "v1"
         },
-        "headers": [],
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
         "cookies": [],
         "responseMedia": [
             "application/json"
         ],
         "query": [
-            "reference_id"
+            "legacy_format"
         ],
         "queryArgs": [],
         "auth": null,
         "status": 202,
         "sample": {
-            "upload_id": "x",
+            "session_id": "x",
             "current_status": "x"
-        },
-        "idField": "id"
-    },
-    {
-        "entity": "lab_report_session",
-        "accessor": "LabReportSession",
-        "op": "list",
-        "method": "GET",
-        "path": "/reports",
-        "args": [],
-        "select": {
-            "reference_id": "v1",
-            "report_date_from": "v1",
-            "report_date_to": "v1",
-            "report_type": "dexa",
-            "upload_id": "v1",
-            "uploaded_at_from": "v1",
-            "uploaded_at_to": "v1"
-        },
-        "headers": [],
-        "cookies": [],
-        "responseMedia": [
-            "application/json"
-        ],
-        "query": [
-            "reference_id",
-            "report_type",
-            "upload_id",
-            "report_date_from",
-            "report_date_to",
-            "uploaded_at_from",
-            "uploaded_at_to"
-        ],
-        "queryArgs": [
-            {
-                "name": "reference_id",
-                "wire": "reference_id"
-            },
-            {
-                "name": "report_date_from",
-                "wire": "report_date_from"
-            },
-            {
-                "name": "report_date_to",
-                "wire": "report_date_to"
-            },
-            {
-                "name": "report_type",
-                "wire": "report_type"
-            },
-            {
-                "name": "upload_id",
-                "wire": "upload_id"
-            },
-            {
-                "name": "uploaded_at_from",
-                "wire": "uploaded_at_from"
-            },
-            {
-                "name": "uploaded_at_to",
-                "wire": "uploaded_at_to"
-            }
-        ],
-        "auth": null,
-        "status": 200,
-        "sample": {
-            "sessions": [
-                {
-                    "session_id": "x",
-                    "upload_id": "x",
-                    "reference_id": "x",
-                    "report_type": "lab",
-                    "current_status": "x",
-                    "uploaded_at": "2026-01-01T00:00:00Z",
-                    "updated_at": "2026-01-01T00:00:00Z",
-                    "report_date": "x",
-                    "report_time": "x",
-                    "collection_date": "x",
-                    "collection_time": "x",
-                    "report_locale": "x",
-                    "lab_name": "x",
-                    "patient_age_at_collection": 1,
-                    "patient_sex": "x",
-                    "input_bytes": 1,
-                    "results_count": 1,
-                    "output_bytes": 1,
-                    "file_count": 1,
-                    "status_history": [
-                        {
-                            "status": "x",
-                            "timestamp": "2026-01-01T00:00:00Z",
-                            "note": "x"
-                        }
-                    ],
-                    "results": [
-                        {
-                            "source": {
-                                "name": "x",
-                                "panel": "x",
-                                "value": "x",
-                                "units": "x",
-                                "flag": "x",
-                                "method": "x",
-                                "notes": "x",
-                                "reference_text": "x",
-                                "region_name": "x",
-                                "collection_date": "x",
-                                "collection_time": "x"
-                            },
-                            "biomarker": {
-                                "display_name": "x",
-                                "loinc_code": "x",
-                                "panel_id": 1,
-                                "panel_key": "x",
-                                "specimen": "x",
-                                "region": "head"
-                            },
-                            "measurement": {
-                                "type": "x",
-                                "numeric": 1,
-                                "bounded": {},
-                                "qualitative": {},
-                                "text": "x",
-                                "absent_reason": "x",
-                                "units": "x",
-                                "ucum_code": "x"
-                            },
-                            "interpretation": {
-                                "flag_raw": "x",
-                                "source": "x",
-                                "applied_range": {}
-                            },
-                            "reference_ranges": [
-                                {}
-                            ]
-                        }
-                    ],
-                    "panels": [
-                        {
-                            "id": 1,
-                            "name": "x",
-                            "key": "x"
-                        }
-                    ],
-                    "report_notes": "x"
-                }
-            ]
         },
         "idField": "id"
     },
@@ -1155,7 +927,13 @@ const PLAN = [
             }
         ],
         "select": {},
-        "headers": [],
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
         "cookies": [],
         "responseMedia": [
             "application/json"
@@ -1268,7 +1046,13 @@ const PLAN = [
                     "key": "x"
                 }
             ],
-            "report_notes": "x"
+            "report_notes": "x",
+            "error": {
+                "code": "x",
+                "message": "x",
+                "retriable": true,
+                "document_class": "x"
+            }
         },
         "idField": "id"
     },

@@ -17,67 +17,6 @@ import (
 const lab_report_sessionDirectLiveStrict = true
 
 func TestLabReportSessionDirect(t *testing.T) {
-	t.Run("direct-list-lab_report_session", func(t *testing.T) {
-		setup := lab_report_sessionDirectSetup([]any{
-			map[string]any{"id": "direct01"},
-			map[string]any{"id": "direct02"},
-		})
-		_mode := "unit"
-		if setup.live {
-			_mode = "live"
-		}
-		if _shouldSkip, _reason := isControlSkipped("direct", "direct-list-lab_report_session", _mode); _shouldSkip {
-			if _reason == "" {
-				_reason = "skipped via sdk-test-control.json"
-			}
-			t.Skip(_reason)
-			return
-		}
-		client := setup.client
-
-
-		result, err := client.Direct(map[string]any{
-			"path":   "reports",
-			"method": "GET",
-			"params": map[string]any{},
-		})
-		if setup.live {
-			if err != nil {
-				liveMiss(t, lab_report_sessionDirectLiveStrict, "Live list failed: %v", err)
-			}
-			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
-				liveMiss(t, lab_report_sessionDirectLiveStrict, "Live list failed: %s", liveDescribe(result))
-			}
-			if _, ok := liveList(result["data"]); !ok {
-				liveMiss(t, lab_report_sessionDirectLiveStrict, "Live list returned no list: %s", liveDescribe(result))
-			}
-		} else {
-			if err != nil {
-				t.Fatalf("direct failed: %v", err)
-			}
-			if result["ok"] != true {
-				t.Fatalf("expected ok to be true, got %v", result["ok"])
-			}
-			if core.ToInt(result["status"]) != 200 {
-				t.Fatalf("expected status 200, got %v", result["status"])
-			}
-		}
-
-		if !setup.live {
-			if dataList, ok := result["data"].([]any); ok {
-				if len(dataList) != 2 {
-					t.Fatalf("expected 2 items, got %d", len(dataList))
-				}
-			} else {
-				t.Fatalf("expected data to be an array, got %T", result["data"])
-			}
-
-			if len(*setup.calls) != 1 {
-				t.Fatalf("expected 1 call, got %d", len(*setup.calls))
-			}
-		}
-	})
-
 	t.Run("direct-load-lab_report_session", func(t *testing.T) {
 		setup := lab_report_sessionDirectSetup(map[string]any{"id": "direct01"})
 		_mode := "unit"

@@ -50,6 +50,7 @@ func TestBulkUserInfoEntity(t *testing.T) {
 			}
 		}
 		client := setup.client
+		_ = client
 
 		// CREATE
 		bulkUserInfoRef01Ent := client.BulkUserInfo(nil)

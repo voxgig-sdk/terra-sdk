@@ -23,36 +23,6 @@ def _live_ok(result):
 
 class TestLabReportSessionDirect:
 
-    def test_should_direct_list_lab_report_session(self):
-        setup = _lab_report_session_direct_setup([
-            {"id": "direct01"},
-            {"id": "direct02"},
-        ])
-        _skip, _reason = runner.is_control_skipped("direct", "direct-list-lab_report_session", "live" if setup["live"] else "unit")
-        if _skip:
-            pytest.skip(_reason or "skipped via sdk-test-control.json")
-            return
-        client = setup["client"]
-
-        params = {}
-
-        result = client.direct({
-            "path": "reports",
-            "method": "GET",
-            "params": params,
-        })
-        if setup["live"]:
-            if not _live_ok(result):
-                runner.live_miss(LIVE_STRICT, "Live list failed: " + runner.live_describe(result))
-            if runner.live_list(result.get("data")) is None:
-                runner.live_miss(LIVE_STRICT, "Live list returned no list: " + runner.live_describe(result))
-        else:
-            assert result["ok"] is True
-            assert helpers.to_int(result["status"]) == 200
-            assert isinstance(result["data"], list)
-            assert len(result["data"]) == 2
-            assert len(setup["calls"]) == 1
-
     def test_should_direct_load_lab_report_session(self):
         setup = _lab_report_session_direct_setup({"id": "direct01"})
         _skip, _reason = runner.is_control_skipped("direct", "direct-load-lab_report_session", "live" if setup["live"] else "unit")

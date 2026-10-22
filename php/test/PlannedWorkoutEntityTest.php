@@ -173,6 +173,24 @@ class PlannedWorkoutEntityTest extends TestCase
         $this->assertSame(2, $client->_cost["total"]["attempts"]);
     }
 
+    public function test_validate_list_response(): void
+    {
+        $cfg = TerraConfig::shared_config();
+        if (!isset($cfg["feature"]["validate"])) {
+            $this->markTestSkipped('feature not present in this SDK: validate');
+        }
+        $opts = ["feature" => ["validate" => ["active" => true, "request" => false, "response" => true]]];
+        $listed = TerraSDK::test(['entity' => ['planned_workout' => ['v1' => ['athlete_metrics' => 'x', 'completed_at' => 'x', 'created_at' => 'x', 'details' => 'x', 'last_updated_at' => 'x', 'workout' => 'x']]]], $opts)->PlannedWorkout(null)->list(null, null);
+        $this->assertSame(['v1'], array_map(fn($ent) => $ent->data_get()['id'] ?? null, $listed));
+        $err = null;
+        try {
+            TerraSDK::test(['entity' => ['planned_workout' => ['v1' => ['athlete_metrics' => 'x', 'completed_at' => 'x', 'created_at' => 'x', 'details' => 'x', 'last_updated_at' => 'x', 'workout' => 'x', 'coercion_warnings' => 1]]]], $opts)->PlannedWorkout(null)->list(null, null);
+        } catch (\Throwable $e) {
+            $err = $e;
+        }
+        $this->assertSame('validate_failed', $err->sdk_code ?? null);
+    }
+
     public function test_validate(): void
     {
         $cfg = TerraConfig::shared_config();

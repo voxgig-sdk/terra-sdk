@@ -22,6 +22,7 @@ import { config } from './Config';
 import { TerraEntityBase } from './TerraEntityBase';
 import { Utility } from './utility/Utility';
 import { BaseFeature } from './feature/base/BaseFeature';
+import * as sekreto from './feature/secrets/sekreto';
 declare const stdutil: Utility;
 type DirectResult = {
     ok: false;
@@ -42,9 +43,11 @@ declare class TerraSDK {
     _utility: Utility;
     _features: Feature[];
     _rootctx: Context;
+    _secrets?: any;
     constructor(options?: any);
     options(): any;
     utility(): any;
+    secrets(): any;
     prepare(fetchargs?: any): Promise<any>;
     direct(fetchargs?: any): Promise<DirectResult>;
     _rawRequest(fetchargs?: any): Promise<DirectResult>;
@@ -75,5 +78,5 @@ declare class TerraSDK {
     [inspect.custom](): string;
 }
 declare const SDK: typeof TerraSDK;
-export { stdutil, config, BaseFeature, TerraEntityBase, TerraSDK, SDK, };
+export { stdutil, config, sekreto, BaseFeature, TerraEntityBase, TerraSDK, SDK, };
 export type { DirectResult };
