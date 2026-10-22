@@ -7,6 +7,15 @@ const node_test_1 = require("node:test");
 const node_assert_1 = __importDefault(require("node:assert"));
 const index_1 = require("../../utility/index");
 const ENVPREFIX = 'TERRA_TEST_SECRETS_';
+// The header the credential travels in: the DEFAULT client's auth.name,
+// lower-cased as prepareAuth sends it. Read from a default client because
+// a test's `auth: null` leaves no name to read.
+const CREDHEADER = (() => {
+    const auth = index_1.SDK.test({}, {}).options().auth;
+    const name = null == auth ? null : auth.name;
+    return 'string' === typeof name && '' !== name ?
+        name.toLowerCase() : 'authorization';
+})();
 // prepare() returns the fetchdef the transport would receive — the closest
 // observable point to the wire for header assertions — and it awaits
 // secrets resolution itself, because it bypasses the feature hook pipeline.
@@ -18,7 +27,7 @@ async function prepared(sdkopts) {
 }
 function credentialIs(header, token) {
     const got = String(null == header ? '' : header);
-    node_assert_1.default.ok(got === token || got.endsWith(' ' + token), 'expected the Authorization header to carry ' + token + ', got: ' + got);
+    node_assert_1.default.ok(got === token || got.endsWith(' ' + token), 'expected the ' + CREDHEADER + ' header to carry ' + token + ', got: ' + got);
 }
 // An env chain, the shape most of these tests use.
 function envchain(extra) {
@@ -37,18 +46,18 @@ function envchain(extra) {
     });
     (0, node_test_1.test)('inactive: apikey option behaves exactly as before', async () => {
         const { sdk, fetchdef } = await prepared({ apikey: 'OPTKEY01' });
-        credentialIs(fetchdef.headers['authorization'], 'OPTKEY01');
+        credentialIs(fetchdef.headers[CREDHEADER], 'OPTKEY01');
         // No feature, no instance: the accessor is the only way in.
         node_assert_1.default.equal(sdk.secrets(), undefined);
     });
-    (0, node_test_1.test)('inactive: no apikey means no authorization header', async () => {
+    (0, node_test_1.test)('inactive: no apikey means no credential header', async () => {
         const { fetchdef } = await prepared({});
-        node_assert_1.default.equal(fetchdef.headers['authorization'], undefined);
+        node_assert_1.default.equal(fetchdef.headers[CREDHEADER], undefined);
     });
     (0, node_test_1.test)('active: apikey option still wins over the chain', async () => {
         process.env[ENVPREFIX + 'APIKEY'] = 'ENVKEY01';
         const { sdk, fetchdef } = await prepared(Object.assign({ apikey: 'OPTKEY01' }, envchain()));
-        credentialIs(fetchdef.headers['authorization'], 'OPTKEY01');
+        credentialIs(fetchdef.headers[CREDHEADER], 'OPTKEY01');
         // The explicit option is a real store, not a special case: a directed
         // read names it like any other.
         node_assert_1.default.equal(await sdk.secrets().getfrom('options', 'apikey'), 'OPTKEY01');
@@ -56,25 +65,25 @@ function envchain(extra) {
     (0, node_test_1.test)('active: an OMITTED apikey defers to the chain', async () => {
         process.env[ENVPREFIX + 'APIKEY'] = 'ENVKEY01';
         const { fetchdef } = await prepared(envchain());
-        credentialIs(fetchdef.headers['authorization'], 'ENVKEY01');
+        credentialIs(fetchdef.headers[CREDHEADER], 'ENVKEY01');
     });
     (0, node_test_1.test)('active: an explicitly EMPTY apikey also defers to the chain', async () => {
         process.env[ENVPREFIX + 'APIKEY'] = 'ENVKEY01';
         const { fetchdef } = await prepared(Object.assign({ apikey: '' }, envchain()));
-        credentialIs(fetchdef.headers['authorization'], 'ENVKEY01');
+        credentialIs(fetchdef.headers[CREDHEADER], 'ENVKEY01');
     });
     (0, node_test_1.test)('active: auth null suppresses the credential, chain or no chain', async () => {
         process.env[ENVPREFIX + 'APIKEY'] = 'ENVKEY01';
         const { sdk, fetchdef } = await prepared(Object.assign({ auth: null }, envchain()));
         // Nothing on the wire, even though the chain would have resolved.
-        node_assert_1.default.equal(fetchdef.headers['authorization'], undefined);
+        node_assert_1.default.equal(fetchdef.headers[CREDHEADER], undefined);
         // The suppression survives option validation rather than being
         // replaced by the optspec's default auth map.
         node_assert_1.default.equal(sdk.options().auth, null);
     });
     (0, node_test_1.test)('active: auth null suppresses an EXPLICIT apikey too', async () => {
         const { fetchdef } = await prepared(Object.assign({ apikey: 'OPTKEY01', auth: null }, envchain()));
-        node_assert_1.default.equal(fetchdef.headers['authorization'], undefined);
+        node_assert_1.default.equal(fetchdef.headers[CREDHEADER], undefined);
     });
     (0, node_test_1.test)('active: custom provider objects are accepted verbatim', async () => {
         const asked = [];
@@ -89,12 +98,12 @@ function envchain(extra) {
                 },
             },
         });
-        credentialIs(fetchdef.headers['authorization'], 'CUSTOM01');
+        credentialIs(fetchdef.headers[CREDHEADER], 'CUSTOM01');
         node_assert_1.default.deepEqual(asked, ['apikey']);
     });
     (0, node_test_1.test)('active: a miss everywhere leaves the header off', async () => {
         const { sdk, fetchdef } = await prepared(envchain());
-        node_assert_1.default.equal(fetchdef.headers['authorization'], undefined);
+        node_assert_1.default.equal(fetchdef.headers[CREDHEADER], undefined);
         node_assert_1.default.equal(sdk.options().apikey, '');
     });
     (0, node_test_1.test)('active: a provider ERROR is returned by prepare, not thrown', async () => {
@@ -139,7 +148,7 @@ function envchain(extra) {
         node_assert_1.default.ok(first instanceof Error, 'first attempt should surface the outage');
         const second = await sdk.prepare({ path: '/' });
         node_assert_1.default.ok(!(second instanceof Error), 'second attempt should recover, got ' + String(second));
-        credentialIs(second.headers['authorization'], 'RECOVERED01');
+        credentialIs(second.headers[CREDHEADER], 'RECOVERED01');
     });
     // `cache: false` is documented as "every resolve() asks the chain again".
     // Caching the settled promise made that a lie.
@@ -179,9 +188,9 @@ function envchain(extra) {
             },
         });
         const first = await sdk.prepare({ path: '/' });
-        node_assert_1.default.equal(first.headers['authorization'], undefined, 'the first resolve missed, so no credential should go out');
+        node_assert_1.default.equal(first.headers[CREDHEADER], undefined, 'the first resolve missed, so no credential should go out');
         const second = await sdk.prepare({ path: '/' });
-        credentialIs(second.headers['authorization'], 'LATEKEY');
+        credentialIs(second.headers[CREDHEADER], 'LATEKEY');
         node_assert_1.default.ok(1 < calls, 'the chain was asked once and the MISS cached: a secret that ' +
             'appears later can never be picked up');
     });
@@ -208,7 +217,7 @@ function envchain(extra) {
         process.env[ENVPREFIX + 'API_TOKEN'] = 'TOKKEY01';
         try {
             const { fetchdef } = await prepared(envchain({ name: 'api.token' }));
-            credentialIs(fetchdef.headers['authorization'], 'TOKKEY01');
+            credentialIs(fetchdef.headers[CREDHEADER], 'TOKKEY01');
         }
         finally {
             delete process.env[ENVPREFIX + 'API_TOKEN'];
@@ -285,7 +294,7 @@ function envchain(extra) {
         let issued = 0;
         let apicall = -1;
         const fetch = async (url, init) => {
-            calls.push({ url, init, auth: (init.headers || {})['authorization'] });
+            calls.push({ url, init, auth: (init.headers || {})[CREDHEADER] });
             if (url.endsWith('/' + (o.path || 'auth/token'))) {
                 if (true === o.tokenfails) {
                     return { status: 401, json: async () => ({ error: 'nope' }), headers: {} };
@@ -513,7 +522,7 @@ function envchain(extra) {
         await sdk.direct({ path: '/warmup' });
         const bought = stub.token().length;
         const feature = sdk._secrets;
-        const fetchdef = { headers: { authorization: 'Bearer STALE01' } };
+        const fetchdef = { headers: { [CREDHEADER]: 'Bearer STALE01' } };
         sdk._options.apikey = 'STALE01';
         let calls = 0;
         const inner = async () => {
@@ -529,12 +538,12 @@ function envchain(extra) {
         node_assert_1.default.equal(res.status, 200);
         node_assert_1.default.equal(calls, 2, 'the request was retried once');
         node_assert_1.default.equal(stub.token().length, bought, 'the retry must reuse the token another request already bought');
-        authIs({ auth: fetchdef.headers.authorization }, 'ACCESS09');
+        authIs({ auth: fetchdef.headers[CREDHEADER] }, 'ACCESS09');
     });
     (0, node_test_1.test)('exchange off leaves the feature exactly as it was', async () => {
         process.env[ENVPREFIX + 'APIKEY'] = 'PLAINKEY01';
         const { fetchdef } = await prepared(envchain());
-        credentialIs(fetchdef.headers['authorization'], 'PLAINKEY01');
+        credentialIs(fetchdef.headers[CREDHEADER], 'PLAINKEY01');
         delete process.env[ENVPREFIX + 'APIKEY'];
     });
     (0, node_test_1.test)('test mode buys nothing and needs no token endpoint', async () => {
@@ -555,7 +564,7 @@ function envchain(extra) {
         const fetchdef = await sdk.prepare({ path: '/' });
         node_assert_1.default.equal(stub.calls.length, 0, 'test mode must not do IO');
         // A deterministic placeholder, so offline suites need no configuration.
-        credentialIs(fetchdef.headers['authorization'], 'test-access_token');
+        credentialIs(fetchdef.headers[CREDHEADER], 'test-access_token');
     });
 });
 //# sourceMappingURL=Secrets.test.js.map

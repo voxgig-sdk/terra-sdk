@@ -205,6 +205,92 @@ const PLAN = [
     {
         "entity": "authentication",
         "accessor": "Authentication",
+        "op": "create",
+        "method": "POST",
+        "path": "/auth/generateAuthToken",
+        "action": "generate_auth_token",
+        "args": [],
+        "select": {
+            "reference_id": "user-42"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [
+            "reference_id"
+        ],
+        "queryArgs": [],
+        "auth": null,
+        "status": 200,
+        "sample": {
+            "status": "success",
+            "token": "250c68b9c21b78e40e7a3285a2d538d3bc24aabd3b4c76a782fb0a571ca4501d",
+            "expires_in": 180
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "authentication",
+        "accessor": "Authentication",
+        "op": "create",
+        "method": "POST",
+        "path": "/auth/generateWidgetSession",
+        "action": "widget_session",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [],
+        "queryArgs": [],
+        "auth": null,
+        "status": 200,
+        "sample": {
+            "session_id": "23dc2540-7139-44c6-8158-f81196e2cf2e",
+            "url": "https://widget.tryterra.co/session/344d475f-296a-489a-a88c-54183671dafd",
+            "status": "success",
+            "expires_in": 900,
+            "warnings": [
+                "x"
+            ]
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "authentication",
+        "accessor": "Authentication",
+        "op": "create",
+        "method": "POST",
+        "path": "/auth/tokens",
+        "args": [],
+        "select": {
+            "reference_id": "user-42"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [
+            "reference_id"
+        ],
+        "queryArgs": [],
+        "auth": null,
+        "status": 200,
+        "sample": {
+            "status": "success",
+            "token": "250c68b9c21b78e40e7a3285a2d538d3bc24aabd3b4c76a782fb0a571ca4501d",
+            "expires_in": 180
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "authentication",
+        "accessor": "Authentication",
         "op": "remove",
         "method": "DELETE",
         "path": "/auth/deauthenticateUser",
@@ -557,9 +643,77 @@ const PLAN = [
     {
         "entity": "lab_report",
         "accessor": "LabReport",
+        "op": "create",
+        "method": "POST",
+        "path": "/lab-reports",
+        "action": "legacy",
+        "args": [],
+        "select": {
+            "reference_id": "patient_456"
+        },
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [
+            "reference_id"
+        ],
+        "queryArgs": [],
+        "auth": null,
+        "status": 202,
+        "sample": {
+            "upload_id": "x",
+            "current_status": "x"
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "lab_report",
+        "accessor": "LabReport",
+        "op": "create",
+        "method": "POST",
+        "path": "/reports",
+        "args": [],
+        "select": {
+            "reference_id": "patient_456"
+        },
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [
+            "reference_id"
+        ],
+        "queryArgs": [],
+        "auth": null,
+        "status": 202,
+        "sample": {
+            "upload_id": "x",
+            "current_status": "x"
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "lab_report",
+        "accessor": "LabReport",
         "op": "load",
         "method": "GET",
         "path": "/lab-reports/{session_id}",
+        "action": "legacy",
         "args": [
             {
                 "name": "id",
@@ -695,6 +849,344 @@ const PLAN = [
                 "document_class": "x"
             }
         },
+        "idField": "id"
+    },
+    {
+        "entity": "lab_report",
+        "accessor": "LabReport",
+        "op": "load",
+        "method": "GET",
+        "path": "/lab-reports",
+        "action": "legacy",
+        "args": [],
+        "select": {
+            "cursor": "v1",
+            "limit": 50,
+            "reference_id": "v1",
+            "report_date_from": "v1",
+            "report_date_to": "v1",
+            "report_type": "dexa",
+            "upload_id": "v1",
+            "uploaded_at_from": "v1",
+            "uploaded_at_to": "v1"
+        },
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [
+            "limit",
+            "cursor",
+            "reference_id",
+            "report_type",
+            "upload_id",
+            "report_date_from",
+            "report_date_to",
+            "uploaded_at_from",
+            "uploaded_at_to"
+        ],
+        "queryArgs": [
+            {
+                "name": "cursor",
+                "wire": "cursor"
+            },
+            {
+                "name": "limit",
+                "wire": "limit"
+            },
+            {
+                "name": "reference_id",
+                "wire": "reference_id"
+            },
+            {
+                "name": "report_date_from",
+                "wire": "report_date_from"
+            },
+            {
+                "name": "report_date_to",
+                "wire": "report_date_to"
+            },
+            {
+                "name": "report_type",
+                "wire": "report_type"
+            },
+            {
+                "name": "upload_id",
+                "wire": "upload_id"
+            },
+            {
+                "name": "uploaded_at_from",
+                "wire": "uploaded_at_from"
+            },
+            {
+                "name": "uploaded_at_to",
+                "wire": "uploaded_at_to"
+            }
+        ],
+        "auth": null,
+        "status": 200,
+        "sample": {
+            "data": [
+                {
+                    "session_id": "x",
+                    "upload_id": "x",
+                    "reference_id": "x",
+                    "report_type": "lab",
+                    "current_status": "x",
+                    "uploaded_at": "2026-01-01T00:00:00Z",
+                    "updated_at": "2026-01-01T00:00:00Z",
+                    "report_date": "x",
+                    "report_time": "x",
+                    "collection_date": "x",
+                    "collection_time": "x",
+                    "report_locale": "x",
+                    "lab_name": "x",
+                    "patient_age_at_collection": 1,
+                    "patient_sex": "x",
+                    "input_bytes": 1,
+                    "results_count": 1,
+                    "output_bytes": 1,
+                    "file_count": 1,
+                    "status_history": [
+                        {
+                            "status": "x",
+                            "timestamp": "2026-01-01T00:00:00Z",
+                            "note": "x"
+                        }
+                    ],
+                    "results": [
+                        {
+                            "source": {},
+                            "biomarker": {},
+                            "measurement": {},
+                            "interpretation": {},
+                            "reference_ranges": []
+                        }
+                    ],
+                    "panels": [
+                        {
+                            "id": 1,
+                            "name": "x",
+                            "key": "x"
+                        }
+                    ],
+                    "report_notes": "x",
+                    "error": {
+                        "code": "x",
+                        "message": "x",
+                        "retriable": true,
+                        "document_class": "x"
+                    }
+                }
+            ],
+            "has_more": true,
+            "next_cursor": "x"
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "lab_report",
+        "accessor": "LabReport",
+        "op": "load",
+        "method": "GET",
+        "path": "/reports",
+        "args": [],
+        "select": {
+            "cursor": "v1",
+            "limit": 50,
+            "reference_id": "v1",
+            "report_date_from": "v1",
+            "report_date_to": "v1",
+            "report_type": "dexa",
+            "upload_id": "v1",
+            "uploaded_at_from": "v1",
+            "uploaded_at_to": "v1"
+        },
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [
+            "limit",
+            "cursor",
+            "reference_id",
+            "report_type",
+            "upload_id",
+            "report_date_from",
+            "report_date_to",
+            "uploaded_at_from",
+            "uploaded_at_to"
+        ],
+        "queryArgs": [
+            {
+                "name": "cursor",
+                "wire": "cursor"
+            },
+            {
+                "name": "limit",
+                "wire": "limit"
+            },
+            {
+                "name": "reference_id",
+                "wire": "reference_id"
+            },
+            {
+                "name": "report_date_from",
+                "wire": "report_date_from"
+            },
+            {
+                "name": "report_date_to",
+                "wire": "report_date_to"
+            },
+            {
+                "name": "report_type",
+                "wire": "report_type"
+            },
+            {
+                "name": "upload_id",
+                "wire": "upload_id"
+            },
+            {
+                "name": "uploaded_at_from",
+                "wire": "uploaded_at_from"
+            },
+            {
+                "name": "uploaded_at_to",
+                "wire": "uploaded_at_to"
+            }
+        ],
+        "auth": null,
+        "status": 200,
+        "sample": {
+            "data": [
+                {
+                    "session_id": "x",
+                    "upload_id": "x",
+                    "reference_id": "x",
+                    "report_type": "lab",
+                    "current_status": "x",
+                    "uploaded_at": "2026-01-01T00:00:00Z",
+                    "updated_at": "2026-01-01T00:00:00Z",
+                    "report_date": "x",
+                    "report_time": "x",
+                    "collection_date": "x",
+                    "collection_time": "x",
+                    "report_locale": "x",
+                    "lab_name": "x",
+                    "patient_age_at_collection": 1,
+                    "patient_sex": "x",
+                    "input_bytes": 1,
+                    "results_count": 1,
+                    "output_bytes": 1,
+                    "file_count": 1,
+                    "status_history": [
+                        {
+                            "status": "x",
+                            "timestamp": "2026-01-01T00:00:00Z",
+                            "note": "x"
+                        }
+                    ],
+                    "results": [
+                        {
+                            "source": {},
+                            "biomarker": {},
+                            "measurement": {},
+                            "interpretation": {},
+                            "reference_ranges": []
+                        }
+                    ],
+                    "panels": [
+                        {
+                            "id": 1,
+                            "name": "x",
+                            "key": "x"
+                        }
+                    ],
+                    "report_notes": "x",
+                    "error": {
+                        "code": "x",
+                        "message": "x",
+                        "retriable": true,
+                        "document_class": "x"
+                    }
+                }
+            ],
+            "has_more": true,
+            "next_cursor": "x"
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "lab_report",
+        "accessor": "LabReport",
+        "op": "remove",
+        "method": "DELETE",
+        "path": "/lab-reports/{session_id}",
+        "action": "legacy",
+        "args": [
+            {
+                "name": "id",
+                "wire": "session_id",
+                "value": "297405620317847552"
+            }
+        ],
+        "select": {},
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": null,
+        "status": 204,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "lab_report",
+        "accessor": "LabReport",
+        "op": "remove",
+        "method": "DELETE",
+        "path": "/reports/{session_id}",
+        "args": [
+            {
+                "name": "id",
+                "wire": "session_id",
+                "value": "297405620317847552"
+            }
+        ],
+        "select": {},
+        "headers": [
+            {
+                "name": "x_terra_version",
+                "wire": "X-Terra-Version",
+                "value": "h1"
+            }
+        ],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": null,
+        "status": 204,
+        "sample": null,
         "idField": "id"
     },
     {

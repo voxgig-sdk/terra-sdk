@@ -231,8 +231,11 @@ class SecretsFeature extends BaseFeature_1.BaseFeature {
             delete fetchdef.headers.authorization;
             return;
         }
+        // The header prepareAuth wrote: auth.name, lower-cased.
+        const name = "string" === typeof auth.name && "" !== auth.name ?
+            auth.name.toLowerCase() : "authorization";
         const prefix = auth.prefix;
-        fetchdef.headers.authorization = prefix ? prefix + " " + token : token;
+        fetchdef.headers[name] = prefix ? prefix + " " + token : token;
     }
 }
 exports.SecretsFeature = SecretsFeature;
