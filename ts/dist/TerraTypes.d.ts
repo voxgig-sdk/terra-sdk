@@ -5,7 +5,7 @@ export interface ActivityLoadMatch {
     start_date: any;
     to_webhook?: boolean;
     user_id: string;
-    with_sample?: boolean;
+    with_samples?: boolean;
 }
 export interface Athlete {
 }
@@ -50,7 +50,7 @@ export interface BodyLoadMatch {
     start_date: any;
     to_webhook?: boolean;
     user_id: string;
-    with_sample?: boolean;
+    with_samples?: boolean;
 }
 export interface BulkUserInfo {
     bulk_user_infos?: any[];
@@ -65,7 +65,7 @@ export interface DailyLoadMatch {
     start_date: any;
     to_webhook?: boolean;
     user_id: string;
-    with_sample?: boolean;
+    with_samples?: boolean;
 }
 export interface Integration {
     providers?: any[];
@@ -197,7 +197,7 @@ export interface MenstruationLoadMatch {
     start_date: any;
     to_webhook?: boolean;
     user_id: string;
-    with_sample?: boolean;
+    with_samples?: boolean;
 }
 export interface Nutrition {
 }
@@ -206,7 +206,7 @@ export interface NutritionLoadMatch {
     start_date: any;
     to_webhook?: boolean;
     user_id: string;
-    with_sample?: boolean;
+    with_samples?: boolean;
 }
 export interface PlannedWorkout {
     athlete_metrics: any;
@@ -245,7 +245,7 @@ export interface SleepLoadMatch {
     start_date: any;
     to_webhook?: boolean;
     user_id: string;
-    with_sample?: boolean;
+    with_samples?: boolean;
 }
 export interface User {
     max_page?: number;

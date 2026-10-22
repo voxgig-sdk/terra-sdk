@@ -20,7 +20,7 @@ const PLAN = [
             "user_id": "v1",
             "end_date": "v1",
             "to_webhook": "v1",
-            "with_sample": "v1"
+            "with_samples": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -52,7 +52,7 @@ const PLAN = [
                 "wire": "user_id"
             },
             {
-                "name": "with_sample",
+                "name": "with_samples",
                 "wire": "with_samples"
             }
         ],
@@ -331,7 +331,7 @@ const PLAN = [
             "user_id": "v1",
             "end_date": "v1",
             "to_webhook": "v1",
-            "with_sample": "v1"
+            "with_samples": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -363,7 +363,7 @@ const PLAN = [
                 "wire": "user_id"
             },
             {
-                "name": "with_sample",
+                "name": "with_samples",
                 "wire": "with_samples"
             }
         ],
@@ -445,7 +445,7 @@ const PLAN = [
             "user_id": "v1",
             "end_date": "v1",
             "to_webhook": "v1",
-            "with_sample": "v1"
+            "with_samples": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -477,7 +477,7 @@ const PLAN = [
                 "wire": "user_id"
             },
             {
-                "name": "with_sample",
+                "name": "with_samples",
                 "wire": "with_samples"
             }
         ],
@@ -1560,7 +1560,7 @@ const PLAN = [
             "user_id": "v1",
             "end_date": "v1",
             "to_webhook": "v1",
-            "with_sample": "v1"
+            "with_samples": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -1592,7 +1592,7 @@ const PLAN = [
                 "wire": "user_id"
             },
             {
-                "name": "with_sample",
+                "name": "with_samples",
                 "wire": "with_samples"
             }
         ],
@@ -1634,7 +1634,7 @@ const PLAN = [
             "user_id": "v1",
             "end_date": "v1",
             "to_webhook": "v1",
-            "with_sample": "v1"
+            "with_samples": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -1666,7 +1666,7 @@ const PLAN = [
                 "wire": "user_id"
             },
             {
-                "name": "with_sample",
+                "name": "with_samples",
                 "wire": "with_samples"
             }
         ],
@@ -1940,7 +1940,7 @@ const PLAN = [
             "user_id": "v1",
             "end_date": "v1",
             "to_webhook": "v1",
-            "with_sample": "v1"
+            "with_samples": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -1972,7 +1972,7 @@ const PLAN = [
                 "wire": "user_id"
             },
             {
-                "name": "with_sample",
+                "name": "with_samples",
                 "wire": "with_samples"
             }
         ],
