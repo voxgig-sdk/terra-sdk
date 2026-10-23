@@ -25,7 +25,7 @@ class LabReportEntityTest < Minitest::Test
     end
     client = TerraSDK.test(nil, { "feature" => { "validate" => { "active" => true } } })
     err = assert_raises(StandardError) do
-      client.LabReport(nil).load({ "cursor" => 1 }, nil)
+      client.LabReport(nil).remove({ "id" => 1 }, nil)
     end
     assert_equal "validate_failed", err.code
   end
@@ -34,7 +34,7 @@ class LabReportEntityTest < Minitest::Test
     setup = lab_report_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
     _live = setup[:live] || false
-    ["create", "load", "remove"].each do |_op|
+    ["remove"].each do |_op|
       _should_skip, _reason = Runner.is_control_skipped("entityOp", "lab_report." + _op, _live ? "live" : "unit")
       if _should_skip
         skip(_reason || "skipped via sdk-test-control.json")
@@ -43,30 +43,13 @@ class LabReportEntityTest < Minitest::Test
     end
     client = setup[:client]
 
-    # CREATE
-    lab_report_ref01_ent = client.LabReport(nil)
-    lab_report_ref01_data = Helpers.to_map(Vs.getprop(
-      Vs.getpath(setup[:data], "new.lab_report"), "lab_report_ref01"))
-
-    lab_report_ref01_data_result = lab_report_ref01_ent.create(lab_report_ref01_data, nil)
-    lab_report_ref01_data = Helpers.to_map(lab_report_ref01_data_result.respond_to?(:data_get) ? lab_report_ref01_data_result.data_get : lab_report_ref01_data_result)
-    assert !lab_report_ref01_data.nil?
-    assert !lab_report_ref01_data["id"].nil?
-
-    # LOAD
-    lab_report_ref01_match_dt0 = {
-      "id" => lab_report_ref01_data["id"],
-    }
-    lab_report_ref01_data_dt0_loaded = lab_report_ref01_ent.load(lab_report_ref01_match_dt0, nil)
-    lab_report_ref01_data_dt0_load_result = Helpers.to_map(lab_report_ref01_data_dt0_loaded.respond_to?(:data_get) ? lab_report_ref01_data_dt0_loaded.data_get : lab_report_ref01_data_dt0_loaded)
-    assert !lab_report_ref01_data_dt0_load_result.nil?
-    assert_equal lab_report_ref01_data_dt0_load_result["id"], lab_report_ref01_data["id"]
-
-    # REMOVE
-    lab_report_ref01_match_rm0 = {
-      "id" => lab_report_ref01_data["id"],
-    }
-    lab_report_ref01_ent.remove(lab_report_ref01_match_rm0, nil)
+    # Bootstrap entity data from existing test data.
+    lab_report_ref01_data_raw = Vs.items(Helpers.to_map(
+      Vs.getpath(setup[:data], "existing.lab_report")))
+    lab_report_ref01_data = nil
+    if lab_report_ref01_data_raw.length > 0
+      lab_report_ref01_data = Helpers.to_map(lab_report_ref01_data_raw[0][1])
+    end
 
   end
 end

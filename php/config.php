@@ -950,31 +950,9 @@ class TerraConfig
         'lab_report' => [
           'fields' => [
             [
-              'name' => 'current_status',
-              'title' => 'Current Status',
-              'type' => '`$STRING`',
-              'req' => true,
-              'short' => 'Processing status as a clean lowercase string.',
-            ],
-            [
-              'name' => 'file',
-              'title' => 'File',
-              'type' => '`$STRING`',
-              'req' => true,
-              'short' => 'A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.',
-              'format' => 'binary',
-            ],
-            [
               'name' => 'id',
               'title' => 'Id',
               'type' => '`$STRING`',
-            ],
-            [
-              'name' => 'upload_id',
-              'title' => 'Upload Id',
-              'type' => '`$STRING`',
-              'req' => true,
-              'short' => 'Durable correlation key for the upload; every resulting session and webhook carries it.',
             ],
           ],
           'id' => [
@@ -1094,58 +1072,6 @@ class TerraConfig
                   'select' => [
                     '$action' => 'legacy',
                   ],
-                  'body' => [
-                    'fields' => [
-                      [
-                        'binary' => true,
-                        'name' => 'file',
-                      ],
-                    ],
-                    'kind' => 'multipart',
-                    'media' => 'multipart/form-data',
-                  ],
-                  'response' => [
-                    'kind' => 'json',
-                    'media' => 'application/json',
-                  ],
-                ],
-                [
-                  'kind' => 'http',
-                  'method' => 'POST',
-                  'orig' => '/reports',
-                  'segments' => [
-                    [
-                      'lit' => 'reports',
-                    ],
-                  ],
-                  'parts' => [
-                    'reports',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'header' => [
-                      [
-                        'name' => 'x_terra_version',
-                        'orig' => 'X-Terra-Version',
-                        'type' => '`$STRING`',
-                        'kind' => 'header',
-                      ],
-                    ],
-                    'query' => [
-                      [
-                        'name' => 'reference_id',
-                        'orig' => 'reference_id',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                        'example' => 'patient_456',
-                      ],
-                    ],
-                  ],
-                  'select' => [],
                   'body' => [
                     'fields' => [
                       [
@@ -1293,7 +1219,6 @@ class TerraConfig
                         'orig' => 'upload_id',
                         'type' => '`$STRING`',
                         'kind' => 'query',
-                        'field' => true,
                       ],
                       [
                         'name' => 'uploaded_at_from',
@@ -1312,98 +1237,6 @@ class TerraConfig
                   'select' => [
                     '$action' => 'legacy',
                   ],
-                  'response' => [
-                    'kind' => 'json',
-                    'media' => 'application/json',
-                  ],
-                ],
-                [
-                  'kind' => 'http',
-                  'method' => 'GET',
-                  'orig' => '/reports',
-                  'segments' => [
-                    [
-                      'lit' => 'reports',
-                    ],
-                  ],
-                  'parts' => [
-                    'reports',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'header' => [
-                      [
-                        'name' => 'x_terra_version',
-                        'orig' => 'X-Terra-Version',
-                        'type' => '`$STRING`',
-                        'kind' => 'header',
-                      ],
-                    ],
-                    'query' => [
-                      [
-                        'name' => 'cursor',
-                        'orig' => 'cursor',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                      ],
-                      [
-                        'name' => 'limit',
-                        'orig' => 'limit',
-                        'type' => '`$INTEGER`',
-                        'kind' => 'query',
-                        'example' => 50,
-                      ],
-                      [
-                        'name' => 'reference_id',
-                        'orig' => 'reference_id',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                      ],
-                      [
-                        'name' => 'report_date_from',
-                        'orig' => 'report_date_from',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                      ],
-                      [
-                        'name' => 'report_date_to',
-                        'orig' => 'report_date_to',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                      ],
-                      [
-                        'name' => 'report_type',
-                        'orig' => 'report_type',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                        'example' => 'dexa',
-                      ],
-                      [
-                        'name' => 'upload_id',
-                        'orig' => 'upload_id',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                        'field' => true,
-                      ],
-                      [
-                        'name' => 'uploaded_at_from',
-                        'orig' => 'uploaded_at_from',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                      ],
-                      [
-                        'name' => 'uploaded_at_to',
-                        'orig' => 'uploaded_at_to',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                      ],
-                    ],
-                  ],
-                  'select' => [],
                   'response' => [
                     'kind' => 'json',
                     'media' => 'application/json',
@@ -1462,57 +1295,6 @@ class TerraConfig
                   ],
                   'select' => [
                     '$action' => 'legacy',
-                    'exist' => [
-                      'id',
-                    ],
-                  ],
-                ],
-                [
-                  'kind' => 'http',
-                  'method' => 'DELETE',
-                  'orig' => '/reports/{session_id}',
-                  'segments' => [
-                    [
-                      'lit' => 'reports',
-                    ],
-                    [
-                      'var' => 'id',
-                    ],
-                  ],
-                  'parts' => [
-                    'reports',
-                    '{id}',
-                  ],
-                  'rename' => [
-                    'param' => [
-                      'session_id' => 'id',
-                    ],
-                  ],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'header' => [
-                      [
-                        'name' => 'x_terra_version',
-                        'orig' => 'X-Terra-Version',
-                        'type' => '`$STRING`',
-                        'kind' => 'header',
-                      ],
-                    ],
-                    'params' => [
-                      [
-                        'name' => 'id',
-                        'orig' => 'session_id',
-                        'type' => '`$STRING`',
-                        'kind' => 'param',
-                        'reqd' => true,
-                        'example' => '297405620317847552',
-                      ],
-                    ],
-                  ],
-                  'select' => [
                     'exist' => [
                       'id',
                     ],
@@ -1889,6 +1671,14 @@ class TerraConfig
               'short' => 'Why the report failed: the same object the lab_report.failed webhook carries.',
             ],
             [
+              'name' => 'file',
+              'title' => 'File',
+              'type' => '`$STRING`',
+              'req' => true,
+              'short' => 'A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.',
+              'format' => 'binary',
+            ],
+            [
               'name' => 'file_count',
               'title' => 'File Count',
               'type' => '`$INTEGER`',
@@ -1993,6 +1783,13 @@ class TerraConfig
               'name' => 'upload_id',
               'title' => 'Upload Id',
               'type' => '`$STRING`',
+              'op' => [
+                'create' => [
+                  'req' => true,
+                  'type' => '`$STRING`',
+                ],
+              ],
+              'short' => 'Durable correlation key for the upload; every resulting session and webhook carries it.',
             ],
             [
               'name' => 'uploaded_at',
@@ -2071,6 +1868,59 @@ class TerraConfig
                     'media' => 'application/json',
                   ],
                 ],
+                [
+                  'kind' => 'http',
+                  'method' => 'POST',
+                  'orig' => '/reports',
+                  'segments' => [
+                    [
+                      'lit' => 'reports',
+                    ],
+                  ],
+                  'parts' => [
+                    'reports',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'header' => [
+                      [
+                        'name' => 'x_terra_version',
+                        'orig' => 'X-Terra-Version',
+                        'type' => '`$STRING`',
+                        'kind' => 'header',
+                      ],
+                    ],
+                    'query' => [
+                      [
+                        'name' => 'reference_id',
+                        'orig' => 'reference_id',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                        'example' => 'patient_456',
+                        'field' => true,
+                      ],
+                    ],
+                  ],
+                  'select' => [],
+                  'body' => [
+                    'fields' => [
+                      [
+                        'binary' => true,
+                        'name' => 'file',
+                      ],
+                    ],
+                    'kind' => 'multipart',
+                    'media' => 'multipart/form-data',
+                  ],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
               ],
             ],
             'load' => [
@@ -2126,6 +1976,153 @@ class TerraConfig
                   'response' => [
                     'kind' => 'json',
                     'media' => 'application/json',
+                  ],
+                ],
+                [
+                  'kind' => 'http',
+                  'method' => 'GET',
+                  'orig' => '/reports',
+                  'segments' => [
+                    [
+                      'lit' => 'reports',
+                    ],
+                  ],
+                  'parts' => [
+                    'reports',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'header' => [
+                      [
+                        'name' => 'x_terra_version',
+                        'orig' => 'X-Terra-Version',
+                        'type' => '`$STRING`',
+                        'kind' => 'header',
+                      ],
+                    ],
+                    'query' => [
+                      [
+                        'name' => 'cursor',
+                        'orig' => 'cursor',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'limit',
+                        'orig' => 'limit',
+                        'type' => '`$INTEGER`',
+                        'kind' => 'query',
+                        'example' => 50,
+                      ],
+                      [
+                        'name' => 'reference_id',
+                        'orig' => 'reference_id',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                        'field' => true,
+                      ],
+                      [
+                        'name' => 'report_date_from',
+                        'orig' => 'report_date_from',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'report_date_to',
+                        'orig' => 'report_date_to',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'report_type',
+                        'orig' => 'report_type',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                        'example' => 'dexa',
+                        'field' => true,
+                      ],
+                      [
+                        'name' => 'upload_id',
+                        'orig' => 'upload_id',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                        'field' => true,
+                      ],
+                      [
+                        'name' => 'uploaded_at_from',
+                        'orig' => 'uploaded_at_from',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                      [
+                        'name' => 'uploaded_at_to',
+                        'orig' => 'uploaded_at_to',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                      ],
+                    ],
+                  ],
+                  'select' => [],
+                  'response' => [
+                    'kind' => 'json',
+                    'media' => 'application/json',
+                  ],
+                ],
+              ],
+            ],
+            'remove' => [
+              'input' => 'data',
+              'name' => 'remove',
+              'points' => [
+                [
+                  'kind' => 'http',
+                  'method' => 'DELETE',
+                  'orig' => '/reports/{session_id}',
+                  'segments' => [
+                    [
+                      'lit' => 'reports',
+                    ],
+                    [
+                      'var' => 'session_id',
+                    ],
+                  ],
+                  'parts' => [
+                    'reports',
+                    '{session_id}',
+                  ],
+                  'rename' => [],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'header' => [
+                      [
+                        'name' => 'x_terra_version',
+                        'orig' => 'X-Terra-Version',
+                        'type' => '`$STRING`',
+                        'kind' => 'header',
+                      ],
+                    ],
+                    'params' => [
+                      [
+                        'name' => 'session_id',
+                        'orig' => 'session_id',
+                        'type' => '`$STRING`',
+                        'kind' => 'param',
+                        'reqd' => true,
+                        'example' => '297405620317847552',
+                      ],
+                    ],
+                  ],
+                  'select' => [
+                    'exist' => [
+                      'session_id',
+                    ],
                   ],
                 ],
               ],
@@ -2563,6 +2560,64 @@ class TerraConfig
                   'response' => [
                     'kind' => 'json',
                     'media' => 'application/json',
+                  ],
+                ],
+              ],
+            ],
+            'remove' => [
+              'input' => 'data',
+              'name' => 'remove',
+              'points' => [
+                [
+                  'kind' => 'http',
+                  'method' => 'DELETE',
+                  'orig' => '/plannedWorkouts/{planned_workout_id}',
+                  'segments' => [
+                    [
+                      'lit' => 'plannedWorkouts',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
+                  ],
+                  'parts' => [
+                    'plannedWorkouts',
+                    '{id}',
+                  ],
+                  'rename' => [
+                    'param' => [
+                      'planned_workout_id' => 'id',
+                    ],
+                  ],
+                  'transform' => [
+                    'req' => '`reqdata`',
+                    'res' => '`body`',
+                  ],
+                  'args' => [
+                    'params' => [
+                      [
+                        'name' => 'id',
+                        'orig' => 'planned_workout_id',
+                        'type' => '`$INTEGER`',
+                        'kind' => 'param',
+                        'reqd' => true,
+                      ],
+                    ],
+                    'query' => [
+                      [
+                        'name' => 'user_id',
+                        'orig' => 'user_id',
+                        'type' => '`$STRING`',
+                        'kind' => 'query',
+                        'reqd' => true,
+                      ],
+                    ],
+                  ],
+                  'select' => [
+                    'exist' => [
+                      'id',
+                      'user_id',
+                    ],
                   ],
                 ],
               ],
@@ -3120,54 +3175,6 @@ class TerraConfig
                 [
                   'kind' => 'http',
                   'method' => 'DELETE',
-                  'orig' => '/plannedWorkouts/{planned_workout_id}',
-                  'segments' => [
-                    [
-                      'lit' => 'plannedWorkouts',
-                    ],
-                    [
-                      'var' => 'planned_workout_id',
-                    ],
-                  ],
-                  'parts' => [
-                    'plannedWorkouts',
-                    '{planned_workout_id}',
-                  ],
-                  'rename' => [],
-                  'transform' => [
-                    'req' => '`reqdata`',
-                    'res' => '`body`',
-                  ],
-                  'args' => [
-                    'params' => [
-                      [
-                        'name' => 'planned_workout_id',
-                        'orig' => 'planned_workout_id',
-                        'type' => '`$INTEGER`',
-                        'kind' => 'param',
-                        'reqd' => true,
-                      ],
-                    ],
-                    'query' => [
-                      [
-                        'name' => 'user_id',
-                        'orig' => 'user_id',
-                        'type' => '`$STRING`',
-                        'kind' => 'query',
-                        'reqd' => true,
-                      ],
-                    ],
-                  ],
-                  'select' => [
-                    'exist' => [
-                      'planned_workout_id',
-                      'user_id',
-                    ],
-                  ],
-                ],
-                [
-                  'kind' => 'http',
-                  'method' => 'DELETE',
                   'orig' => '/workouts/{workout_id}',
                   'segments' => [
                     [
@@ -3215,11 +3222,7 @@ class TerraConfig
             ],
           ],
           'relations' => [
-            'ancestors' => [
-              [
-                '$.main.kit.entity.planned_workout',
-              ],
-            ],
+            'ancestors' => [],
           ],
         ],
       ],

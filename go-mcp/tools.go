@@ -19,7 +19,7 @@ type ListArgs struct {
 
 // LoadArgs is what an agent sends to terra_load.
 type LoadArgs struct {
-	Entity string         `json:"entity" jsonschema:"one of: activity | athlete | body | daily | lab_report | lab_report_session | menstruation | nutrition | planned_workout | sleep | user | workout"`
+	Entity string         `json:"entity" jsonschema:"one of: activity | athlete | body | daily | lab_report_session | menstruation | nutrition | planned_workout | sleep | user | workout"`
 	Query  map[string]any `json:"query" jsonschema:"match map naming the record, such as {\"id\":1}"`
 }
 
@@ -36,7 +36,7 @@ func registerTools(server *mcp.Server, client *sdk.TerraSDK) {
 		Name:        "terra_load",
 		Description: "Load one record from Terra. Args: entity, query (match map naming the record, such as {\"id\":1}). Returns the record as JSON.",
 		Annotations: &mcp.ToolAnnotations{ReadOnlyHint: true},
-		InputSchema: entitySchema[LoadArgs]("activity", "athlete", "body", "daily", "lab_report", "lab_report_session", "menstruation", "nutrition", "planned_workout", "sleep", "user", "workout"),
+		InputSchema: entitySchema[LoadArgs]("activity", "athlete", "body", "daily", "lab_report_session", "menstruation", "nutrition", "planned_workout", "sleep", "user", "workout"),
 	}, func(ctx context.Context, req *mcp.CallToolRequest, args LoadArgs) (*mcp.CallToolResult, any, error) {
 		return runOp(ctx, client, "load", args.Entity, args.Query)
 	})

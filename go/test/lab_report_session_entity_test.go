@@ -53,20 +53,13 @@ func TestLabReportSessionEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "load"} {
+		for _, _op := range []string{"create", "load", "remove"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "lab_report_session." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
 				}
 				t.Skip(_reason)
 				return
-			}
-		}
-		if setup.live {
-			for _, _liveKey := range []string{"session01"} {
-				if setup.syntheticOnly || setup.idmap[_liveKey] == nil {
-					liveMiss(t, lab_report_sessionEntityLiveStrict, "Live entity test blocked: needs %s via TERRA_TEST_LAB_REPORT_SESSION_ENTID", _liveKey)
-				}
 			}
 		}
 		client := setup.client
@@ -76,7 +69,6 @@ func TestLabReportSessionEntity(t *testing.T) {
 		labReportSessionRef01Ent := client.LabReportSession(nil)
 		labReportSessionRef01Data := core.ToMapAny(vs.GetProp(
 			vs.GetPath(setup.data, []any{"new", "lab_report_session"}), "lab_report_session_ref01"))
-		labReportSessionRef01Data["session_id"] = setup.idmap["session01"]
 
 		labReportSessionRef01DataResult, err := labReportSessionRef01Ent.Create(labReportSessionRef01Data, nil)
 		if err != nil {
@@ -96,6 +88,7 @@ func TestLabReportSessionEntity(t *testing.T) {
 		if labReportSessionRef01DataDt0Loaded == nil {
 			t.Fatal("expected load result to be non-nil")
 		}
+
 
 	})
 }
@@ -125,7 +118,7 @@ func lab_report_sessionBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"lab_report_session01", "lab_report_session02", "lab_report_session03", "session01"},
+		[]any{"lab_report_session01", "lab_report_session02", "lab_report_session03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",

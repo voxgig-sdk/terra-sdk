@@ -15,12 +15,9 @@
 <a href="../api/integration.html">Integration</a>
 <a aria-current="page" href="../api/lab_report.html">LabReport</a><div class="nav-sections"><a class="nav-section" href="#post-lab-reportssession_idreprocess">POST /lab-reports/{session_id}/reprocess</a>
 <a class="nav-section" href="#post-lab-reports">POST /lab-reports</a>
-<a class="nav-section" href="#post-reports">POST /reports</a>
 <a class="nav-section" href="#get-lab-reportssession_id">GET /lab-reports/{session_id}</a>
 <a class="nav-section" href="#get-lab-reports">GET /lab-reports</a>
-<a class="nav-section" href="#get-reports">GET /reports</a>
-<a class="nav-section" href="#delete-lab-reportssession_id">DELETE /lab-reports/{session_id}</a>
-<a class="nav-section" href="#delete-reportssession_id">DELETE /reports/{session_id}</a></div>
+<a class="nav-section" href="#delete-lab-reportssession_id">DELETE /lab-reports/{session_id}</a></div>
 <a href="../api/lab_report_delivery.html">LabReportDelivery</a>
 <a href="../api/lab_report_file.html">LabReportFile</a>
 <a href="../api/lab_report_session.html">LabReportSession</a>
@@ -76,12 +73,6 @@
 <td>Upload accepted for processing</td>
 </tr>
 <tr>
-<td><code>POST</code></td>
-<td><a href="#post-reports"><code>/reports</code></a></td>
-<td><code>create</code></td>
-<td>Upload accepted for processing</td>
-</tr>
-<tr>
 <td><code>GET</code></td>
 <td><a href="#get-lab-reportssession_id"><code>/lab-reports/{session_id}</code></a></td>
 <td><code>load</code></td>
@@ -94,20 +85,8 @@
 <td>One page of sessions, newest first (<code>LabReportListPage</code>). An environment served API version 2026-03-24 gets <code>LabReportListResponse</code> instead: up to 500 sessions in <code>sessions</code>, with <code>limit</code> and <code>cursor</code> ignored</td>
 </tr>
 <tr>
-<td><code>GET</code></td>
-<td><a href="#get-reports"><code>/reports</code></a></td>
-<td><code>load</code></td>
-<td>One page of sessions, newest first (<code>LabReportListPage</code>). An environment served API version 2026-03-24 gets <code>LabReportListResponse</code> instead: up to 500 sessions in <code>sessions</code>, with <code>limit</code> and <code>cursor</code> ignored</td>
-</tr>
-<tr>
 <td><code>DELETE</code></td>
 <td><a href="#delete-lab-reportssession_id"><code>/lab-reports/{session_id}</code></a></td>
-<td><code>remove</code></td>
-<td>The session was deleted</td>
-</tr>
-<tr>
-<td><code>DELETE</code></td>
-<td><a href="#delete-reportssession_id"><code>/reports/{session_id}</code></a></td>
 <td><code>remove</code></td>
 <td>The session was deleted</td>
 </tr>
@@ -117,17 +96,7 @@
 <p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
 <h3 id="golang">Golang</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
-<pre><code class="language-go">lab_report, err := client.LabReport(nil).Load(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(lab_report)
-created, err := client.LabReport(nil).Create(map[string]any{&quot;current_status&quot;: &quot;example&quot;, &quot;file&quot;: &quot;example&quot;, &quot;upload_id&quot;: &quot;example&quot;}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(created)
-removed, err := client.LabReport(nil).Remove(map[string]any{&quot;id&quot;: &quot;example&quot;}, nil)
+<pre><code class="language-go">removed, err := client.LabReport(nil).Remove(map[string]any{&quot;id&quot;: &quot;example_id&quot;}, nil)
 if err != nil {
     panic(err)
 }
@@ -135,33 +104,23 @@ fmt.Println(removed)
 </code></pre>
 <h3 id="lua">Lua</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
-<pre><code class="language-lua">local lab_report, err = client:LabReport():load()
-local created, err = client:LabReport():create({ current_status = &quot;example&quot;, file = &quot;example&quot;, upload_id = &quot;example&quot; })
-local removed, err = client:LabReport():remove({ id = &quot;example&quot; })
+<pre><code class="language-lua">local removed, err = client:LabReport():remove({ id = &quot;example_id&quot; })
 </code></pre>
 <h3 id="php">PHP</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
-<pre><code class="language-php">$lab_report = $client-&gt;LabReport()-&gt;load();
-$created = $client-&gt;LabReport()-&gt;create([&quot;current_status&quot; =&gt; &quot;example&quot;, &quot;file&quot; =&gt; &quot;example&quot;, &quot;upload_id&quot; =&gt; &quot;example&quot;]);
-$client-&gt;LabReport()-&gt;remove([&quot;id&quot; =&gt; &quot;example&quot;]);
+<pre><code class="language-php">$client-&gt;LabReport()-&gt;remove([&quot;id&quot; =&gt; &quot;example_id&quot;]);
 </code></pre>
 <h3 id="python">Python</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
-<pre><code class="language-py">lab_report = client.LabReport().load()
-created = client.LabReport().create({ &quot;current_status&quot;: &quot;example&quot;, &quot;file&quot;: &quot;example&quot;, &quot;upload_id&quot;: &quot;example&quot; })
-client.LabReport().remove({&quot;id&quot;: &quot;example&quot;})
+<pre><code class="language-py">client.LabReport().remove({&quot;id&quot;: &quot;example_id&quot;})
 </code></pre>
 <h3 id="ruby">Ruby</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
-<pre><code class="language-rb">lab_report = client.LabReport.load()
-created = client.LabReport.create({ &quot;current_status&quot; =&gt; &quot;example&quot;, &quot;file&quot; =&gt; &quot;example&quot;, &quot;upload_id&quot; =&gt; &quot;example&quot; })
-client.LabReport.remove({ &quot;id&quot; =&gt; &quot;example&quot; })
+<pre><code class="language-rb">client.LabReport.remove({ &quot;id&quot; =&gt; &quot;example_id&quot; })
 </code></pre>
 <h3 id="typescript">TypeScript</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
-<pre><code class="language-ts">const lab_report = await client.LabReport().load()
-const created = await client.LabReport().create({ current_status: &quot;example&quot;, file: &quot;example&quot;, upload_id: &quot;example&quot; })
-await client.LabReport().remove({ id: &quot;example&quot; })
+<pre><code class="language-ts">await client.LabReport().remove({ id: &quot;example_id&quot; })
 </code></pre>
 <h2 id="fields">Fields</h2>
 <table>
@@ -175,28 +134,10 @@ await client.LabReport().remove({ id: &quot;example&quot; })
 </thead>
 <tbody>
 <tr>
-<td><code>current_status</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>Processing status as a clean lowercase string.</td>
-</tr>
-<tr>
-<td><code>file</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.</td>
-</tr>
-<tr>
 <td><code>id</code></td>
 <td><code>string</code></td>
 <td>No</td>
 <td>Id</td>
-</tr>
-<tr>
-<td><code>upload_id</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>Durable correlation key for the upload; every resulting session and webhook carries it.</td>
 </tr>
 </tbody>
 </table>
@@ -935,356 +876,11 @@ await client.LabReport().remove({ id: &quot;example&quot; })
 </tr>
 </tbody>
 </table>
-<h3 id="post-reports" class="operation" data-method="post"><code>POST</code> /reports</h3>
-<p>Operation ID: <code>Reports_Upload</code>.</p>
-<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
-<h4 id="parameters-2">Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>In</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>X-Terra-Version</code></td>
-<td><code>header</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>The lab-reports API version to serve this request in, as a YYYY-MM-DD date: the newest version on or before it, or 2026-03-24 for an earlier date. Defaults to the environment's pinned version, else the latest. A malformed or future date is a 400 with code <code>invalid_api_version</code>.</td>
-</tr>
-<tr>
-<td><code>reference_id</code></td>
-<td><code>query</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Your external identifier for this report or patient.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="request-body-1">Request body</h4>
-<p><code>multipart/form-data</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>file</code></td>
-<td><code>string (binary)</code></td>
-<td>Yes</td>
-<td>A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. Repeat the <code>file</code> part, up to 20 times, to send a report's pages as separate files, in the order of the pages. At most 20 MB per file and 50 MB per upload, of which at most 22.5 MB PDF. Files are stored as uploaded, so a HEIC photo keeps its EXIF metadata, location included; strip it before uploading if that matters.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="responses-2">Responses</h4>
-<h5 id="202-upload-accepted-for-processing-1" class="status" data-status="2xx">202: Upload accepted for processing</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>current_status</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>Processing status as a clean lowercase string.</td>
-</tr>
-<tr>
-<td><code>upload_id</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>Durable correlation key for the upload; every resulting session and webhook carries it.</td>
-</tr>
-</tbody>
-</table>
-<h5 id="400-the-upload-was-refused-code-says-why-validation_failed-no-file-part-an-empty-file-a-part-without-a-filename-or-a-malformed-form-unsupported_file_type-a-file-is-not-a-pdf-or-a-supported-image-detail-names-the-type-its-contents-show-or-too_many_files-more-than-20-files-1" class="status" data-status="4xx">400: The upload was refused. <code>code</code> says why: <code>validation_failed</code> (no <code>file</code> part, an empty file, a part without a filename, or a malformed form), <code>unsupported_file_type</code> (a file is not a PDF or a supported image; <code>detail</code> names the type its contents show), or <code>too_many_files</code> (more than 20 files)</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;code&quot;: &quot;unsupported_file_type&quot;,
-  &quot;detail&quot;: &quot;file 0 is text/plain; upload a PDF or a PNG, JPEG, GIF, WebP or HEIC image&quot;,
-  &quot;instance&quot;: &quot;/api/v2/reports&quot;,
-  &quot;title&quot;: &quot;bad request&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h5 id="401-authentication-credentials-are-missing-or-invalid-2" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;unauthorized&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h5 id="403-the-credential-is-not-authorized-the-environment-is-disabled-or-the-required-product-entitlement-is-missing-2" class="status" data-status="4xx">403: The credential is not authorized, the environment is disabled, or the required product entitlement is missing</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<h5 id="413-code-payload_too_large-a-file-is-over-20-mb-the-upload-is-over-50-mb-in-total-or-its-pdfs-are-over-225-mb-together-more-than-can-be-read-as-one-report-1" class="status" data-status="4xx">413: <code>code: payload_too_large</code>: a file is over 20 MB, the upload is over 50 MB in total, or its PDFs are over 22.5 MB together, more than can be read as one report</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<h5 id="503-current-product-authorization-is-unavailable-retry-after-the-service-recovers-2" class="status" data-status="5xx">503: Current product authorization is unavailable; retry after the service recovers</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
 <h2 id="load">load</h2>
 <h3 id="get-lab-reportssession_id" class="operation" data-method="get"><code>GET</code> /lab-reports/{session_id}</h3>
 <p>Operation ID: <code>LabReports_Get</code>.</p>
 <p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
-<h4 id="parameters-3">Parameters</h4>
+<h4 id="parameters-2">Parameters</h4>
 <table>
 <thead>
 <tr>
@@ -1312,7 +908,7 @@ await client.LabReport().remove({ id: &quot;example&quot; })
 </tr>
 </tbody>
 </table>
-<h4 id="responses-3">Responses</h4>
+<h4 id="responses-2">Responses</h4>
 <h5 id="200-the-lab-report-session" class="status" data-status="2xx">200: The lab report session</h5>
 <p><code>application/json</code></p>
 <table>
@@ -1919,6 +1515,371 @@ await client.LabReport().remove({ id: &quot;example&quot; })
   &quot;type&quot;: &quot;about:blank&quot;
 }
 </code></pre>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-2" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The product checked by the authorization gate, when classified.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="403-the-credential-is-not-authorized-the-environment-is-disabled-or-the-required-product-entitlement-is-missing-2" class="status" data-status="4xx">403: The credential is not authorized, the environment is disabled, or the required product entitlement is missing</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The product checked by the authorization gate, when classified.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-1" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The product checked by the authorization gate, when classified.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="503-current-product-authorization-is-unavailable-retry-after-the-service-recovers-2" class="status" data-status="5xx">503: Current product authorization is unavailable; retry after the service recovers</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The product checked by the authorization gate, when classified.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="get-lab-reports" class="operation" data-method="get"><code>GET</code> /lab-reports</h3>
+<p>Operation ID: <code>LabReports_List</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-3">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X-Terra-Version</code></td>
+<td><code>header</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td>The lab-reports API version to serve this request in, as a YYYY-MM-DD date: the newest version on or before it, or 2026-03-24 for an earlier date. Defaults to the environment's pinned version, else the latest. A malformed or future date is a 400 with code <code>invalid_api_version</code>.</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td><code>query</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Page size; defaults to 50, and a larger value than 200 is served as 200. From API version 2026-10-21.</td>
+</tr>
+<tr>
+<td><code>cursor</code></td>
+<td><code>query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The previous page's <code>next_cursor</code>, sent with the same filters it was issued for; with different filters it is a 400 with code <code>validation_failed</code>. From API version 2026-10-21.</td>
+</tr>
+<tr>
+<td><code>reference_id</code></td>
+<td><code>query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Filter by your external reference ID.</td>
+</tr>
+<tr>
+<td><code>report_type</code></td>
+<td><code>query</code></td>
+<td><code>enum: lab, dexa</code></td>
+<td>No</td>
+<td>Return only sessions of this kind. Omit for both.</td>
+</tr>
+<tr>
+<td><code>upload_id</code></td>
+<td><code>query</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Filter by upload handle, returns every report from that upload.</td>
+</tr>
+<tr>
+<td><code>report_date_from</code></td>
+<td><code>query</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td>Lab report date lower bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
+</tr>
+<tr>
+<td><code>report_date_to</code></td>
+<td><code>query</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td>Lab report date upper bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
+</tr>
+<tr>
+<td><code>uploaded_at_from</code></td>
+<td><code>query</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td>Upload date lower bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
+</tr>
+<tr>
+<td><code>uploaded_at_to</code></td>
+<td><code>query</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td>Upload date upper bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-3">Responses</h4>
+<h5 id="200-one-page-of-sessions-newest-first-labreportlistpage-an-environment-served-api-version-2026-03-24-gets-labreportlistresponse-instead-up-to-500-sessions-in-sessions-with-limit-and-cursor-ignored" class="status" data-status="2xx">200: One page of sessions, newest first (<code>LabReportListPage</code>). An environment served API version 2026-03-24 gets <code>LabReportListResponse</code> instead: up to 500 sessions in <code>sessions</code>, with <code>limit</code> and <code>cursor</code> ignored</h5>
+<p><code>application/json</code></p>
+<p>The response is <code>object or object</code>.</p>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-2" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The product checked by the authorization gate, when classified.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;invalid start_date&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;bad request&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
 <h5 id="401-authentication-credentials-are-missing-or-invalid-3" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
 <p><code>application/problem+json</code></p>
 <table>
@@ -2027,7 +1988,7 @@ await client.LabReport().remove({ id: &quot;example&quot; })
 </tr>
 </tbody>
 </table>
-<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-1" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<h5 id="503-current-product-authorization-or-the-environment39s-api-version-pin-is-unavailable-code-authorization_unavailable-or-paging-is-briefly-unavailable-while-a-deploy-rolls-out-code-service_unavailable-retry" class="status" data-status="5xx">503: Current product authorization or the environment's API version pin is unavailable (code <code>authorization_unavailable</code>), or paging is briefly unavailable while a deploy rolls out (code <code>service_unavailable</code>). Retry</h5>
 <p><code>application/problem+json</code></p>
 <table>
 <thead>
@@ -2077,66 +2038,9 @@ await client.LabReport().remove({ id: &quot;example&quot; })
 </tr>
 </tbody>
 </table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;user not found&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;not found&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h5 id="503-current-product-authorization-is-unavailable-retry-after-the-service-recovers-3" class="status" data-status="5xx">503: Current product authorization is unavailable; retry after the service recovers</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="get-lab-reports" class="operation" data-method="get"><code>GET</code> /lab-reports</h3>
-<p>Operation ID: <code>LabReports_List</code>.</p>
+<h2 id="remove">remove</h2>
+<h3 id="delete-lab-reportssession_id" class="operation" data-method="delete"><code>DELETE</code> /lab-reports/{session_id}</h3>
+<p>Operation ID: <code>LabReports_Delete</code>.</p>
 <p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
 <h4 id="parameters-4">Parameters</h4>
 <table>
@@ -2158,75 +2062,17 @@ await client.LabReport().remove({ id: &quot;example&quot; })
 <td>The lab-reports API version to serve this request in, as a YYYY-MM-DD date: the newest version on or before it, or 2026-03-24 for an earlier date. Defaults to the environment's pinned version, else the latest. A malformed or future date is a 400 with code <code>invalid_api_version</code>.</td>
 </tr>
 <tr>
-<td><code>limit</code></td>
-<td><code>query</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td>Page size; defaults to 50, and a larger value than 200 is served as 200. From API version 2026-10-21.</td>
-</tr>
-<tr>
-<td><code>cursor</code></td>
-<td><code>query</code></td>
+<td><code>session_id</code></td>
+<td><code>path</code></td>
 <td><code>string</code></td>
-<td>No</td>
-<td>The previous page's <code>next_cursor</code>, sent with the same filters it was issued for; with different filters it is a 400 with code <code>validation_failed</code>. From API version 2026-10-21.</td>
-</tr>
-<tr>
-<td><code>reference_id</code></td>
-<td><code>query</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Filter by your external reference ID.</td>
-</tr>
-<tr>
-<td><code>report_type</code></td>
-<td><code>query</code></td>
-<td><code>enum: lab, dexa</code></td>
-<td>No</td>
-<td>Return only sessions of this kind. Omit for both.</td>
-</tr>
-<tr>
-<td><code>upload_id</code></td>
-<td><code>query</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Filter by upload handle, returns every report from that upload.</td>
-</tr>
-<tr>
-<td><code>report_date_from</code></td>
-<td><code>query</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>Lab report date lower bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
-</tr>
-<tr>
-<td><code>report_date_to</code></td>
-<td><code>query</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>Lab report date upper bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
-</tr>
-<tr>
-<td><code>uploaded_at_from</code></td>
-<td><code>query</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>Upload date lower bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
-</tr>
-<tr>
-<td><code>uploaded_at_to</code></td>
-<td><code>query</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>Upload date upper bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
+<td>Yes</td>
+<td>The session's snowflake ID.</td>
 </tr>
 </tbody>
 </table>
 <h4 id="responses-4">Responses</h4>
-<h5 id="200-one-page-of-sessions-newest-first-labreportlistpage-an-environment-served-api-version-2026-03-24-gets-labreportlistresponse-instead-up-to-500-sessions-in-sessions-with-limit-and-cursor-ignored" class="status" data-status="2xx">200: One page of sessions, newest first (<code>LabReportListPage</code>). An environment served API version 2026-03-24 gets <code>LabReportListResponse</code> instead: up to 500 sessions in <code>sessions</code>, with <code>limit</code> and <code>cursor</code> ignored</h5>
-<p><code>application/json</code></p>
-<p>The response is <code>object or object</code>.</p>
-<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-2" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
+<h5 id="204-the-session-was-deleted" class="status" data-status="2xx">204: The session was deleted</h5>
+<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-3" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
 <p><code>application/problem+json</code></p>
 <table>
 <thead>
@@ -2342,771 +2188,7 @@ await client.LabReport().remove({ id: &quot;example&quot; })
   &quot;type&quot;: &quot;about:blank&quot;
 }
 </code></pre>
-<h5 id="403-the-credential-is-not-authorized-the-environment-is-disabled-or-the-required-product-entitlement-is-missing-4" class="status" data-status="4xx">403: The credential is not authorized, the environment is disabled, or the required product entitlement is missing</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<h5 id="503-current-product-authorization-or-the-environment39s-api-version-pin-is-unavailable-code-authorization_unavailable-or-paging-is-briefly-unavailable-while-a-deploy-rolls-out-code-service_unavailable-retry" class="status" data-status="5xx">503: Current product authorization or the environment's API version pin is unavailable (code <code>authorization_unavailable</code>), or paging is briefly unavailable while a deploy rolls out (code <code>service_unavailable</code>). Retry</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="get-reports" class="operation" data-method="get"><code>GET</code> /reports</h3>
-<p>Operation ID: <code>Reports_List</code>.</p>
-<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
-<h4 id="parameters-5">Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>In</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>X-Terra-Version</code></td>
-<td><code>header</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>The lab-reports API version to serve this request in, as a YYYY-MM-DD date: the newest version on or before it, or 2026-03-24 for an earlier date. Defaults to the environment's pinned version, else the latest. A malformed or future date is a 400 with code <code>invalid_api_version</code>.</td>
-</tr>
-<tr>
-<td><code>limit</code></td>
-<td><code>query</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td>Page size; defaults to 50, and a larger value than 200 is served as 200. From API version 2026-10-21.</td>
-</tr>
-<tr>
-<td><code>cursor</code></td>
-<td><code>query</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The previous page's <code>next_cursor</code>, sent with the same filters it was issued for; with different filters it is a 400 with code <code>validation_failed</code>. From API version 2026-10-21.</td>
-</tr>
-<tr>
-<td><code>reference_id</code></td>
-<td><code>query</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Filter by your external reference ID.</td>
-</tr>
-<tr>
-<td><code>report_type</code></td>
-<td><code>query</code></td>
-<td><code>enum: lab, dexa</code></td>
-<td>No</td>
-<td>Return only sessions of this kind. Omit for both.</td>
-</tr>
-<tr>
-<td><code>upload_id</code></td>
-<td><code>query</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Filter by upload handle, returns every report from that upload.</td>
-</tr>
-<tr>
-<td><code>report_date_from</code></td>
-<td><code>query</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>Lab report date lower bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
-</tr>
-<tr>
-<td><code>report_date_to</code></td>
-<td><code>query</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>Lab report date upper bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
-</tr>
-<tr>
-<td><code>uploaded_at_from</code></td>
-<td><code>query</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>Upload date lower bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
-</tr>
-<tr>
-<td><code>uploaded_at_to</code></td>
-<td><code>query</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>Upload date upper bound (inclusive, ISO-8601 <code>YYYY-MM-DD</code>).</td>
-</tr>
-</tbody>
-</table>
-<h4 id="responses-5">Responses</h4>
-<h5 id="200-one-page-of-sessions-newest-first-labreportlistpage-an-environment-served-api-version-2026-03-24-gets-labreportlistresponse-instead-up-to-500-sessions-in-sessions-with-limit-and-cursor-ignored-1" class="status" data-status="2xx">200: One page of sessions, newest first (<code>LabReportListPage</code>). An environment served API version 2026-03-24 gets <code>LabReportListResponse</code> instead: up to 500 sessions in <code>sessions</code>, with <code>limit</code> and <code>cursor</code> ignored</h5>
-<p><code>application/json</code></p>
-<p>The response is <code>object or object</code>.</p>
-<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-3" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;invalid start_date&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;bad request&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h5 id="401-authentication-credentials-are-missing-or-invalid-5" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;unauthorized&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h5 id="403-the-credential-is-not-authorized-the-environment-is-disabled-or-the-required-product-entitlement-is-missing-5" class="status" data-status="4xx">403: The credential is not authorized, the environment is disabled, or the required product entitlement is missing</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<h5 id="503-current-product-authorization-or-the-environment39s-api-version-pin-is-unavailable-code-authorization_unavailable-or-paging-is-briefly-unavailable-while-a-deploy-rolls-out-code-service_unavailable-retry-1" class="status" data-status="5xx">503: Current product authorization or the environment's API version pin is unavailable (code <code>authorization_unavailable</code>), or paging is briefly unavailable while a deploy rolls out (code <code>service_unavailable</code>). Retry</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="remove">remove</h2>
-<h3 id="delete-lab-reportssession_id" class="operation" data-method="delete"><code>DELETE</code> /lab-reports/{session_id}</h3>
-<p>Operation ID: <code>LabReports_Delete</code>.</p>
-<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
-<h4 id="parameters-6">Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>In</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>X-Terra-Version</code></td>
-<td><code>header</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>The lab-reports API version to serve this request in, as a YYYY-MM-DD date: the newest version on or before it, or 2026-03-24 for an earlier date. Defaults to the environment's pinned version, else the latest. A malformed or future date is a 400 with code <code>invalid_api_version</code>.</td>
-</tr>
-<tr>
-<td><code>session_id</code></td>
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The session's snowflake ID.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="responses-6">Responses</h4>
-<h5 id="204-the-session-was-deleted" class="status" data-status="2xx">204: The session was deleted</h5>
-<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-4" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;invalid start_date&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;bad request&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h5 id="401-authentication-credentials-are-missing-or-invalid-6" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;unauthorized&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
 <h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-2" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;user not found&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;not found&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h3 id="delete-reportssession_id" class="operation" data-method="delete"><code>DELETE</code> /reports/{session_id}</h3>
-<p>Operation ID: <code>Reports_Delete</code>.</p>
-<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
-<h4 id="parameters-7">Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>In</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>X-Terra-Version</code></td>
-<td><code>header</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td>The lab-reports API version to serve this request in, as a YYYY-MM-DD date: the newest version on or before it, or 2026-03-24 for an earlier date. Defaults to the environment's pinned version, else the latest. A malformed or future date is a 400 with code <code>invalid_api_version</code>.</td>
-</tr>
-<tr>
-<td><code>session_id</code></td>
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The session's snowflake ID.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="responses-7">Responses</h4>
-<h5 id="204-the-session-was-deleted-1" class="status" data-status="2xx">204: The session was deleted</h5>
-<h5 id="400-one-or-more-parameters-is-malformed-the-detail-field-describes-the-specific-problem-5" class="status" data-status="4xx">400: One or more parameters is malformed. The <code>detail</code> field describes the specific problem</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;invalid start_date&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;bad request&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h5 id="401-authentication-credentials-are-missing-or-invalid-7" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
-<p><code>application/problem+json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
-</tr>
-<tr>
-<td><code>detail</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>A human-readable explanation specific to this occurrence of the problem.</td>
-</tr>
-<tr>
-<td><code>instance</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>The request path, including any query string, that produced this problem.</td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>The product checked by the authorization gate, when classified.</td>
-</tr>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
-</tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Example response:</p>
-<pre><code class="language-json">{
-  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
-  &quot;instance&quot;: &quot;/activity&quot;,
-  &quot;title&quot;: &quot;unauthorized&quot;,
-  &quot;type&quot;: &quot;about:blank&quot;
-}
-</code></pre>
-<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-3" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
 <p><code>application/problem+json</code></p>
 <table>
 <thead>

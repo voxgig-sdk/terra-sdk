@@ -38,7 +38,7 @@ func TestLabReportEntity(t *testing.T) {
 		client := sdk.TestSDK(nil, map[string]any{
 			"feature": map[string]any{"validate": map[string]any{"active": true}},
 		})
-		_, err := client.LabReport(nil).Load(map[string]any{"cursor": 1}, nil)
+		_, err := client.LabReport(nil).Remove(map[string]any{"id": 1}, nil)
 		if sdkerr, ok := err.(*core.TerraError); !ok || "validate_failed" != sdkerr.Code {
 			t.Fatalf("expected validate_failed, got %v", err)
 		}
@@ -53,7 +53,7 @@ func TestLabReportEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "load", "remove"} {
+		for _, _op := range []string{"remove"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "lab_report." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -65,47 +65,15 @@ func TestLabReportEntity(t *testing.T) {
 		client := setup.client
 		_ = client
 
-		// CREATE
-		labReportRef01Ent := client.LabReport(nil)
-		labReportRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath(setup.data, []any{"new", "lab_report"}), "lab_report_ref01"))
-
-		labReportRef01DataResult, err := labReportRef01Ent.Create(labReportRef01Data, nil)
-		if err != nil {
-			t.Fatalf("create failed: %v", err)
+		// Bootstrap entity data from existing test data (no create step in flow).
+		labReportRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.lab_report")))
+		var labReportRef01Data map[string]any
+		if len(labReportRef01DataRaw) > 0 {
+			labReportRef01Data = core.ToMapAny(labReportRef01DataRaw[0][1])
 		}
-		labReportRef01Data = core.ToMapAny(entityData(labReportRef01DataResult))
-		if labReportRef01Data == nil {
-			t.Fatal("expected create result to be a map")
-		}
-		if labReportRef01Data["id"] == nil {
-			t.Fatal("expected created entity to have an id")
-		}
-
-		// LOAD
-		labReportRef01MatchDt0 := map[string]any{
-			"id": labReportRef01Data["id"],
-		}
-		labReportRef01DataDt0Loaded, err := labReportRef01Ent.Load(labReportRef01MatchDt0, nil)
-		if err != nil {
-			t.Fatalf("load failed: %v", err)
-		}
-		labReportRef01DataDt0LoadResult := core.ToMapAny(entityData(labReportRef01DataDt0Loaded))
-		if labReportRef01DataDt0LoadResult == nil {
-			t.Fatal("expected load result to be a map")
-		}
-		if labReportRef01DataDt0LoadResult["id"] != labReportRef01Data["id"] {
-			t.Fatal("expected load result id to match")
-		}
-
-		// REMOVE
-		labReportRef01MatchRm0 := map[string]any{
-			"id": labReportRef01Data["id"],
-		}
-		_, err = labReportRef01Ent.Remove(labReportRef01MatchRm0, nil)
-		if err != nil {
-			t.Fatalf("remove failed: %v", err)
-		}
+		// Discard guards against Go's unused-var check when the flow's steps
+		// happen not to consume the bootstrap data (e.g. list-only flows).
+		_ = labReportRef01Data
 
 	})
 }

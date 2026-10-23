@@ -84,28 +84,14 @@
 ---@field status? string
 
 ---@class LabReport
----@field current_status string
----@field file string
 ---@field id? string
----@field upload_id string
 
 ---@class LabReportLoadMatch
----@field cursor? string
----@field limit? number
----@field reference_id? string
----@field report_date_from? string
----@field report_date_to? string
----@field report_type? string
----@field upload_id? string
----@field uploaded_at_from? string
----@field uploaded_at_to? string
+---@field id string
 
 ---@class LabReportCreateData
 ---@field reference_id? string
----@field current_status string
----@field file string
 ---@field id? string
----@field upload_id string
 
 ---@class LabReportRemoveMatch
 ---@field id string
@@ -135,6 +121,7 @@
 ---@field collection_time? string
 ---@field current_status string
 ---@field error table
+---@field file string
 ---@field file_count? number
 ---@field input_bytes? number
 ---@field lab_name? string
@@ -160,12 +147,12 @@
 ---@field session_id string
 
 ---@class LabReportSessionCreateData
----@field session_id string
----@field legacy_format? boolean
+---@field reference_id? string
 ---@field collection_date? string
 ---@field collection_time? string
 ---@field current_status string
 ---@field error table
+---@field file string
 ---@field file_count? number
 ---@field input_bytes? number
 ---@field lab_name? string
@@ -173,7 +160,6 @@
 ---@field panels? table
 ---@field patient_age_at_collection? number
 ---@field patient_sex? string
----@field reference_id? string
 ---@field report_date? string
 ---@field report_locale? string
 ---@field report_notes? string
@@ -181,10 +167,14 @@
 ---@field report_type string
 ---@field results? table
 ---@field results_count? number
+---@field session_id string
 ---@field status_history? table
 ---@field updated_at? string
----@field upload_id? string
+---@field upload_id string
 ---@field uploaded_at? string
+
+---@class LabReportSessionRemoveMatch
+---@field session_id string
 
 ---@class Menstruation
 
@@ -233,6 +223,10 @@
 ---@field id number
 ---@field user_id string
 ---@field planned_date? string
+
+---@class PlannedWorkoutRemoveMatch
+---@field id number
+---@field user_id string
 
 ---@class Sleep
 
@@ -308,8 +302,7 @@
 ---@field workout_id? string
 
 ---@class WorkoutRemoveMatch
----@field planned_workout_id number
----@field user_id string
+---@field id number
 
 local M = {}
 

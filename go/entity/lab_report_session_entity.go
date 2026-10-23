@@ -384,9 +384,43 @@ func (e *LabReportSessionEntity) Patch(_ map[string]any, _ map[string]any) (any,
 }
 
 
-func (e *LabReportSessionEntity) Remove(_ map[string]any, _ map[string]any) (any, error) {
-	return core.UnsupportedOp("remove", e.name)
+
+func (e *LabReportSessionEntity) Remove(reqmatch map[string]any, ctrl map[string]any) (any, error) {
+	utility := e.utility
+	ctx := utility.MakeContext(map[string]any{
+		"opname":   "remove",
+		"ctrl":     ctrl,
+		"match":    e.match,
+		"data":     e.data,
+		"reqmatch": reqmatch,
+	}, e.entctx)
+
+	return e.runOp(ctx, func() {
+		if ctx.Result != nil {
+			if ctx.Result.Resmatch != nil {
+				e.match = ctx.Result.Resmatch
+			}
+			if ctx.Result.Resdata != nil {
+				e.data = map[string]any{}
+				if data := core.ToMapAny(vs.Clone(ctx.Result.Resdata)); data != nil {
+					e.data = data
+				}
+			}
+		}
+	})
 }
+
+// RemoveTyped is the statically-typed variant of Remove: it takes an
+// LabReportSessionRemoveMatch and returns an LabReportSession. It delegates to the untyped
+// Remove (identical runtime) and converts at the typed boundary.
+func (e *LabReportSessionEntity) RemoveTyped(reqmatch LabReportSessionRemoveMatch, ctrl map[string]any) (LabReportSession, error) {
+	res, err := e.Remove(asMap(reqmatch), ctrl)
+	if err != nil {
+		return LabReportSession{}, err
+	}
+	return typedFrom[LabReportSession](res), nil
+}
+
 
 
 func (e *LabReportSessionEntity) runOp(ctx *core.Context, postDone func()) (out any, err error) {

@@ -2,32 +2,19 @@
   "existing": {
     "lab_report": {
       "LAB_REPORT00": {
-        "current_status": "s28",
-        "file": "s29",
-        "id": "LAB_REPORT00",
-        "upload_id": "UPLOAD01"
+        "id": "LAB_REPORT00"
       },
       "LAB_REPORT01": {
-        "current_status": "s50",
-        "file": "s51",
-        "id": "LAB_REPORT01",
-        "upload_id": "UPLOAD01"
+        "id": "LAB_REPORT01"
       },
       "LAB_REPORT02": {
-        "current_status": "s78",
-        "file": "s79",
-        "id": "LAB_REPORT02",
-        "upload_id": "UPLOAD01"
+        "id": "LAB_REPORT02"
       }
     }
   },
   "new": {
     "lab_report": {
-      "lab_report_ref01": {
-        "current_status": "sa0",
-        "file": "sa1",
-        "upload_id": "UPLOAD01"
-      }
+      "lab_report_ref01": {}
     }
   },
   "requests": {
@@ -37,11 +24,6 @@
       "source": "openapi3"
     },
     "POST /lab-reports": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
-    "POST /reports": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
@@ -56,17 +38,7 @@
       "version": 2,
       "source": "openapi3"
     },
-    "GET /reports": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
     "DELETE /lab-reports/{session_id}": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
-    "DELETE /reports/{session_id}": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

@@ -52,7 +52,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local integrations, err = client:Integration():list()
+local activity, err = client:Activity():load({ start_date = "example", user_id = "example" })
 if err then error(err) end
 ```
 
@@ -110,8 +110,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Integration():list()
--- result is an array of entities, one per mock record; err is set on failure
+local result, err = client:Activity():load({ start_date = "example", user_id = "example" })
+-- result is the entity; data_get() reads its mock record; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -329,10 +329,7 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `current_status` | Processing status as a clean lowercase string. |
-| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` |  |
-| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 Operations: Create, Load, Remove.
 
@@ -374,6 +371,7 @@ API path: `/lab-reports/{session_id}/files`
 | `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` |  |
 | `input_bytes` |  |
 | `lab_name` |  |
@@ -392,10 +390,10 @@ API path: `/lab-reports/{session_id}/files`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` |  |
 
-Operations: Create, Load.
+Operations: Create, Load, Remove.
 
 API path: `/reports/{session_id}/reprocess`
 
@@ -436,7 +434,7 @@ API path: `/nutrition`
 | `workout` | The workout body, as on the list. |
 | `workout_id` | Identifier of the source template. |
 
-Operations: List, Load, Update.
+Operations: List, Load, Remove, Update.
 
 API path: `/plannedWorkouts`
 
@@ -659,26 +657,7 @@ Create an instance: `local lab_report = client:LabReport(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `current_status` | `string` | Processing status as a clean lowercase string. |
-| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` |  |
-| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
-
-#### Example: Load
-
-```lua
-local lab_report, err = client:LabReport():load()
-```
-
-#### Example: Create
-
-```lua
-local lab_report, err = client:LabReport():create({
-  current_status = "example_current_status", -- string
-  file = "example_file", -- string
-  upload_id = "example_upload_id", -- string
-})
-```
 
 
 ### LabReportDelivery
@@ -745,6 +724,7 @@ Create an instance: `local lab_report_session = client:LabReportSession(nil)`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -754,6 +734,7 @@ Create an instance: `local lab_report_session = client:LabReportSession(nil)`
 | `collection_time` | `string` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `table` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `number` |  |
 | `input_bytes` | `number` |  |
 | `lab_name` | `string` |  |
@@ -772,7 +753,7 @@ Create an instance: `local lab_report_session = client:LabReportSession(nil)`
 | `session_id` | `string` |  |
 | `status_history` | `table` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load
@@ -785,10 +766,12 @@ local lab_report_session, err = client:LabReportSession():load({ session_id = "s
 
 ```lua
 local lab_report_session, err = client:LabReportSession():create({
-  session_id = "example_session_id", -- string
   current_status = "example_current_status", -- string
   error = {}, -- table
+  file = "example_file", -- string
   report_type = "example_report_type", -- string
+  session_id = "example_session_id", -- string
+  upload_id = "example_upload_id", -- string
 })
 ```
 
@@ -837,6 +820,7 @@ Create an instance: `local planned_workout = client:PlannedWorkout(nil)`
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1234,15 +1218,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local integration = client:Integration()
-integration:list()
+local activity = client:Activity()
+activity:load({ start_date = "example", user_id = "example" })
 
--- integration:data_get() now returns the integration data from the last list
--- integration:match_get() returns the last match criteria
+-- activity:data_get() now returns the activity data from the last load
+-- activity:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -81,6 +81,11 @@
       "version": 2,
       "source": "openapi3"
     },
+    "DELETE /plannedWorkouts/{planned_workout_id}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
     "PATCH /plannedWorkouts/{planned_workout_id}": {
       "provenance": "operation-contract",
       "version": 2,

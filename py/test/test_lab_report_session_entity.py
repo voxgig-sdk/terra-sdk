@@ -46,22 +46,17 @@ class TestLabReportSessionEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["create", "load"]:
+        for _op in ["create", "load", "remove"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "lab_report_session." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
-        if setup["live"]:
-            for _live_key in ["session01"]:
-                if setup.get("synthetic_only") or setup["idmap"].get(_live_key) is None:
-                    runner.live_miss(LIVE_STRICT, f"Live entity test blocked: needs {_live_key} via TERRA_TEST_LAB_REPORT_SESSION_ENTID")
         client = setup["client"]
 
         # CREATE
         lab_report_session_ref01_ent = client.LabReportSession(None)
         lab_report_session_ref01_data = helpers.to_map(vs.getprop(
             vs.getpath(setup["data"], "new.lab_report_session"), "lab_report_session_ref01"))
-        lab_report_session_ref01_data["session_id"] = setup["idmap"]["session01"]
 
         lab_report_session_ref01_data = helpers.to_map(runner.entity_data(lab_report_session_ref01_ent.create(lab_report_session_ref01_data, None)))
         assert lab_report_session_ref01_data is not None
@@ -70,6 +65,7 @@ class TestLabReportSessionEntity:
         lab_report_session_ref01_match_dt0 = {}
         lab_report_session_ref01_data_dt0_loaded = lab_report_session_ref01_ent.load(lab_report_session_ref01_match_dt0, None)
         assert lab_report_session_ref01_data_dt0_loaded is not None
+
 
 
 
@@ -89,7 +85,7 @@ def _lab_report_session_basic_setup(extra):
 
     # Generate idmap via transform.
     idmap = vs.transform(
-        ["lab_report_session01", "lab_report_session02", "lab_report_session03", "session01"],
+        ["lab_report_session01", "lab_report_session02", "lab_report_session03"],
         {
             "`$PACK`": ["", {
                 "`$KEY`": "`$COPY`",

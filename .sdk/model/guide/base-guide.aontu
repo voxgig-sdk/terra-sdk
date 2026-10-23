@@ -82,14 +82,6 @@ guide: {
       rename: param: "session_id": *"id"
       op: create: method: *POST
     }
-    path: "/reports": {
-      op: create: method: *POST
-      op: load: method: *GET
-    }
-    path: "/reports/{session_id}": {
-      rename: param: "session_id": *"id"
-      op: remove: method: *DELETE
-    }
   }
 
   entity: lab_report_delivery: {
@@ -117,8 +109,13 @@ guide: {
   }
 
   entity: lab_report_session: {
+    path: "/reports": {
+      op: create: method: *POST
+      op: load: method: *GET
+    }
     path: "/reports/{session_id}": {
       op: load: method: *GET
+      op: remove: method: *DELETE
     }
     path: "/reports/{session_id}/reprocess": {
       action: "reprocess": {}
@@ -146,6 +143,7 @@ guide: {
       rename: param: "planned_workout_id": *"id"
       op: load: method: *GET
       op: patch: method: *PATCH
+      op: remove: method: *DELETE
     }
   }
 
@@ -165,9 +163,6 @@ guide: {
   }
 
   entity: workout: {
-    path: "/plannedWorkouts/{planned_workout_id}": {
-      op: remove: method: *DELETE
-    }
     path: "/workouts": {
       op: create: method: *POST
       op: list: method: *GET

@@ -137,34 +137,20 @@ class IntegrationListMatch
 /** LabReport entity data model. */
 class LabReport
 {
-    public string $current_status;
-    public string $file;
     public ?string $id = null;
-    public string $upload_id;
 }
 
 /** Request payload for LabReport#load. */
 class LabReportLoadMatch
 {
-    public ?string $cursor = null;
-    public ?int $limit = null;
-    public ?string $reference_id = null;
-    public ?string $report_date_from = null;
-    public ?string $report_date_to = null;
-    public ?string $report_type = null;
-    public ?string $upload_id = null;
-    public ?string $uploaded_at_from = null;
-    public ?string $uploaded_at_to = null;
+    public string $id;
 }
 
 /** Request payload for LabReport#create. */
 class LabReportCreateData
 {
     public ?string $reference_id = null;
-    public string $current_status;
-    public string $file;
     public ?string $id = null;
-    public string $upload_id;
 }
 
 /** Request payload for LabReport#remove. */
@@ -212,6 +198,7 @@ class LabReportSession
     public ?string $collection_time = null;
     public string $current_status;
     public array $error;
+    public string $file;
     public ?int $file_count = null;
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
@@ -243,12 +230,12 @@ class LabReportSessionLoadMatch
 /** Request payload for LabReportSession#create. */
 class LabReportSessionCreateData
 {
-    public string $session_id;
-    public ?bool $legacy_format = null;
+    public ?string $reference_id = null;
     public ?string $collection_date = null;
     public ?string $collection_time = null;
     public string $current_status;
     public array $error;
+    public string $file;
     public ?int $file_count = null;
     public ?int $input_bytes = null;
     public ?string $lab_name = null;
@@ -256,7 +243,6 @@ class LabReportSessionCreateData
     public ?array $panels = null;
     public ?int $patient_age_at_collection = null;
     public ?string $patient_sex = null;
-    public ?string $reference_id = null;
     public ?string $report_date = null;
     public ?string $report_locale = null;
     public ?string $report_notes = null;
@@ -264,10 +250,17 @@ class LabReportSessionCreateData
     public string $report_type;
     public ?array $results = null;
     public ?int $results_count = null;
+    public string $session_id;
     public ?array $status_history = null;
     public ?string $updated_at = null;
-    public ?string $upload_id = null;
+    public string $upload_id;
     public ?string $uploaded_at = null;
+}
+
+/** Request payload for LabReportSession#remove. */
+class LabReportSessionRemoveMatch
+{
+    public string $session_id;
 }
 
 /** Menstruation entity data model. */
@@ -340,6 +333,13 @@ class PlannedWorkoutUpdateData
     public int $id;
     public string $user_id;
     public ?string $planned_date = null;
+}
+
+/** Request payload for PlannedWorkout#remove. */
+class PlannedWorkoutRemoveMatch
+{
+    public int $id;
+    public string $user_id;
 }
 
 /** Sleep entity data model. */
@@ -445,7 +445,6 @@ class WorkoutCreateData
 /** Request payload for Workout#remove. */
 class WorkoutRemoveMatch
 {
-    public int $planned_workout_id;
-    public string $user_id;
+    public int $id;
 }
 

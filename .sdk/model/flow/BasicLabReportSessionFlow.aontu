@@ -11,10 +11,6 @@ main: kit: flow: BasicLabReportSessionFlow:
         ref: "lab_report_session_ref01"
       }
 
-      m: {
-        session_id: "session01"
-      }
-
       o: "create"
     }
 
@@ -23,10 +19,6 @@ main: kit: flow: BasicLabReportSessionFlow:
         ref: "lab_report_session_ref01",
         srcdatavar: "lab_report_session_ref01_data",
         suffix: "_dt0"
-      }
-
-      m: {
-        id: "lab_report_session01"
       }
 
       o: "load",
@@ -38,6 +30,19 @@ main: kit: flow: BasicLabReportSessionFlow:
           }
         }
       ]
+    }
+
+    {
+      i: {
+        ref: "lab_report_session_ref01",
+        suffix: "_rm0"
+      }
+
+      m: {
+        id: "lab_report_session01"
+      }
+
+      o: "remove"
     }
   ],
   "key$": "BasicLabReportSessionFlow"

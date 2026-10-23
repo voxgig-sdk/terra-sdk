@@ -82,10 +82,7 @@ SDK operations: `create`, `load`, `remove`.
 
 Key fields to recognise:
 
-- `current_status`: Processing status as a clean lowercase string.
-- `file`: A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.
 - `id`: Report-local ordinal; matches LabReportBiomarker.`panel_id`.
-- `upload_id`: Durable correlation key for the upload; every resulting session and webhook carries it.
 
 ### [LabReportDelivery](docs/api/lab_report_delivery.html)
 
@@ -112,17 +109,17 @@ Key fields to recognise:
 
 ### [LabReportSession](docs/api/lab_report_session.html)
 
-Results: Reprocessing accepted.; The lab report session.
+Results: Reprocessing accepted.; Upload accepted for processing.; The lab report session.; One page of sessions, newest first (`LabReportListPage`). An environment served API version 2026-03-24 gets `LabReportListResponse` instead: up to 500 sessions in `sessions`, with `limit` and `cursor` ignored.; The session was deleted.
 
-SDK operations: `create`, `load`.
+SDK operations: `create`, `load`, `remove`.
 
 Key fields to recognise:
 
 - `collection_date`: Date the sample was collected or the scan was taken (YYYY-MM-DD); omitted if not extracted.
 - `collection_time`: Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted.
-- `current_status`: Current status as a clean lowercase string (open enum, handle unknown values gracefully). In flight: processing, processed, standardizing, standardized, sending, and `retry_scheduled` (waiting to retry after a temporary model-provider error; the report is still being worked on). Terminal: sent, `partially_sent` (delivered to some destinations), `delivery_failed` (processed and results available, but no destination accepted the delivery), failed (see error), cancelled, deleted.
+- `current_status`: Processing status as a clean lowercase string.
 - `error`: Why the report failed: the same object the `lab_report`.failed webhook carries. Present only while `current_status` is failed.
-- `panels`: Report-level panels that results reference by `panel_id`. Omitted if the report has no panel grouping.
+- `file`: A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.
 
 ### [Menstruation](docs/api/menstruation.html)
 
@@ -138,9 +135,9 @@ SDK operations: `load`.
 
 ### [PlannedWorkout](docs/api/planned_workout.html)
 
-Results: Planned workouts for the connection; The planned workout; Updated planned workout.
+Results: Planned workouts for the connection; The planned workout; Planned workout deleted; Updated planned workout.
 
-SDK operations: `list`, `load`, `update`.
+SDK operations: `list`, `load`, `remove`, `update`.
 
 Key fields to recognise:
 
@@ -169,7 +166,7 @@ Key fields to recognise:
 
 ### [Workout](docs/api/workout.html)
 
-Results: Planned workout created and pushed (or queued for SDK delivery); Template stored; Stored templates, each including its `workout_id`; The stored template; Planned workout deleted; Template and all planned instances deleted; Some provider-side deletions failed; the template is retained. Retry to complete the cascade.
+Results: Planned workout created and pushed (or queued for SDK delivery); Template stored; Stored templates, each including its `workout_id`; The stored template; Template and all planned instances deleted; Some provider-side deletions failed; the template is retained. Retry to complete the cascade.
 
 SDK operations: `create`, `list`, `load`, `remove`.
 
@@ -201,22 +198,23 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | [Integration](docs/api/integration.html) | `list` | `GET /integrations/detailed` | Not required |
 | [LabReport](docs/api/lab_report.html) | `create` | `POST /lab-reports/{session_id}/reprocess` | Required |
 | [LabReport](docs/api/lab_report.html) | `create` | `POST /lab-reports` | Required |
-| [LabReport](docs/api/lab_report.html) | `create` | `POST /reports` | Required |
 | [LabReport](docs/api/lab_report.html) | `load` | `GET /lab-reports/{session_id}` | Required |
 | [LabReport](docs/api/lab_report.html) | `load` | `GET /lab-reports` | Required |
-| [LabReport](docs/api/lab_report.html) | `load` | `GET /reports` | Required |
 | [LabReport](docs/api/lab_report.html) | `remove` | `DELETE /lab-reports/{session_id}` | Required |
-| [LabReport](docs/api/lab_report.html) | `remove` | `DELETE /reports/{session_id}` | Required |
 | [LabReportDelivery](docs/api/lab_report_delivery.html) | `list` | `GET /lab-reports/{session_id}/deliveries` | Required |
 | [LabReportDelivery](docs/api/lab_report_delivery.html) | `list` | `GET /reports/{session_id}/deliveries` | Required |
 | [LabReportFile](docs/api/lab_report_file.html) | `list` | `GET /lab-reports/{session_id}/files` | Required |
 | [LabReportFile](docs/api/lab_report_file.html) | `list` | `GET /reports/{session_id}/files` | Required |
 | [LabReportSession](docs/api/lab_report_session.html) | `create` | `POST /reports/{session_id}/reprocess` | Required |
+| [LabReportSession](docs/api/lab_report_session.html) | `create` | `POST /reports` | Required |
 | [LabReportSession](docs/api/lab_report_session.html) | `load` | `GET /reports/{session_id}` | Required |
+| [LabReportSession](docs/api/lab_report_session.html) | `load` | `GET /reports` | Required |
+| [LabReportSession](docs/api/lab_report_session.html) | `remove` | `DELETE /reports/{session_id}` | Required |
 | [Menstruation](docs/api/menstruation.html) | `load` | `GET /menstruation` | Required |
 | [Nutrition](docs/api/nutrition.html) | `load` | `GET /nutrition` | Required |
 | [PlannedWorkout](docs/api/planned_workout.html) | `list` | `GET /plannedWorkouts` | Required |
 | [PlannedWorkout](docs/api/planned_workout.html) | `load` | `GET /plannedWorkouts/{planned_workout_id}` | Required |
+| [PlannedWorkout](docs/api/planned_workout.html) | `remove` | `DELETE /plannedWorkouts/{planned_workout_id}` | Required |
 | [PlannedWorkout](docs/api/planned_workout.html) | `update` | `PATCH /plannedWorkouts/{planned_workout_id}` | Required |
 | [Sleep](docs/api/sleep.html) | `load` | `GET /sleep` | Required |
 | [User](docs/api/user.html) | `list` | `GET /subscriptions` | Required |
@@ -225,7 +223,6 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | [Workout](docs/api/workout.html) | `create` | `POST /workouts` | Required |
 | [Workout](docs/api/workout.html) | `list` | `GET /workouts` | Required |
 | [Workout](docs/api/workout.html) | `load` | `GET /workouts/{workout_id}` | Required |
-| [Workout](docs/api/workout.html) | `remove` | `DELETE /plannedWorkouts/{planned_workout_id}` | Required |
 | [Workout](docs/api/workout.html) | `remove` | `DELETE /workouts/{workout_id}` | Required |
 
 ## Connect to the API

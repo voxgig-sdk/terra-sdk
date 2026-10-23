@@ -58,7 +58,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $integrations = $client->Integration()->list();
+    $activity = $client->Activity()->load(["start_date" => "example", "user_id" => "example"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -354,10 +354,7 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `current_status` | Processing status as a clean lowercase string. |
-| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` |  |
-| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 Operations: Create, Load, Remove.
 
@@ -399,6 +396,7 @@ API path: `/lab-reports/{session_id}/files`
 | `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` |  |
 | `input_bytes` |  |
 | `lab_name` |  |
@@ -417,10 +415,10 @@ API path: `/lab-reports/{session_id}/files`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` |  |
 
-Operations: Create, Load.
+Operations: Create, Load, Remove.
 
 API path: `/reports/{session_id}/reprocess`
 
@@ -461,7 +459,7 @@ API path: `/nutrition`
 | `workout` | The workout body, as on the list. |
 | `workout_id` | Identifier of the source template. |
 
-Operations: List, Load, Update.
+Operations: List, Load, Remove, Update.
 
 API path: `/plannedWorkouts`
 
@@ -689,27 +687,7 @@ Create an instance: `$lab_report = $client->LabReport();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `current_status` | `string` | Processing status as a clean lowercase string. |
-| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` |  |
-| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
-
-#### Example: Load
-
-```php
-// load() returns the ENTITY — call data_get() for the LabReport record (throws on error).
-$lab_report = $client->LabReport()->load();
-```
-
-#### Example: Create
-
-```php
-$lab_report = $client->LabReport()->create([
-    "current_status" => null, // string
-    "file" => null, // string
-    "upload_id" => null, // string
-]);
-```
 
 
 ### LabReportDelivery
@@ -778,6 +756,7 @@ Create an instance: `$lab_report_session = $client->LabReportSession();`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -787,6 +766,7 @@ Create an instance: `$lab_report_session = $client->LabReportSession();`
 | `collection_time` | `string` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `array` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `int` |  |
 | `input_bytes` | `int` |  |
 | `lab_name` | `string` |  |
@@ -805,7 +785,7 @@ Create an instance: `$lab_report_session = $client->LabReportSession();`
 | `session_id` | `string` |  |
 | `status_history` | `array` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load
@@ -819,10 +799,12 @@ $lab_report_session = $client->LabReportSession()->load(["session_id" => "sessio
 
 ```php
 $lab_report_session = $client->LabReportSession()->create([
-    "session_id" => null, // string
     "current_status" => null, // string
     "error" => null, // array
+    "file" => null, // string
     "report_type" => null, // string
+    "session_id" => null, // string
+    "upload_id" => null, // string
 ]);
 ```
 
@@ -873,6 +855,7 @@ Create an instance: `$planned_workout = $client->PlannedWorkout();`
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1277,15 +1260,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$integration = $client->Integration();
-$integration->list();
+$activity = $client->Activity();
+$activity->load(["start_date" => "example", "user_id" => "example"]);
 
-// $integration->data_get() now returns the integration data from the last list
-// $integration->match_get() returns the last match criteria
+// $activity->data_get() now returns the activity data from the last load
+// $activity->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

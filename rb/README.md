@@ -60,9 +60,9 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  integrations = client.Integration.list()
+  activity = client.Activity.load({ "start_date" => "example", "user_id" => "example" })
 rescue => err
-  warn "list failed: #{err}"
+  warn "load failed: #{err}"
 end
 ```
 
@@ -128,10 +128,10 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = TerraSDK.test
 
-# list returns an Array of Integration entities, one per mock record (raises on
-# error); data_get reads each record.
-integrations = client.Integration.list()
-integrations.each { |item| puts item.data_get }
+# Entity ops return the ENTITY (raises on error);
+# data_get reads its mock record.
+activity = client.Activity.load({ "start_date" => "example", "user_id" => "example" })
+puts activity.data_get
 ```
 
 ### Use a custom fetch function
@@ -346,10 +346,7 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `current_status` | Processing status as a clean lowercase string. |
-| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` |  |
-| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 Operations: Create, Load, Remove.
 
@@ -391,6 +388,7 @@ API path: `/lab-reports/{session_id}/files`
 | `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` |  |
 | `input_bytes` |  |
 | `lab_name` |  |
@@ -409,10 +407,10 @@ API path: `/lab-reports/{session_id}/files`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` |  |
 
-Operations: Create, Load.
+Operations: Create, Load, Remove.
 
 API path: `/reports/{session_id}/reprocess`
 
@@ -453,7 +451,7 @@ API path: `/nutrition`
 | `workout` | The workout body, as on the list. |
 | `workout_id` | Identifier of the source template. |
 
-Operations: List, Load, Update.
+Operations: List, Load, Remove, Update.
 
 API path: `/plannedWorkouts`
 
@@ -682,27 +680,7 @@ Create an instance: `lab_report = client.LabReport`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `current_status` | `String` | Processing status as a clean lowercase string. |
-| `file` | `String` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `String` |  |
-| `upload_id` | `String` | Durable correlation key for the upload; every resulting session and webhook carries it. |
-
-#### Example: Load
-
-```ruby
-# load returns the ENTITY — call data_get for the LabReport record (raises on error).
-lab_report = client.LabReport.load()
-```
-
-#### Example: Create
-
-```ruby
-lab_report = client.LabReport.create({
-  "current_status" => "example_current_status", # String
-  "file" => "example_file", # String
-  "upload_id" => "example_upload_id", # String
-})
-```
 
 
 ### LabReportDelivery
@@ -773,6 +751,7 @@ Create an instance: `lab_report_session = client.LabReportSession`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -782,6 +761,7 @@ Create an instance: `lab_report_session = client.LabReportSession`
 | `collection_time` | `String` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `String` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `Hash` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `String` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `Integer` |  |
 | `input_bytes` | `Integer` |  |
 | `lab_name` | `String` |  |
@@ -800,7 +780,7 @@ Create an instance: `lab_report_session = client.LabReportSession`
 | `session_id` | `String` |  |
 | `status_history` | `Array` |  |
 | `updated_at` | `String` |  |
-| `upload_id` | `String` |  |
+| `upload_id` | `String` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `String` |  |
 
 #### Example: Load
@@ -814,10 +794,12 @@ lab_report_session = client.LabReportSession.load({ "session_id" => "session_id"
 
 ```ruby
 lab_report_session = client.LabReportSession.create({
-  "session_id" => "example_session_id", # String
   "current_status" => "example_current_status", # String
   "error" => {}, # Hash
+  "file" => "example_file", # String
   "report_type" => "example_report_type", # String
+  "session_id" => "example_session_id", # String
+  "upload_id" => "example_upload_id", # String
 })
 ```
 
@@ -868,6 +850,7 @@ Create an instance: `planned_workout = client.PlannedWorkout`
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1275,15 +1258,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-integration = client.Integration
-integration.list()
+activity = client.Activity
+activity.load({ "start_date" => "example", "user_id" => "example" })
 
-# integration.data_get now returns the integration data from the last list
-# integration.match_get returns the last match criteria
+# activity.data_get now returns the activity data from the last load
+# activity.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

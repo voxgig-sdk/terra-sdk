@@ -517,10 +517,7 @@ local lab_report = client:LabReport(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `current_status` | `string` | Yes | Processing status as a clean lowercase string. |
-| `file` | `string` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` | No |  |
-| `upload_id` | `string` | Yes | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 ### Operations
 
@@ -528,30 +525,16 @@ local lab_report = client:LabReport(nil)
 
 Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
-```lua
-local result, err = client:LabReport():create({
-  current_status = --[[ string ]],
-  file = --[[ string ]],
-  upload_id = --[[ string ]],
-})
-```
-
-Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
-
 #### `load(reqmatch, ctrl) -> any, err`
 
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
-
-```lua
-local result, err = client:LabReport():load()
-```
 
 #### `remove(reqmatch, ctrl) -> any, err`
 
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:LabReport():remove({ id = "id" })
+local result, err = client:LabReport():remove({ id = "lab_report_id" })
 ```
 
 ### Common Methods
@@ -710,6 +693,7 @@ local lab_report_session = client:LabReportSession(nil)
 | `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `table` | Yes | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `string` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `number` | No |  |
 | `input_bytes` | `number` | No |  |
 | `lab_name` | `string` | No |  |
@@ -728,8 +712,38 @@ local lab_report_session = client:LabReportSession(nil)
 | `session_id` | `string` | Yes |  |
 | `status_history` | `table` | No |  |
 | `updated_at` | `string` | No |  |
-| `upload_id` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `collection_date` | - | - | - |
+| `collection_time` | - | - | - |
+| `current_status` | - | - | - |
+| `error` | - | - | - |
+| `file` | - | - | - |
+| `file_count` | - | - | - |
+| `input_bytes` | - | - | - |
+| `lab_name` | - | - | - |
+| `output_bytes` | - | - | - |
+| `panels` | - | - | - |
+| `patient_age_at_collection` | - | - | - |
+| `patient_sex` | - | - | - |
+| `reference_id` | - | - | - |
+| `report_date` | - | - | - |
+| `report_locale` | - | - | - |
+| `report_notes` | - | - | - |
+| `report_time` | - | - | - |
+| `report_type` | - | - | - |
+| `results` | - | - | - |
+| `results_count` | - | - | - |
+| `session_id` | - | - | - |
+| `status_history` | - | - | - |
+| `updated_at` | - | - | - |
+| `upload_id` | - | Yes | - |
+| `uploaded_at` | - | - | - |
 
 ### Operations
 
@@ -739,12 +753,16 @@ Create a new entity with the given data. Returns the created entity, or `nil` an
 
 ```lua
 local result, err = client:LabReportSession():create({
-  session_id = --[[ string ]],
   current_status = --[[ string ]],
   error = --[[ table ]],
+  file = --[[ string ]],
   report_type = --[[ string ]],
+  session_id = --[[ string ]],
+  upload_id = --[[ string ]],
 })
 ```
+
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
 
 #### `load(reqmatch, ctrl) -> any, err`
 
@@ -752,6 +770,14 @@ Load a single entity matching the given criteria. Returns the entity, whose reco
 
 ```lua
 local result, err = client:LabReportSession():load({ session_id = "session_id" })
+```
+
+#### `remove(reqmatch, ctrl) -> any, err`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
+
+```lua
+local result, err = client:LabReportSession():remove({ session_id = "session_id" })
 ```
 
 ### Common Methods
@@ -903,22 +929,22 @@ local planned_workout = client:PlannedWorkout(nil)
 
 ### Field Usage by Operation
 
-| Field | load | list | update |
-| --- | --- | --- | --- |
-| `athlete_metrics` | - | - | - |
-| `coercion_warnings` | - | Yes | - |
-| `completed_at` | - | Yes | - |
-| `created_at` | - | - | - |
-| `details` | - | - | - |
-| `id` | - | - | - |
-| `is_external` | - | Yes | - |
-| `last_updated_at` | - | - | - |
-| `planned_date` | - | Yes | Yes |
-| `planned_workout_id` | - | Yes | - |
-| `provider_workout_id` | - | Yes | - |
-| `warnings` | - | Yes | - |
-| `workout` | - | Yes | - |
-| `workout_id` | - | Yes | - |
+| Field | load | list | update | remove |
+| --- | --- | --- | --- | --- |
+| `athlete_metrics` | - | - | - | - |
+| `coercion_warnings` | - | Yes | - | - |
+| `completed_at` | - | Yes | - | - |
+| `created_at` | - | - | - | - |
+| `details` | - | - | - | - |
+| `id` | - | - | - | - |
+| `is_external` | - | Yes | - | - |
+| `last_updated_at` | - | - | - | - |
+| `planned_date` | - | Yes | Yes | - |
+| `planned_workout_id` | - | Yes | - | - |
+| `provider_workout_id` | - | Yes | - | - |
+| `warnings` | - | Yes | - | - |
+| `workout` | - | Yes | - | - |
+| `workout_id` | - | Yes | - | - |
 
 ### Operations
 
@@ -936,6 +962,14 @@ Load a single entity matching the given criteria. Returns the entity, whose reco
 
 ```lua
 local result, err = client:PlannedWorkout():load({ id = 1, user_id = "user_id" })
+```
+
+#### `remove(reqmatch, ctrl) -> any, err`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
+
+```lua
+local result, err = client:PlannedWorkout():remove({ id = 1, user_id = "user_id" })
 ```
 
 #### `update(reqdata, ctrl) -> any, err`
@@ -1150,7 +1184,7 @@ local result, err = client:Workout():load({ id = 1 })
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:Workout():remove({ planned_workout_id = 1, user_id = "user_id" })
+local result, err = client:Workout():remove({ id = 1 })
 ```
 
 ### Common Methods

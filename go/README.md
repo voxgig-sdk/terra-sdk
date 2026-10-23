@@ -70,12 +70,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-integrations, err := client.Integration(nil).List(nil, nil)
+activity, err := client.Activity(nil).Load(map[string]any{"start_date": "example", "user_id": "example"}, nil)
 if err != nil {
     // handle err
     return
 }
-_ = integrations
+_ = activity
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -139,16 +139,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-integrations, err := client.Integration(nil).List(
-    nil, nil,
+activity, err := client.Activity(nil).Load(
+    map[string]any{"start_date": "example", "user_id": "example"}, nil,
 )
 if err != nil {
     panic(err)
 }
-// A []any of entities, one per mock record.
-for _, item := range integrations.([]any) {
-    fmt.Println(item.(sdk.Entity).Data())
-}
+fmt.Println(activity.(sdk.Entity).Data()) // the entity's mock record
 ```
 
 ### Use a custom fetch function
@@ -365,10 +362,7 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `"current_status"` | Processing status as a clean lowercase string. |
-| `"file"` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `"id"` |  |
-| `"upload_id"` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 Operations: Create, Load, Remove.
 
@@ -410,6 +404,7 @@ API path: `/lab-reports/{session_id}/files`
 | `"collection_time"` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `"current_status"` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `"error"` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `"file"` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `"file_count"` |  |
 | `"input_bytes"` |  |
 | `"lab_name"` |  |
@@ -428,10 +423,10 @@ API path: `/lab-reports/{session_id}/files`
 | `"session_id"` |  |
 | `"status_history"` |  |
 | `"updated_at"` |  |
-| `"upload_id"` |  |
+| `"upload_id"` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `"uploaded_at"` |  |
 
-Operations: Create, Load.
+Operations: Create, Load, Remove.
 
 API path: `/reports/{session_id}/reprocess`
 
@@ -472,7 +467,7 @@ API path: `/nutrition`
 | `"workout"` | The workout body, as on the list. |
 | `"workout_id"` | Identifier of the source template. |
 
-Operations: List, Load, Update.
+Operations: List, Load, Remove, Update.
 
 API path: `/plannedWorkouts`
 
@@ -718,42 +713,13 @@ Create an instance: `labReport := client.LabReport(nil)`
 
 | Method | Description |
 | --- | --- |
-| `Load(match, ctrl)` | Load a single entity by match criteria. |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
 | `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `current_status` | `string` | Processing status as a clean lowercase string. |
-| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` |  |
-| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
-
-#### Example: Load
-
-```go
-labReport, err := client.LabReport(nil).Load(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(labReport.(sdk.Entity).Data()) // the loaded entity's record
-```
-
-#### Example: Create
-
-```go
-result, err := client.LabReport(nil).Create(map[string]any{
-    "current_status": "example_current_status",
-    "file": "example_file",
-    "upload_id": "example_upload_id",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
-```
 
 
 ### LabReportDelivery
@@ -834,6 +800,7 @@ Create an instance: `labReportSession := client.LabReportSession(nil)`
 | --- | --- |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
+| `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
@@ -843,6 +810,7 @@ Create an instance: `labReportSession := client.LabReportSession(nil)`
 | `collection_time` | `string` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `map[string]any` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `int` |  |
 | `input_bytes` | `int` |  |
 | `lab_name` | `string` |  |
@@ -861,7 +829,7 @@ Create an instance: `labReportSession := client.LabReportSession(nil)`
 | `session_id` | `string` |  |
 | `status_history` | `[]any` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load
@@ -878,10 +846,12 @@ fmt.Println(labReportSession.(sdk.Entity).Data()) // the loaded entity's record
 
 ```go
 result, err := client.LabReportSession(nil).Create(map[string]any{
-    "session_id": "example_session_id",
     "current_status": "example_current_status",
     "error": map[string]any{},
+    "file": "example_file",
     "report_type": "example_report_type",
+    "session_id": "example_session_id",
+    "upload_id": "example_upload_id",
 }, nil)
 if err != nil {
     panic(err)
@@ -943,6 +913,7 @@ Create an instance: `plannedWorkout := client.PlannedWorkout(nil)`
 | `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
 | `Update(data, ctrl)` | Update an existing entity. |
+| `Remove(match, ctrl)` | Remove the matching entity. |
 
 #### Fields
 
@@ -1378,15 +1349,15 @@ like `core.ToMapAny`.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `List`, the entity
+Entity instances are stateful. After a successful `Load`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-integration := client.Integration(nil)
-integration.List(nil, nil)
+activity := client.Activity(nil)
+activity.Load(map[string]any{"start_date": "example", "user_id": "example"}, nil)
 
-// integration.Data() now returns the integration data from the last list
-// integration.Match() returns the last match criteria
+// activity.Data() now returns the activity data from the last load
+// activity.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

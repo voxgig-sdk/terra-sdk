@@ -580,49 +580,16 @@ fmt.Println(labReport.GetName()) // "lab_report"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `current_status` | `string` | Yes | Processing status as a clean lowercase string. |
-| `file` | `string` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` | No |  |
-| `upload_id` | `string` | Yes | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 ### Operations
-
-#### `Load(reqmatch, ctrl map[string]any) (any, error)`
-
-Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
-
-```go
-result, err := client.LabReport(nil).Load(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data())
-```
-
-#### `Create(reqdata, ctrl map[string]any) (any, error)`
-
-Create a new entity with the given data. Returns the created entity; `err` is non-nil on failure.
-
-```go
-result, err := client.LabReport(nil).Create(map[string]any{
-    "current_status": "example_current_status",
-    "file": "example_file",
-    "upload_id": "example_upload_id",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data())
-```
-
-Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
 
 #### `Remove(reqmatch, ctrl map[string]any) (any, error)`
 
 Remove the entity matching the given criteria. Returns the entity, marked as deleted; `err` is non-nil on failure.
 
 ```go
-result, err := client.LabReport(nil).Remove(map[string]any{"id": "id"}, nil)
+result, err := client.LabReport(nil).Remove(map[string]any{"id": "lab_report_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -806,6 +773,7 @@ fmt.Println(labReportSession.GetName()) // "lab_report_session"
 | `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `map[string]any` | Yes | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `string` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `int` | No |  |
 | `input_bytes` | `int` | No |  |
 | `lab_name` | `string` | No |  |
@@ -824,8 +792,38 @@ fmt.Println(labReportSession.GetName()) // "lab_report_session"
 | `session_id` | `string` | Yes |  |
 | `status_history` | `[]any` | No |  |
 | `updated_at` | `string` | No |  |
-| `upload_id` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `collection_date` | - | - | - |
+| `collection_time` | - | - | - |
+| `current_status` | - | - | - |
+| `error` | - | - | - |
+| `file` | - | - | - |
+| `file_count` | - | - | - |
+| `input_bytes` | - | - | - |
+| `lab_name` | - | - | - |
+| `output_bytes` | - | - | - |
+| `panels` | - | - | - |
+| `patient_age_at_collection` | - | - | - |
+| `patient_sex` | - | - | - |
+| `reference_id` | - | - | - |
+| `report_date` | - | - | - |
+| `report_locale` | - | - | - |
+| `report_notes` | - | - | - |
+| `report_time` | - | - | - |
+| `report_type` | - | - | - |
+| `results` | - | - | - |
+| `results_count` | - | - | - |
+| `session_id` | - | - | - |
+| `status_history` | - | - | - |
+| `updated_at` | - | - | - |
+| `upload_id` | - | Yes | - |
+| `uploaded_at` | - | - | - |
 
 ### Operations
 
@@ -847,11 +845,27 @@ Create a new entity with the given data. Returns the created entity; `err` is no
 
 ```go
 result, err := client.LabReportSession(nil).Create(map[string]any{
-    "session_id": "example_session_id",
     "current_status": "example_current_status",
     "error": map[string]any{},
+    "file": "example_file",
     "report_type": "example_report_type",
+    "session_id": "example_session_id",
+    "upload_id": "example_upload_id",
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
+
+#### `Remove(reqmatch, ctrl map[string]any) (any, error)`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted; `err` is non-nil on failure.
+
+```go
+result, err := client.LabReportSession(nil).Remove(map[string]any{"session_id": "session_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -1024,22 +1038,22 @@ fmt.Println(plannedWorkout.GetName()) // "planned_workout"
 
 ### Field Usage by Operation
 
-| Field | load | list | update |
-| --- | --- | --- | --- |
-| `athlete_metrics` | - | - | - |
-| `coercion_warnings` | - | Yes | - |
-| `completed_at` | - | Yes | - |
-| `created_at` | - | - | - |
-| `details` | - | - | - |
-| `id` | - | - | - |
-| `is_external` | - | Yes | - |
-| `last_updated_at` | - | - | - |
-| `planned_date` | - | Yes | Yes |
-| `planned_workout_id` | - | Yes | - |
-| `provider_workout_id` | - | Yes | - |
-| `warnings` | - | Yes | - |
-| `workout` | - | Yes | - |
-| `workout_id` | - | Yes | - |
+| Field | load | list | update | remove |
+| --- | --- | --- | --- | --- |
+| `athlete_metrics` | - | - | - | - |
+| `coercion_warnings` | - | Yes | - | - |
+| `completed_at` | - | Yes | - | - |
+| `created_at` | - | - | - | - |
+| `details` | - | - | - | - |
+| `id` | - | - | - | - |
+| `is_external` | - | Yes | - | - |
+| `last_updated_at` | - | - | - | - |
+| `planned_date` | - | Yes | Yes | - |
+| `planned_workout_id` | - | Yes | - | - |
+| `provider_workout_id` | - | Yes | - | - |
+| `warnings` | - | Yes | - | - |
+| `workout` | - | Yes | - | - |
+| `workout_id` | - | Yes | - | - |
 
 ### Operations
 
@@ -1079,6 +1093,18 @@ result, err := client.PlannedWorkout(nil).Update(map[string]any{
     "user_id": "user_id",
     // Fields to update
 }, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+#### `Remove(reqmatch, ctrl map[string]any) (any, error)`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted; `err` is non-nil on failure.
+
+```go
+result, err := client.PlannedWorkout(nil).Remove(map[string]any{"id": 1, "user_id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -1322,7 +1348,7 @@ fmt.Println(result.(sdk.Entity).Data())
 Remove the entity matching the given criteria. Returns the entity, marked as deleted; `err` is non-nil on failure.
 
 ```go
-result, err := client.Workout(nil).Remove(map[string]any{"planned_workout_id": 1, "user_id": "user_id"}, nil)
+result, err := client.Workout(nil).Remove(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }

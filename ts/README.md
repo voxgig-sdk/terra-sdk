@@ -59,10 +59,10 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const integrations = await client.Integration().list()
-  console.log(integrations.map((item) => item.data()))
+  const activity = await client.Activity().load({ start_date: "example", user_id: "example" })
+  console.log(activity.data())
 } catch (err) {
-  console.error('list failed:', err)
+  console.error('load failed:', err)
 }
 ```
 
@@ -124,9 +124,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = TerraSDK.test()
 
-const integrations = await client.Integration().list()
-// integrations is an array of Integration entities, one per mock record
-console.log(integrations.map((integration) => integration.data()))
+const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
+// activity is the Activity entity; .data() reads its mock record
+console.log(activity.data())
 ```
 
 You can also use the instance method:
@@ -141,10 +141,10 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Integration()
+const entity = client.Activity()
 
 // First call runs the operation and stores its result
-await entity.list()
+await entity.load({ start_date: 'example_start_date', user_id: 'example_user_id' })
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -397,10 +397,7 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `current_status` | Processing status as a clean lowercase string. |
-| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` |  |
-| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 Operations: create, load, remove.
 
@@ -442,6 +439,7 @@ API path: `/lab-reports/{session_id}/files`
 | `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` |  |
 | `input_bytes` |  |
 | `lab_name` |  |
@@ -460,10 +458,10 @@ API path: `/lab-reports/{session_id}/files`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` |  |
 
-Operations: create, load.
+Operations: create, load, remove.
 
 API path: `/reports/{session_id}/reprocess`
 
@@ -504,7 +502,7 @@ API path: `/nutrition`
 | `workout` | The workout body, as on the list. |
 | `workout_id` | Identifier of the source template. |
 
-Operations: list, load, update.
+Operations: list, load, remove, update.
 
 API path: `/plannedWorkouts`
 
@@ -727,26 +725,7 @@ Create an instance: `const lab_report = client.LabReport()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `current_status` | `string` | Processing status as a clean lowercase string. |
-| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` |  |
-| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
-
-#### Example: Load
-
-```ts
-const lab_report = await client.LabReport().load()
-```
-
-#### Example: Create
-
-```ts
-const lab_report = await client.LabReport().create({
-  current_status: 'example_current_status',
-  file: 'example_file',
-  upload_id: 'example_upload_id',
-})
-```
 
 
 ### LabReportDelivery
@@ -813,6 +792,7 @@ Create an instance: `const lab_report_session = client.LabReportSession()`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -822,6 +802,7 @@ Create an instance: `const lab_report_session = client.LabReportSession()`
 | `collection_time` | `string` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `Record<string, any>` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `string` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `number` |  |
 | `input_bytes` | `number` |  |
 | `lab_name` | `string` |  |
@@ -840,7 +821,7 @@ Create an instance: `const lab_report_session = client.LabReportSession()`
 | `session_id` | `string` |  |
 | `status_history` | `any[]` |  |
 | `updated_at` | `string` |  |
-| `upload_id` | `string` |  |
+| `upload_id` | `string` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` |  |
 
 #### Example: Load
@@ -853,10 +834,12 @@ const lab_report_session = await client.LabReportSession().load({ session_id: 's
 
 ```ts
 const lab_report_session = await client.LabReportSession().create({
-  session_id: 'example_session_id',
   current_status: 'example_current_status',
   error: {},
+  file: 'example_file',
   report_type: 'example_report_type',
+  session_id: 'example_session_id',
+  upload_id: 'example_upload_id',
 })
 ```
 
@@ -905,6 +888,7 @@ Create an instance: `const planned_workout = client.PlannedWorkout()`
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1293,16 +1277,16 @@ import { TerraSDK } from '@voxgig-sdk/terra-sdk'
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const integration = client.Integration()
-await integration.list()
+const activity = client.Activity()
+await activity.load({ start_date: "example", user_id: "example" })
 
-// integration.data() now returns the integration data from the last `list`
-// integration.match() returns the last match criteria
+// activity.data() now returns the activity data from the last `load`
+// activity.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

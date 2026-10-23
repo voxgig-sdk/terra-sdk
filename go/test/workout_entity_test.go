@@ -306,7 +306,7 @@ func workoutBasicSetup(extra map[string]any) *entityTestSetup {
 
 	// Generate idmap via transform, matching TS pattern.
 	idmap, _ := vs.Transform(
-		[]any{"workout01", "workout02", "workout03", "planned_workout01", "planned_workout02", "planned_workout03"},
+		[]any{"workout01", "workout02", "workout03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
 				"`$KEY`": "`$COPY`",

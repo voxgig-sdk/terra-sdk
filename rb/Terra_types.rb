@@ -269,63 +269,19 @@ IntegrationListMatch = Struct.new(
 
 # LabReport entity data model.
 #
-# @!attribute [rw] current_status
-#   @return [String]
-#
-# @!attribute [rw] file
-#   @return [String]
-#
 # @!attribute [rw] id
 #   @return [String, nil]
-#
-# @!attribute [rw] upload_id
-#   @return [String]
 LabReport = Struct.new(
-  :current_status,
-  :file,
   :id,
-  :upload_id,
   keyword_init: true
 )
 
 # Request payload for LabReport#load.
 #
-# @!attribute [rw] cursor
-#   @return [String, nil]
-#
-# @!attribute [rw] limit
-#   @return [Integer, nil]
-#
-# @!attribute [rw] reference_id
-#   @return [String, nil]
-#
-# @!attribute [rw] report_date_from
-#   @return [String, nil]
-#
-# @!attribute [rw] report_date_to
-#   @return [String, nil]
-#
-# @!attribute [rw] report_type
-#   @return [String, nil]
-#
-# @!attribute [rw] upload_id
-#   @return [String, nil]
-#
-# @!attribute [rw] uploaded_at_from
-#   @return [String, nil]
-#
-# @!attribute [rw] uploaded_at_to
-#   @return [String, nil]
+# @!attribute [rw] id
+#   @return [String]
 LabReportLoadMatch = Struct.new(
-  :cursor,
-  :limit,
-  :reference_id,
-  :report_date_from,
-  :report_date_to,
-  :report_type,
-  :upload_id,
-  :uploaded_at_from,
-  :uploaded_at_to,
+  :id,
   keyword_init: true
 )
 
@@ -334,23 +290,11 @@ LabReportLoadMatch = Struct.new(
 # @!attribute [rw] reference_id
 #   @return [String, nil]
 #
-# @!attribute [rw] current_status
-#   @return [String]
-#
-# @!attribute [rw] file
-#   @return [String]
-#
 # @!attribute [rw] id
 #   @return [String, nil]
-#
-# @!attribute [rw] upload_id
-#   @return [String]
 LabReportCreateData = Struct.new(
   :reference_id,
-  :current_status,
-  :file,
   :id,
-  :upload_id,
   keyword_init: true
 )
 
@@ -445,6 +389,9 @@ LabReportFileListMatch = Struct.new(
 # @!attribute [rw] error
 #   @return [Hash]
 #
+# @!attribute [rw] file
+#   @return [String]
+#
 # @!attribute [rw] file_count
 #   @return [Integer, nil]
 #
@@ -509,6 +456,7 @@ LabReportSession = Struct.new(
   :collection_time,
   :current_status,
   :error,
+  :file,
   :file_count,
   :input_bytes,
   :lab_name,
@@ -543,11 +491,8 @@ LabReportSessionLoadMatch = Struct.new(
 
 # Request payload for LabReportSession#create.
 #
-# @!attribute [rw] session_id
-#   @return [String]
-#
-# @!attribute [rw] legacy_format
-#   @return [Boolean, nil]
+# @!attribute [rw] reference_id
+#   @return [String, nil]
 #
 # @!attribute [rw] collection_date
 #   @return [String, nil]
@@ -560,6 +505,9 @@ LabReportSessionLoadMatch = Struct.new(
 #
 # @!attribute [rw] error
 #   @return [Hash]
+#
+# @!attribute [rw] file
+#   @return [String]
 #
 # @!attribute [rw] file_count
 #   @return [Integer, nil]
@@ -580,9 +528,6 @@ LabReportSessionLoadMatch = Struct.new(
 #   @return [Integer, nil]
 #
 # @!attribute [rw] patient_sex
-#   @return [String, nil]
-#
-# @!attribute [rw] reference_id
 #   @return [String, nil]
 #
 # @!attribute [rw] report_date
@@ -606,6 +551,9 @@ LabReportSessionLoadMatch = Struct.new(
 # @!attribute [rw] results_count
 #   @return [Integer, nil]
 #
+# @!attribute [rw] session_id
+#   @return [String]
+#
 # @!attribute [rw] status_history
 #   @return [Array, nil]
 #
@@ -613,17 +561,17 @@ LabReportSessionLoadMatch = Struct.new(
 #   @return [String, nil]
 #
 # @!attribute [rw] upload_id
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] uploaded_at
 #   @return [String, nil]
 LabReportSessionCreateData = Struct.new(
-  :session_id,
-  :legacy_format,
+  :reference_id,
   :collection_date,
   :collection_time,
   :current_status,
   :error,
+  :file,
   :file_count,
   :input_bytes,
   :lab_name,
@@ -631,7 +579,6 @@ LabReportSessionCreateData = Struct.new(
   :panels,
   :patient_age_at_collection,
   :patient_sex,
-  :reference_id,
   :report_date,
   :report_locale,
   :report_notes,
@@ -639,10 +586,20 @@ LabReportSessionCreateData = Struct.new(
   :report_type,
   :results,
   :results_count,
+  :session_id,
   :status_history,
   :updated_at,
   :upload_id,
   :uploaded_at,
+  keyword_init: true
+)
+
+# Request payload for LabReportSession#remove.
+#
+# @!attribute [rw] session_id
+#   @return [String]
+LabReportSessionRemoveMatch = Struct.new(
+  :session_id,
   keyword_init: true
 )
 
@@ -809,6 +766,19 @@ PlannedWorkoutUpdateData = Struct.new(
   :id,
   :user_id,
   :planned_date,
+  keyword_init: true
+)
+
+# Request payload for PlannedWorkout#remove.
+#
+# @!attribute [rw] id
+#   @return [Integer]
+#
+# @!attribute [rw] user_id
+#   @return [String]
+PlannedWorkoutRemoveMatch = Struct.new(
+  :id,
+  :user_id,
   keyword_init: true
 )
 
@@ -1078,14 +1048,10 @@ WorkoutCreateData = Struct.new(
 
 # Request payload for Workout#remove.
 #
-# @!attribute [rw] planned_workout_id
+# @!attribute [rw] id
 #   @return [Integer]
-#
-# @!attribute [rw] user_id
-#   @return [String]
 WorkoutRemoveMatch = Struct.new(
-  :planned_workout_id,
-  :user_id,
+  :id,
   keyword_init: true
 )
 

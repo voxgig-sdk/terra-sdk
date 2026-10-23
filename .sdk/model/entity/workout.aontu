@@ -315,53 +315,6 @@ main: kit: entity: workout: {
       points: [
         {
           co: {
-            id: "DELETE /plannedWorkouts/{planned_workout_id}"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            params: [
-              {
-                k: "param"
-                n: "planned_workout_id"
-                or: "planned_workout_id"
-                r: true
-                t: "`$INTEGER`"
-              }
-            ]
-            query: [
-              {
-                k: "query"
-                n: "user_id"
-                or: "user_id"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "DELETE"
-          o: "/plannedWorkouts/{planned_workout_id}"
-          q: {
-            exist: [
-              "planned_workout_id"
-              "user_id"
-            ]
-          }
-          s: [
-            {
-              lit: "plannedWorkouts"
-            }
-            {
-              var: "planned_workout_id"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
             id: "DELETE /workouts/{workout_id}"
             source: "openapi3"
             version: 2
@@ -411,8 +364,5 @@ main: kit: entity: workout: {
   }
 
 
-  relations: ancestors: [
-    [path("$.main.kit.entity.planned_workout")]
-  ]
 
 }

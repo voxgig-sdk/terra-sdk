@@ -111,24 +111,13 @@ type LabReport struct {
 
 // LabReportLoadMatch is the typed request payload for LabReport.LoadTyped.
 type LabReportLoadMatch struct {
-	Cursor *string `json:"cursor,omitempty"`
-	Limit *int `json:"limit,omitempty"`
-	ReferenceId *string `json:"reference_id,omitempty"`
-	ReportDateFrom *string `json:"report_date_from,omitempty"`
-	ReportDateTo *string `json:"report_date_to,omitempty"`
-	ReportType *string `json:"report_type,omitempty"`
-	UploadId *string `json:"upload_id,omitempty"`
-	UploadedAtFrom *string `json:"uploaded_at_from,omitempty"`
-	UploadedAtTo *string `json:"uploaded_at_to,omitempty"`
+	Id string `json:"id"`
 }
 
 // LabReportCreateData is the typed request payload for LabReport.CreateTyped.
 type LabReportCreateData struct {
 	ReferenceId *string `json:"reference_id,omitempty"`
-	CurrentStatus string `json:"current_status"`
-	File string `json:"file"`
 	Id *string `json:"id,omitempty"`
-	UploadId string `json:"upload_id"`
 }
 
 // LabReportRemoveMatch is the typed request payload for LabReport.RemoveTyped.
@@ -165,12 +154,12 @@ type LabReportSessionLoadMatch struct {
 
 // LabReportSessionCreateData is the typed request payload for LabReportSession.CreateTyped.
 type LabReportSessionCreateData struct {
-	SessionId string `json:"session_id"`
-	LegacyFormat *bool `json:"legacy_format,omitempty"`
+	ReferenceId *string `json:"reference_id,omitempty"`
 	CollectionDate *string `json:"collection_date,omitempty"`
 	CollectionTime *string `json:"collection_time,omitempty"`
 	CurrentStatus string `json:"current_status"`
 	Error map[string]any `json:"error"`
+	File string `json:"file"`
 	FileCount *int `json:"file_count,omitempty"`
 	InputBytes *int `json:"input_bytes,omitempty"`
 	LabName *string `json:"lab_name,omitempty"`
@@ -178,7 +167,6 @@ type LabReportSessionCreateData struct {
 	Panels *[]any `json:"panels,omitempty"`
 	PatientAgeAtCollection *int `json:"patient_age_at_collection,omitempty"`
 	PatientSex *string `json:"patient_sex,omitempty"`
-	ReferenceId *string `json:"reference_id,omitempty"`
 	ReportDate *string `json:"report_date,omitempty"`
 	ReportLocale *string `json:"report_locale,omitempty"`
 	ReportNotes *string `json:"report_notes,omitempty"`
@@ -186,10 +174,16 @@ type LabReportSessionCreateData struct {
 	ReportType string `json:"report_type"`
 	Results *[]any `json:"results,omitempty"`
 	ResultsCount *int `json:"results_count,omitempty"`
+	SessionId string `json:"session_id"`
 	StatusHistory *[]any `json:"status_history,omitempty"`
 	UpdatedAt *string `json:"updated_at,omitempty"`
-	UploadId *string `json:"upload_id,omitempty"`
+	UploadId string `json:"upload_id"`
 	UploadedAt *string `json:"uploaded_at,omitempty"`
+}
+
+// LabReportSessionRemoveMatch is the typed request payload for LabReportSession.RemoveTyped.
+type LabReportSessionRemoveMatch struct {
+	SessionId string `json:"session_id"`
 }
 
 // Menstruation is the typed data model for the menstruation entity.
@@ -240,6 +234,12 @@ type PlannedWorkoutUpdateData struct {
 	Id int `json:"id"`
 	UserId string `json:"user_id"`
 	PlannedDate *string `json:"planned_date,omitempty"`
+}
+
+// PlannedWorkoutRemoveMatch is the typed request payload for PlannedWorkout.RemoveTyped.
+type PlannedWorkoutRemoveMatch struct {
+	Id int `json:"id"`
+	UserId string `json:"user_id"`
 }
 
 // Sleep is the typed data model for the sleep entity.
@@ -316,8 +316,7 @@ type WorkoutCreateData struct {
 
 // WorkoutRemoveMatch is the typed request payload for Workout.RemoveTyped.
 type WorkoutRemoveMatch struct {
-	PlannedWorkoutId int `json:"planned_workout_id"`
-	UserId string `json:"user_id"`
+	Id int `json:"id"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

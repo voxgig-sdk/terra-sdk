@@ -80,30 +80,16 @@ export interface IntegrationListMatch {
     [action: string]: any;
 }
 export interface LabReport {
-    current_status: string;
-    file: string;
     id?: string;
-    upload_id: string;
 }
 export interface LabReportLoadMatch {
-    cursor?: string;
-    limit?: number;
-    reference_id?: string;
-    report_date_from?: string;
-    report_date_to?: string;
-    report_type?: string;
-    upload_id?: string;
-    uploaded_at_from?: string;
-    uploaded_at_to?: string;
+    id: string;
     $action?: string;
     [action: string]: any;
 }
 export interface LabReportCreateData {
     reference_id?: string;
-    current_status: string;
-    file: string;
     id?: string;
-    upload_id: string;
     $action?: string;
     [action: string]: any;
 }
@@ -137,6 +123,7 @@ export interface LabReportSession {
     collection_time?: string;
     current_status: string;
     error: Record<string, any>;
+    file: string;
     file_count?: number;
     input_bytes?: number;
     lab_name?: string;
@@ -162,12 +149,12 @@ export interface LabReportSessionLoadMatch {
     session_id: string;
 }
 export interface LabReportSessionCreateData {
-    session_id: string;
-    legacy_format?: boolean;
+    reference_id?: string;
     collection_date?: string;
     collection_time?: string;
     current_status: string;
     error: Record<string, any>;
+    file: string;
     file_count?: number;
     input_bytes?: number;
     lab_name?: string;
@@ -175,7 +162,6 @@ export interface LabReportSessionCreateData {
     panels?: any[];
     patient_age_at_collection?: number;
     patient_sex?: string;
-    reference_id?: string;
     report_date?: string;
     report_locale?: string;
     report_notes?: string;
@@ -183,12 +169,16 @@ export interface LabReportSessionCreateData {
     report_type: string;
     results?: any[];
     results_count?: number;
+    session_id: string;
     status_history?: any[];
     updated_at?: string;
-    upload_id?: string;
+    upload_id: string;
     uploaded_at?: string;
     $action?: string;
     [action: string]: any;
+}
+export interface LabReportSessionRemoveMatch {
+    session_id: string;
 }
 export interface Menstruation {
 }
@@ -237,6 +227,10 @@ export interface PlannedWorkoutUpdateData {
     id: number;
     user_id: string;
     planned_date?: string;
+}
+export interface PlannedWorkoutRemoveMatch {
+    id: number;
+    user_id: string;
 }
 export interface Sleep {
 }
@@ -314,6 +308,5 @@ export interface WorkoutCreateData {
     [action: string]: any;
 }
 export interface WorkoutRemoveMatch {
-    planned_workout_id: number;
-    user_id: string;
+    id: number;
 }

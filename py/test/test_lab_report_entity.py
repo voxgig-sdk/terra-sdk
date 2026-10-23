@@ -37,7 +37,7 @@ class TestLabReportEntity:
         client = TerraSDK.test(
             None, {"feature": {"validate": {"active": True}}})
         with pytest.raises(Exception) as err:
-            client.LabReport(None).load({"cursor": 1}, None)
+            client.LabReport(None).remove({"id": 1}, None)
         assert "validate_failed" == getattr(err.value, "code", None)
 
     def test_should_run_basic_flow(self):
@@ -46,36 +46,19 @@ class TestLabReportEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["create", "load", "remove"]:
+        for _op in ["remove"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "lab_report." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
         client = setup["client"]
 
-        # CREATE
-        lab_report_ref01_ent = client.LabReport(None)
-        lab_report_ref01_data = helpers.to_map(vs.getprop(
-            vs.getpath(setup["data"], "new.lab_report"), "lab_report_ref01"))
-
-        lab_report_ref01_data = helpers.to_map(runner.entity_data(lab_report_ref01_ent.create(lab_report_ref01_data, None)))
-        assert lab_report_ref01_data is not None
-        assert lab_report_ref01_data["id"] is not None
-
-        # LOAD
-        lab_report_ref01_match_dt0 = {
-            "id": lab_report_ref01_data["id"],
-        }
-        lab_report_ref01_data_dt0_loaded = lab_report_ref01_ent.load(lab_report_ref01_match_dt0, None)
-        lab_report_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(lab_report_ref01_data_dt0_loaded))
-        assert lab_report_ref01_data_dt0_load_result is not None
-        assert lab_report_ref01_data_dt0_load_result["id"] == lab_report_ref01_data["id"]
-
-        # REMOVE
-        lab_report_ref01_match_rm0 = {
-            "id": lab_report_ref01_data["id"],
-        }
-        lab_report_ref01_ent.remove(lab_report_ref01_match_rm0, None)
+        # Bootstrap entity data from existing test data.
+        lab_report_ref01_data_raw = vs.items(helpers.to_map(
+            vs.getpath(setup["data"], "existing.lab_report")))
+        lab_report_ref01_data = None
+        if len(lab_report_ref01_data_raw) > 0:
+            lab_report_ref01_data = helpers.to_map(lab_report_ref01_data_raw[0][1])
 
 
 

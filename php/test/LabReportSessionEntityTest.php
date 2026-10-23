@@ -45,18 +45,11 @@ class LabReportSessionEntityTest extends TestCase
         $setup = lab_report_session_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["create", "load"] as $_op) {
+        foreach (["create", "load", "remove"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "lab_report_session." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
                 return;
-            }
-        }
-        if (!empty($setup["live"])) {
-            foreach (["session01"] as $_liveKey) {
-                if (!empty($setup["synthetic_only"]) || null === ($setup["idmap"][$_liveKey] ?? null)) {
-                    Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: needs " . $_liveKey . " via TERRA_TEST_LAB_REPORT_SESSION_ENTID");
-                }
             }
         }
         $client = $setup["client"];
@@ -65,7 +58,6 @@ class LabReportSessionEntityTest extends TestCase
         $lab_report_session_ref01_ent = $client->LabReportSession(null);
         $lab_report_session_ref01_data = Helpers::to_map(Vs::getprop(
             Vs::getpath($setup["data"], "new.lab_report_session"), "lab_report_session_ref01"));
-        $lab_report_session_ref01_data["session_id"] = $setup["idmap"]["session01"];
 
         $lab_report_session_ref01_data_result = $lab_report_session_ref01_ent->create($lab_report_session_ref01_data, null);
         $lab_report_session_ref01_data = Helpers::to_map(is_object($lab_report_session_ref01_data_result) && method_exists($lab_report_session_ref01_data_result, 'data_get') ? $lab_report_session_ref01_data_result->data_get() : $lab_report_session_ref01_data_result);
@@ -75,6 +67,7 @@ class LabReportSessionEntityTest extends TestCase
         $lab_report_session_ref01_match_dt0 = [];
         $lab_report_session_ref01_data_dt0_loaded = $lab_report_session_ref01_ent->load($lab_report_session_ref01_match_dt0, null);
         $this->assertNotNull($lab_report_session_ref01_data_dt0_loaded);
+
 
     }
 }
@@ -94,7 +87,7 @@ function lab_report_session_basic_setup($extra)
 
     // Generate idmap.
     $idmap = [];
-    foreach (["lab_report_session01", "lab_report_session02", "lab_report_session03", "session01"] as $k) {
+    foreach (["lab_report_session01", "lab_report_session02", "lab_report_session03"] as $k) {
         $idmap[$k] = strtoupper($k);
     }
 

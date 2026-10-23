@@ -15,8 +15,7 @@
         "sport": "s96",
         "status": "s97",
         "step_blocks": [],
-        "workout_id": "WORKOUT01",
-        "planned_workout_id": "PLANNED_WORKOUT01"
+        "workout_id": "WORKOUT01"
       },
       "WORKOUT01": {
         "description": "s118",
@@ -32,8 +31,7 @@
         "sport": "s122",
         "status": "s123",
         "step_blocks": [],
-        "workout_id": "WORKOUT01",
-        "planned_workout_id": "PLANNED_WORKOUT01"
+        "workout_id": "WORKOUT01"
       },
       "WORKOUT02": {
         "description": "s1a4",
@@ -49,8 +47,7 @@
         "sport": "s1ae",
         "status": "s1af",
         "step_blocks": [],
-        "workout_id": "WORKOUT01",
-        "planned_workout_id": "PLANNED_WORKOUT01"
+        "workout_id": "WORKOUT01"
       }
     }
   },
@@ -90,11 +87,6 @@
       "source": "openapi3"
     },
     "GET /workouts/{workout_id}": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
-    "DELETE /plannedWorkouts/{planned_workout_id}": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

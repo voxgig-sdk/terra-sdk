@@ -509,10 +509,7 @@ lab_report = client.LabReport()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `current_status` | `str` | Yes | Processing status as a clean lowercase string. |
-| `file` | `str` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `str` | No |  |
-| `upload_id` | `str` | Yes | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 ### Operations
 
@@ -520,30 +517,16 @@ lab_report = client.LabReport()
 
 Create a new entity with the given data. Returns the created entity and raises on error.
 
-```python
-result = client.LabReport().create({
-    "current_status": "example_current_status",  # str
-    "file": "example_file",  # str
-    "upload_id": "example_upload_id",  # str
-})
-```
-
-Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
-
 #### `load(reqmatch, ctrl=None) -> LabReportEntity`
 
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
-
-```python
-result = client.LabReport().load()
-```
 
 #### `remove(reqmatch, ctrl=None) -> LabReportEntity`
 
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
-result = client.LabReport().remove({"id": "id"})
+result = client.LabReport().remove({"id": "lab_report_id"})
 ```
 
 ### Common Methods
@@ -703,6 +686,7 @@ lab_report_session = client.LabReportSession()
 | `collection_time` | `str` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `str` | Yes | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `dict` | Yes | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `str` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `int` | No |  |
 | `input_bytes` | `int` | No |  |
 | `lab_name` | `str` | No |  |
@@ -721,8 +705,38 @@ lab_report_session = client.LabReportSession()
 | `session_id` | `str` | Yes |  |
 | `status_history` | `list` | No |  |
 | `updated_at` | `str` | No |  |
-| `upload_id` | `str` | No |  |
+| `upload_id` | `str` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `str` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `collection_date` | - | - | - |
+| `collection_time` | - | - | - |
+| `current_status` | - | - | - |
+| `error` | - | - | - |
+| `file` | - | - | - |
+| `file_count` | - | - | - |
+| `input_bytes` | - | - | - |
+| `lab_name` | - | - | - |
+| `output_bytes` | - | - | - |
+| `panels` | - | - | - |
+| `patient_age_at_collection` | - | - | - |
+| `patient_sex` | - | - | - |
+| `reference_id` | - | - | - |
+| `report_date` | - | - | - |
+| `report_locale` | - | - | - |
+| `report_notes` | - | - | - |
+| `report_time` | - | - | - |
+| `report_type` | - | - | - |
+| `results` | - | - | - |
+| `results_count` | - | - | - |
+| `session_id` | - | - | - |
+| `status_history` | - | - | - |
+| `updated_at` | - | - | - |
+| `upload_id` | - | Yes | - |
+| `uploaded_at` | - | - | - |
 
 ### Operations
 
@@ -732,12 +746,16 @@ Create a new entity with the given data. Returns the created entity and raises o
 
 ```python
 result = client.LabReportSession().create({
-    "session_id": "example_session_id",  # str
     "current_status": "example_current_status",  # str
     "error": {},  # dict
+    "file": "example_file",  # str
     "report_type": "example_report_type",  # str
+    "session_id": "example_session_id",  # str
+    "upload_id": "example_upload_id",  # str
 })
 ```
+
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
 
 #### `load(reqmatch, ctrl=None) -> LabReportSessionEntity`
 
@@ -745,6 +763,14 @@ Load a single entity matching the given criteria. Returns the entity, whose reco
 
 ```python
 result = client.LabReportSession().load({"session_id": "session_id"})
+```
+
+#### `remove(reqmatch, ctrl=None) -> LabReportSessionEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```python
+result = client.LabReportSession().remove({"session_id": "session_id"})
 ```
 
 ### Common Methods
@@ -893,22 +919,22 @@ planned_workout = client.PlannedWorkout()
 
 ### Field Usage by Operation
 
-| Field | load | list | update |
-| --- | --- | --- | --- |
-| `athlete_metrics` | - | - | - |
-| `coercion_warnings` | - | Yes | - |
-| `completed_at` | - | Yes | - |
-| `created_at` | - | - | - |
-| `details` | - | - | - |
-| `id` | - | - | - |
-| `is_external` | - | Yes | - |
-| `last_updated_at` | - | - | - |
-| `planned_date` | - | Yes | Yes |
-| `planned_workout_id` | - | Yes | - |
-| `provider_workout_id` | - | Yes | - |
-| `warnings` | - | Yes | - |
-| `workout` | - | Yes | - |
-| `workout_id` | - | Yes | - |
+| Field | load | list | update | remove |
+| --- | --- | --- | --- | --- |
+| `athlete_metrics` | - | - | - | - |
+| `coercion_warnings` | - | Yes | - | - |
+| `completed_at` | - | Yes | - | - |
+| `created_at` | - | - | - | - |
+| `details` | - | - | - | - |
+| `id` | - | - | - | - |
+| `is_external` | - | Yes | - | - |
+| `last_updated_at` | - | - | - | - |
+| `planned_date` | - | Yes | Yes | - |
+| `planned_workout_id` | - | Yes | - | - |
+| `provider_workout_id` | - | Yes | - | - |
+| `warnings` | - | Yes | - | - |
+| `workout` | - | Yes | - | - |
+| `workout_id` | - | Yes | - | - |
 
 ### Operations
 
@@ -928,6 +954,14 @@ Load a single entity matching the given criteria. Returns the entity, whose reco
 
 ```python
 result = client.PlannedWorkout().load({"id": 1, "user_id": "user_id"})
+```
+
+#### `remove(reqmatch, ctrl=None) -> PlannedWorkoutEntity`
+
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
+
+```python
+result = client.PlannedWorkout().remove({"id": 1, "user_id": "user_id"})
 ```
 
 #### `update(reqdata, ctrl=None) -> PlannedWorkoutEntity`
@@ -1143,7 +1177,7 @@ result = client.Workout().load({"id": 1})
 Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
-result = client.Workout().remove({"planned_workout_id": 1, "user_id": "user_id"})
+result = client.Workout().remove({"id": 1})
 ```
 
 ### Common Methods

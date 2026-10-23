@@ -58,10 +58,10 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    integrations = client.Integration().list()
-    print([item.data_get() for item in integrations])
+    activity = client.Activity().load({"start_date": "example", "user_id": "example"})
+    print(activity.data_get())
 except Exception as err:
-    print(f"list failed: {err}")
+    print(f"load failed: {err}")
 ```
 
 `direct()` does **not** raise — it returns the result envelope. Branch
@@ -126,7 +126,7 @@ Create a mock client for unit testing — no server required:
 client = TerraSDK.test()
 
 # Entity ops return the entity, and list one per record; they raise on error.
-integration = client.Integration().list()
+activity = client.Activity().load({"start_date": "example", "user_id": "example"})
 # data_get() on an entity reads its mock response record
 ```
 
@@ -342,10 +342,7 @@ API path: `/integrations`
 
 | Field | Description |
 | --- | --- |
-| `current_status` | Processing status as a clean lowercase string. |
-| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` |  |
-| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 Operations: Create, Load, Remove.
 
@@ -387,6 +384,7 @@ API path: `/lab-reports/{session_id}/files`
 | `collection_time` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` |  |
 | `input_bytes` |  |
 | `lab_name` |  |
@@ -405,10 +403,10 @@ API path: `/lab-reports/{session_id}/files`
 | `session_id` |  |
 | `status_history` |  |
 | `updated_at` |  |
-| `upload_id` |  |
+| `upload_id` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` |  |
 
-Operations: Create, Load.
+Operations: Create, Load, Remove.
 
 API path: `/reports/{session_id}/reprocess`
 
@@ -449,7 +447,7 @@ API path: `/nutrition`
 | `workout` | The workout body, as on the list. |
 | `workout_id` | Identifier of the source template. |
 
-Operations: List, Load, Update.
+Operations: List, Load, Remove, Update.
 
 API path: `/plannedWorkouts`
 
@@ -672,26 +670,7 @@ Create an instance: `lab_report = client.LabReport()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `current_status` | `str` | Processing status as a clean lowercase string. |
-| `file` | `str` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `str` |  |
-| `upload_id` | `str` | Durable correlation key for the upload; every resulting session and webhook carries it. |
-
-#### Example: Load
-
-```python
-lab_report = client.LabReport().load()
-```
-
-#### Example: Create
-
-```python
-lab_report = client.LabReport().create({
-    "current_status": "example_current_status",  # str
-    "file": "example_file",  # str
-    "upload_id": "example_upload_id",  # str
-})
-```
 
 
 ### LabReportDelivery
@@ -758,6 +737,7 @@ Create an instance: `lab_report_session = client.LabReportSession()`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 
 #### Fields
 
@@ -767,6 +747,7 @@ Create an instance: `lab_report_session = client.LabReportSession()`
 | `collection_time` | `str` | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `str` | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `dict` | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `str` | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `int` |  |
 | `input_bytes` | `int` |  |
 | `lab_name` | `str` |  |
@@ -785,7 +766,7 @@ Create an instance: `lab_report_session = client.LabReportSession()`
 | `session_id` | `str` |  |
 | `status_history` | `list` |  |
 | `updated_at` | `str` |  |
-| `upload_id` | `str` |  |
+| `upload_id` | `str` | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `str` |  |
 
 #### Example: Load
@@ -798,10 +779,12 @@ lab_report_session = client.LabReportSession().load({"session_id": "session_id"}
 
 ```python
 lab_report_session = client.LabReportSession().create({
-    "session_id": "example_session_id",  # str
     "current_status": "example_current_status",  # str
     "error": {},  # dict
+    "file": "example_file",  # str
     "report_type": "example_report_type",  # str
+    "session_id": "example_session_id",  # str
+    "upload_id": "example_upload_id",  # str
 })
 ```
 
@@ -850,6 +833,7 @@ Create an instance: `planned_workout = client.PlannedWorkout()`
 | --- | --- |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
+| `remove(match)` | Remove the matching entity. |
 | `update(data)` | Update an existing entity. |
 
 #### Fields
@@ -1246,15 +1230,15 @@ Import entity or utility modules directly only when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-integration = client.Integration()
-integration.list()
+activity = client.Activity()
+activity.load({"start_date": "example", "user_id": "example"})
 
-# integration.data_get() now returns the integration data from the last list
-# integration.match_get() returns the last match criteria
+# activity.data_get() now returns the activity data from the last load
+# activity.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

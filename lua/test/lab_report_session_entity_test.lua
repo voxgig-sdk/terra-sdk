@@ -37,18 +37,11 @@ describe("LabReportSessionEntity", function()
     local setup = lab_report_session_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"create", "load"}) do
+    for _, _op in ipairs({"create", "load", "remove"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "lab_report_session." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
         return
-      end
-    end
-    if setup.live then
-      for _, _live_key in ipairs({"session01"}) do
-        if setup.synthetic_only or setup.idmap[_live_key] == nil then
-          runner.live_miss(pending, LIVE_STRICT, "Live entity test blocked: needs " .. _live_key .. " via TERRA_TEST_LAB_REPORT_SESSION_ENTID")
-        end
       end
     end
     local client = setup.client
@@ -57,7 +50,6 @@ describe("LabReportSessionEntity", function()
     local lab_report_session_ref01_ent = client:LabReportSession(nil)
     local lab_report_session_ref01_data = helpers.to_map(vs.getprop(
       vs.getpath(setup.data, "new.lab_report_session"), "lab_report_session_ref01"))
-    lab_report_session_ref01_data["session_id"] = setup.idmap["session01"]
 
     local lab_report_session_ref01_data_result, err = lab_report_session_ref01_ent:create(lab_report_session_ref01_data, nil)
     assert.is_nil(err)
@@ -69,6 +61,7 @@ describe("LabReportSessionEntity", function()
     local lab_report_session_ref01_data_dt0_loaded, err = lab_report_session_ref01_ent:load(lab_report_session_ref01_match_dt0, nil)
     assert.is_nil(err)
     assert.is_not_nil(lab_report_session_ref01_data_dt0_loaded)
+
 
   end)
 end)
@@ -93,7 +86,7 @@ function lab_report_session_basic_setup(extra)
 
   -- Generate idmap via transform.
   local idmap = vs.transform(
-    { "lab_report_session01", "lab_report_session02", "lab_report_session03", "session01" },
+    { "lab_report_session01", "lab_report_session02", "lab_report_session03" },
     {
       ["`$PACK`"] = { "", {
         ["`$KEY`"] = "`$COPY`",

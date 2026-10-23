@@ -709,10 +709,7 @@ const lab_report = client.LabReport()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `current_status` | `string` | Yes | Processing status as a clean lowercase string. |
-| `file` | `string` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `id` | `string` | No |  |
-| `upload_id` | `string` | Yes | Durable correlation key for the upload; every resulting session and webhook carries it. |
 
 ### Actions
 
@@ -744,30 +741,16 @@ const result = await client.LabReport().create({
 
 Create a new entity with the given data. Resolves to the created entity.
 
-```ts
-const result = await client.LabReport().create({
-  current_status: 'example_current_status',
-  file: 'example_file',
-  upload_id: 'example_upload_id',
-})
-```
-
-Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
-
 #### `load(match: object, ctrl?: object)`
 
 Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
-
-```ts
-const result = await client.LabReport().load()
-```
 
 #### `remove(match: object, ctrl?: object)`
 
 Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
-const result = await client.LabReport().remove({ id: 'id' })
+const result = await client.LabReport().remove({ id: 'lab_report_id' })
 ```
 
 ### Common Methods
@@ -920,6 +903,7 @@ const lab_report_session = client.LabReportSession()
 | `collection_time` | `string` | No | Time the sample was collected or the scan was taken (HH:MM, 24-hour); omitted if not extracted. |
 | `current_status` | `string` | Yes | Current status as a clean lowercase string (open enum — handle unknown values gracefully). |
 | `error` | `Record<string, any>` | Yes | Why the report failed: the same object the lab_report.failed webhook carries. |
+| `file` | `string` | Yes | A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image. |
 | `file_count` | `number` | No |  |
 | `input_bytes` | `number` | No |  |
 | `lab_name` | `string` | No |  |
@@ -938,8 +922,38 @@ const lab_report_session = client.LabReportSession()
 | `session_id` | `string` | Yes |  |
 | `status_history` | `any[]` | No |  |
 | `updated_at` | `string` | No |  |
-| `upload_id` | `string` | No |  |
+| `upload_id` | `string` | No | Durable correlation key for the upload; every resulting session and webhook carries it. |
 | `uploaded_at` | `string` | No |  |
+
+### Field Usage by Operation
+
+| Field | load | create | remove |
+| --- | --- | --- | --- |
+| `collection_date` | - | - | - |
+| `collection_time` | - | - | - |
+| `current_status` | - | - | - |
+| `error` | - | - | - |
+| `file` | - | - | - |
+| `file_count` | - | - | - |
+| `input_bytes` | - | - | - |
+| `lab_name` | - | - | - |
+| `output_bytes` | - | - | - |
+| `panels` | - | - | - |
+| `patient_age_at_collection` | - | - | - |
+| `patient_sex` | - | - | - |
+| `reference_id` | - | - | - |
+| `report_date` | - | - | - |
+| `report_locale` | - | - | - |
+| `report_notes` | - | - | - |
+| `report_time` | - | - | - |
+| `report_type` | - | - | - |
+| `results` | - | - | - |
+| `results_count` | - | - | - |
+| `session_id` | - | - | - |
+| `status_history` | - | - | - |
+| `updated_at` | - | - | - |
+| `upload_id` | - | Yes | - |
+| `uploaded_at` | - | - | - |
 
 ### Actions
 
@@ -969,12 +983,16 @@ Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.LabReportSession().create({
-  session_id: 'example_session_id',
   current_status: 'example_current_status',
   error: {},
+  file: 'example_file',
   report_type: 'example_report_type',
+  session_id: 'example_session_id',
+  upload_id: 'example_upload_id',
 })
 ```
+
+Declares a `multipart/form-data` body, which this SDK does not encode yet: it sends the data as JSON.
 
 #### `load(match: object, ctrl?: object)`
 
@@ -982,6 +1000,14 @@ Load a single entity matching the given criteria. Resolves to the entity, whose 
 
 ```ts
 const result = await client.LabReportSession().load({ session_id: 'session_id' })
+```
+
+#### `remove(match: object, ctrl?: object)`
+
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
+
+```ts
+const result = await client.LabReportSession().remove({ session_id: 'session_id' })
 ```
 
 ### Common Methods
@@ -1127,22 +1153,22 @@ const planned_workout = client.PlannedWorkout()
 
 ### Field Usage by Operation
 
-| Field | load | list | update |
-| --- | --- | --- | --- |
-| `athlete_metrics` | - | - | - |
-| `coercion_warnings` | - | Yes | - |
-| `completed_at` | - | Yes | - |
-| `created_at` | - | - | - |
-| `details` | - | - | - |
-| `id` | - | - | - |
-| `is_external` | - | Yes | - |
-| `last_updated_at` | - | - | - |
-| `planned_date` | - | Yes | Yes |
-| `planned_workout_id` | - | Yes | - |
-| `provider_workout_id` | - | Yes | - |
-| `warnings` | - | Yes | - |
-| `workout` | - | Yes | - |
-| `workout_id` | - | Yes | - |
+| Field | load | list | update | remove |
+| --- | --- | --- | --- | --- |
+| `athlete_metrics` | - | - | - | - |
+| `coercion_warnings` | - | Yes | - | - |
+| `completed_at` | - | Yes | - | - |
+| `created_at` | - | - | - | - |
+| `details` | - | - | - | - |
+| `id` | - | - | - | - |
+| `is_external` | - | Yes | - | - |
+| `last_updated_at` | - | - | - | - |
+| `planned_date` | - | Yes | Yes | - |
+| `planned_workout_id` | - | Yes | - | - |
+| `provider_workout_id` | - | Yes | - | - |
+| `warnings` | - | Yes | - | - |
+| `workout` | - | Yes | - | - |
+| `workout_id` | - | Yes | - | - |
 
 ### Operations
 
@@ -1160,6 +1186,14 @@ Load a single entity matching the given criteria. Resolves to the entity, whose 
 
 ```ts
 const result = await client.PlannedWorkout().load({ id: 1, user_id: 'user_id' })
+```
+
+#### `remove(match: object, ctrl?: object)`
+
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
+
+```ts
+const result = await client.PlannedWorkout().remove({ id: 1, user_id: 'user_id' })
 ```
 
 #### `update(data: object, ctrl?: object)`
@@ -1388,7 +1422,7 @@ const result = await client.Workout().load({ id: 1 })
 Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
-const result = await client.Workout().remove({ planned_workout_id: 1, user_id: 'user_id' })
+const result = await client.Workout().remove({ id: 1 })
 ```
 
 ### Common Methods

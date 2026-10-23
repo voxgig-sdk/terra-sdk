@@ -223,7 +223,7 @@ def workout_basic_setup(extra)
 
   # Generate idmap via transform.
   idmap = Vs.transform(
-    ["workout01", "workout02", "workout03", "planned_workout01", "planned_workout02", "planned_workout03"],
+    ["workout01", "workout02", "workout03"],
     {
       "`$PACK`" => ["", {
         "`$KEY`" => "`$COPY`",

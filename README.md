@@ -59,22 +59,22 @@ network, and no credentials:
 // Shape: { entity: { <entity-name>: { <id>: <record> } } }
 const client = TerraSDK.test({
   entity: {
-    integration: {
+    activity: {
       test01: { id: 'test01' },
     },
   },
 })
-const integrations = await client.Integration().list()
-// integrations is an array of Integration entities, one per mock record
-console.log(integrations.map((integration) => integration.data()))
+const activity = await client.Activity().load({ start_date: 'example_start_date', user_id: 'example_user_id' })
+// activity is the Activity entity; .data() reads its mock record
+console.log(activity.data())
 ```
 
 ### Python
 
 ```python
 client = TerraSDK.test()
-integrations = client.Integration().list()
-print([item.data_get() for item in integrations])
+activity = client.Activity().load({"start_date": "example", "user_id": "example"})
+print(activity.data_get())
 ```
 
 ### PHP
@@ -82,17 +82,17 @@ print([item.data_get() for item in integrations])
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = TerraSDK::test([
-    "entity" => ["integration" => ["test01" => []]],
+    "entity" => ["activity" => ["test01" => []]],
 ]);
-$integrations = $client->Integration()->list();
+$activity = $client->Activity()->load(["start_date" => "example", "user_id" => "example"]);
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Integration(nil).List(
-    nil, nil,
+result, err := client.Activity(nil).Load(
+    map[string]any{"start_date": "example", "user_id": "example"}, nil,
 )
 ```
 
@@ -101,16 +101,16 @@ result, err := client.Integration(nil).List(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = TerraSDK.test({
-  "entity" => { "integration" => { "test01" => {} } },
+  "entity" => { "activity" => { "test01" => {} } },
 })
-integrations = client.Integration.list()
+activity = client.Activity.load({ "start_date" => "example", "user_id" => "example" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local results, err = client:Integration():list()
+local result, err = client:Activity():load({ start_date = "example", user_id = "example" })
 ```
 
 ## Packages
@@ -193,13 +193,13 @@ The API exposes 17 entities:
 | **BulkUserInfo** | The BulkUserInfo entity (create). | `/bulkUserInfo` |
 | **Daily** | The Daily entity (load). | `/daily` |
 | **Integration** | The Integration entity (list). | `/integrations` |
-| **LabReport** | The LabReport entity (create, load, remove). | `/reports` |
+| **LabReport** | The LabReport entity (create, load, remove). | `/lab-reports/{session_id}` |
 | **LabReportDelivery** | The LabReportDelivery entity (list). | `/lab-reports/{session_id}/deliveries` |
 | **LabReportFile** | The LabReportFile entity (list). | `/lab-reports/{session_id}/files` |
-| **LabReportSession** | The LabReportSession entity (create, load). | `/reports/{session_id}` |
+| **LabReportSession** | The LabReportSession entity (create, load, remove). | `/reports/{session_id}` |
 | **Menstruation** | The Menstruation entity (load). | `/menstruation` |
 | **Nutrition** | The Nutrition entity (load). | `/nutrition` |
-| **PlannedWorkout** | The PlannedWorkout entity (list, load, update). | `/plannedWorkouts` |
+| **PlannedWorkout** | The PlannedWorkout entity (list, load, remove, update). | `/plannedWorkouts` |
 | **Sleep** | The Sleep entity (load). | `/sleep` |
 | **User** | The User entity (list, load). | `/subscriptions` |
 | **Workout** | The Workout entity (create, list, load, remove). | `/workouts` |

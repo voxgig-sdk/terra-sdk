@@ -127,35 +127,15 @@ class IntegrationListMatch(TypedDict, total=False):
     status: str
 
 
-class LabReportRequired(TypedDict):
-    current_status: str
-    file: str
-    upload_id: str
-
-
-class LabReport(LabReportRequired, total=False):
+class LabReport(TypedDict, total=False):
     id: str
 
 
-class LabReportLoadMatch(TypedDict, total=False):
-    cursor: str
-    limit: int
-    reference_id: str
-    report_date_from: str
-    report_date_to: str
-    report_type: str
-    upload_id: str
-    uploaded_at_from: str
-    uploaded_at_to: str
+class LabReportLoadMatch(TypedDict):
+    id: str
 
 
-class LabReportCreateDataRequired(TypedDict):
-    current_status: str
-    file: str
-    upload_id: str
-
-
-class LabReportCreateData(LabReportCreateDataRequired, total=False):
+class LabReportCreateData(TypedDict, total=False):
     reference_id: str
     id: str
 
@@ -197,6 +177,7 @@ class LabReportFileListMatch(TypedDict):
 class LabReportSessionRequired(TypedDict):
     current_status: str
     error: dict
+    file: str
     report_type: str
     session_id: str
 
@@ -229,14 +210,16 @@ class LabReportSessionLoadMatch(TypedDict):
 
 
 class LabReportSessionCreateDataRequired(TypedDict):
-    session_id: str
     current_status: str
     error: dict
+    file: str
     report_type: str
+    session_id: str
+    upload_id: str
 
 
 class LabReportSessionCreateData(LabReportSessionCreateDataRequired, total=False):
-    legacy_format: bool
+    reference_id: str
     collection_date: str
     collection_time: str
     file_count: int
@@ -246,7 +229,6 @@ class LabReportSessionCreateData(LabReportSessionCreateDataRequired, total=False
     panels: list
     patient_age_at_collection: int
     patient_sex: str
-    reference_id: str
     report_date: str
     report_locale: str
     report_notes: str
@@ -255,8 +237,11 @@ class LabReportSessionCreateData(LabReportSessionCreateDataRequired, total=False
     results_count: int
     status_history: list
     updated_at: str
-    upload_id: str
     uploaded_at: str
+
+
+class LabReportSessionRemoveMatch(TypedDict):
+    session_id: str
 
 
 class Menstruation(TypedDict):
@@ -330,6 +315,11 @@ class PlannedWorkoutUpdateDataRequired(TypedDict):
 
 class PlannedWorkoutUpdateData(PlannedWorkoutUpdateDataRequired, total=False):
     planned_date: str
+
+
+class PlannedWorkoutRemoveMatch(TypedDict):
+    id: int
+    user_id: str
 
 
 class Sleep(TypedDict):
@@ -425,5 +415,4 @@ class WorkoutCreateData(WorkoutCreateDataRequired, total=False):
 
 
 class WorkoutRemoveMatch(TypedDict):
-    planned_workout_id: int
-    user_id: str
+    id: int

@@ -928,31 +928,9 @@ func MakeConfig() map[string]any {
 			"lab_report": map[string]any{
 				"fields": []any{
 					map[string]any{
-						"name": "current_status",
-						"title": "Current Status",
-						"type": "`$STRING`",
-						"req": true,
-						"short": "Processing status as a clean lowercase string.",
-					},
-					map[string]any{
-						"name": "file",
-						"title": "File",
-						"type": "`$STRING`",
-						"req": true,
-						"short": "A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.",
-						"format": "binary",
-					},
-					map[string]any{
 						"name": "id",
 						"title": "Id",
 						"type": "`$STRING`",
-					},
-					map[string]any{
-						"name": "upload_id",
-						"title": "Upload Id",
-						"type": "`$STRING`",
-						"req": true,
-						"short": "Durable correlation key for the upload; every resulting session and webhook carries it.",
 					},
 				},
 				"id": map[string]any{
@@ -1072,58 +1050,6 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"$action": "legacy",
 								},
-								"body": map[string]any{
-									"fields": []any{
-										map[string]any{
-											"binary": true,
-											"name": "file",
-										},
-									},
-									"kind": "multipart",
-									"media": "multipart/form-data",
-								},
-								"response": map[string]any{
-									"kind": "json",
-									"media": "application/json",
-								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "POST",
-								"orig": "/reports",
-								"segments": []any{
-									map[string]any{
-										"lit": "reports",
-									},
-								},
-								"parts": []any{
-									"reports",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "x_terra_version",
-											"orig": "X-Terra-Version",
-											"type": "`$STRING`",
-											"kind": "header",
-										},
-									},
-									"query": []any{
-										map[string]any{
-											"name": "reference_id",
-											"orig": "reference_id",
-											"type": "`$STRING`",
-											"kind": "query",
-											"example": "patient_456",
-										},
-									},
-								},
-								"select": map[string]any{},
 								"body": map[string]any{
 									"fields": []any{
 										map[string]any{
@@ -1271,7 +1197,6 @@ func MakeConfig() map[string]any {
 											"orig": "upload_id",
 											"type": "`$STRING`",
 											"kind": "query",
-											"field": true,
 										},
 										map[string]any{
 											"name": "uploaded_at_from",
@@ -1290,98 +1215,6 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"$action": "legacy",
 								},
-								"response": map[string]any{
-									"kind": "json",
-									"media": "application/json",
-								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "GET",
-								"orig": "/reports",
-								"segments": []any{
-									map[string]any{
-										"lit": "reports",
-									},
-								},
-								"parts": []any{
-									"reports",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "x_terra_version",
-											"orig": "X-Terra-Version",
-											"type": "`$STRING`",
-											"kind": "header",
-										},
-									},
-									"query": []any{
-										map[string]any{
-											"name": "cursor",
-											"orig": "cursor",
-											"type": "`$STRING`",
-											"kind": "query",
-										},
-										map[string]any{
-											"name": "limit",
-											"orig": "limit",
-											"type": "`$INTEGER`",
-											"kind": "query",
-											"example": 50,
-										},
-										map[string]any{
-											"name": "reference_id",
-											"orig": "reference_id",
-											"type": "`$STRING`",
-											"kind": "query",
-										},
-										map[string]any{
-											"name": "report_date_from",
-											"orig": "report_date_from",
-											"type": "`$STRING`",
-											"kind": "query",
-										},
-										map[string]any{
-											"name": "report_date_to",
-											"orig": "report_date_to",
-											"type": "`$STRING`",
-											"kind": "query",
-										},
-										map[string]any{
-											"name": "report_type",
-											"orig": "report_type",
-											"type": "`$STRING`",
-											"kind": "query",
-											"example": "dexa",
-										},
-										map[string]any{
-											"name": "upload_id",
-											"orig": "upload_id",
-											"type": "`$STRING`",
-											"kind": "query",
-											"field": true,
-										},
-										map[string]any{
-											"name": "uploaded_at_from",
-											"orig": "uploaded_at_from",
-											"type": "`$STRING`",
-											"kind": "query",
-										},
-										map[string]any{
-											"name": "uploaded_at_to",
-											"orig": "uploaded_at_to",
-											"type": "`$STRING`",
-											"kind": "query",
-										},
-									},
-								},
-								"select": map[string]any{},
 								"response": map[string]any{
 									"kind": "json",
 									"media": "application/json",
@@ -1440,57 +1273,6 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"$action": "legacy",
-									"exist": []any{
-										"id",
-									},
-								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "DELETE",
-								"orig": "/reports/{session_id}",
-								"segments": []any{
-									map[string]any{
-										"lit": "reports",
-									},
-									map[string]any{
-										"var": "id",
-									},
-								},
-								"parts": []any{
-									"reports",
-									"{id}",
-								},
-								"rename": map[string]any{
-									"param": map[string]any{
-										"session_id": "id",
-									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "x_terra_version",
-											"orig": "X-Terra-Version",
-											"type": "`$STRING`",
-											"kind": "header",
-										},
-									},
-									"params": []any{
-										map[string]any{
-											"name": "id",
-											"orig": "session_id",
-											"type": "`$STRING`",
-											"kind": "param",
-											"reqd": true,
-											"example": "297405620317847552",
-										},
-									},
-								},
-								"select": map[string]any{
 									"exist": []any{
 										"id",
 									},
@@ -1867,6 +1649,14 @@ func MakeConfig() map[string]any {
 						"short": "Why the report failed: the same object the lab_report.failed webhook carries.",
 					},
 					map[string]any{
+						"name": "file",
+						"title": "File",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.",
+						"format": "binary",
+					},
+					map[string]any{
 						"name": "file_count",
 						"title": "File Count",
 						"type": "`$INTEGER`",
@@ -1971,6 +1761,13 @@ func MakeConfig() map[string]any {
 						"name": "upload_id",
 						"title": "Upload Id",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
+						"short": "Durable correlation key for the upload; every resulting session and webhook carries it.",
 					},
 					map[string]any{
 						"name": "uploaded_at",
@@ -2049,6 +1846,59 @@ func MakeConfig() map[string]any {
 									"media": "application/json",
 								},
 							},
+							map[string]any{
+								"kind": "http",
+								"method": "POST",
+								"orig": "/reports",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+								},
+								"parts": []any{
+									"reports",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"name": "x_terra_version",
+											"orig": "X-Terra-Version",
+											"type": "`$STRING`",
+											"kind": "header",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"name": "reference_id",
+											"orig": "reference_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"example": "patient_456",
+											"field": true,
+										},
+									},
+								},
+								"select": map[string]any{},
+								"body": map[string]any{
+									"fields": []any{
+										map[string]any{
+											"binary": true,
+											"name": "file",
+										},
+									},
+									"kind": "multipart",
+									"media": "multipart/form-data",
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
 						},
 					},
 					"load": map[string]any{
@@ -2104,6 +1954,153 @@ func MakeConfig() map[string]any {
 								"response": map[string]any{
 									"kind": "json",
 									"media": "application/json",
+								},
+							},
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/reports",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+								},
+								"parts": []any{
+									"reports",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"name": "x_terra_version",
+											"orig": "X-Terra-Version",
+											"type": "`$STRING`",
+											"kind": "header",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"name": "cursor",
+											"orig": "cursor",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "limit",
+											"orig": "limit",
+											"type": "`$INTEGER`",
+											"kind": "query",
+											"example": 50,
+										},
+										map[string]any{
+											"name": "reference_id",
+											"orig": "reference_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"field": true,
+										},
+										map[string]any{
+											"name": "report_date_from",
+											"orig": "report_date_from",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "report_date_to",
+											"orig": "report_date_to",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "report_type",
+											"orig": "report_type",
+											"type": "`$STRING`",
+											"kind": "query",
+											"example": "dexa",
+											"field": true,
+										},
+										map[string]any{
+											"name": "upload_id",
+											"orig": "upload_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"field": true,
+										},
+										map[string]any{
+											"name": "uploaded_at_from",
+											"orig": "uploaded_at_from",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "uploaded_at_to",
+											"orig": "uploaded_at_to",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+									},
+								},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+						},
+					},
+					"remove": map[string]any{
+						"input": "data",
+						"name": "remove",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "DELETE",
+								"orig": "/reports/{session_id}",
+								"segments": []any{
+									map[string]any{
+										"lit": "reports",
+									},
+									map[string]any{
+										"var": "session_id",
+									},
+								},
+								"parts": []any{
+									"reports",
+									"{session_id}",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"header": []any{
+										map[string]any{
+											"name": "x_terra_version",
+											"orig": "X-Terra-Version",
+											"type": "`$STRING`",
+											"kind": "header",
+										},
+									},
+									"params": []any{
+										map[string]any{
+											"name": "session_id",
+											"orig": "session_id",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+											"example": "297405620317847552",
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"session_id",
+									},
 								},
 							},
 						},
@@ -2541,6 +2538,64 @@ func MakeConfig() map[string]any {
 								"response": map[string]any{
 									"kind": "json",
 									"media": "application/json",
+								},
+							},
+						},
+					},
+					"remove": map[string]any{
+						"input": "data",
+						"name": "remove",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "DELETE",
+								"orig": "/plannedWorkouts/{planned_workout_id}",
+								"segments": []any{
+									map[string]any{
+										"lit": "plannedWorkouts",
+									},
+									map[string]any{
+										"var": "id",
+									},
+								},
+								"parts": []any{
+									"plannedWorkouts",
+									"{id}",
+								},
+								"rename": map[string]any{
+									"param": map[string]any{
+										"planned_workout_id": "id",
+									},
+								},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "planned_workout_id",
+											"type": "`$INTEGER`",
+											"kind": "param",
+											"reqd": true,
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"name": "user_id",
+											"orig": "user_id",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+										},
+									},
+								},
+								"select": map[string]any{
+									"exist": []any{
+										"id",
+										"user_id",
+									},
 								},
 							},
 						},
@@ -3098,54 +3153,6 @@ func MakeConfig() map[string]any {
 							map[string]any{
 								"kind": "http",
 								"method": "DELETE",
-								"orig": "/plannedWorkouts/{planned_workout_id}",
-								"segments": []any{
-									map[string]any{
-										"lit": "plannedWorkouts",
-									},
-									map[string]any{
-										"var": "planned_workout_id",
-									},
-								},
-								"parts": []any{
-									"plannedWorkouts",
-									"{planned_workout_id}",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"name": "planned_workout_id",
-											"orig": "planned_workout_id",
-											"type": "`$INTEGER`",
-											"kind": "param",
-											"reqd": true,
-										},
-									},
-									"query": []any{
-										map[string]any{
-											"name": "user_id",
-											"orig": "user_id",
-											"type": "`$STRING`",
-											"kind": "query",
-											"reqd": true,
-										},
-									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"planned_workout_id",
-										"user_id",
-									},
-								},
-							},
-							map[string]any{
-								"kind": "http",
-								"method": "DELETE",
 								"orig": "/workouts/{workout_id}",
 								"segments": []any{
 									map[string]any{
@@ -3193,11 +3200,7 @@ func MakeConfig() map[string]any {
 					},
 				},
 				"relations": map[string]any{
-					"ancestors": []any{
-						[]any{
-							"$.main.kit.entity.planned_workout",
-						},
-					},
+					"ancestors": []any{},
 				},
 			},
 		},

@@ -29,7 +29,7 @@ describe("LabReportEntity", function()
       return
     end
     local client = sdk.test(nil, { feature = { validate = { active = true } } })
-    local _, err = client:LabReport(nil):load({ ["cursor"] = 1 }, nil)
+    local _, err = client:LabReport(nil):remove({ ["id"] = 1 }, nil)
     assert.are.equal("validate_failed", type(err) == "table" and err.code or nil)
   end)
 
@@ -37,7 +37,7 @@ describe("LabReportEntity", function()
     local setup = lab_report_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"create", "load", "remove"}) do
+    for _, _op in ipairs({"remove"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "lab_report." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -46,33 +46,13 @@ describe("LabReportEntity", function()
     end
     local client = setup.client
 
-    -- CREATE
-    local lab_report_ref01_ent = client:LabReport(nil)
-    local lab_report_ref01_data = helpers.to_map(vs.getprop(
-      vs.getpath(setup.data, "new.lab_report"), "lab_report_ref01"))
-
-    local lab_report_ref01_data_result, err = lab_report_ref01_ent:create(lab_report_ref01_data, nil)
-    assert.is_nil(err)
-    lab_report_ref01_data = helpers.to_map(type(lab_report_ref01_data_result) == 'table' and lab_report_ref01_data_result.data_get and lab_report_ref01_data_result:data_get() or lab_report_ref01_data_result)
-    assert.is_not_nil(lab_report_ref01_data)
-    assert.is_not_nil(lab_report_ref01_data["id"])
-
-    -- LOAD
-    local lab_report_ref01_match_dt0 = {
-      id = lab_report_ref01_data["id"],
-    }
-    local lab_report_ref01_data_dt0_loaded, err = lab_report_ref01_ent:load(lab_report_ref01_match_dt0, nil)
-    assert.is_nil(err)
-    local lab_report_ref01_data_dt0_load_result = helpers.to_map(type(lab_report_ref01_data_dt0_loaded) == 'table' and lab_report_ref01_data_dt0_loaded.data_get and lab_report_ref01_data_dt0_loaded:data_get() or lab_report_ref01_data_dt0_loaded)
-    assert.is_not_nil(lab_report_ref01_data_dt0_load_result)
-    assert.are.equal(lab_report_ref01_data_dt0_load_result["id"], lab_report_ref01_data["id"])
-
-    -- REMOVE
-    local lab_report_ref01_match_rm0 = {
-      id = lab_report_ref01_data["id"],
-    }
-    local _, err = lab_report_ref01_ent:remove(lab_report_ref01_match_rm0, nil)
-    assert.is_nil(err)
+    -- Bootstrap entity data from existing test data.
+    local lab_report_ref01_data_raw = vs.items(helpers.to_map(
+      vs.getpath(setup.data, "existing.lab_report")))
+    local lab_report_ref01_data = nil
+    if #lab_report_ref01_data_raw > 0 then
+      lab_report_ref01_data = helpers.to_map(lab_report_ref01_data_raw[1][2])
+    end
 
   end)
 end)

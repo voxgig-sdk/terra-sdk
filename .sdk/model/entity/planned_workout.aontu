@@ -294,6 +294,63 @@ main: kit: entity: planned_workout: {
         }
       ]
     }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /plannedWorkouts/{planned_workout_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "planned_workout_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "user_id"
+                or: "user_id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/plannedWorkouts/{planned_workout_id}"
+          q: {
+            exist: [
+              "id"
+              "user_id"
+            ]
+          }
+          r: {
+            param: {
+              planned_workout_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "plannedWorkouts"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
     update: {
       name: "update"
       points: [

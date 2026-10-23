@@ -33,7 +33,7 @@ class LabReportEntityTest extends TestCase
         $client = TerraSDK::test(null, ["feature" => ["validate" => ["active" => true]]]);
         $err = null;
         try {
-            $client->LabReport(null)->load(["cursor" => 1], null);
+            $client->LabReport(null)->remove(["id" => 1], null);
         } catch (\Throwable $e) {
             $err = $e;
         }
@@ -45,7 +45,7 @@ class LabReportEntityTest extends TestCase
         $setup = lab_report_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["create", "load", "remove"] as $_op) {
+        foreach (["remove"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "lab_report." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -54,30 +54,13 @@ class LabReportEntityTest extends TestCase
         }
         $client = $setup["client"];
 
-        // CREATE
-        $lab_report_ref01_ent = $client->LabReport(null);
-        $lab_report_ref01_data = Helpers::to_map(Vs::getprop(
-            Vs::getpath($setup["data"], "new.lab_report"), "lab_report_ref01"));
-
-        $lab_report_ref01_data_result = $lab_report_ref01_ent->create($lab_report_ref01_data, null);
-        $lab_report_ref01_data = Helpers::to_map(is_object($lab_report_ref01_data_result) && method_exists($lab_report_ref01_data_result, 'data_get') ? $lab_report_ref01_data_result->data_get() : $lab_report_ref01_data_result);
-        $this->assertNotNull($lab_report_ref01_data);
-        $this->assertNotNull($lab_report_ref01_data["id"]);
-
-        // LOAD
-        $lab_report_ref01_match_dt0 = [
-            "id" => $lab_report_ref01_data["id"],
-        ];
-        $lab_report_ref01_data_dt0_loaded = $lab_report_ref01_ent->load($lab_report_ref01_match_dt0, null);
-        $lab_report_ref01_data_dt0_load_result = Helpers::to_map(is_object($lab_report_ref01_data_dt0_loaded) && method_exists($lab_report_ref01_data_dt0_loaded, 'data_get') ? $lab_report_ref01_data_dt0_loaded->data_get() : $lab_report_ref01_data_dt0_loaded);
-        $this->assertNotNull($lab_report_ref01_data_dt0_load_result);
-        $this->assertEquals($lab_report_ref01_data_dt0_load_result["id"], $lab_report_ref01_data["id"]);
-
-        // REMOVE
-        $lab_report_ref01_match_rm0 = [
-            "id" => $lab_report_ref01_data["id"],
-        ];
-        $lab_report_ref01_ent->remove($lab_report_ref01_match_rm0, null);
+        // Bootstrap entity data from existing test data.
+        $lab_report_ref01_data_raw = Vs::items(Helpers::to_map(
+            Vs::getpath($setup["data"], "existing.lab_report")));
+        $lab_report_ref01_data = null;
+        if (count($lab_report_ref01_data_raw) > 0) {
+            $lab_report_ref01_data = Helpers::to_map($lab_report_ref01_data_raw[0][1]);
+        }
 
     }
 }

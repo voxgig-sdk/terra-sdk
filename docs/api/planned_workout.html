@@ -21,6 +21,7 @@
 <a href="../api/nutrition.html">Nutrition</a>
 <a aria-current="page" href="../api/planned_workout.html">PlannedWorkout</a><div class="nav-sections"><a class="nav-section" href="#get-plannedworkouts">GET /plannedWorkouts</a>
 <a class="nav-section" href="#get-plannedworkoutsplanned_workout_id">GET /plannedWorkouts/{planned_workout_id}</a>
+<a class="nav-section" href="#delete-plannedworkoutsplanned_workout_id">DELETE /plannedWorkouts/{planned_workout_id}</a>
 <a class="nav-section" href="#patch-plannedworkoutsplanned_workout_id">PATCH /plannedWorkouts/{planned_workout_id}</a></div>
 <a href="../api/sleep.html">Sleep</a>
 <a href="../api/user.html">User</a>
@@ -71,6 +72,12 @@
 <td>The planned workout</td>
 </tr>
 <tr>
+<td><code>DELETE</code></td>
+<td><a href="#delete-plannedworkoutsplanned_workout_id"><code>/plannedWorkouts/{planned_workout_id}</code></a></td>
+<td><code>remove</code></td>
+<td>Planned workout deleted</td>
+</tr>
+<tr>
 <td><code>PATCH</code></td>
 <td><a href="#patch-plannedworkoutsplanned_workout_id"><code>/plannedWorkouts/{planned_workout_id}</code></a></td>
 <td><code>update</code></td>
@@ -97,36 +104,46 @@ if err != nil {
     panic(err)
 }
 fmt.Println(updated)
+removed, err := client.PlannedWorkout(nil).Remove(map[string]any{&quot;id&quot;: 1, &quot;user_id&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(removed)
 </code></pre>
 <h3 id="lua">Lua</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
 <pre><code class="language-lua">local planned_workouts, err = client:PlannedWorkout():list({ user_id = &quot;example&quot; })
 local planned_workout, err = client:PlannedWorkout():load({ id = 1, user_id = &quot;example&quot; })
 local updated, err = client:PlannedWorkout():update({ id = 1, user_id = &quot;example&quot;, planned_date = &quot;example&quot; })
+local removed, err = client:PlannedWorkout():remove({ id = 1, user_id = &quot;example&quot; })
 </code></pre>
 <h3 id="php">PHP</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
 <pre><code class="language-php">$planned_workouts = $client-&gt;PlannedWorkout()-&gt;list([&quot;user_id&quot; =&gt; &quot;example&quot;]);
 $planned_workout = $client-&gt;PlannedWorkout()-&gt;load([&quot;id&quot; =&gt; 1, &quot;user_id&quot; =&gt; &quot;example&quot;]);
 $updated = $client-&gt;PlannedWorkout()-&gt;update([&quot;id&quot; =&gt; 1, &quot;user_id&quot; =&gt; &quot;example&quot;, &quot;planned_date&quot; =&gt; &quot;example&quot;]);
+$client-&gt;PlannedWorkout()-&gt;remove([&quot;id&quot; =&gt; 1, &quot;user_id&quot; =&gt; &quot;example&quot;]);
 </code></pre>
 <h3 id="python">Python</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
 <pre><code class="language-py">planned_workouts = client.PlannedWorkout().list({&quot;user_id&quot;: &quot;example&quot;})
 planned_workout = client.PlannedWorkout().load({&quot;id&quot;: 1, &quot;user_id&quot;: &quot;example&quot;})
 updated = client.PlannedWorkout().update({&quot;id&quot;: 1, &quot;user_id&quot;: &quot;example&quot;, &quot;planned_date&quot;: &quot;example&quot;})
+client.PlannedWorkout().remove({&quot;id&quot;: 1, &quot;user_id&quot;: &quot;example&quot;})
 </code></pre>
 <h3 id="ruby">Ruby</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
 <pre><code class="language-rb">planned_workouts = client.PlannedWorkout.list({ &quot;user_id&quot; =&gt; &quot;example&quot; })
 planned_workout = client.PlannedWorkout.load({ &quot;id&quot; =&gt; 1, &quot;user_id&quot; =&gt; &quot;example&quot; })
 updated = client.PlannedWorkout.update({ &quot;id&quot; =&gt; 1, &quot;user_id&quot; =&gt; &quot;example&quot;, &quot;planned_date&quot; =&gt; &quot;example&quot; })
+client.PlannedWorkout.remove({ &quot;id&quot; =&gt; 1, &quot;user_id&quot; =&gt; &quot;example&quot; })
 </code></pre>
 <h3 id="typescript">TypeScript</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
 <pre><code class="language-ts">const planned_workouts = await client.PlannedWorkout().list({ user_id: &quot;example&quot; })
 const planned_workout = await client.PlannedWorkout().load({ id: 1, user_id: &quot;example&quot; })
 const updated = await client.PlannedWorkout().update({ id: 1, user_id: &quot;example&quot;, planned_date: &quot;example&quot; })
+await client.PlannedWorkout().remove({ id: 1, user_id: &quot;example&quot; })
 </code></pre>
 <h2 id="fields">Fields</h2>
 <table>
@@ -972,11 +989,161 @@ const updated = await client.PlannedWorkout().update({ id: 1, user_id: &quot;exa
 </tr>
 </tbody>
 </table>
+<h2 id="remove">remove</h2>
+<h3 id="delete-plannedworkoutsplanned_workout_id" class="operation" data-method="delete"><code>DELETE</code> /plannedWorkouts/{planned_workout_id}</h3>
+<p>Operation ID: <code>Workouts_DeletePlannedWorkout</code>.</p>
+<p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>planned_workout_id</code></td>
+<td><code>path</code></td>
+<td><code>integer (int64)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>user_id</code></td>
+<td><code>query</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="204-planned-workout-deleted" class="status" data-status="2xx">204: Planned workout deleted</h5>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-2" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The product checked by the authorization gate, when classified.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;dev-id or x-api-key headers are missing&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;unauthorized&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-2" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<p><code>application/problem+json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Stable error classification. Product gates return <code>entitlement_required</code> (403), <code>environment_disabled</code> (403), or <code>authorization_unavailable</code> (503). Report uploads return <code>validation_failed</code>, <code>unsupported_file_type</code> or <code>too_many_files</code> (400), and <code>payload_too_large</code> (413).</td>
+</tr>
+<tr>
+<td><code>detail</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A human-readable explanation specific to this occurrence of the problem.</td>
+</tr>
+<tr>
+<td><code>instance</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The request path, including any query string, that produced this problem.</td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The product checked by the authorization gate, when classified.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A short, human-readable summary of the problem type (the lowercased HTTP status text).</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>A URI reference identifying the problem type. Defaults to <code>about:blank</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;detail&quot;: &quot;user not found&quot;,
+  &quot;instance&quot;: &quot;/activity&quot;,
+  &quot;title&quot;: &quot;not found&quot;,
+  &quot;type&quot;: &quot;about:blank&quot;
+}
+</code></pre>
 <h2 id="update">update</h2>
 <h3 id="patch-plannedworkoutsplanned_workout_id" class="operation" data-method="patch"><code>PATCH</code> /plannedWorkouts/{planned_workout_id}</h3>
 <p>Operation ID: <code>Workouts_UpdatePlannedWorkout</code>.</p>
 <p>Authentication: API key in the header (<code>ApiKeyAuth</code>) or API key in the header (<code>DevID</code>).</p>
-<h4 id="parameters-2">Parameters</h4>
+<h4 id="parameters-3">Parameters</h4>
 <table>
 <thead>
 <tr>
@@ -1024,7 +1191,7 @@ const updated = await client.PlannedWorkout().update({ id: 1, user_id: &quot;exa
 </tr>
 </tbody>
 </table>
-<h4 id="responses-2">Responses</h4>
+<h4 id="responses-3">Responses</h4>
 <h5 id="200-updated-planned-workout" class="status" data-status="2xx">200: Updated planned workout</h5>
 <p><code>application/json</code></p>
 <table>
@@ -1163,7 +1330,7 @@ const updated = await client.PlannedWorkout().update({ id: 1, user_id: &quot;exa
   &quot;type&quot;: &quot;about:blank&quot;
 }
 </code></pre>
-<h5 id="401-authentication-credentials-are-missing-or-invalid-2" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
+<h5 id="401-authentication-credentials-are-missing-or-invalid-3" class="status" data-status="4xx">401: Authentication credentials are missing or invalid</h5>
 <p><code>application/problem+json</code></p>
 <table>
 <thead>
@@ -1271,7 +1438,7 @@ const updated = await client.PlannedWorkout().update({ id: 1, user_id: &quot;exa
 </tr>
 </tbody>
 </table>
-<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-2" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
+<h5 id="404-a-referenced-resource-does-not-exist-on-terra39s-end-3" class="status" data-status="4xx">404: A referenced resource does not exist on Terra's end</h5>
 <p><code>application/problem+json</code></p>
 <table>
 <thead>

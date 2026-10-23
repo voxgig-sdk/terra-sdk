@@ -953,31 +953,9 @@ def make_config():
       "lab_report": {
         "fields": [
           {
-            "name": "current_status",
-            "title": "Current Status",
-            "type": "`$STRING`",
-            "req": True,
-            "short": "Processing status as a clean lowercase string.",
-          },
-          {
-            "name": "file",
-            "title": "File",
-            "type": "`$STRING`",
-            "req": True,
-            "short": "A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.",
-            "format": "binary",
-          },
-          {
             "name": "id",
             "title": "Id",
             "type": "`$STRING`",
-          },
-          {
-            "name": "upload_id",
-            "title": "Upload Id",
-            "type": "`$STRING`",
-            "req": True,
-            "short": "Durable correlation key for the upload; every resulting session and webhook carries it.",
           },
         ],
         "id": {
@@ -1097,58 +1075,6 @@ def make_config():
                 "select": {
                   "$action": "legacy",
                 },
-                "body": {
-                  "fields": [
-                    {
-                      "binary": True,
-                      "name": "file",
-                    },
-                  ],
-                  "kind": "multipart",
-                  "media": "multipart/form-data",
-                },
-                "response": {
-                  "kind": "json",
-                  "media": "application/json",
-                },
-              },
-              {
-                "kind": "http",
-                "method": "POST",
-                "orig": "/reports",
-                "segments": [
-                  {
-                    "lit": "reports",
-                  },
-                ],
-                "parts": [
-                  "reports",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "header": [
-                    {
-                      "name": "x_terra_version",
-                      "orig": "X-Terra-Version",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "name": "reference_id",
-                      "orig": "reference_id",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                      "example": "patient_456",
-                    },
-                  ],
-                },
-                "select": {},
                 "body": {
                   "fields": [
                     {
@@ -1296,7 +1222,6 @@ def make_config():
                       "orig": "upload_id",
                       "type": "`$STRING`",
                       "kind": "query",
-                      "field": True,
                     },
                     {
                       "name": "uploaded_at_from",
@@ -1315,98 +1240,6 @@ def make_config():
                 "select": {
                   "$action": "legacy",
                 },
-                "response": {
-                  "kind": "json",
-                  "media": "application/json",
-                },
-              },
-              {
-                "kind": "http",
-                "method": "GET",
-                "orig": "/reports",
-                "segments": [
-                  {
-                    "lit": "reports",
-                  },
-                ],
-                "parts": [
-                  "reports",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "header": [
-                    {
-                      "name": "x_terra_version",
-                      "orig": "X-Terra-Version",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "name": "cursor",
-                      "orig": "cursor",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                    },
-                    {
-                      "name": "limit",
-                      "orig": "limit",
-                      "type": "`$INTEGER`",
-                      "kind": "query",
-                      "example": 50,
-                    },
-                    {
-                      "name": "reference_id",
-                      "orig": "reference_id",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                    },
-                    {
-                      "name": "report_date_from",
-                      "orig": "report_date_from",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                    },
-                    {
-                      "name": "report_date_to",
-                      "orig": "report_date_to",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                    },
-                    {
-                      "name": "report_type",
-                      "orig": "report_type",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                      "example": "dexa",
-                    },
-                    {
-                      "name": "upload_id",
-                      "orig": "upload_id",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                      "field": True,
-                    },
-                    {
-                      "name": "uploaded_at_from",
-                      "orig": "uploaded_at_from",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                    },
-                    {
-                      "name": "uploaded_at_to",
-                      "orig": "uploaded_at_to",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                    },
-                  ],
-                },
-                "select": {},
                 "response": {
                   "kind": "json",
                   "media": "application/json",
@@ -1465,57 +1298,6 @@ def make_config():
                 },
                 "select": {
                   "$action": "legacy",
-                  "exist": [
-                    "id",
-                  ],
-                },
-              },
-              {
-                "kind": "http",
-                "method": "DELETE",
-                "orig": "/reports/{session_id}",
-                "segments": [
-                  {
-                    "lit": "reports",
-                  },
-                  {
-                    "var": "id",
-                  },
-                ],
-                "parts": [
-                  "reports",
-                  "{id}",
-                ],
-                "rename": {
-                  "param": {
-                    "session_id": "id",
-                  },
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "header": [
-                    {
-                      "name": "x_terra_version",
-                      "orig": "X-Terra-Version",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                    },
-                  ],
-                  "params": [
-                    {
-                      "name": "id",
-                      "orig": "session_id",
-                      "type": "`$STRING`",
-                      "kind": "param",
-                      "reqd": True,
-                      "example": "297405620317847552",
-                    },
-                  ],
-                },
-                "select": {
                   "exist": [
                     "id",
                   ],
@@ -1892,6 +1674,14 @@ def make_config():
             "short": "Why the report failed: the same object the lab_report.failed webhook carries.",
           },
           {
+            "name": "file",
+            "title": "File",
+            "type": "`$STRING`",
+            "req": True,
+            "short": "A file of the report: a PDF or a PNG, JPEG, GIF, WebP or HEIC/HEIF image.",
+            "format": "binary",
+          },
+          {
             "name": "file_count",
             "title": "File Count",
             "type": "`$INTEGER`",
@@ -1996,6 +1786,13 @@ def make_config():
             "name": "upload_id",
             "title": "Upload Id",
             "type": "`$STRING`",
+            "op": {
+              "create": {
+                "req": True,
+                "type": "`$STRING`",
+              },
+            },
+            "short": "Durable correlation key for the upload; every resulting session and webhook carries it.",
           },
           {
             "name": "uploaded_at",
@@ -2074,6 +1871,59 @@ def make_config():
                   "media": "application/json",
                 },
               },
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/reports",
+                "segments": [
+                  {
+                    "lit": "reports",
+                  },
+                ],
+                "parts": [
+                  "reports",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_terra_version",
+                      "orig": "X-Terra-Version",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "reference_id",
+                      "orig": "reference_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "example": "patient_456",
+                      "field": True,
+                    },
+                  ],
+                },
+                "select": {},
+                "body": {
+                  "fields": [
+                    {
+                      "binary": True,
+                      "name": "file",
+                    },
+                  ],
+                  "kind": "multipart",
+                  "media": "multipart/form-data",
+                },
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
+              },
             ],
           },
           "load": {
@@ -2129,6 +1979,153 @@ def make_config():
                 "response": {
                   "kind": "json",
                   "media": "application/json",
+                },
+              },
+              {
+                "kind": "http",
+                "method": "GET",
+                "orig": "/reports",
+                "segments": [
+                  {
+                    "lit": "reports",
+                  },
+                ],
+                "parts": [
+                  "reports",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_terra_version",
+                      "orig": "X-Terra-Version",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "cursor",
+                      "orig": "cursor",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "limit",
+                      "orig": "limit",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                    {
+                      "name": "reference_id",
+                      "orig": "reference_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "field": True,
+                    },
+                    {
+                      "name": "report_date_from",
+                      "orig": "report_date_from",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "report_date_to",
+                      "orig": "report_date_to",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "report_type",
+                      "orig": "report_type",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "example": "dexa",
+                      "field": True,
+                    },
+                    {
+                      "name": "upload_id",
+                      "orig": "upload_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "field": True,
+                    },
+                    {
+                      "name": "uploaded_at_from",
+                      "orig": "uploaded_at_from",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "uploaded_at_to",
+                      "orig": "uploaded_at_to",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                  ],
+                },
+                "select": {},
+                "response": {
+                  "kind": "json",
+                  "media": "application/json",
+                },
+              },
+            ],
+          },
+          "remove": {
+            "input": "data",
+            "name": "remove",
+            "points": [
+              {
+                "kind": "http",
+                "method": "DELETE",
+                "orig": "/reports/{session_id}",
+                "segments": [
+                  {
+                    "lit": "reports",
+                  },
+                  {
+                    "var": "session_id",
+                  },
+                ],
+                "parts": [
+                  "reports",
+                  "{session_id}",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "x_terra_version",
+                      "orig": "X-Terra-Version",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                    },
+                  ],
+                  "params": [
+                    {
+                      "name": "session_id",
+                      "orig": "session_id",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                      "example": "297405620317847552",
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "session_id",
+                  ],
                 },
               },
             ],
@@ -2566,6 +2563,64 @@ def make_config():
                 "response": {
                   "kind": "json",
                   "media": "application/json",
+                },
+              },
+            ],
+          },
+          "remove": {
+            "input": "data",
+            "name": "remove",
+            "points": [
+              {
+                "kind": "http",
+                "method": "DELETE",
+                "orig": "/plannedWorkouts/{planned_workout_id}",
+                "segments": [
+                  {
+                    "lit": "plannedWorkouts",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
+                "parts": [
+                  "plannedWorkouts",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "planned_workout_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "planned_workout_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "user_id",
+                      "orig": "user_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                    "user_id",
+                  ],
                 },
               },
             ],
@@ -3123,54 +3178,6 @@ def make_config():
               {
                 "kind": "http",
                 "method": "DELETE",
-                "orig": "/plannedWorkouts/{planned_workout_id}",
-                "segments": [
-                  {
-                    "lit": "plannedWorkouts",
-                  },
-                  {
-                    "var": "planned_workout_id",
-                  },
-                ],
-                "parts": [
-                  "plannedWorkouts",
-                  "{planned_workout_id}",
-                ],
-                "rename": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "args": {
-                  "params": [
-                    {
-                      "name": "planned_workout_id",
-                      "orig": "planned_workout_id",
-                      "type": "`$INTEGER`",
-                      "kind": "param",
-                      "reqd": True,
-                    },
-                  ],
-                  "query": [
-                    {
-                      "name": "user_id",
-                      "orig": "user_id",
-                      "type": "`$STRING`",
-                      "kind": "query",
-                      "reqd": True,
-                    },
-                  ],
-                },
-                "select": {
-                  "exist": [
-                    "planned_workout_id",
-                    "user_id",
-                  ],
-                },
-              },
-              {
-                "kind": "http",
-                "method": "DELETE",
                 "orig": "/workouts/{workout_id}",
                 "segments": [
                   {
@@ -3218,11 +3225,7 @@ def make_config():
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "$.main.kit.entity.planned_workout",
-            ],
-          ],
+          "ancestors": [],
         },
       },
     },
